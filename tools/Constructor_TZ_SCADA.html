@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Конструктор ТЗ ИННТЕК</title>
+
+
+<style>
+/* Layout: слева параметры, справа живые листы ТЗ A4 — «производственный бланк»: штамп, ключевые цифры, чертёж с размерными линиями, шкала допуска веса, схема упаковки в изометрии */
+:root{
+  --bg:#eceff2; --panel:#ffffff; --fg:#16202a; --muted:#5a6672; --line:#d3d9df;
+  --accent:#0b6670; --accent-weak:#dff0f1; --ok:#1d7a46; --warn:#9a5800; --bad:#b42318;
+  --ok-bg:#e5f4ea; --warn-bg:#fff2d8; --bad-bg:#fde8e6;
+  /* бумага — одинакова в обеих темах, это печатный лист */
+  --paper:#ffffff; --ink:#14191f; --ink-2:#4b5560; --hair:#a7b0b8; --tint:#eef1f3; --tint-2:#dfe4e8;
+  --doc-accent:#0b6670; --z-ok:#cfe9d7; --z-ok-ink:#17633a; --z-warn:#fbe3b4; --z-warn-ink:#7a4a00; --z-bad:#f6c9c3; --z-bad-ink:#8f1d12;
+  --kraft:#d4b07a; --kraft-2:#c09657; --kraft-3:#a97e42; --film:#2a2f35; --film-2:#454c54;
+  --sans:"IBM Plex Sans", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --cond:"IBM Plex Sans Condensed", "Arial Narrow", "Roboto Condensed", Arial, sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, Consolas, monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#11161c; --panel:#1a2129; --fg:#e3e8ed; --muted:#9ba7b3; --line:#2d3742;
+  --accent:#4fb3ba; --accent-weak:#15343a; --ok:#5cc489; --warn:#e3a54a; --bad:#f07a6e;
+  --ok-bg:#163525; --warn-bg:#3a2c12; --bad-bg:#3d1a17; color-scheme:dark; } }
+:root[data-theme="dark"]{
+  --bg:#11161c; --panel:#1a2129; --fg:#e3e8ed; --muted:#9ba7b3; --line:#2d3742;
+  --accent:#4fb3ba; --accent-weak:#15343a; --ok:#5cc489; --warn:#e3a54a; --bad:#f07a6e;
+  --ok-bg:#163525; --warn-bg:#3a2c12; --bad-bg:#3d1a17; color-scheme:dark; }
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--fg);font:14px/1.45 var(--sans);padding-inline:16px;padding-block:0 40px}
+button,input,select,textarea{font:inherit;color:inherit}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;padding-block:12px;border-bottom:1px solid var(--line);margin-bottom:16px}
+.brand{display:flex;gap:12px;align-items:center}
+.mark{font:700 12px/1 var(--mono);letter-spacing:1.5px;background:var(--fg);color:var(--bg);padding:7px 8px;border-radius:4px}
+.brand h1{font-size:17px;margin:0;letter-spacing:-.2px;text-wrap:balance}
+.brand small{display:block;font-size:12px;font-weight:500;color:var(--muted)}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn{border:1px solid var(--line);background:var(--panel);padding:8px 14px;border-radius:7px;cursor:pointer;font-weight:600}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--panel)}
+.btn:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.layout{display:grid;grid-template-columns:minmax(320px,420px) minmax(0,1fr);gap:20px;align-items:start}
+@media (max-width:1000px){.layout{grid-template-columns:1fr}}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:4px 16px 16px}
+fieldset{border:0;border-top:1px solid var(--line);margin:0;padding:14px 0 4px}
+fieldset:first-of-type{border-top:0}
+legend{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--accent);padding:0;margin-bottom:8px;float:left;width:100%}
+.g{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px 10px;clear:both}
+.g > div{min-width:0}
+.s2{grid-column:span 2}.s3{grid-column:span 3}.s4{grid-column:1/-1}
+@media (max-width:460px){.g{grid-template-columns:repeat(2,minmax(0,1fr))}.s3{grid-column:1/-1}}
+label{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:12px;color:var(--muted);margin-bottom:3px;font-weight:500}
+input[type=text],input[type=number],input[type=date],select,textarea{width:100%;padding:7px 9px;border:1px solid var(--line);border-radius:6px;background:var(--bg);font-variant-numeric:tabular-nums}
+textarea{min-height:64px;resize:vertical}
+.chk{white-space:normal;overflow:visible;display:flex;gap:8px;align-items:center;font-size:13px;color:var(--fg);margin:2px 0}
+.chk input{width:16px;height:16px;accent-color:var(--accent)}
+.sub{grid-column:1/-1;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px 10px;padding:8px;border-radius:8px;background:var(--accent-weak)}
+.sub[hidden]{display:none!important}
+.hint{font-size:11.5px;color:var(--muted);grid-column:1/-1;margin:0}
+.right{display:flex;flex-direction:column;gap:14px;min-width:0}
+.notes{display:flex;flex-direction:column;gap:6px}
+.note{padding:7px 12px;border-radius:7px;font-size:13px;border-left:4px solid}
+.note.ok{background:var(--ok-bg);border-color:var(--ok)}
+.note.warn{background:var(--warn-bg);border-color:var(--warn)}
+.note.bad{background:var(--bad-bg);border-color:var(--bad)}
+.sheets{overflow-x:auto;padding-bottom:6px}
+.sheets-inner{display:flex;flex-direction:column;gap:18px;width:max-content}
+details.settings{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 16px}
+details.settings summary{cursor:pointer;font-weight:600}
+.tbl-wrap{overflow-x:auto;margin-top:10px}
+table.set{border-collapse:collapse;font-size:12.5px}
+table.set th,table.set td{border:1px solid var(--line);padding:3px 5px;text-align:left;white-space:nowrap}
+table.set th{background:var(--bg);font-weight:600}
+table.set input{width:64px;padding:3px 5px;border:1px solid var(--line);border-radius:4px;background:var(--bg)}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--fg);color:var(--bg);padding:8px 16px;border-radius:8px;font-weight:600;opacity:0;transition:opacity .2s;pointer-events:none}
+.toast.on{opacity:1}
+@media (prefers-reduced-motion:reduce){.toast{transition:none}}
+
+/* ================= ЛИСТ ================= */
+.sheet{width:194mm;background:var(--paper);color:var(--ink);font:8.4pt/1.28 var(--cond);box-shadow:0 2px 14px rgba(0,0,0,.2);padding:0 0 3mm;display:flex;flex-direction:column}
+.sheet svg text{font-family:var(--cond)}
+.stamp{display:grid;grid-template-columns:30mm 1fr 52mm;border:1.4pt solid var(--ink)}
+.stamp > div{padding:2mm 2.6mm}
+.stamp .co{border-right:1px solid var(--ink);display:flex;flex-direction:column;justify-content:space-between;background:var(--ink);color:var(--paper)}
+.stamp .co b{font:700 11pt/1 var(--mono);letter-spacing:2px}
+.stamp .co span{font-size:7pt;opacity:.8;line-height:1.2}
+.stamp .doc{display:flex;flex-direction:column;gap:.8mm}
+.stamp .doc .kind{font:600 7.4pt/1 var(--sans);letter-spacing:1.2px;text-transform:uppercase;color:var(--ink-2)}
+.stamp .doc .ttl{font:700 12.5pt/1.15 var(--sans);text-wrap:balance}
+.stamp .doc .meta{display:flex;flex-wrap:wrap;gap:.6mm 5mm;color:var(--ink-2)}
+.stamp .doc .meta b{color:var(--ink);font-weight:600}
+.stamp .ok{border-left:1px solid var(--ink);display:grid;grid-template-rows:auto 1fr auto;gap:1mm}
+.stamp .ok .lbl{font:600 7.4pt/1 var(--sans);letter-spacing:1.2px;text-transform:uppercase;color:var(--ink-2)}
+.stamp .ok .sig{border-bottom:.6pt solid var(--ink);align-self:end;height:6mm}
+.stamp .ok .who{display:flex;justify-content:space-between;font-size:8pt}
+.keys{display:grid;grid-template-columns:.95fr 1.3fr 1fr 1.2fr 1.05fr;border:1px solid var(--ink);border-top:0}
+.keys > div{padding:1.4mm 2.4mm;border-left:1px solid var(--hair)}
+.keys > div:first-child{border-left:0}
+.keys b{display:block;font:600 10pt/1.15 var(--mono);white-space:nowrap;font-variant-numeric:tabular-nums;letter-spacing:-.3px}
+.keys span{white-space:nowrap;font-size:7pt;color:var(--ink-2);text-transform:uppercase;letter-spacing:.6px}
+.blk{margin-top:2.6mm}
+.bh{display:flex;align-items:baseline;gap:2mm;border-bottom:1.2pt solid var(--ink);padding-bottom:.5mm;margin-bottom:1mm}
+.bh .no{font:700 8pt/1 var(--mono);background:var(--ink);color:var(--paper);padding:.6mm 1.4mm}
+.bh h3{margin:0;font:700 9pt/1.2 var(--sans);text-transform:uppercase;letter-spacing:.6px}
+.bh i{margin-left:auto;font-style:normal;font-size:7pt;color:var(--ink-2)}
+.draw{display:grid;grid-template-columns:1fr 44mm;gap:3mm;align-items:center}
+.draw svg{display:block;max-width:none;margin:0 auto}
+.ptab{border-collapse:collapse;width:100%;font-size:8pt}
+.ptab th{text-align:left;font-weight:600;font-size:7pt;text-transform:uppercase;letter-spacing:.5px;color:var(--ink-2);padding:1.2mm 0 .4mm;border-bottom:.6pt solid var(--ink)}
+.ptab td{padding:.45mm 0;border-bottom:.4pt solid var(--tint-2)}
+.ptab td.l{font:600 7.6pt/1 var(--mono);width:6mm;color:var(--doc-accent)}
+.ptab td.v{text-align:right;font-variant-numeric:tabular-nums;font-weight:600}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:0 5mm}
+.kv{display:grid;grid-template-columns:34mm 1fr;border-bottom:.4pt solid var(--tint-2);padding:.55mm 0;gap:2mm}
+.kv .k{color:var(--ink-2)}
+.kv .v{font-weight:500;font-variant-numeric:tabular-nums}
+.kv.w{grid-template-columns:44mm 1fr}
+.kv.full{grid-template-columns:1fr}
+.kv.full .v{font-weight:400}
+input[readonly]{background:var(--accent-weak);border-style:dashed;cursor:default}
+.scale{margin:1mm 0 1.4mm}
+.scale svg{display:block;width:100%;height:auto}
+.signs{margin-top:auto;padding-top:5mm;display:grid;grid-template-columns:repeat(3,1fr);gap:5mm;font-size:7.4pt;color:var(--ink-2)}
+.signs div{border-top:.6pt solid var(--ink);padding-top:.8mm}
+.pg{display:flex;justify-content:space-between;font-size:7pt;color:var(--ink-2);padding-top:1.4mm}
+.mini{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1.4pt solid var(--ink);padding-bottom:1mm}
+.mini b{font:700 12pt/1.1 var(--sans)}
+.mini span{font-size:7.6pt;color:var(--ink-2)}
+.steps{display:grid;grid-template-columns:1fr 1fr;gap:3mm;margin-top:3mm}
+.step{border:.8pt solid var(--ink);display:grid;grid-template-rows:auto 1fr auto}
+.step.wide{grid-column:1/-1}
+.step .sh{display:flex;align-items:center;gap:2mm;border-bottom:.6pt solid var(--ink);padding:.8mm 2mm .8mm 0}
+.step .sh b{font:700 9pt/1 var(--mono);background:var(--ink);color:var(--paper);padding:1.1mm 2mm;align-self:stretch;display:flex;align-items:center}
+.step .sh span{font:600 8.6pt/1.2 var(--sans)}
+.step .art{display:flex;align-items:center;justify-content:center;padding:2mm;min-height:30mm}
+.step .art svg{max-width:100%;height:auto;max-height:36mm}
+.step.box .art svg{max-height:46mm}
+.step .cap{border-top:.4pt solid var(--tint-2);padding:1mm 2mm;font-size:7.8pt;color:var(--ink-2)}
+.step .cap b{color:var(--ink)}
+.step .art{gap:4mm;flex-wrap:wrap}
+.pal{display:grid;grid-template-columns:1fr 1fr 0.9fr;gap:3mm;padding:2mm;align-items:end}
+.pal figure{margin:0;display:flex;flex-direction:column;gap:1mm}
+.pal figcaption{font:600 7.8pt/1.2 var(--sans);text-align:center}
+.pal svg{width:100%;height:auto;display:block}
+
+/* ===== образцы этикеток (как в «Печать ШК») ===== */
+/* ===== этикетки: шрифт как в Excel (Calibri), запасной Arial ===== */
+.lb{width:120mm;background:#fff;color:#000;font-family:Calibri,Carlito,"Segoe UI",Arial,sans-serif;overflow:hidden;margin:0 auto}
+.lb table{border-collapse:collapse;width:100%}
+.ean{display:flex;flex-direction:column;align-items:center}
+.ean svg{display:block;width:100%;height:auto}
+.ean span{font-family:Arial,sans-serif;font-size:5.6mm;line-height:1;margin-top:.5mm;letter-spacing:.2mm}
+
+/* WB / Сейф */
+.wb{padding:1.5mm 1.5mm 1mm;border:.3mm solid #ccc}
+.wb .lbtop{display:grid;grid-template-columns:1fr 50mm;gap:2mm;height:23mm}
+.wb .lbtop .t div{font-size:4.6mm;line-height:1.28}
+.wb .lbtop .t .b{font-weight:700}
+.wb .lbtop .t .lg{font-size:5.4mm;font-weight:400}
+.wb .box{font-size:7.6mm;font-weight:700;margin:2.4mm 0 .6mm;display:flex;gap:6mm}
+.wb .qty{font-size:4.8mm;margin-bottom:.8mm}
+.wb table td{border:.3mm solid #000;font-size:4mm;padding:.5mm 1mm;vertical-align:middle;height:5.6mm}
+
+/* МП / OZON / серии */
+.mp{border:.4mm solid #000;display:flex}
+.mp .side{width:14mm;display:flex;align-items:center;justify-content:center;border-right:.4mm solid #000}
+.mp .side span{writing-mode:vertical-rl;font-weight:700;font-size:11.5mm;letter-spacing:.3mm;line-height:1}
+.mp .side.black{background:#000;color:#fff}
+.mp .side.white{background:#fff;color:#000}
+.mp .main{flex:1;display:flex;flex-direction:column}
+.mp .bar{height:1.6mm;background:#000}
+.mp .h1{font-weight:700;font-size:8.6mm;text-align:center;line-height:1.15;margin-top:2mm}
+.mp .h2{font-weight:700;font-size:6.2mm;text-align:center;line-height:1.2}
+.mp .h3{font-weight:700;font-size:14mm;text-align:center;line-height:1.15;border-bottom:.3mm solid #000;padding-bottom:1mm}
+.mp .band{background:#000;color:#fff;display:grid;grid-template-columns:1fr 1fr;font-weight:700;font-size:7mm;text-align:center;padding:.6mm 0}
+.mp table td{border-bottom:.3mm solid #000;font-size:4.2mm;padding:.3mm 1.2mm;height:5.4mm}
+.mp table td:first-child{text-align:right;width:52%}
+.mp.side-on .h1{font-size:8mm}.mp.side-on .h3{font-size:12.5mm}.mp.side-on .band{font-size:6.4mm}
+
+/* Спортмастер */
+.sm{padding:3mm 0;border:.3mm solid #ccc;display:flex;flex-direction:column;justify-content:center;text-align:center;font-size:6mm;line-height:1.5}
+.sm .smkv{display:grid;grid-template-columns:1fr 1fr;font-weight:700}
+.sm .smkv span:first-child{text-align:right;padding-right:1.5mm}
+.sm .smkv span:last-child{text-align:left}
+.sm .ar{font-family:Arial,sans-serif}
+
+/* СДЭК */
+.cd{display:flex;border:.3mm solid #000}
+.cd table{flex:1}
+.cd td{border:.3mm solid #000;font-size:4.2mm;padding:.4mm 1mm;line-height:1.2;vertical-align:middle}
+.cd td:first-child{width:42%}
+.cd .b{font-weight:700}
+.cd .side{width:8mm;background:#000;color:#fff;display:flex;align-items:center;justify-content:center}
+.cd .side span{writing-mode:vertical-rl;font-weight:700;font-size:4.8mm;font-family:Arial,sans-serif}
+
+/* Тех. отверстие */
+.th{padding:5mm 0;border:.3mm solid #6a8fd8;display:flex;flex-direction:column;justify-content:center;text-align:center;font-family:Arial,sans-serif;font-weight:700;font-size:10.4mm;line-height:1.22}
+
+.step .lb{zoom:.7}
+.step.lblstep .art{padding:3mm 2mm}
+
+@media print{
+  @page{size:A4 portrait;margin:8mm}
+  body{background:#fff;padding:0}
+  .top,.panel,.notes,details.settings,.toast{display:none!important}
+  .layout{display:block}
+  .sheets{overflow:visible;padding:0}
+  .sheets-inner{display:block;width:auto}
+  .sheet{box-shadow:none;margin:0 auto;padding:0;break-after:page;page-break-after:always}
+  .sheet:last-child{break-after:auto;page-break-after:auto}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="brand"><span class="mark">ИННТЕК</span><h1>Конструктор ТЗ<small>курьерские пакеты · GUR-IS TY-900 CR · вес пачки и паллетная раскладка</small></h1></div>
+  <div class="actions">
+    <button class="btn primary" type="button" id="btnPrint">Печать / PDF</button>
+    <button class="btn primary" type="button" id="btnScada">Задание для SCADA</button>
+    <button class="btn" type="button" id="btnXlsx">Скачать Excel</button>
+    <button class="btn" type="button" id="btnReset">Сбросить к примеру</button>
+  </div>
+</header>
+
+<div class="layout">
+<form class="panel" id="f" autocomplete="off">
+  <fieldset><legend>Шапка</legend>
+    <div class="g">
+      <div class="s2"><label for="channel">Канал (допуски и клапан)</label><select id="channel"></select></div>
+      <div class="s2"><label for="client">Заказчик / проект</label><input type="text" id="client"></div>
+      <div class="s2"><label for="manager">Менеджер</label><input type="text" id="manager"></div>
+      <div class="s2"><label for="phone">Телефон</label><input type="text" id="phone"></div>
+      <div class="s2"><label for="tirage">Тираж, шт</label><input type="number" id="tirage" min="0" step="1000"></div>
+      <div class="s2"><label for="tzno">№ ТЗ</label><input type="text" id="tzno"></div>
+      <div class="s2"><label for="approver">Утверждает</label><input type="text" id="approver"></div>
+      <div class="s2"><label for="approveDate">Дата утверждения</label><input type="date" id="approveDate"></div>
+      <div class="s2"><label for="scadaJobNo">№ производственного задания</label><input type="text" id="scadaJobNo" maxlength="120" placeholder="Например, ПЗ-145"></div>
+      <div class="s2"><label for="scadaSpecRevision">Редакция ТЗ</label><input type="text" id="scadaSpecRevision" maxlength="80" placeholder="1"></div>
+      <div class="s4"><label for="scadaDueAt">Срок задания (необязательно)</label><input type="datetime-local" id="scadaDueAt"></div>
+    </div>
+  </fieldset>
+
+  <fieldset><legend>Изделие</legend>
+    <div class="g">
+      <div class="s2"><label for="product">Изделие</label><select id="product"><option>Курьерский пакет</option><option>Сейф-пакет</option><option>Пакет ПВД</option></select></div>
+      <div class="s2"><label for="color">Цвет плёнки</label><select id="color"><option>БЕЛЫЙ</option><option>ЧЁРНЫЙ</option><option>ПРОЗРАЧНЫЙ</option><option>ФЛЕКСОГРАФИЯ</option></select></div>
+      <div><label for="A">(A) Ширина, мм</label><input type="number" id="A" min="50" step="5"></div>
+      <div><label for="B">(B) Тело, мм</label><input type="number" id="B" min="50" step="5"></div>
+      <div><label for="C">(C) Клапан, мм</label><input type="number" id="C" min="0" step="5"></div>
+      <div><label for="t">Толщина, мкм</label><input type="number" id="t" min="20" step="1"></div>
+      <div class="s2"><label for="pocket">Карман</label><select id="pocket"><option>нет</option><option>есть</option></select></div>
+      <div class="s2" style="align-self:end"><label class="chk"><input type="checkbox" id="hasHole"> Техническое отверстие</label></div>
+      <div class="sub" id="holeBox" hidden>
+        <div class="s2"><label for="holeY">По вертикали</label><select id="holeY"><option>снизу</option><option>сверху</option></select></div>
+        <div class="s2"><label for="E">(E) отступ, мм</label><input type="number" id="E" min="0"></div>
+        <div class="s2"><label for="holeX">По горизонтали</label><select id="holeX"><option>от левого края</option><option>от правого края</option></select></div>
+        <div class="s2"><label for="F">(F) отступ, мм</label><input type="number" id="F" min="0"></div>
+        <p class="hint">Отступы до центра отверстия на лицевой стороне. «Сверху» — от верхнего края пакета с открытым клапаном.</p>
+      </div>
+      <div class="s4"><label class="chk"><input type="checkbox" id="hasPrint"> Печать изображения</label></div>
+      <div class="sub" id="printBox" hidden>
+        <div class="s4"><label for="printType">Тип изображения</label><input type="text" id="printType" placeholder="напр. логотип, 1 цвет, чёрный"></div>
+        <div class="s2"><label for="printSide">Сторона</label><select id="printSide"><option>лицевая</option><option>оборотная</option></select></div>
+        <div class="s2"><label for="printAlign">По горизонтали</label><select id="printAlign"><option>по центру</option><option>от левого края</option></select></div>
+        <div><label for="G">(G) от низа</label><input type="number" id="G" min="0"></div>
+        <div><label for="H">(H) от левого</label><input type="number" id="H" min="0"></div>
+        <div><label for="I">(I) ширина</label><input type="number" id="I" min="0"></div>
+        <div><label for="K">(K) высота</label><input type="number" id="K" min="0"></div>
+        <p class="hint">G — от нижнего края пакета до нижней границы изображения. H — от левого края, при выравнивании по центру не нужен.</p>
+      </div>
+    </div>
+  </fieldset>
+
+  <fieldset><legend>Клапан</legend>
+    <div class="g">
+      <div class="s2"><label for="linerType">Тип лайнера</label><select id="linerType"><option>Металлизированный</option><option>Прозрачный</option><option>Многоразовый</option></select></div>
+      <div><label for="linerW">Лайнер, мм</label><input type="number" id="linerW" min="0"></div>
+      <div><label for="strip">Клей. полоса, мм</label><input type="number" id="strip" min="0"></div>
+      <p class="hint">Ширина лайнера и клеевой полосы подставляется из справочника при выборе канала, её можно поправить.</p>
+    </div>
+  </fieldset>
+
+  <fieldset><legend>Фасовка и короб</legend>
+    <div class="g">
+      <div><label for="stack">В стопке, шт</label><input type="number" id="stack" min="1"></div>
+      <div><label for="stacks">Стопок в коробе</label><input type="number" id="stacks" min="1"></div>
+      <div class="s2"><label for="stackPack">Упаковка стопок</label><select id="stackPack"><option>брак КП</option><option>курьерский пакет</option><option>без упаковки</option></select></div>
+      <div class="s4"><label class="chk"><input type="checkbox" id="stackLabel"> Малая этикетка на стопке</label></div>
+      <div class="s4"><label class="chk"><input type="checkbox" id="seal"> Запечатывать пакет со стопкой</label></div>
+      <div><label for="boxL">Короб Д, см</label><input type="number" id="boxL" min="1" step="0.5"></div>
+      <div><label for="boxW">Ш, см</label><input type="number" id="boxW" min="1" step="0.5"></div>
+      <div><label for="boxH">В, см</label><input type="number" id="boxH" min="1" step="0.5"></div>
+      <div><label for="tareOut">Тара, кг</label><input type="text" id="tareOut" readonly tabindex="-1" title="Рассчитывается автоматически"></div>
+      <div class="s4"><label for="labelTpl">Формат этикетки на короб</label><select id="labelTpl"><option value="WB">Wildberries (ВБК), на короб</option><option value="SAFE">Сейф-пакет (ВБК_СЕЙФ), на короб</option><option value="MP">МП (стандарт)</option><option value="PREM">МП ПРЕМИУМ</option><option value="TECH">МП ТЕХНОЛОГ</option><option value="OZON">OZON</option><option value="SM">Спортмастер, на короб</option><option value="CDEK">СДЭК, на короб</option><option value="HOLE">Пакет с тех. отверстием, на короб</option><option value="FREE">Свободный формат</option></select></div>
+      <div class="s4" id="labelNameBox" hidden><label for="labelName">Наименование на этикетке</label><input type="text" id="labelName"></div>
+      <div class="s2"><label for="labelMain">Место этикетки</label><select id="labelMain"><option>с торца</option><option>сверху</option><option>сбоку</option><option>нет</option></select></div>
+      <div class="s2"><label for="labelExtra">Доп. этикетка (малая)</label><select id="labelExtra"><option>нет</option><option>верхний левый угол</option><option>верхний правый угол</option><option>нижний левый угол</option><option>нижний правый угол</option></select></div>
+      <p class="hint">Размеры короба внутренние. Для раскладки на паллете к каждому прибавляется 0,6 см на картон. Тара считается по развёртке четырёхклапанного короба и массе 1 м² гофрокартона из справочника.</p>
+    </div>
+  </fieldset>
+
+
+  <fieldset><legend>Паллета</legend>
+    <div class="g">
+      <div><label for="palL">Длина, см</label><input type="number" id="palL" min="1"></div>
+      <div><label for="palW">Ширина, см</label><input type="number" id="palW" min="1"></div>
+      <div><label for="palH">Высота, см</label><input type="number" id="palH" min="0"></div>
+      <div><label for="palKg">Вес, кг</label><input type="number" id="palKg" min="0"></div>
+      <div class="s4"><label for="palBoxes">Коробов на паллете</label><input type="number" id="palBoxes" min="1" step="1" placeholder="авто — максимум по весу и высоте"></div>
+      <div class="s2"><label for="maxKg">Макс. вес паллеты, кг</label><input type="number" id="maxKg" min="1"></div>
+      <div class="s2"><label for="maxH">Макс. высота, см</label><input type="number" id="maxH" min="1"></div>
+      <div class="s4"><label class="chk"><input type="checkbox" id="overhang"> Свес коробов до 3 см на сторону</label></div>
+      <div class="s3"><label for="wrap">Стрейч-плёнка</label><input type="text" id="wrap"></div>
+      <div><label for="wrapLayers">Слоёв</label><input type="number" id="wrapLayers" min="1" max="10" step="1"></div>
+      <div class="s4"><label class="chk"><input type="checkbox" id="wrapBottom"> Подмотка к низу паллеты (захват поддона)</label></div>
+      <div class="s4"><label class="chk"><input type="checkbox" id="corners"> Уголки на вертикальные рёбра</label></div>
+    </div>
+  </fieldset>
+
+  <fieldset><legend>Иные требования</legend>
+    <div class="g"><div class="s4"><label for="other">Каждая строка — отдельный пункт</label><textarea id="other"></textarea></div></div>
+  </fieldset>
+</form>
+
+<div class="right">
+  <div class="notes" id="notes"></div>
+  <div class="sheets"><div class="sheets-inner">
+    <article class="sheet" id="sheet1"></article>
+    <article class="sheet" id="sheet2"></article>
+  </div></div>
+  <details class="settings" id="settingsBox">
+    <summary>Справочник каналов и материалов</summary>
+    <p class="hint" style="margin-top:8px">Значения перенесены с листа «настройки» таблицы «Регламент веса». Правки сохраняются в этом браузере.</p>
+    <div class="tbl-wrap"><table class="set" id="setTbl"></table></div>
+    <div class="tbl-wrap"><table class="set" id="densTbl"></table></div>
+    <div style="margin-top:10px"><button class="btn" type="button" id="btnSetReset">Вернуть значения из таблицы</button></div>
+  </details>
+</div>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+(function(){
+'use strict';
+const $=id=>document.getElementById(id);
+
+/* ---------- справочник (лист «настройки») ---------- */
+const DEF_SETTINGS={
+  channels:{
+    'МП':         {valve:130,strip:8, linerW:20,linerT:20,ncMin:.95,ncMax:1.05,cMin:.90,cMax:1.10},
+    'OZON':       {valve:130,strip:8, linerW:20,linerT:20,ncMin:.95,ncMax:1.05,cMin:.90,cMax:1.10},
+    'ВБК':        {valve:130,strip:8, linerW:20,linerT:20,ncMin:.92,ncMax:1.05,cMin:.92,cMax:1.10},
+    'СДЭК':       {valve:130,strip:20,linerW:25,linerT:20,ncMin:.95,ncMax:1.05,cMin:.90,cMax:1.10},
+    'Спортмастер':{valve:130,strip:8, linerW:20,linerT:20,ncMin:.95,ncMax:1.05,cMin:.90,cMax:1.10},
+    'СДТ':        {valve:130,strip:8, linerW:20,linerT:20,ncMin:.95,ncMax:1.05,cMin:.90,cMax:1.10},
+    'ПЕГАС':      {valve:0,  strip:0, linerW:5, linerT:44,ncMin:.95,ncMax:1.05,cMin:.90,cMax:1.10},
+    'БТК':        {valve:0,  strip:0, linerW:5, linerT:44,ncMin:.95,ncMax:1.05,cMin:.90,cMax:1.10},
+    'ВБК_СЕЙФ':   {valve:0,  strip:0, linerW:30,linerT:85,ncMin:.95,ncMax:1.05,cMin:.95,cMax:1.10}
+  },
+  film:{'БЕЛЫЙ':.96,'ЧЁРНЫЙ':.96,'ПРОЗРАЧНЫЙ':.92,'ФЛЕКСОГРАФИЯ':.96},
+  liner:{'Металлизированный':1.38,'Прозрачный':1.38,'Многоразовый':1.37},
+  glue:{'Клей-расплав':.98},
+  board:{'Гофрокартон Т-23/Т-24, кг/м²':.5}
+};
+const CH_COLS=[['valve','Клапан, мкм'],['strip','Клей. полоса, мм'],['linerW','Лайнер, мм'],['linerT','Лайнер, мкм'],['cMin','мин крит'],['ncMin','мин не крит'],['ncMax','макс не крит'],['cMax','макс крит']];
+const clone=o=>JSON.parse(JSON.stringify(o));
+function load(k){try{const v=localStorage.getItem(k);return v?JSON.parse(v):null}catch(e){return null}}
+function save(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+let SET=load('tz.settings.v3')||clone(DEF_SETTINGS);
+if(!SET.board)SET.board=clone(DEF_SETTINGS.board);
+
+const SAMPLE={scadaJobNo:'',scadaSpecRevision:'1',scadaDueAt:'',channel:'МП',client:'МП (маркетплейс)',manager:'',phone:'',tirage:'',tzno:'',approver:'Касаткин А.С.',approveDate:'',
+  product:'Курьерский пакет',color:'БЕЛЫЙ',A:100,B:150,C:40,t:45,pocket:'нет',hasHole:false,holeY:'снизу',E:'',holeX:'от левого края',F:'',hasPrint:false,printType:'',printAlign:'по центру',printSide:'лицевая',G:'',H:'',I:'',K:'',
+  linerType:'Металлизированный',linerW:20,strip:8,
+  stack:100,stacks:10,stackPack:'брак КП',seal:true,stackLabel:false,labelTpl:'MP',labelName:'Курьерский пакет',labelMain:'с торца',labelExtra:'нет',boxL:26,boxW:14,boxH:10,
+  palBoxes:'',palL:120,palW:80,palH:15,palKg:25,maxKg:600,maxH:160,overhang:true,wrap:'стрейч-плёнка 500 мм',wrapLayers:3,wrapBottom:true,corners:false,
+  other:'Контроль качества — по Регламенту 4.2, весовой контроль — по Регламенту 4.3, приёмка — по Регламенту 4.4.'};
+const FIELDS=Object.keys(SAMPLE);
+
+const chSel=$('channel');
+function fillChannels(){const cur=chSel.value;chSel.innerHTML=Object.keys(SET.channels).map(k=>`<option>${k}</option>`).join('');if(cur&&SET.channels[cur])chSel.value=cur}
+fillChannels();
+function setForm(d){FIELDS.forEach(k=>{const el=$(k);if(!el)return;if(el.type==='checkbox')el.checked=!!d[k];else el.value=d[k]??''});syncSubs()}
+function getForm(){const d={};FIELDS.forEach(k=>{const el=$(k);d[k]=el.type==='checkbox'?el.checked:el.value});return d}
+function syncSubs(){$('labelNameBox').hidden=$('labelTpl').value!=='FREE';$('holeBox').hidden=!$('hasHole').checked;$('printBox').hidden=!$('hasPrint').checked;$('H').disabled=$('printAlign').value==='по центру'}
+/* положение отверстия и печати в координатах: x от левого края, y от нижнего края пакета */
+function holeXY(s){const A=n(s.A),D=n(s.B)+n(s.C);return {x:s.holeX==='от правого края'?A-n(s.F):n(s.F),y:s.holeY==='сверху'?D-n(s.E):n(s.E)}}
+function printX(s){return s.printAlign==='по центру'?(n(s.A)-n(s.I))/2:n(s.H)}
+
+const n=v=>{const x=parseFloat(String(v).replace(',','.'));return isFinite(x)?x:0};
+const f=(v,d=2)=>v.toLocaleString('ru-RU',{minimumFractionDigits:d,maximumFractionDigits:d});
+const fi=v=>Math.round(v).toLocaleString('ru-RU');
+const fc=v=>(Math.round(v*10)/10).toLocaleString('ru-RU');
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function plural(x,a,b,c){x=Math.abs(Math.round(x));const m10=x%10,m100=x%100;if(m10===1&&m100!==11)return a;if(m10>=2&&m10<=4&&(m100<10||m100>=20))return b;return c}
+
+/* ---------- вес пакета (формулы листа «справочник») ---------- */
+function bagWeight(s){
+  const ch=SET.channels[s.channel]||DEF_SETTINGS.channels['МП'];
+  const A=n(s.A),B=n(s.B),C=n(s.C),t=n(s.t);
+  const film=(SET.film[s.color]||.96)*(t/10000)*(A/10)*((B/10)*2+(C/10));
+  const liner=(A/10)*(n(s.linerW)/10)*(ch.linerT/10000)*(SET.liner[s.linerType]||1.38);
+  const glueT=Math.max(0,ch.valve-ch.linerT-t);
+  const glue=(Object.values(SET.glue)[0]||.98)*(A/10)*(n(s.strip)/10)*(glueT/10000);
+  return {film,liner,glue,total:film+liner+glue,ch};
+}
+
+/* ---------- раскладка коробов ---------- */
+const EPS=.01;
+function cands(T,d1,d2){const s=new Set([0,T]);for(let k=0;k*d1<=T+EPS;k++)s.add(Math.min(k*d1,T));for(let k=0;k*d2<=T+EPS;k++)s.add(Math.max(T-k*d2,0));return[...s].sort((a,b)=>a-b)}
+function layout(bl,bw,L,W){
+  const fl=Math.floor;
+  const A={type:'A',total:fl(L/bl)*fl(W/bw),groups:[{x:0,y:0,zw:L,zh:W,w:bl,h:bw,nx:fl(L/bl),ny:fl(W/bw),o:'A'}]};
+  const B={type:'B',total:fl(L/bw)*fl(W/bl),groups:[{x:0,y:0,zw:L,zh:W,w:bw,h:bl,nx:fl(L/bw),ny:fl(W/bl),o:'B'}]};
+  let M={type:'none',total:0,groups:[]};
+  const tryV=(x,w1,h1,o1,w2,h2,o2)=>{const g1={x:0,y:0,zw:x,zh:W,w:w1,h:h1,nx:fl(x/w1),ny:fl(W/h1),o:o1},g2={x:x,y:0,zw:L-x,zh:W,w:w2,h:h2,nx:fl((L-x)/w2),ny:fl(W/h2),o:o2};const t=g1.nx*g1.ny+g2.nx*g2.ny;if(t>M.total&&g1.nx*g1.ny>0&&g2.nx*g2.ny>0)M={type:'V',split:x,total:t,groups:[g1,g2]}};
+  const tryH=(y,w1,h1,o1,w2,h2,o2)=>{const g1={x:0,y:0,zw:L,zh:y,w:w1,h:h1,nx:fl(L/w1),ny:fl(y/h1),o:o1},g2={x:0,y:y,zw:L,zh:W-y,w:w2,h:h2,nx:fl(L/w2),ny:fl((W-y)/h2),o:o2};const t=g1.nx*g1.ny+g2.nx*g2.ny;if(t>M.total&&g1.nx*g1.ny>0&&g2.nx*g2.ny>0)M={type:'H',split:y,total:t,groups:[g1,g2]}};
+  for(const x of cands(L,bl,bw))tryV(x,bl,bw,'A',bw,bl,'B');
+  for(const x of cands(L,bw,bl))tryV(x,bw,bl,'B',bl,bw,'A');
+  for(const y of cands(W,bw,bl))tryH(y,bl,bw,'A',bw,bl,'B');
+  for(const y of cands(W,bl,bw))tryH(y,bw,bl,'B',bl,bw,'A');
+  const rank=c=>c.type==='A'?0:c.type==='B'?1:2;
+  const best=[A,B,M].sort((a,b)=>b.total-a.total||rank(a)-rank(b))[0];
+  return {A,B,M,best};
+}
+
+/* ---------- расчёт ---------- */
+function calc(s){
+  const r={notes:[]};
+  const bw=bagWeight(s);r.bag=bw;
+  const stack=Math.max(1,Math.round(n(s.stack))),stacks=Math.max(1,Math.round(n(s.stacks)));
+  r.perBox=stack*stacks;
+  const ch=bw.ch;r.ch=ch;
+  r.pack=bw.total*stack/1000;
+  const r3=v=>Math.round(v*1000)/1000;r.zone={S:r3(ch.cMin*r.pack),Q:r3(ch.ncMin*r.pack),R:r3(ch.ncMax*r.pack),T:r3(ch.cMax*r.pack)};
+  const packMat=s.stackPack==='без упаковки'?0:stacks*bw.total/1000;
+  // тара: развёртка короба (4 стенки + клапан склейки 3,5 см) × (высота + 2 полуклапана = ширина)
+  const bL=n(s.boxL),bW=n(s.boxW),bH=n(s.boxH);
+  r.tare=(2*(bL+bW)+3.5)*(bH+bW)/10000*(Object.values(SET.board)[0]||.5);
+  r.gross=r.perBox*bw.total/1000+packMat+r.tare;
+  // стопки в коробе
+  const fa=1,fb=1;
+  const A=n(s.A)/fb,len=(n(s.B)+n(s.C))/fa,L=n(s.boxL)*10,W=n(s.boxW)*10,H=n(s.boxH)*10;
+  r.fold={fa,fb,len,A,m:fa*fb};
+  const o1=Math.floor(L/len)*Math.floor(W/A),o2=Math.floor(L/A)*Math.floor(W/len);
+  const cols=Math.max(o1,o2);
+  const t=n(s.t),flap=Math.max(2*t,ch.valve);
+  const avgStack=stack*(2*t+flap)/2/1000*fa*fb;
+  r.fit={cols,avgStack,rot:o2>o1,nx:o2>o1?Math.floor(L/A):Math.floor(L/len),ny:o2>o1?Math.floor(W/len):Math.floor(W/A)};
+  if(cols===0){r.fit.perCol=stacks;}
+  else{
+    const perCol=Math.ceil(stacks/cols),need=perCol*avgStack;r.fit.need=need;r.fit.perCol=perCol;
+  }
+  // паллета
+  const bl=n(s.boxL)+.6,bwd=n(s.boxW)+.6,bh=n(s.boxH)+.6;
+  const ov=s.overhang?6:0,effL=n(s.palL)+ov,effW=n(s.palW)+ov;
+  const lay=layout(bl,bwd,effL,effW);r.lay=lay;r.eff={L:effL,W:effW,ov,bl,bw:bwd,bh};
+  const per=lay.best.total;r.perLayer=per;r.layers=0;
+  if(per===0){r.notes.push(['bad','Короб не помещается на паллету.']);}
+  else{
+    const lH=Math.floor((n(s.maxH)-n(s.palH))/bh);
+    const lW=Math.floor(Math.floor((n(s.maxKg)-n(s.palKg))/r.gross)/per);
+    r.layers=Math.max(0,Math.min(lH,lW));r.limit=lW<lH?'вес':lH<lW?'высота':'вес и высота';r.lH=lH;r.lW=lW;
+  }
+  r.autoBoxes=per*r.layers;r.boxes=r.autoBoxes;r.manual=false;
+  const mb=Math.round(n(s.palBoxes));
+  if(per>0&&mb>0){r.manual=true;r.boxes=mb;r.layers=Math.ceil(mb/per);r.lastLayer=mb-(r.layers-1)*per;}
+  r.pcs=r.boxes*r.perBox;
+  r.palKg=n(s.palKg)+r.boxes*r.gross;r.palH=n(s.palH)+r.layers*bh;
+  r.mixed=lay.best.type==='V'||lay.best.type==='H';
+  if(r.manual){
+    r.notes.push(['ok',`Задано вручную: ${fi(r.boxes)} ${plural(r.boxes,'короб','короба','коробов')} — ${r.layers} ${plural(r.layers,'ярус','яруса','ярусов')}${r.lastLayer<per?`, в последнем ${r.lastLayer} из ${per}`:''}. Автоматически вошло бы ${fi(r.autoBoxes)}.`]);
+    if(r.palKg>n(s.maxKg))r.notes.push(['bad',`Вес паллеты ≈ ${fi(r.palKg)} кг больше допустимых ${fi(n(s.maxKg))} кг.`]);
+    if(r.palH>n(s.maxH))r.notes.push(['bad',`Высота паллеты ≈ ${fi(r.palH)} см больше допустимых ${fi(n(s.maxH))} см.`]);
+  }else if(r.layers>0){
+    const other=r.limit==='вес'?`по высоте вошло бы ${r.lH}`:r.limit==='высота'?`по весу вошло бы ${r.lW}`:'';
+    r.notes.push(['ok',`Паллету ограничивает ${r.limit}: ${r.layers} ${plural(r.layers,'ярус','яруса','ярусов')} по ${per} ${plural(per,'короб','короба','коробов')}${other?', '+other:''}.`]);
+  }
+  if(per&&!r.mixed)r.notes.push([s.wrapBottom?'ok':'warn',s.wrapBottom?'Однородная укладка: швы ярусов совпадают, устойчивость держится на обмотке с подмоткой к низу паллеты.':'Однородная укладка: швы ярусов совпадают. Включите подмотку к низу паллеты.']);
+  if(n(s.wrapLayers)<2)r.notes.push(['warn','Один слой стрейча — паллета может разойтись при перевозке.']);
+  const fill=per*bl*bwd/(effL*effW)*100;r.fill=fill;
+  if(per>0&&fill<70)r.notes.push(['warn',`Ярус заполнен на ${fi(fill)} % площади. Возможно, стоит подобрать другой короб.`]);
+  const tir=n(s.tirage);
+  if(tir>0&&r.pcs>0){r.tirBoxes=Math.ceil(tir/r.perBox);r.tirPal=Math.ceil(r.tirBoxes/r.boxes);if(tir%r.perBox)r.notes.push(['warn',`Тираж ${fi(tir)} не кратен коробу ${fi(r.perBox)} шт: последний короб неполный.`])}
+  if(n(s.C)>0&&n(s.strip)>n(s.C))r.notes.push(['bad','Клеевая полоса шире клапана.']);
+  if(s.hasHole&&(n(s.E)<=0||n(s.E)>=n(s.B)+n(s.C)||n(s.F)<=0||n(s.F)>=n(s.A)))r.notes.push(['bad','Отверстие выходит за пределы тела пакета: проверьте E и F.']);
+  if(s.hasPrint&&(n(s.G)+n(s.K)>n(s.B)||printX(s)<0||printX(s)+n(s.I)>n(s.A)))r.notes.push(['bad','Изображение выходит за пределы тела пакета: проверьте G, H, I, K.']);
+  return r;
+}
+
+/* ================= ГРАФИКА ================= */
+const INK='#14191f',INK2='#4b5560',HAIR='#a7b0b8',TINT='#eef1f3',ACC='#0b6670';
+function arrowDefs(id){return `<defs><marker id="${id}" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse" markerUnits="userSpaceOnUse"><path d="M0 1.5 L10 5 L0 8.5 z" fill="${INK}"/></marker></defs>`}
+/* размерная линия: горизонтальная (y — уровень линии) */
+function dimH(x1,x2,y,yRef,label,fs,id){
+  const ext=`<line x1="${x1}" y1="${yRef}" x2="${x1}" y2="${y+(y<yRef?-fs*.3:fs*.3)}" stroke="${INK2}" stroke-width="${fs*.06}"/><line x1="${x2}" y1="${yRef}" x2="${x2}" y2="${y+(y<yRef?-fs*.3:fs*.3)}" stroke="${INK2}" stroke-width="${fs*.06}"/>`;
+  return ext+`<line x1="${x1}" y1="${y}" x2="${x2}" y2="${y}" stroke="${INK}" stroke-width="${fs*.07}" marker-start="url(#${id})" marker-end="url(#${id})"/><text x="${(x1+x2)/2}" y="${y-fs*.3}" font-size="${fs}" text-anchor="middle" fill="${INK}">${esc(label)}</text>`;
+}
+function dimV(y1,y2,x,xRef,label,fs,id){
+  const d=x<xRef?-fs*.3:fs*.3;
+  const ext=`<line x1="${xRef}" y1="${y1}" x2="${x+d}" y2="${y1}" stroke="${INK2}" stroke-width="${fs*.06}"/><line x1="${xRef}" y1="${y2}" x2="${x+d}" y2="${y2}" stroke="${INK2}" stroke-width="${fs*.06}"/>`;
+  const tx=x<xRef?x-fs*.35:x+fs*.35+fs*.75;
+  return ext+`<line x1="${x}" y1="${y1}" x2="${x}" y2="${y2}" stroke="${INK}" stroke-width="${fs*.07}" marker-start="url(#${id})" marker-end="url(#${id})"/><text x="${tx}" y="${(y1+y2)/2}" font-size="${fs}" text-anchor="middle" fill="${INK}" transform="rotate(-90 ${tx} ${(y1+y2)/2})">${esc(label)}</text>`;
+}
+
+/* чертёж пакета: лицевая и оборотная стороны, размеры в мм изделия */
+function bagSVG(s){
+  const A=n(s.A),B=n(s.B),C=n(s.C),D=B+C;
+  const fs=Math.max(D,A*1.4)*0.05,id='ar1';
+  const mL=fs*2.6,mT=fs*2.6,gap=fs*3.6,mR=fs*4,mB=fs*3;
+  const W=mL+A+gap+A+mR,H=mT+D+mB;
+  const fx=mL,bx=mL+A+gap,top=mT,bot=mT+D,fold=mT+C;
+  let g=arrowDefs(id);
+  const sw=fs*.12;
+  // ЛИЦЕВАЯ: тело и открытый клапан
+  g+=`<rect x="${fx}" y="${top}" width="${A}" height="${D}" fill="#fff" stroke="${INK}" stroke-width="${sw}"/>`;
+  g+=`<rect x="${fx}" y="${top}" width="${A}" height="${C}" fill="${TINT}" stroke="none"/>`;
+  g+=`<line x1="${fx}" y1="${fold}" x2="${fx+A}" y2="${fold}" stroke="${INK2}" stroke-width="${fs*.07}" stroke-dasharray="${fs*.5} ${fs*.3}"/>`;
+  g+=`<rect x="${fx}" y="${top}" width="${A}" height="${D}" fill="none" stroke="${INK}" stroke-width="${sw}"/>`;
+  g+=`<text x="${fx+A/2}" y="${fold+fs*1.9}" font-size="${fs*.95}" fill="${HAIR}" text-anchor="middle" font-weight="600">ЛИЦЕВАЯ</text>`;
+  // отверстие (от нижнего края)
+  if(s.hasHole){
+    const hp=holeXY(s),hx=fx+hp.x,hy=bot-hp.y,rr=Math.max(fs*.45,3);
+    g+=`<circle cx="${hx}" cy="${hy}" r="${rr}" fill="#fff" stroke="${INK}" stroke-width="${fs*.1}"/><line x1="${hx-rr*1.6}" y1="${hy}" x2="${hx+rr*1.6}" y2="${hy}" stroke="${INK2}" stroke-width="${fs*.05}"/><line x1="${hx}" y1="${hy-rr*1.6}" x2="${hx}" y2="${hy+rr*1.6}" stroke="${INK2}" stroke-width="${fs*.05}"/>`;
+  }
+  // ОБОРОТ: клапан с лайнером
+  g+=`<rect x="${bx}" y="${top}" width="${A}" height="${D}" fill="#fff" stroke="${INK}" stroke-width="${sw}"/>`;
+  g+=`<rect x="${bx}" y="${top}" width="${A}" height="${C}" fill="#d9dee2"/>`;
+  const lw=Math.min(n(s.linerW),C*0.8);
+  if(lw>0){g+=`<rect x="${bx}" y="${top+(C-lw)/2}" width="${A}" height="${lw}" fill="${s.linerType==='Металлизированный'?'#9aa3ab':'#c7d0d6'}"/>`;
+    g+=`<text x="${bx+A/2}" y="${top+C/2+fs*.32}" font-size="${fs*.78}" fill="${INK}" text-anchor="middle">лайнер ${n(s.linerW)} мм</text>`;}
+  g+=`<line x1="${bx}" y1="${fold}" x2="${bx+A}" y2="${fold}" stroke="${INK2}" stroke-width="${fs*.07}" stroke-dasharray="${fs*.5} ${fs*.3}"/>`;
+  g+=`<rect x="${bx}" y="${top}" width="${A}" height="${D}" fill="none" stroke="${INK}" stroke-width="${sw}"/>`;
+  g+=`<text x="${bx+A/2}" y="${fold+fs*1.9}" font-size="${fs*.95}" fill="${HAIR}" text-anchor="middle" font-weight="600">ОБОРОТ</text>`;
+  // печать (от нижнего края), на выбранной стороне
+  if(s.hasPrint&&n(s.I)>0&&n(s.K)>0){
+    const pb=s.printSide==='оборотная'?bx:fx,px=pb+printX(s),pw=n(s.I),ph=n(s.K),py=bot-n(s.G)-ph;
+    g+=`<rect x="${px}" y="${py}" width="${pw}" height="${ph}" fill="#e1f0f1" stroke="${ACC}" stroke-width="${fs*.09}" stroke-dasharray="${fs*.4} ${fs*.25}"/>`;
+    g+=`<text x="${px+pw/2}" y="${py+ph/2+fs*.35}" font-size="${fs*.85}" fill="${ACC}" text-anchor="middle">печать</text>`;
+  }
+  // размеры
+  g+=dimH(fx,fx+A,top-fs*1.4,top,`(A) ${A}`,fs,id);
+  g+=dimH(bx,bx+A,top-fs*1.4,top,`(A) ${A}`,fs,id);
+  g+=dimV(top,bot,fx-fs*1.5,fx,`(D) ${D}`,fs,id);
+  g+=dimV(top,fold,bx+A+fs*1.3,bx+A,`(C) ${C}`,fs,id);
+  g+=dimV(fold,bot,bx+A+fs*1.3,bx+A,`(B) ${B}`,fs,id);
+  if(s.hasHole){const hp=holeXY(s),hx=fx+hp.x,hy=bot-hp.y,up=s.holeY==='сверху',rt=s.holeX==='от правого края';
+    g+=up?dimV(top,hy,fx+A+fs*1.4,hx,`(E) ${n(s.E)}`,fs*.85,id):dimV(hy,bot,fx+A+fs*1.4,hx,`(E) ${n(s.E)}`,fs*.85,id);
+    g+=rt?dimH(hx,fx+A,bot+fs*1.6,bot,`(F) ${n(s.F)}`,fs*.85,id):dimH(fx,hx,bot+fs*1.6,bot,`(F) ${n(s.F)}`,fs*.85,id);}
+  if(s.hasPrint&&n(s.I)>0&&n(s.K)>0){const pb=s.printSide==='оборотная'?bx:fx,px=pb+printX(s),pr=px+n(s.I),yb=bot+(s.hasHole&&pb===fx?fs*3:fs*1.6);
+    if(n(s.G)>0)g+=dimV(bot-n(s.G),bot,pr+fs*.9,pr,`(G) ${n(s.G)}`,fs*.8,id);
+    if(s.printAlign==='по центру'){g+=`<line x1="${pb+A/2}" y1="${top-fs*.6}" x2="${pb+A/2}" y2="${bot+fs*.6}" stroke="${ACC}" stroke-width="${fs*.05}" stroke-dasharray="${fs*.8} ${fs*.25} ${fs*.15} ${fs*.25}"/>`;g+=`<text x="${pb+A/2}" y="${yb}" font-size="${fs*.8}" fill="${ACC}" text-anchor="middle">изображение по центру</text>`}
+    else g+=dimH(pb,px,yb,bot,`(H) ${n(s.H)}`,fs*.85,id);}
+  const extra=(s.hasHole&&s.hasPrint)?fs*2.2:(s.hasHole||s.hasPrint)?fs*.9:0;
+  g+=`<text x="${W-fs*.3}" text-anchor="end" y="${H+extra-fs*.3}" font-size="${fs*.75}" fill="${INK2}">размеры в мм · пунктир — линия сгиба клапана</text>`;
+  // масштаб по ГОСТ 2.302: наименьшее уменьшение, при котором чертёж входит в поле 140 мм × limitH (подбирается так, чтобы лист 1 уместился на A4)
+  const HT=H+extra,SC=[1,2,2.5,4,5,10,15,20,25,40,50];
+  const N=SC.find(k=>W/k<=142&&HT/k<=(bagSVG.limitH||110))||50;bagSVG.scale=N;
+  const lbl=String(N).replace('.',',');
+  return `<svg viewBox="0 0 ${W} ${HT}" width="${(W/N).toFixed(2)}mm" height="${(HT/N).toFixed(2)}mm" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Чертёж пакета, масштаб 1:${lbl}">${g}</svg>`;
+}
+
+/* шкала допуска веса пачки */
+function scaleSVG(r){
+  const z=r.zone,lo=z.S-(z.T-z.S)*.18,hi=z.T+(z.T-z.S)*.18,W=600,H=62,x0=8,x1=W-8;
+  const X=v=>x0+(v-lo)/(hi-lo)*(x1-x0);
+  const seg=(a,b,fill,ink,lab)=>b-a>1e-6?`<rect x="${X(a)}" y="18" width="${X(b)-X(a)}" height="16" fill="${fill}"/>`+(X(b)-X(a)>34?`<text x="${(X(a)+X(b))/2}" y="29.5" font-size="9" text-anchor="middle" fill="${ink}" font-weight="600">${lab}</text>`:''):'';
+  let g=seg(lo,z.S,'var(--z-bad)','var(--z-bad-ink)','КРИТИЧНО')+seg(z.S,z.Q,'var(--z-warn)','var(--z-warn-ink)','НЕ КРИТИЧНО')+seg(z.Q,z.R,'var(--z-ok)','var(--z-ok-ink)','НОРМА')+seg(z.R,z.T,'var(--z-warn)','var(--z-warn-ink)','НЕ КРИТИЧНО')+seg(z.T,hi,'var(--z-bad)','var(--z-bad-ink)','КРИТИЧНО');
+  g+=`<rect x="${x0}" y="18" width="${x1-x0}" height="16" fill="none" stroke="${INK}" stroke-width=".8"/>`;
+  const ticks=[...new Set([z.S,z.Q,z.R,z.T].map(v=>+v.toFixed(4)))];
+  ticks.forEach(v=>{g+=`<line x1="${X(v)}" y1="34" x2="${X(v)}" y2="40" stroke="${INK}" stroke-width=".8"/><text x="${X(v)}" y="50" font-size="9.5" text-anchor="middle" fill="${INK}">${f(v,3)}</text>`});
+  const e=X(r.pack);
+  g+=`<path d="M${e-5} 7 L${e+5} 7 L${e} 17 z" fill="${INK}"/><text x="${e}" y="3" font-size="9.5" text-anchor="middle" fill="${INK}" font-weight="700">эталон ${f(r.pack,3)} кг</text>`;
+  g+=`<text x="${x1}" y="60" font-size="8.5" text-anchor="end" fill="${INK2}">кг, пачка ${r.stack} шт</text>`;
+  return `<svg viewBox="0 -8 ${W} ${H+8}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Шкала допуска веса">${g}</svg>`;
+}
+
+/* изометрия */
+const C30=Math.cos(Math.PI/6),S30=.5;
+function P(x,y,z,k,ox,oy){return [ox+(x-y)*C30*k, oy+(x+y)*S30*k - z*k]}
+const pts=a=>a.map(p=>p.map(v=>v.toFixed(1)).join(',')).join(' ');
+function isoBox(x,y,z,L,W,H,k,ox,oy,c){
+  const p=(a,b,cc)=>P(a,b,cc,k,ox,oy);
+  const top=[p(x,y,z+H),p(x+L,y,z+H),p(x+L,y+W,z+H),p(x,y+W,z+H)];
+  const right=[p(x+L,y,z),p(x+L,y+W,z),p(x+L,y+W,z+H),p(x+L,y,z+H)];
+  const left=[p(x,y+W,z),p(x+L,y+W,z),p(x+L,y+W,z+H),p(x,y+W,z+H)];
+  const sw=c.sw||1;
+  return `<polygon points="${pts(left)}" fill="${c.left}" stroke="${c.st}" stroke-width="${sw}" stroke-linejoin="round"/><polygon points="${pts(right)}" fill="${c.right}" stroke="${c.st}" stroke-width="${sw}" stroke-linejoin="round"/><polygon points="${pts(top)}" fill="${c.top}" stroke="${c.st}" stroke-width="${sw}" stroke-linejoin="round"/>`;
+}
+const KRAFT={top:'#dcbd88',left:'#c39a5c',right:'#ad8546',st:'#6d5128'};
+const FILM={top:'#454c54',left:'#2a2f35',right:'#1f2328',st:'#111'};
+const PAPERB={top:'#fbfbfb',left:'#e6e9ec',right:'#d6dbe0',st:'#5d6670'};
+
+function artStack(s,r){ // стопка → пакет; раскладка и рамка считаются по габаритам рисунка
+  const len=r.fold.len,A=r.fold.A,h=Math.max(10,r.fit.avgStack*1.6);
+  const L2=len*1.08,W2=A*1.12,H2=h*1.15,fl=s.seal?0:Math.max(n(s.C)*1.2,len*.18);
+  // ширина: стопка + стрелка 70 + пакет (с клапаном), всё в долях k
+  const unitW=(len+A)*C30+(L2+fl+W2)*C30*.92,k=Math.min(400/unitW,170/((len+A)*S30+h));
+  const k2=k*.92,pad=12,ox=pad+A*C30*k;
+  const sTop=-h*k,sBot=(len+A)*S30*k,bTop=-H2*k2,bBot=(L2+W2)*S30*k2;
+  const top=Math.min(sTop,bTop),bot=Math.max(sBot,bBot);
+  const lblH=s.stackLabel?26:0,oy=lblH+8-top; // базовая линия: z=0 в точке (0,0)
+  let g='';
+  g+=isoBox(0,0,0,len,A,h,k,ox,oy,PAPERB);
+  for(let i=1;i<6;i++){const zz=h*i/6;const a=P(0,A,zz,k,ox,oy),b=P(len,A,zz,k,ox,oy);g+=`<line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}" stroke="#aab2ba" stroke-width=".6"/>`}
+  const c1=P(0,0,h,k,ox,oy),c2=P(0,A,h,k,ox,oy),c3=P(n(s.C),A,h,k,ox,oy),c4=P(n(s.C),0,h,k,ox,oy);
+  g+=`<polygon points="${pts([c1,c2,c3,c4])}" fill="#9aa3ab"/>`;
+  const lab=P(len*.55,A*.5,h,k,ox,oy);
+  g+=`<text x="${lab[0]}" y="${lab[1]+4}" font-size="12" text-anchor="middle" fill="${INK}" font-weight="700">${r.stack} шт</text>`;
+  // стрелка между стопкой и пакетом
+  const sRight=ox+len*C30*k,ay=oy+((len+A)*S30*k-h*k)/2;
+  g+=`<path d="M${sRight+14} ${ay} h40" stroke="${INK}" stroke-width="2.2" marker-end="url(#ar2)"/>`;
+  // пакет
+  const ox2=sRight+70+W2*C30*k2,o2=oy;
+  let labelPoly='',labelLead='';
+  g+=isoBox(0,0,0,L2,W2,H2,k2,ox2,o2,FILM);
+  const bagBottom=oy+bot+16,bagCx=P((L2+fl)/2,W2/2,0,k2,ox2,o2)[0];
+  if(s.stackLabel){
+    const pt=(u,v)=>P(u,W2-v,H2,k2,ox2,o2),lw=L2*.3,lh=W2*.32,u0=(L2-lw)/2,v0=(W2-lh)/2;
+    labelPoly=`<polygon points="${pts([pt(u0,v0),pt(u0+lw,v0),pt(u0+lw,v0+lh),pt(u0,v0+lh)])}" fill="#fff" stroke="${ACC}" stroke-width="1.2"/>`;
+    const c=pt(u0+lw/2,v0+lh/2);labelLead=`<line x1="${c[0]}" y1="${c[1]}" x2="${c[0]}" y2="${lblH-2}" stroke="${ACC}" stroke-width=".9"/><circle cx="${c[0]}" cy="${c[1]}" r="1.8" fill="${ACC}"/><text x="${c[0]}" y="${lblH-8}" font-size="12" fill="${ACC}" font-weight="700" text-anchor="middle">наклей этикетку на пакет</text>`;
+  }
+  if(s.seal){const a=P(L2*.9,0,H2,k2,ox2,o2),b=P(L2*.9,W2,H2,k2,ox2,o2);g+=`<line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}" stroke="#8a939b" stroke-width="1.4" stroke-dasharray="4 2"/>`}
+  else{const q=[P(L2,0,H2,k2,ox2,o2),P(L2+fl,0,H2,k2,ox2,o2),P(L2+fl,W2,H2,k2,ox2,o2),P(L2,W2,H2,k2,ox2,o2)];g+=`<polygon points="${pts(q)}" fill="#6b737b" stroke="#111" stroke-width="1"/>`}
+  g+=`<text x="${bagCx}" y="${bagBottom}" font-size="11" text-anchor="middle" fill="${INK2}" font-weight="600">${s.seal?'запечатан':'не запечатан'}</text>`;
+  const VW=ox2+(L2+fl)*C30*k2+pad,VH=bagBottom+6;
+  return `<svg viewBox="0 0 ${VW.toFixed(1)} ${VH.toFixed(1)}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Стопка в пакет">${arrowDefs('ar2')}${g}${labelPoly}${labelLead}</svg>`;
+}
+function artLabelPack(s,r){
+  const len=n(s.B)+n(s.C),A=n(s.A),k=200/Math.max(len,A),h=Math.max(10,r.fit.avgStack*1.6);
+  const ox=230,oy=40;let g=isoBox(0,0,0,len,A,h,k,ox,oy+h*k,FILM);
+  const q=[P(len*.3,A*.25,h,k,ox,oy+h*k),P(len*.7,A*.25,h,k,ox,oy+h*k),P(len*.7,A*.75,h,k,ox,oy+h*k),P(len*.3,A*.75,h,k,ox,oy+h*k)];
+  g+=`<polygon points="${pts(q)}" fill="#fff" stroke="#888" stroke-width=".8"/>`;
+  return `<svg viewBox="0 0 480 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ярлык на стопке">${g}</svg>`;
+}
+function artBoxFill(s,r){ // короб сверху: один пакет со стопкой и общее количество стопок
+  const L=n(s.boxL)*10,W=n(s.boxW)*10,st=Math.round(n(s.stacks));
+  const sc=Math.min(300/L,150/W),x0=6,y0=6,bw=L*sc,bh=W*sc;
+  let g=`<rect x="${x0}" y="${y0}" width="${bw}" height="${bh}" fill="#f1e2c6" stroke="#6d5128" stroke-width="2"/>`;
+  const pw=bw*.62,ph=bh*.62,px=x0+(bw-pw)/2,py=y0+(bh-ph)/2;
+  g+=`<rect x="${px}" y="${py}" width="${pw}" height="${ph}" rx="3" fill="#2f353b" stroke="#111"/>`;
+  g+=`<text x="${px+pw/2}" y="${py+ph/2+2}" font-size="20" fill="#fff" text-anchor="middle" font-weight="700">${st}</text><text x="${px+pw/2}" y="${py+ph/2+18}" font-size="11" fill="#cfd5da" text-anchor="middle">${plural(st,'стопка','стопки','стопок')}</text>`;
+  return `<svg viewBox="0 0 ${x0*2+bw} ${y0*2+bh}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Стопки в коробе">${g}</svg>`;
+}
+function artBox(s){ // закрытый короб: скотч, основная и дополнительная этикетки
+  const L=n(s.boxL),W=n(s.boxW),H=n(s.boxH),k=230/Math.max(L+W,H*1.6);
+  const ox=140+W*C30*k,oy=24+H*k;let g=isoBox(0,0,0,L,W,H,k,ox,oy,KRAFT);
+  const VW=ox+L*C30*k+140,VH=oy+(L+W)*S30*k+16;
+  const tw=Math.min(4.8,W*.3);
+  const t=[P(0,(W-tw)/2,H,k,ox,oy),P(L,(W-tw)/2,H,k,ox,oy),P(L,(W+tw)/2,H,k,ox,oy),P(0,(W+tw)/2,H,k,ox,oy)];
+  g+=`<polygon points="${pts(t)}" fill="#ecdcbc"/>`;
+  const t2=[P(L,(W-tw)/2,H,k,ox,oy),P(L,(W+tw)/2,H,k,ox,oy),P(L,(W+tw)/2,H*.75,k,ox,oy),P(L,(W-tw)/2,H*.75,k,ox,oy)];
+  g+=`<polygon points="${pts(t2)}" fill="#ecdcbc"/>`;
+  const face=s.labelMain;if(face==='нет')return `<svg viewBox="0 0 ${VW} ${VH}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Короб">${g}</svg>`;
+  // u — слева направо для зрителя, v — снизу вверх (для крышки — от ближнего края к дальнему)
+  const F={ 'с торца':{Lu:W,Lv:H,pt:(u,v)=>P(L,W-u,v,k,ox,oy)}, 'сбоку':{Lu:L,Lv:H,pt:(u,v)=>P(u,W,v,k,ox,oy)}, 'сверху':{Lu:L,Lv:W,pt:(u,v)=>P(u,W-v,H,k,ox,oy)} }[face];
+  const quad=(u0,v0,u1,v1)=>[F.pt(u0,v0),F.pt(u1,v0),F.pt(u1,v1),F.pt(u0,v1)];
+  // основная: 12×7,5 см, по центру (на крышке — в стороне от скотча)
+  const mw=Math.min(12,F.Lu*.62),mh=Math.min(7.5,F.Lv*(face==='сверху'?.3:.5));
+  const cu=F.Lu/2,cv=face==='сверху'?F.Lv*.23:F.Lv/2;
+  g+=`<polygon points="${pts(quad(cu-mw/2,cv-mh/2,cu+mw/2,cv+mh/2))}" fill="#fff" stroke="${INK}" stroke-width="1"/>`;
+  const mc=F.pt(cu,cv);
+  const dl=face==='сбоку'?-1:1,lx=face==='сбоку'?ox-W*C30*k-12:ox+L*C30*k+14;
+  g+=`<line x1="${mc[0]}" y1="${mc[1]}" x2="${lx}" y2="${mc[1]-30}" stroke="${INK}" stroke-width=".8"/><text x="${lx+dl*3}" y="${mc[1]-32}" font-size="12" fill="${INK}" font-weight="600" text-anchor="${dl<0?'end':'start'}">этикетка</text>`;
+  if(s.labelExtra!=='нет'){
+    const ew=Math.min(5.8,F.Lu*.22),eh=Math.min(4,F.Lv*.22),m=Math.min(1,F.Lu*.04);
+    const right=/правый/.test(s.labelExtra),top=/верхний/.test(s.labelExtra);
+    const u0=right?F.Lu-m-ew:m,v0=top?F.Lv-m-eh:m;
+    g+=`<polygon points="${pts(quad(u0,v0,u0+ew,v0+eh))}" fill="#b9dbde" stroke="${INK}" stroke-width="1"/>`;
+    const ec=F.pt(u0+ew/2,v0+eh/2);
+    const ex=right&&face!=='сбоку'||face==='с торца'?ox+L*C30*k+14:ox-W*C30*k-12,ed=ex>ox?1:-1;
+    g+=`<line x1="${ec[0]}" y1="${ec[1]}" x2="${ex}" y2="${ec[1]+30}" stroke="${ACC}" stroke-width=".8"/><text x="${ex+ed*3}" y="${ec[1]+34}" font-size="12" fill="${ACC}" font-weight="600" text-anchor="${ed<0?'end':'start'}">дополнительная</text>`;
+  }
+  return `<svg viewBox="0 0 ${VW} ${VH}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Маркировка короба">${g}</svg>`;
+}
+function layerSVG(r,s,mirror){
+  const {L,W,ov}=r.eff,best=r.lay.best,S=4;
+  let g=`<rect x="${ov/2*S}" y="${ov/2*S}" width="${n(s.palL)*S}" height="${n(s.palW)*S}" fill="${TINT}" stroke="${INK2}" stroke-dasharray="7 5" stroke-width="1.6"/>`;
+  let num=1;
+  for(const gr of best.groups){
+    const ox=gr.x+(gr.zw-gr.nx*gr.w)/2,oy=gr.y+(gr.zh-gr.ny*gr.h)/2;
+    for(let j=0;j<gr.ny;j++)for(let i=0;i<gr.nx;i++){
+      let x=ox+i*gr.w,y=oy+j*gr.h;if(mirror){x=L-x-gr.w;y=W-y-gr.h}
+      g+=`<rect x="${x*S+1}" y="${y*S+1}" width="${gr.w*S-2}" height="${gr.h*S-2}" fill="${gr.o==='A'?'#dcbd88':'#c9a66c'}" stroke="#6d5128" stroke-width="1.2"/>`;
+      g+=`<text x="${(x+gr.w/2)*S}" y="${(y+gr.h/2)*S+5}" font-size="13" fill="#3d2c12" text-anchor="middle">${num++}</text>`;
+    }
+  }
+  return `<svg viewBox="-2 -2 ${L*S+4} ${W*S+4}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Схема яруса">${g}</svg>`;
+}
+function sideSVG(r,s){ // вид сбоку по длине паллеты
+  const {L,ov,bh}=r.eff,pl=n(s.palL),ph=n(s.palH),maxH=n(s.maxH);
+  const totH=Math.max(maxH,r.palH)+4,S=Math.min(260/(L+40),300/totH),W=(L+46)*S,H=totH*S+18;
+  const X=v=>(v+2)*S,Y=v=>H-14-v*S;let g='';
+  // поддон
+  g+=`<rect x="${X(ov/2)}" y="${Y(ph)}" width="${pl*S}" height="${ph*.3*S}" fill="#b98f55" stroke="#6d5128"/>`;
+  [0,.5,1].forEach(p=>{const bx=ov/2+p*(pl-14);g+=`<rect x="${X(bx)}" y="${Y(ph*.7)}" width="${14*S}" height="${ph*.4*S}" fill="#a97e42" stroke="#6d5128"/>`});
+  g+=`<rect x="${X(ov/2)}" y="${Y(ph*.3)}" width="${pl*S}" height="${ph*.3*S}" fill="#b98f55" stroke="#6d5128"/>`;
+  // ярусы: ширины коробов вдоль длины из первой группы
+  const gr=r.lay.best.groups[0];const row=[];
+  if(r.lay.best.type==='V'){r.lay.best.groups.forEach(q=>{for(let i=0;i<q.nx;i++)row.push(q.w)})}else{for(let i=0;i<gr.nx;i++)row.push(gr.w)}
+  const used=row.reduce((a,b)=>a+b,0),x0=(L-used)/2;
+  for(let l=0;l<r.layers;l++){let x=x0;const y=ph+l*bh;let rr=(l%2&&r.mixed)?[...row].reverse():row;
+    if(r.manual&&l===r.layers-1&&r.lastLayer<r.perLayer){const k2=Math.max(1,Math.round(row.length*r.lastLayer/r.perLayer));rr=rr.slice(0,k2)}
+    for(const w of rr){g+=`<rect x="${X(x)+.5}" y="${Y(y+bh)+.5}" width="${w*S-1}" height="${bh*S-1}" fill="${l%2?'#c9a66c':'#dcbd88'}" stroke="#6d5128" stroke-width=".7"/>`;x+=w}}
+  // обмотка и уголки
+  if(r.layers>0){
+    const lx=X(x0)-1,rx=X(x0+used)+1,ty=Y(r.palH)-1,by=s.wrapBottom?Y(ph*.15):Y(ph)+1;
+    const lay=Math.max(1,Math.min(6,Math.round(n(s.wrapLayers)||1)));
+    g+=`<defs><pattern id="wr" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(-30)"><line x1="0" y1="0" x2="0" y2="7" stroke="#6f97b3" stroke-width="${(.5+lay*.18).toFixed(2)}"/></pattern></defs>`;
+    g+=`<rect x="${lx}" y="${ty}" width="${rx-lx}" height="${by-ty}" fill="url(#wr)" stroke="#6f97b3" stroke-width=".8"/>`;
+    if(s.corners){g+=`<rect x="${lx-2}" y="${ty}" width="5" height="${Y(ph)-ty}" fill="#3b4148"/><rect x="${rx-3}" y="${ty}" width="5" height="${Y(ph)-ty}" fill="#3b4148"/>`}
+  }
+  // ограничение по высоте
+  g+=`<line x1="${X(0)}" y1="${Y(maxH)}" x2="${X(L)}" y2="${Y(maxH)}" stroke="var(--z-bad-ink)" stroke-dasharray="5 4" stroke-width="1"/><text x="${X(0)}" y="${Y(maxH)-3}" font-size="9" fill="var(--z-bad-ink)">макс. ${fi(maxH)} см</text>`;
+  // размер высоты
+  g+=arrowDefs('ar3')+`<line x1="${X(L)+10}" y1="${Y(0)}" x2="${X(L)+10}" y2="${Y(r.palH)}" stroke="${INK}" stroke-width="1" marker-start="url(#ar3)" marker-end="url(#ar3)"/><text x="${X(L)+24}" y="${(Y(0)+Y(r.palH))/2}" font-size="11" fill="${INK}" text-anchor="middle" transform="rotate(-90 ${X(L)+24} ${(Y(0)+Y(r.palH))/2})">${fi(r.palH)} см</text>`;
+  g+=`<line x1="${X(-1)}" y1="${Y(0)}" x2="${X(L+1)}" y2="${Y(0)}" stroke="${INK}" stroke-width="1.2"/>`;
+  return `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Паллета, вид сбоку">${g}</svg>`;
+}
+
+/* ---------- образцы этикеток на короб ---------- */
+const TPL_NAME={WB:'Wildberries (ВБК)',SAFE:'Сейф-пакет (ВБК_СЕЙФ)',MP:'МП (стандарт)',PREM:'МП ПРЕМИУМ',TECH:'МП ТЕХНОЛОГ',OZON:'OZON',SM:'Спортмастер',CDEK:'СДЭК',HOLE:'Пакет с тех. отверстием',FREE:'свободный формат'};
+const EAN_STUB='1234567890128';
+function eanBars(c){
+  const L=['0001101','0011001','0010011','0111101','0100011','0110001','0101111','0111011','0110111','0001011'],R=['1110010','1100110','1101100','1000010','1011100','1001110','1010000','1000100','1001000','1110100'],G=R.map(x=>x.split('').reverse().join('')),P=['LLLLLL','LLGLGG','LLGGLG','LLGGGL','LGLLGG','LGGLLG','LGGGLL','LGLGLG','LGLGGL','LGGLGL'];
+  const p=P[+c[0]];let b='101';for(let i=1;i<7;i++)b+=(p[i-1]==='L'?L:G)[+c[i]];b+='01010';for(let i=7;i<13;i++)b+=R[+c[i]];b+='101';
+  let g='';for(let i=0;i<b.length;i++)if(b[i]==='1')g+=`<rect x="${i}" y="0" width="1" height="30" fill="#000"/>`;
+  return `<div class="ean"><svg viewBox="0 0 95 30" preserveAspectRatio="none" style="height:16mm">${g}</svg><span>${c}</span></div>`;
+}
+function labelHTML(s,r){
+  const A=n(s.A),B=n(s.B),C=n(s.C),t=n(s.t),st=n(s.stack),pb=r.perBox,col=s.color,D='—';
+  const kg=(Math.round(r.gross*100)/100).toLocaleString('ru-RU');
+  const capCol=col.charAt(0)+col.slice(1).toLowerCase();
+  const mpRows=`<table><tr><td>Дата упаковки:</td><td>${D}</td></tr><tr><td>Упаковщик:</td><td>${D}</td></tr><tr><td>Оператор:</td><td>${D}</td></tr><tr><td>Смена:</td><td>${D}</td></tr></table>`;
+  const mp=(name,size,side)=>`<div class="lb mp${side?' side-on':''}">${side||''}<div class="main"><div class="bar"></div><div class="h1">${esc(name)}</div><div class="h2">${esc(col)}</div><div class="h3">${esc(size)}</div><div class="band"><span>${st} шт/уп</span><span>${pb} шт/кор</span></div>${mpRows}</div></div>`;
+  const wbTable=(perm,size)=>`<table><tr><td colspan="2" style="width:56%">Постоянная маркировка</td><td colspan="2">${esc(perm)}</td></tr><tr><td colspan="2">Размер</td><td colspan="2">${esc(size)}</td></tr><tr><td colspan="2">Дата</td><td colspan="2">${D}</td></tr><tr><td style="width:28%">Упаковщик</td><td>${D}</td><td style="width:20%">оператор</td><td>${D}</td></tr><tr><td colspan="2">номер смены:</td><td colspan="2">${D}</td></tr></table>`;
+  switch(s.labelTpl){
+    case 'WB':{const f=`${A}х${B}+${C}`;return `<div class="lb wb"><div class="lbtop"><div class="t"><div class="lg">Поставщик: ООО «ИННТЕК»</div><div class="b">Курьерский&nbsp; пакет</div><div class="b">Курьерпак</div><div class="b">Вайлдберриз ${f}</div></div>${eanBars(EAN_STUB)}</div><div class="box"><span>Коробка №</span><span>${D}</span></div><div class="qty">Количество ${pb}шт, Вес БРУТТО - ${kg} кг</div>${wbTable('Вайлдберриз с QR-кодом '+f,f)}</div>`}
+    case 'SAFE':{const f=`${A}х${B}мм`;return `<div class="lb wb"><div class="lbtop"><div class="t"><div class="lg">Поставщик: ООО «ИННТЕК»</div><div class="b">Сейф- пакет</div><div>&nbsp;</div><div class="b">${f}</div></div>${eanBars(EAN_STUB)}</div><div class="box"><span>Коробка №</span><span>${D}</span></div><div class="qty">Количество ${pb}шт, Вес БРУТТО - ${kg} кг</div>${wbTable(`${capCol} сейф-пакет ПВД ${f}, ${t} мкм`,f)}</div>`}
+    case 'PREM':return mp('Курьерский пакет',`${A}x${B}`,'<div class="side black"><span>ПРЕМИУМ</span></div>');
+    case 'TECH':return mp('Курьерский пакет',`${A}x${B}`,'<div class="side white"><span>ТЕХНОЛОГ</span></div>');
+    case 'OZON':{const L=A===220&&B===320?' (S)':A===300&&B===380?' (M)':'';return mp('Курьерский пакет OZON',`${A}x${B}${L}`)}
+    case 'SM':return `<div class="lb sm"><div class="smkv"><span>Заказчик:</span><span>Спортмастер</span></div><div class="smkv"><span>Артикул:</span><span>${D}</span></div><div class="ar">Пакет курьерский</div><div>${A}х${B} мм</div><div>${t}мкм, полиэтилен, ${col.toLowerCase()}, ${st}шт</div><div>В коробке- ${pb} шт</div><div>(${st} шт фасовка)</div><div class="smkv" style="font-weight:400"><span>Дата:</span><span>${D}</span></div></div>`;
+    case 'CDEK':return `<div class="lb cd"><table><tr><td>Артикул СДЭК Товара</td><td class="b">${D}</td></tr><tr><td>Наименование Товара</td><td class="b">Пакет курьерский «Лайт» А(*) (${col.toLowerCase()})</td></tr><tr><td>Данные о производителе</td><td>ООО «ИННТЕК», Адрес производства: 170032, г.Тверь, посёлок Новое Власьево, 14с1</td></tr><tr><td>Количество в гофрокоробе, в штуках</td><td>${pb}шт</td></tr><tr><td>Номер партии</td><td>${D}</td></tr><tr><td>Дата производства</td><td>${D}</td></tr><tr><td>Упаковщик</td><td>Контролер</td></tr><tr><td>${D}</td><td>${D}</td></tr></table><div class="side"><span>номер смены '${D}'</span></div></div>`;
+    case 'HOLE':return `<div class="lb th"><div>Пакет ПВД</div><div>с тех. отв.</div><div>${fc(A/10)}х${fc(B/10)}, ${t}мкм</div><div>Кол-во в кор.:</div><div>${pb}шт.</div></div>`;
+    case 'FREE':return mp(s.labelName||'Курьерский пакет',`${A}x${B}`);
+    default:return mp('Курьерский пакет',`${A}x${B}`);
+  }
+}
+/* ---------- текст ТЗ ---------- */
+function wrapTxt(s){const l=Math.max(1,Math.round(n(s.wrapLayers)||1));return `${s.wrap||'стрейч-плёнка'}, ${l} ${plural(l,'слой','слоя','слоёв')}${s.wrapBottom?', с подмоткой к низу паллеты':', без захвата поддона'}`}
+function titleOf(s){let t=`${s.product}, ${s.color}${s.hasPrint?' С ИЗОБРАЖЕНИЕМ':''}, ${n(s.A)}x${n(s.B)}+${n(s.C)}, ${n(s.t)} мкм`;if(s.hasHole)t+=', тех. отверстие';return t}
+function layDesc(r){
+  const b=r.lay.best;if(!b.total)return '—';
+  const d=g=>`${g.nx}×${g.ny} ${g.o==='A'?'вдоль':'поперёк'} поддона`;
+  if(!r.mixed)return `${b.total} ${plural(b.total,'короб','короба','коробов')}: ${b.groups[0].nx} × ${b.groups[0].ny}, длинная сторона короба ${b.type==='A'?'вдоль':'поперёк'} поддона`;
+  return `${b.total} ${plural(b.total,'короб','короба','коробов')}, комбинированная: ${d(b.groups[0])} + ${d(b.groups[1])}`;
+}
+const boxTxt=s=>`${fc(n(s.boxL))} × ${fc(n(s.boxW))} × ${fc(n(s.boxH))} см`;
+function spec(s,r){
+  const z=r.zone,k3=v=>f(v,3);
+  const noncrit=z.Q-z.S>0.0005?`${k3(z.S)} – ${k3(z.Q-0.001)} / ${k3(z.R+0.001)} – ${k3(z.T)} кг`:`${k3(z.R+0.001)} – ${k3(z.T)} кг`;
+  const mat=[
+    ['Цвет плёнки',s.color],
+    ['Толщина плёнки',`${n(s.t)} мкм`],
+    ['Тип лайнера',s.linerType],
+    ['Ширина лайнера',`${n(s.linerW)} мм`],
+    ['Клеевая полоса',`${n(s.strip)} мм`],
+    ['Карман',s.pocket],
+    ['Изображение',s.hasPrint?`${s.printType||'по макету'}; ${s.printSide==='оборотная'?'оборотная':'лицевая'} сторона, ${s.printAlign==='по центру'?'по центру':'от левого края '+n(s.H)+' мм'}, от низа ${n(s.G)} мм`:'нет'],
+    ['Тех. отверстие',s.hasHole?`есть: ${s.holeY==='сверху'?'сверху':'снизу'} ${n(s.E)} мм, ${s.holeX} ${n(s.F)} мм`:'нет'],
+  ];
+  const pack=[
+    ['Фасовка в стопке',`${n(s.stack)} шт`],
+    ['Упаковка стопок',s.stackPack==='без упаковки'?'без упаковки':`${s.stackPack}, ${s.seal?'запечатать':'не запечатывать'}`],
+    ['Этикетка на стопке',s.stackPack!=='без упаковки'&&s.stackLabel?'малая, на пакете':'нет'],
+    ['Стопок в коробе',`${n(s.stacks)}`],
+    ['Всего в коробе',`${fi(r.perBox)} шт`],
+    ['Гофрокороб (внутр.)',boxTxt(s)],
+    ['Этикетка на короб',s.labelMain==='нет'?'нет':`«${TPL_NAME[s.labelTpl]||''}»${s.labelTpl==='FREE'&&s.labelName?' ('+s.labelName+')':''}, ${s.labelMain} короба, по центру`],
+    ['Доп. этикетка',s.labelExtra==='нет'||s.labelMain==='нет'?'нет':`малая, ${s.labelExtra}, ${s.labelMain==='сверху'?'на крышке':s.labelMain==='с торца'?'на торце':'на боковой стороне'}`],
+  ];
+  const pal=[
+    ['Поддон',`${n(s.palL)*10} × ${n(s.palW)*10} × ${n(s.palH)*10} мм`],
+    ['Свес коробов',s.overhang?'до 3 см на сторону':'не допускается'],
+    ['Укладка яруса',layDesc(r)],
+    ['Ярусов',`${r.layers}`],
+    ['Коробов на паллете',fi(r.boxes)+(r.manual&&r.lastLayer<r.perLayer?` (последний ярус — ${r.lastLayer})`:'')],
+    ['Пакетов на паллете',fi(r.pcs)],
+    ['Брутто короба (расч.)',`≈ ${f(r.gross,2)} кг`],
+    ['Паллета (расч.)',`≈ ${fi(r.palKg)} кг, ≈ ${fi(r.palH)} см`],
+    ['Ограничения',`не более ${fi(n(s.maxKg))} кг и ${fc(n(s.maxH))} см`],
+    ['Обмотка',wrapTxt(s)],
+    ['Уголки',s.corners?'картонные уголки на 4 вертикальных ребра':'нет'],
+  ];
+  if(r.tirPal)pal.push(['На тираж',`${fi(r.tirBoxes)} ${plural(r.tirBoxes,'короб','короба','коробов')}, ${fi(r.tirPal)} ${plural(r.tirPal,'паллета','паллеты','паллет')}`]);
+  const wt=[
+    ['Расчётный вес пакета',`${f(r.bag.total,3)} г`],
+    [`Эталон пачки ${n(s.stack)} шт`,`${k3(r.pack)} кг`],
+    ['Норма',`${k3(z.Q)} – ${k3(z.R)} кг`],
+    ['Некритичное',noncrit],
+    ['Критичное',`< ${k3(z.S)} / > ${k3(z.T)} кг`],
+  ];
+  const other=String(s.other||'').split('\n').map(x=>x.trim()).filter(Boolean);
+  return {mat,pack,pal,wt,other};
+}
+
+/* ---------- отрисовка ---------- */
+function fmtDate(v){if(!v)return '';const [y,m,d]=v.split('-');return `${d}.${m}.${y}`}
+function render(retry){
+  if(retry!==true)bagSVG.limitH=115;
+  const s=getForm();save('tz.form.v8',s);
+  const r=calc(s);r.stack=n(s.stack);
+  const sp=spec(s,r);
+  $('notes').innerHTML=r.notes.map(([c,t])=>`<div class="note ${c}">${esc(t)}</div>`).join('');
+  const kv=(rows,cls='')=>rows.map(([k,v])=>`<div class="kv ${cls}"><span class="k">${esc(k)}</span><span class="v">${esc(v)}</span></div>`).join('');
+  const bh=(no,t,i)=>`<div class="bh"><span class="no">${no}</span><h3>${t}</h3>${i?`<i>${i}</i>`:''}</div>`;
+  const pr=(l,k,v)=>`<tr><td class="l">${l}</td><td>${k}</td><td class="v">${esc(v)}</td></tr>`;
+  const docNo=s.tzno?`№ ${esc(s.tzno)}`:'№ ____';
+  const stamp=`<div class="stamp"><div class="co"><b>ИННТЕК</b><span>производство<br>курьерских пакетов</span></div>
+     <div class="doc"><span class="kind">Техническое задание для производства ${docNo}</span><span class="ttl">${esc(titleOf(s))}</span>
+       <span class="meta"><span>Заказчик: <b>${esc(s.client)||'—'}</b></span><span>Канал: <b>${esc(s.channel)}</b></span><span>Менеджер: <b>${esc(s.manager)||'—'}</b>${s.phone?' · '+esc(s.phone):''}</span><span>Тираж: <b>${n(s.tirage)?fi(n(s.tirage))+' шт':'—'}</b></span></span></div>
+     <div class="ok"><span class="lbl">Утверждаю</span><span class="sig"></span><span class="who"><span>${esc(s.approver)}</span><span>${esc(fmtDate(s.approveDate))||'«__» ______ 20__'}</span></span></div></div>`;
+  const keys=`<div class="keys"><div><span>Формат, мм</span><b>${n(s.A)}×${n(s.B)}+${n(s.C)}</b></div><div><span>Плёнка</span><b>ПФ ${2*n(s.B)+n(s.C)}мм, ${n(s.t)}мкм</b></div><div><span>Фасовка</span><b>${n(s.stack)}х${n(s.stacks)}=${r.perBox}</b></div><div><span>Коробов на паллете</span><b>${fi(r.boxes)}</b></div><div><span>Штук на паллете</span><b>${fi(r.pcs)}</b></div></div>`;
+  const drawing=bagSVG(s);
+  $('sheet1').innerHTML=`${stamp}${keys}
+   <div class="blk">${bh('1','Чертёж и размеры','масштаб 1:'+String(bagSVG.scale||1).replace('.',','))}
+     <div class="draw"><div>${drawing}</div><div><table class="ptab">
+       <tr><th colspan="3">Параметры изделия, мм</th></tr>${pr('A','Ширина',n(s.A))}${pr('B','Тело',n(s.B))}${pr('C','Клапан',n(s.C))}${pr('D','Высота',n(s.B)+n(s.C))}
+       <tr><th colspan="3">Тех. отверстие (до центра)</th></tr>${pr('E',s.hasHole&&s.holeY==='сверху'?'от верхнего края':'от нижнего края',s.hasHole?n(s.E):'нет')}${pr('F',s.hasHole&&s.holeX==='от правого края'?'от правого края':'от левого края',s.hasHole?n(s.F):'нет')}
+       <tr><th colspan="3">Печать изображения${s.hasPrint?' · '+(s.printSide==='оборотная'?'оборот':'лицевая'):''}</th></tr>${pr('G','от нижнего края',s.hasPrint?n(s.G):'нет')}${pr('H','от левого края',s.hasPrint&&s.printAlign==='по центру'?'по центру':s.hasPrint?n(s.H):'нет')}${pr('I','ширина',s.hasPrint?n(s.I):'нет')}${pr('K','высота',s.hasPrint?n(s.K):'нет')}
+     </table></div></div></div>
+   <div class="cols">
+     <div class="blk">${bh('2','Материалы')}${kv(sp.mat)}</div>
+     <div class="blk">${bh('3','Фасовка и упаковка')}${kv(sp.pack)}</div>
+   </div>
+   <div class="blk">${bh('4','Паллетирование','схема — лист 2')}<div class="cols"><div>${kv(sp.pal.slice(0,Math.ceil(sp.pal.length/2)))}</div><div>${kv(sp.pal.slice(Math.ceil(sp.pal.length/2)))}</div></div></div>
+   <div class="blk">${bh('5','Иные требования')}${sp.other.length?sp.other.map((x,i)=>`<div class="kv full"><span class="v">${i+1}. ${esc(x)}</span></div>`).join(''):'<div class="kv full"><span class="v">—</span></div>'}</div>
+   <div class="pg"><span>${esc(titleOf(s))}</span><span>Лист 1 из 2</span></div>`;
+  // лист 2
+  const steps=[];
+  if(s.stackPack!=='без упаковки')steps.push({t:`Стопку ${n(s.stack)} шт упаковать в ${s.stackPack}${s.seal?(s.stackLabel?', запечатать':' и запечатать'):''}${s.stackLabel?' и наклеить этикетку':''}`,art:artStack(s,r),cap:(s.seal?'Стопка входит в пакет целиком, клапан пакета заклеен по всей длине.':'Стопка входит в пакет целиком, клапан пакета не заклеивается.')+(s.stackLabel?' На пакет наклеивается малая этикетка.':'')});
+  steps.push({t:`Уложить ${n(s.stacks)} ${plural(n(s.stacks),'стопку','стопки','стопок')} в короб`,art:artBoxFill(s,r),cap:`<b>${n(s.stacks)} ${plural(n(s.stacks),'стопка','стопки','стопок')} × ${n(s.stack)} шт = ${fi(r.perBox)} шт</b>`});
+  steps.push({cls:'box',t:s.labelMain==='нет'?'Заклеить короб':'Заклеить и промаркировать короб',art:artBox(s),cap:`Скотч по центру крышки с заходом на торцы.${s.labelMain!=='нет'?` Основная этикетка — ${s.labelMain}, по центру.`:''}${s.labelExtra!=='нет'&&s.labelMain!=='нет'?` Дополнительная — ${s.labelExtra}.`:''}`});
+  if(s.labelMain!=='нет')steps.push({cls:'lblstep',t:'Образец этикетки на короб',art:labelHTML(s,r),cap:`«${esc(TPL_NAME[s.labelTpl]||'')}». Прочерки заполняются при печати этикетки.`});
+  if(steps.length%2===1)steps[steps.length-1].wide=true;
+  const stepHtml=steps.map((st,i)=>`<div class="step${st.wide?' wide':''}${st.cls?' '+st.cls:''}"><div class="sh"><b>${i+1}</b><span>${esc(st.t)}</span></div><div class="art">${st.art}</div><div class="cap">${st.cap}</div></div>`).join('');
+  const palHtml=`<div class="step wide"><div class="sh"><b>${steps.length+1}</b><span>Сформировать паллету</span></div>
+     <div class="pal"><figure>${r.perLayer?layerSVG(r,s,false):''}<figcaption>Ярусы 1, 3, 5 … вид сверху</figcaption></figure><figure>${r.perLayer?layerSVG(r,s,r.mixed):''}<figcaption>Ярусы 2, 4, 6 …${r.mixed?' (зеркально)':' (так же)'}</figcaption></figure><figure>${r.perLayer?sideSVG(r,s):''}<figcaption>Вид сбоку</figcaption></figure></div>
+     <div class="cap"><b>${esc(layDesc(r))}</b>. ${r.layers} ${plural(r.layers,'ярус','яруса','ярусов')}, ${fi(r.boxes)} ${plural(r.boxes,'короб','короба','коробов')}, ${fi(r.pcs)} шт, ≈ ${fi(r.palKg)} кг. ${r.mixed?'Чётные ярусы укладываются зеркально для перевязки швов.':'Швы ярусов совпадают.'} Обмотка: ${esc(wrapTxt(s))}${s.corners?', уголки на рёбрах':''}.</div></div>`;
+  $('sheet2').innerHTML=`<div class="mini"><b>Схема упаковки готовой продукции</b><span>ТЗ ${docNo} · ${esc(titleOf(s))}</span></div>
+     <div class="steps">${stepHtml}${palHtml}</div>
+     <div class="pg"><span>${esc(titleOf(s))}</span><span>Лист 2 из 2</span></div>`;
+  $('tareOut').value=f(r.tare,3);
+  window.__spec={s,r,sp};
+  {const lim=275*96/25.4,el=$('sheet1');el.style.zoom=1;if(el.scrollHeight>lim&&bagSVG.limitH>55){bagSVG.limitH-=10;return render(true)}}
+  fitSheets();
+}
+/* лист не длиннее A4: при переполнении слегка уменьшаем масштаб */
+function fitSheets(){document.querySelectorAll('.lb').forEach(el=>{let fs=parseFloat(el.style.fontSize)||2.5;let i=0;while((el.scrollHeight>el.clientHeight+1||el.scrollWidth>el.clientWidth+1)&&i<40){fs*=.94;el.style.fontSize=fs.toFixed(2)+'mm';i++}});const lim=275*96/25.4;document.querySelectorAll('.sheet').forEach(el=>{el.style.zoom=1;const h=el.scrollHeight;el.style.zoom=h>lim?(lim/h).toFixed(3):1;if(el.id==='sheet1'&&h>lim)$('notes').insertAdjacentHTML('beforeend',`<div class="note warn">Лист 1 не помещается на A4 и уменьшен до ${Math.round(lim/h*100)} %, масштаб чертежа при печати будет нарушен. Сократите иные требования.</div>`)})}
+
+/* ---------- Excel (.xlsx без библиотек) ---------- */
+const CRC=(()=>{const t=new Uint32Array(256);for(let i=0;i<256;i++){let c=i;for(let k=0;k<8;k++)c=c&1?0xEDB88320^(c>>>1):c>>>1;t[i]=c>>>0}return t})();
+function crc32(b){let c=0xFFFFFFFF;for(let i=0;i<b.length;i++)c=CRC[(c^b[i])&255]^(c>>>8);return(c^0xFFFFFFFF)>>>0}
+function zip(files){
+  const enc=new TextEncoder(),parts=[],cd=[];let off=0;
+  for(const[name,str]of files){
+    const nb=enc.encode(name),data=enc.encode(str),crc=crc32(data);
+    const h=new DataView(new ArrayBuffer(30));
+    h.setUint32(0,0x04034b50,true);h.setUint16(4,20,true);h.setUint16(6,0x0800,true);h.setUint16(12,0x21,true);
+    h.setUint32(14,crc,true);h.setUint32(18,data.length,true);h.setUint32(22,data.length,true);h.setUint16(26,nb.length,true);
+    parts.push(h,nb,data);
+    const c=new DataView(new ArrayBuffer(46));
+    c.setUint32(0,0x02014b50,true);c.setUint16(4,20,true);c.setUint16(6,20,true);c.setUint16(8,0x0800,true);c.setUint16(14,0x21,true);
+    c.setUint32(16,crc,true);c.setUint32(20,data.length,true);c.setUint32(24,data.length,true);c.setUint16(28,nb.length,true);c.setUint32(42,off,true);
+    cd.push(c,nb);off+=30+nb.length+data.length;
+  }
+  const cdSize=cd.reduce((a,x)=>a+x.byteLength,0);
+  const e=new DataView(new ArrayBuffer(22));
+  e.setUint32(0,0x06054b50,true);e.setUint16(8,files.length,true);e.setUint16(10,files.length,true);e.setUint32(12,cdSize,true);e.setUint32(16,off,true);
+  return new Blob([...parts,...cd,e],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+}
+const xe=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function buildXlsx(){
+  const {s,r,sp}=window.__spec;const rows=[],merges=[];
+  const add=(cells,style)=>rows.push({cells,style});
+  const sect=(h,list)=>{add([''],0);add([h],2);merges.push(rows.length);list.forEach(([k,v])=>add([k,v],1))};
+  add(['ТЕХНИЧЕСКОЕ ЗАДАНИЕ ДЛЯ ПРОИЗВОДСТВА'+(s.tzno?' № '+s.tzno:'')],3);merges.push(rows.length);
+  add([titleOf(s)],4);merges.push(rows.length);
+  add(['Заказчик / канал',`${s.client} / ${s.channel}`],1);add(['Менеджер, телефон',[s.manager,s.phone].filter(Boolean).join(', ')],1);
+  add(['Тираж, шт',n(s.tirage)||''],1);add(['Утверждено',[s.approver,fmtDate(s.approveDate)].filter(Boolean).join(', ')],1);
+  sect('1. Чертёж и размеры, мм',[['(A) Ширина',n(s.A)],['(B) Тело',n(s.B)],['(C) Клапан',n(s.C)],['(D) Высота',n(s.B)+n(s.C)],
+    ['Тех. отверстие, мм',s.hasHole?`(E) ${s.holeY} ${n(s.E)} / (F) ${s.holeX} ${n(s.F)}`:'нет'],
+    ['Печать, мм',s.hasPrint?`${s.printSide} сторона: (G) от низа ${n(s.G)} / (H) ${s.printAlign==='по центру'?'по центру':'от левого '+n(s.H)} / (I) ${n(s.I)} × (K) ${n(s.K)}`:'нет']]);
+  sect('2. Материалы',sp.mat);sect('3. Фасовка и упаковка',sp.pack);sect('4. Паллетирование',sp.pal);
+  add([''],0);add(['5. Иные требования'],2);merges.push(rows.length);sp.other.forEach((x,i)=>{add([`${i+1}. ${x}`],1);merges.push(rows.length)});
+  const cell=(ref,v,st)=>typeof v==='number'?`<c r="${ref}" s="${st}"><v>${v}</v></c>`:`<c r="${ref}" s="${st}" t="inlineStr"><is><t xml:space="preserve">${xe(v)}</t></is></c>`;
+  const sd=rows.map((rw,i)=>{const R=i+1;const c=[cell('A'+R,rw.cells[0]??'',rw.style)];if(rw.style)c.push(cell('B'+R,rw.cells[1]??'',rw.style));return `<row r="${R}">${c.join('')}</row>`}).join('');
+  const sheet=`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheetPr><pageSetUpPr fitToPage="1"/></sheetPr><cols><col min="1" max="1" width="40" customWidth="1"/><col min="2" max="2" width="70" customWidth="1"/></cols><sheetData>${sd}</sheetData><mergeCells count="${merges.length}">${merges.map(R=>`<mergeCell ref="A${R}:B${R}"/>`).join('')}</mergeCells><pageMargins left="0.4" right="0.4" top="0.4" bottom="0.4" header="0.2" footer="0.2"/><pageSetup paperSize="9" orientation="portrait" fitToWidth="1" fitToHeight="0"/></worksheet>`;
+  const styles=`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><fonts count="4"><font><sz val="10"/><name val="Calibri"/></font><font><b/><sz val="10"/><name val="Calibri"/></font><font><b/><sz val="14"/><name val="Calibri"/></font><font><b/><sz val="11"/><name val="Calibri"/></font></fonts><fills count="3"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill><fill><patternFill patternType="solid"><fgColor rgb="FFE7ECEF"/><bgColor indexed="64"/></patternFill></fill></fills><borders count="2"><border><left/><right/><top/><bottom/><diagonal/></border><border><left style="thin"/><right style="thin"/><top style="thin"/><bottom style="thin"/><diagonal/></border></borders><cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs><cellXfs count="5"><xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/><xf numFmtId="0" fontId="0" fillId="0" borderId="1" xfId="0" applyBorder="1" applyAlignment="1"><alignment vertical="center" wrapText="1" horizontal="left"/></xf><xf numFmtId="0" fontId="1" fillId="2" borderId="1" xfId="0" applyFont="1" applyFill="1" applyBorder="1"/><xf numFmtId="0" fontId="2" fillId="0" borderId="0" xfId="0" applyFont="1"/><xf numFmtId="0" fontId="3" fillId="0" borderId="0" xfId="0" applyFont="1"/></cellXfs><cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles></styleSheet>`;
+  return zip([
+    ['[Content_Types].xml','<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/><Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/></Types>'],
+    ['_rels/.rels','<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>'],
+    ['xl/workbook.xml','<?xml version="1.0" encoding="UTF-8" standalone="yes"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets><sheet name="ТЗ" sheetId="1" r:id="rId1"/></sheets></workbook>'],
+    ['xl/_rels/workbook.xml.rels','<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>'],
+    ['xl/styles.xml',styles],['xl/worksheets/sheet1.xml',sheet]]);
+}
+function fileName(){const s=window.__spec.s;return `${s.channel} ${n(s.A)}х${n(s.B)}+${n(s.C)} ${s.color.toLowerCase()} ${n(s.t)}мкм`.replace(/[\\/:*?"<>|]/g,'-')}
+function toast(t){const el=$('toast');el.textContent=t;el.classList.add('on');clearTimeout(toast._t);toast._t=setTimeout(()=>el.classList.remove('on'),2200)}
+
+/* ---------- справочник ---------- */
+function renderSettings(){
+  $('setTbl').innerHTML=`<tr><th>Канал</th>${CH_COLS.map(c=>`<th>${c[1]}</th>`).join('')}</tr>`+
+    Object.entries(SET.channels).map(([k,v])=>`<tr><td>${k}</td>${CH_COLS.map(([c])=>`<td><input type="number" step="any" id="set-${k}-${c}" data-ch="${k}" data-k="${c}" value="${v[c]}"></td>`).join('')}</tr>`).join('');
+  const grp=(name,obj,key)=>Object.entries(obj).map(([k,v])=>`<tr><td>${name}</td><td>${k}</td><td><input type="number" step="any" id="den-${key}-${k}" data-g="${key}" data-k="${k}" value="${v}"></td></tr>`).join('');
+  $('densTbl').innerHTML=`<tr><th>Группа</th><th>Материал</th><th>Значение (г/см³; тара — кг/м²)</th></tr>`+grp('Плёнка',SET.film,'film')+grp('Лайнер',SET.liner,'liner')+grp('Клей',SET.glue,'glue')+grp('Тара',SET.board,'board');
+}
+$('settingsBox').addEventListener('input',e=>{const el=e.target;
+  if(el.dataset.ch)SET.channels[el.dataset.ch][el.dataset.k]=n(el.value);else if(el.dataset.g)SET[el.dataset.g][el.dataset.k]=n(el.value);else return;
+  save('tz.settings.v3',SET);render()});
+$('btnSetReset').addEventListener('click',()=>{SET=clone(DEF_SETTINGS);save('tz.settings.v3',SET);renderSettings();render();toast('Справочник восстановлен')});
+
+const CH_TPL={'ВБК':'WB','ВБК_СЕЙФ':'SAFE','МП':'MP','OZON':'OZON','Спортмастер':'SM','СДЭК':'CDEK','СДТ':'MP','ПЕГАС':'MP','БТК':'MP'};
+chSel.addEventListener('change',()=>{const ch=SET.channels[chSel.value];if(ch){$('linerW').value=ch.linerW;$('strip').value=ch.strip}if(CH_TPL[chSel.value])$('labelTpl').value=CH_TPL[chSel.value];syncSubs()});
+$('f').addEventListener('input',()=>{syncSubs();render()});
+$('f').addEventListener('change',()=>{syncSubs();render()});
+$('f').addEventListener('submit',e=>e.preventDefault());
+
+/* Published data snapshot: SCADA does not execute this page or apply PLC settings. */
+$('btnScada').addEventListener('click',()=>{
+ try{
+  render();const {s,r,sp}=window.__spec;
+  if(!String(s.scadaJobNo).trim()||!String(s.tzno).trim()||!String(s.scadaSpecRevision).trim()||!String(s.approver).trim()||!s.approveDate||!Number.isInteger(n(s.tirage))||n(s.tirage)<1||n(s.tirage)>1000000000){toast('Заполните номер задания, номер и редакцию ТЗ, тираж, дату и утверждающего.');return}
+  if(!$('f').checkValidity()||r.notes.some(x=>x[0]==='bad')){toast('Исправьте параметры и красные замечания перед выгрузкой задания.');return}
+  const inputs={};FIELDS.forEach(k=>{if(k.startsWith('scada'))return;const el=$(k);inputs[k]=el.type==='number'?(el.value===''?null:n(el.value)):s[k]});
+  const signature=JSON.stringify({s,settings:SET});const prior=load('tz.scada.publish.v1');
+  const id=prior&&prior.signature===signature?prior.id:crypto.randomUUID();save('tz.scada.publish.v1',{id,signature});
+  const payload={schemaVersion:1,id,number:s.scadaJobNo.trim(),title:titleOf(s),plan:n(s.tirage),priority:0,dueAt:s.scadaDueAt?new Date(s.scadaDueAt).toISOString():null,spec:{id:s.tzno.trim(),revision:s.scadaSpecRevision.trim(),approvedBy:s.approver,approvedAt:s.approveDate,inputs,settings:clone(SET),computed:clone(r),display:clone(sp),calculatorVersion:'INNTEK-TZ-2026-10-19'}};
+  const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=(s.scadaJobNo+' '+fileName()).replace(/[\/:*?"<>|]/g,'-')+'.json';document.body.append(a);a.click();setTimeout(()=>{URL.revokeObjectURL(url);a.remove()},1000);toast('Задание сохранено. Загрузите JSON в разделе «Производство» SCADA.');
+ }catch(e){toast('Не удалось выгрузить задание: '+e.message)}
+});
+
+$('btnPrint').addEventListener('click',()=>{const old=document.title;document.title=fileName();window.print();document.title=old});
+$('btnXlsx').addEventListener('click',()=>{try{const b=buildXlsx(),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=fileName()+'.xlsx';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},500);toast('Excel сохранён')}catch(e){toast('Не удалось создать файл: '+e.message)}});
+$('btnReset').addEventListener('click',()=>{setForm(SAMPLE);render();toast('Загружен пример МП 100×150+40')});
+
+const saved=load('tz.form.v8');
+setForm(saved?Object.assign({},SAMPLE,saved):SAMPLE);
+renderSettings();render();
+})();
+</script>
+</body>
+</html>

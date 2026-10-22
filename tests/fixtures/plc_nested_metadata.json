@@ -1,0 +1,55 @@
+{
+  "source": "Guris PLC Explorer 1.4 live PLC report, 2026-10-09 11:40:15; metadata replies only, no values",
+  "fixtures": [
+    {
+      "requested_name": ".stKaliciData.sRecipeData.diHedefGrupAdet",
+      "reply_hex": "000077000000c0a80163010100800569c6c101012103090005005700000000000000d4070000000000004f0000004f00000040400000a3d713000400000003000000000000002a00040000002e53544b414c494349444154412e53524543495045444154412e444948454445464752555041444554000a44494e540000",
+      "expected_type": "DINT",
+      "expected_group": 16448,
+      "expected_offset": 1300387,
+      "expected_size": 4,
+      "expected_data_type": 3,
+      "expected_flags": 0
+    },
+    {
+      "requested_name": ".stKaliciData.sRecipeData.diIstenenPaketAdet",
+      "reply_hex": "00007a000000c0a80163010100800569c6c101012103090005005a00000000000000d5070000000000005200000052000000404000006fd713000400000003000000000000002d00040000002e53544b414c494349444154412e53524543495045444154412e4449495354454e454e50414b455441444554004e44494e540000",
+      "expected_type": "DINT",
+      "expected_group": 16448,
+      "expected_offset": 1300335,
+      "expected_size": 4,
+      "expected_data_type": 3,
+      "expected_flags": 0
+    },
+    {
+      "requested_name": ".stKaliciData.sRecipeData.rCeneKaynakHiz",
+      "reply_hex": "000076000000c0a80163010100800569c6c101012103090005005600000000000000d6070000000000004e0000004e000000404000003bd813000400000004000000000000002900040000002e53544b414c494349444154412e53524543495045444154412e5243454e454b41594e414b48495a00445245414c0000",
+      "expected_type": "REAL",
+      "expected_group": 16448,
+      "expected_offset": 1300539,
+      "expected_size": 4,
+      "expected_data_type": 4,
+      "expected_flags": 0
+    },
+    {
+      "requested_name": ".stKaliciData.sRecipeData.rCeneKaynakHizSet",
+      "reply_hex": "000079000000c0a80163010100800569c6c101012103090005005900000000000000d70700000000000051000000510000004040000077d913000400000004000000000000002c00040000002e53544b414c494349444154412e53524543495045444154412e5243454e454b41594e414b48495a53455400415245414c0000",
+      "expected_type": "REAL",
+      "expected_group": 16448,
+      "expected_offset": 1300855,
+      "expected_size": 4,
+      "expected_data_type": 4,
+      "expected_flags": 0
+    },
+    {
+      "requested_name": ".stKaliciData.sRecipeData.rMerdanePosMesafe",
+      "reply_hex": "000079000000c0a80163010100800569c6c101012103090005005900000000000000d80700000000000051000000510000004040000037d813000400000004000000000000002c00040000002e53544b414c494349444154412e53524543495045444154412e524d455244414e45504f534d455341464500415245414c0000",
+      "expected_type": "REAL",
+      "expected_group": 16448,
+      "expected_offset": 1300535,
+      "expected_size": 4,
+      "expected_data_type": 4,
+      "expected_flags": 0
+    }
+  ]
+}

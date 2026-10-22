@@ -1,0 +1,14 @@
+PASS: +60/+120/+180, 170+60 ->180, duplicate ID, exact expiry, cancellation, journal and session expiry.
+PASS test_cleaning_clock
+PASS: exact 300-second boundary, no extension, restart remaining time, expired/rollback recovery, role/stopped gates, persistent bypass, HMI disable, offline restore and shutdown return.
+PASS test_unwinder_clock
+PASS: actual Edge command builder: kiosk URL quoting, fullscreen, no idle reset, translation disabled, dedicated profiles, compatibility GPU flag, diagnostic-mode and buffer guards.
+PASS test_ui_launch_config
+PASS: native bootstrap expands nonce/token/kiosk mode, byte counts and terminators for both launch modes/themes; no test mode in production CLI.
+PASS test_bootstrap
+PASS: monotonic durations, conservative loss boundary, all four states, batched/reset/gap counts, clock rollback and nonnegative intervals
+PASS test_production_clock
+PASS: all seven PLC material alarms, state fragmentation/manual motion, reset persistence, next-start boundary, ambiguity, stale/old alarms, polling skew, short stops, gaps
+PASS test_production_reasons
+PASS: 08:00/20:00 boundaries, previous night, month/year changes, DST shifts use local clock hours
+PASS test_production_shift

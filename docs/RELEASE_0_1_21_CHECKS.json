@@ -1,0 +1,78 @@
+{
+  "version": "0.1.21",
+  "pythonTests": {
+    "passed": 147,
+    "seconds": 253.636,
+    "modules": {
+      "test_ads_integration": 20,
+      "test_complete_bindings": 14,
+      "test_idle_policy": 7,
+      "test_io": 8,
+      "test_local_features": 14,
+      "test_manuals": 12,
+      "test_menu_language": 3,
+      "test_metadata": 4,
+      "test_operator_fixes": 11,
+      "test_parameter_bindings": 7,
+      "test_photomark": 12,
+      "test_production": 13,
+      "test_release20": 7,
+      "test_release21": 8,
+      "test_themes": 7
+    }
+  },
+  "cSuites": [
+    "test_cleaning_clock",
+    "test_unwinder_clock",
+    "test_ui_launch_config",
+    "test_bootstrap",
+    "test_production_clock",
+    "test_production_reasons",
+    "test_production_shift"
+  ],
+  "browserSuites": [
+    "test_ui",
+    "test_menu_browser",
+    "test_bindings_browser",
+    "test_complete_browser",
+    "test_production_browser",
+    "test_release20_browser",
+    "test_photomark_browser",
+    "test_release21_browser"
+  ],
+  "coverage": {
+    "nativeFields": 233,
+    "visibleFieldKeys": 172,
+    "visibleFieldKeysBound": 172,
+    "writableSettings": 153,
+    "dedicatedCommands": 19,
+    "heldCommands": 9,
+    "unboundElements": 0,
+    "tpyTypeMismatches": 0
+  },
+  "windows": {
+    "gui": true,
+    "dlls": [
+      "WS2_32.dll",
+      "SHELL32.dll",
+      "USER32.dll",
+      "bcrypt.dll",
+      "api-ms-win-crt-convert-l1-1-0.dll",
+      "api-ms-win-crt-heap-l1-1-0.dll",
+      "api-ms-win-crt-private-l1-1-0.dll",
+      "api-ms-win-crt-runtime-l1-1-0.dll",
+      "api-ms-win-crt-stdio-l1-1-0.dll",
+      "api-ms-win-crt-string-l1-1-0.dll",
+      "api-ms-win-crt-time-l1-1-0.dll",
+      "api-ms-win-crt-utility-l1-1-0.dll",
+      "KERNEL32.dll",
+      "api-ms-win-crt-math-l1-1-0.dll",
+      "api-ms-win-crt-environment-l1-1-0.dll"
+    ],
+    "sha256": "bae475f07b044fd9d0b4c01ad1397aa8fbb31922a28e5390f4b164000222c205"
+  },
+  "loopbackOnly": true,
+  "realPLCRead": false,
+  "realPLCWrite": false,
+  "windowsGUIRun": false
+}

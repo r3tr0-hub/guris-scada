@@ -1,0 +1,2 @@
+# Build tool only; the deployed SCADA does not need Python or pip.
+ziglang==0.13.0

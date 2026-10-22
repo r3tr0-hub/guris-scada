@@ -1,0 +1,12 @@
+{
+  "name": "guris-scada-tests",
+  "private": true,
+  "scripts": {
+    "test": "node test_ui.cjs"
+  },
+  "devDependencies": {
+    "jsdom": "26.1.0",
+    "css-tree": "3.2.1",
+    "playwright": "1.56.1"
+  }
+}

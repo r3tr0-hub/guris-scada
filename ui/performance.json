@@ -1,0 +1,1256 @@
+{
+  "schema": 1,
+  "title": "Производительность",
+  "original": "PERFORMANS",
+  "version": "0.1.24",
+  "sourceSHA256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6",
+  "parameters": [
+    {
+      "key": "feedStartSet",
+      "symbol": ".stKaliciData.sRecipeData.rCeneAciMerdanePosBas",
+      "type": "REAL",
+      "label": "Начало подачи плёнки",
+      "en": "Film feed start",
+      "original": "Roller start angle",
+      "unit": "°",
+      "description": "Начальный угол цикла, с которого подающий вал протягивает плёнку в обычном режиме. ПЛК прибавляет своё расчётное смещение к началу движения. Вместе с углом окончания задаёт окно подачи; это не скорость вала.",
+      "descriptionEN": "Cycle angle for film feeding in normal mode. The PLC adds its calculated start offset. Together with the stop angle it defines the feed window, not roller speed.",
+      "sourcePage": "VISU_PERFORMANS",
+      "sourceRect": [
+        553,
+        68,
+        624,
+        99
+      ],
+      "order": 0,
+      "minimum": 0.0,
+      "maximum": 120.0,
+      "originalMaximum": "120",
+      "proof": [
+        {
+          "function": "__VISU_PERFORMANS_INPUTCODE",
+          "fileOffset": 2789602,
+          "fileOffsetHex": "0x2a90e2",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "MAIN.HesapFast",
+        "x_CENE.Hesaplamalar"
+      ],
+      "nativeProof": [
+        {
+          "function": "MAIN.HesapFast",
+          "fileOffset": 638229,
+          "instruction": "fld dword ptr [0x161cd3]"
+        },
+        {
+          "function": "x_CENE.Hesaplamalar",
+          "fileOffset": 824937,
+          "instruction": "fld dword ptr [0x161cd3]"
+        }
+      ],
+      "readOnly": false
+    },
+    {
+      "key": "feedStopSet",
+      "symbol": ".stKaliciData.sRecipeData.rCeneAciMerdanePosBit",
+      "type": "REAL",
+      "label": "Окончание подачи плёнки",
+      "en": "Film feed stop",
+      "original": "Roller stop angle",
+      "unit": "°",
+      "description": "Конечный угол подачи плёнки в обычном режиме. Используется при расчёте времени протяжки и синхронизации с ножом. Штатный диапазон 180–360°.",
+      "descriptionEN": "End angle of film feeding in normal mode. Used for feed time and jaw synchronization. Original range: 180–360°.",
+      "sourcePage": "VISU_PERFORMANS",
+      "sourceRect": [
+        552,
+        108,
+        623,
+        139
+      ],
+      "order": 1,
+      "minimum": 180.0,
+      "maximum": 360.0,
+      "originalMaximum": "360",
+      "proof": [
+        {
+          "function": "__VISU_PERFORMANS_INPUTCODE",
+          "fileOffset": 2789068,
+          "fileOffsetHex": "0x2a8ecc",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "MAIN.HesapFast",
+        "x_CENE.Hesaplamalar"
+      ],
+      "nativeProof": [
+        {
+          "function": "MAIN.HesapFast",
+          "fileOffset": 638245,
+          "instruction": "fld dword ptr [0x161cd7]"
+        },
+        {
+          "function": "x_CENE.Hesaplamalar",
+          "fileOffset": 824961,
+          "instruction": "fld dword ptr [0x161cd7]"
+        }
+      ],
+      "readOnly": false
+    },
+    {
+      "key": "perfDualFeedStart",
+      "symbol": ".stKaliciData.rCiftCeneAciMerdanePosBas",
+      "type": "REAL",
+      "label": "Начало подачи · двойной нож",
+      "en": "Dual jaw feed start",
+      "original": "Dual Jaw Roller Start Angle",
+      "unit": "°",
+      "description": "Отдельный начальный угол подачи для включённого режима двойного ножа bCiftCeneliCalisma. ПЛК выбирает эту настройку вместо обычного угла и добавляет расчётное смещение начала. Параметр сам по себе не включает двойной нож.",
+      "descriptionEN": "Separate feed start angle selected when bCiftCeneliCalisma is enabled. Replaces the normal start angle and receives the calculated start offset. Does not enable dual jaw mode.",
+      "sourcePage": "VISU_PERFORMANS",
+      "sourceRect": [
+        553,
+        149,
+        624,
+        180
+      ],
+      "order": 2,
+      "minimum": 0.0,
+      "maximum": 360.0,
+      "originalMaximum": "360",
+      "proof": [
+        {
+          "function": "__VISU_PERFORMANS_INPUTCODE",
+          "fileOffset": 2785898,
+          "fileOffsetHex": "0x2a826a",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "MAIN.HesapFast",
+        "x_CENE.Hesaplamalar"
+      ],
+      "nativeProof": [
+        {
+          "function": "MAIN.HesapFast",
+          "fileOffset": 638174,
+          "instruction": "fld dword ptr [0x1625eb]"
+        },
+        {
+          "function": "x_CENE.Hesaplamalar",
+          "fileOffset": 824890,
+          "instruction": "fld dword ptr [0x1625eb]"
+        }
+      ],
+      "readOnly": false
+    },
+    {
+      "key": "perfDualFeedStop",
+      "symbol": ".stKaliciData.rCiftCeneAciMerdanePosBit",
+      "type": "REAL",
+      "label": "Окончание подачи · двойной нож",
+      "en": "Dual jaw feed stop",
+      "original": "Dual Jaw Roller Stop Angle",
+      "unit": "°",
+      "description": "Отдельный конечный угол подачи для режима двойного ножа. При выключенном bCiftCeneliCalisma ПЛК использует обычное окончание подачи.",
+      "descriptionEN": "Separate feed end angle for dual jaw mode. The PLC uses the normal feed end when bCiftCeneliCalisma is disabled.",
+      "sourcePage": "VISU_PERFORMANS",
+      "sourceRect": [
+        553,
+        192,
+        624,
+        223
+      ],
+      "order": 3,
+      "minimum": 0.0,
+      "maximum": 360.0,
+      "originalMaximum": "360",
+      "proof": [
+        {
+          "function": "__VISU_PERFORMANS_INPUTCODE",
+          "fileOffset": 2784645,
+          "fileOffsetHex": "0x2a7d85",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "MAIN.HesapFast",
+        "x_CENE.Hesaplamalar"
+      ],
+      "nativeProof": [
+        {
+          "function": "MAIN.HesapFast",
+          "fileOffset": 638190,
+          "instruction": "fld dword ptr [0x1625ef]"
+        },
+        {
+          "function": "x_CENE.Hesaplamalar",
+          "fileOffset": 824914,
+          "instruction": "fld dword ptr [0x1625ef]"
+        }
+      ],
+      "readOnly": false
+    },
+    {
+      "key": "airStartAngle",
+      "symbol": ".stKaliciData.sRecipeData.rMedaneArasiValf_StartAci",
+      "type": "REAL",
+      "label": "Начало подачи воздуха",
+      "en": "Air start angle",
+      "original": "Air start angle",
+      "unit": "°",
+      "description": "Угол включения межвального воздушного клапана в цикле машины. Используется MAIN.ValfAciKontrol. Это тот же параметр, что на странице воздушных трубок.",
+      "descriptionEN": "Cycle angle that switches on the air valve between rollers, used by MAIN.ValfAciKontrol. Shared with the air tubes page.",
+      "sourcePage": "VISU_PERFORMANS",
+      "sourceRect": [
+        553,
+        233,
+        624,
+        264
+      ],
+      "order": 4,
+      "minimum": 0.0,
+      "maximum": 360.0,
+      "originalMaximum": "360",
+      "proof": [
+        {
+          "function": "__VISU_PERFORMANS_INPUTCODE",
+          "fileOffset": 2788532,
+          "fileOffsetHex": "0x2a8cb4",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "MAIN.ValfAciKontrol"
+      ],
+      "nativeProof": [
+        {
+          "function": "MAIN.ValfAciKontrol",
+          "fileOffset": 651367,
+          "instruction": "fld dword ptr [0x161d57]"
+        }
+      ],
+      "readOnly": false
+    },
+    {
+      "key": "airStopAngle",
+      "symbol": ".stKaliciData.sRecipeData.rMedaneArasiValf_StopAci",
+      "type": "REAL",
+      "label": "Окончание подачи воздуха",
+      "en": "Air stop angle",
+      "original": "Air stop angle",
+      "unit": "°",
+      "description": "Угол выключения межвального воздушного клапана. Вместе с начальным углом задаёт участок цикла подачи воздуха. Это не давление и не время в миллисекундах.",
+      "descriptionEN": "Cycle angle that switches off the air valve between rollers. With the start angle it defines the air interval; it is neither pressure nor milliseconds.",
+      "sourcePage": "VISU_PERFORMANS",
+      "sourceRect": [
+        554,
+        275,
+        624,
+        306
+      ],
+      "order": 5,
+      "minimum": 0.0,
+      "maximum": 360.0,
+      "originalMaximum": "360",
+      "proof": [
+        {
+          "function": "__VISU_PERFORMANS_INPUTCODE",
+          "fileOffset": 2787986,
+          "fileOffsetHex": "0x2a8a92",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "MAIN.ValfAciKontrol"
+      ],
+      "nativeProof": [
+        {
+          "function": "MAIN.ValfAciKontrol",
+          "fileOffset": 651379,
+          "instruction": "fld dword ptr [0x161d5b]"
+        }
+      ],
+      "readOnly": false
+    },
+    {
+      "key": "perfJawRateLimit",
+      "symbol": ".stKaliciData.sRecipeData.rCeneVurusMaxHizAd_dk",
+      "type": "REAL",
+      "label": "Предел частоты ножа",
+      "en": "Maximum jaw rate",
+      "original": "Jaw max speed (Ad/dk)",
+      "unit": "уд/мин",
+      "description": "Верхний предел частоты ударов ножа в обычном режиме. Используется при расчёте допустимой скорости и масштабировании привода ножа. Фактический предел выпуска может быть ниже из-за длины изделия, метража и кинематики. Это не команда задать текущую скорость.",
+      "descriptionEN": "Maximum jaw rate in normal mode, used by speed limit calculations and jaw drive scaling. Product length, film speed and motion constraints can impose a lower limit. Not the current speed command.",
+      "sourcePage": "VISU_PERFORMANS",
+      "sourceRect": [
+        553,
+        318,
+        623,
+        349
+      ],
+      "order": 6,
+      "minimum": 0.0,
+      "maximum": 400.0,
+      "originalMaximum": "400",
+      "proof": [
+        {
+          "function": "__VISU_PERFORMANS_INPUTCODE",
+          "fileOffset": 2787443,
+          "fileOffsetHex": "0x2a8873",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "MAIN.Cene_HizKontrol_AC",
+        "MAIN.HesapFast",
+        "x_CENE.Hesaplamalar",
+        "x_CENE.Performans"
+      ],
+      "nativeProof": [
+        {
+          "function": "MAIN.Cene_HizKontrol_AC",
+          "fileOffset": 635761,
+          "instruction": "fld dword ptr [0x161ddf]"
+        },
+        {
+          "function": "MAIN.HesapFast",
+          "fileOffset": 638213,
+          "instruction": "fld dword ptr [0x161ddf]"
+        },
+        {
+          "function": "x_CENE.Hesaplamalar",
+          "fileOffset": 824695,
+          "instruction": "fld dword ptr [0x161ddf]"
+        },
+        {
+          "function": "x_CENE.Performans",
+          "fileOffset": 830770,
+          "instruction": "fld dword ptr [0x161ddf]"
+        }
+      ],
+      "readOnly": false
+    },
+    {
+      "key": "perfFilmSpeedLimit",
+      "symbol": ".stKaliciData.sRecipeData.rHatHizMax_m_dk",
+      "type": "REAL",
+      "label": "Предел скорости плёнки",
+      "en": "Maximum film speed",
+      "original": "Maximum line speed (m/dk)",
+      "unit": "м/мин",
+      "description": "Ограничение линейной скорости плёнки. В ПЛК пересчитывается в допустимое количество изделий в минуту: предел метража × 1000 / длина изделия в мм. Затем сопоставляется с пределом ножа и другими ограничениями.",
+      "descriptionEN": "Film speed ceiling. The PLC converts it to products/min as film speed × 1000 / product length in mm, then combines it with jaw and motion limits.",
+      "sourcePage": "VISU_PERFORMANS",
+      "sourceRect": [
+        553,
+        360,
+        623,
+        391
+      ],
+      "order": 7,
+      "minimum": 0.0,
+      "maximum": 400.0,
+      "originalMaximum": "400",
+      "proof": [
+        {
+          "function": "__VISU_PERFORMANS_INPUTCODE",
+          "fileOffset": 2786909,
+          "fileOffsetHex": "0x2a865d",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "MAIN.HesapFast",
+        "Slow_Task.AciciFC_WithSensor",
+        "x_CENE.Performans"
+      ],
+      "nativeProof": [
+        {
+          "function": "MAIN.HesapFast",
+          "fileOffset": 638261,
+          "instruction": "fld dword ptr [0x161de3]"
+        },
+        {
+          "function": "Slow_Task.AciciFC_WithSensor",
+          "fileOffset": 737660,
+          "instruction": "fld dword ptr [0x161de3]"
+        },
+        {
+          "function": "Slow_Task.AciciFC_WithSensor",
+          "fileOffset": 737726,
+          "instruction": "fld dword ptr [0x161de3]"
+        },
+        {
+          "function": "x_CENE.Performans",
+          "fileOffset": 830691,
+          "instruction": "fld dword ptr [0x161de3]"
+        }
+      ],
+      "readOnly": false
+    },
+    {
+      "key": "perfDualJawRateLimit",
+      "symbol": ".stKaliciData.rCiftCeneMaxHiz_addk",
+      "type": "REAL",
+      "label": "Предел выпуска · двойной нож",
+      "en": "Dual jaw maximum rate",
+      "original": "Dual Jaw Max.Speed (qty/min)",
+      "unit": "шт/мин",
+      "description": "Отдельный предел скорости, выбираемый ПЛК при включённом bCiftCeneliCalisma. В обычном режиме вместо него используется предел частоты ножа. Настройка не включает двойной нож и не является текущим заданием скорости.",
+      "descriptionEN": "Separate rate ceiling selected when bCiftCeneliCalisma is enabled. Normal mode uses the ordinary jaw rate limit. Neither enables dual jaw mode nor sets the current speed.",
+      "sourcePage": "VISU_PERFORMANS",
+      "sourceRect": [
+        553,
+        402,
+        623,
+        433
+      ],
+      "order": 8,
+      "minimum": 3.0,
+      "maximum": 400.0,
+      "originalMaximum": "400",
+      "proof": [
+        {
+          "function": "__VISU_PERFORMANS_INPUTCODE",
+          "fileOffset": 2786393,
+          "fileOffsetHex": "0x2a8459",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "MAIN.HesapFast",
+        "x_CENE.Performans"
+      ],
+      "nativeProof": [
+        {
+          "function": "MAIN.HesapFast",
+          "fileOffset": 638158,
+          "instruction": "fld dword ptr [0x1625e7]"
+        },
+        {
+          "function": "x_CENE.Performans",
+          "fileOffset": 830747,
+          "instruction": "fld dword ptr [0x1625e7]"
+        }
+      ],
+      "readOnly": false
+    },
+    {
+      "key": "perfFeedAcceleration",
+      "symbol": ".stKaliciData.rMerdaneMaxIvme",
+      "type": "REAL",
+      "label": "Максимальное ускорение подачи",
+      "en": "Maximum feed acceleration",
+      "original": "Roller Max acceleration (m/s²)",
+      "unit": "м/с²",
+      "description": "Максимальное ускорение подающего вала для расчёта профиля протяжки. MAIN.RampHesapServo передаёт его в FbMerdaneCalcAbsParameters.rMaxRampValue. Изменяет требуемое время движения и расчётную производительность; это настройка динамики механизма.",
+      "descriptionEN": "Feed roller acceleration ceiling passed by MAIN.RampHesapServo to FbMerdaneCalcAbsParameters.rMaxRampValue. Affects required move time and calculated throughput; a motion dynamics setting.",
+      "sourcePage": "VISU_PERFORMANS",
+      "sourceRect": [
+        554,
+        443,
+        624,
+        474
+      ],
+      "order": 9,
+      "minimum": 10.0,
+      "maximum": 120.0,
+      "originalMaximum": "120",
+      "proof": [
+        {
+          "function": "__VISU_PERFORMANS_INPUTCODE",
+          "fileOffset": 2785388,
+          "fileOffsetHex": "0x2a806c",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "MAIN.RampHesapServo"
+      ],
+      "nativeProof": [
+        {
+          "function": "MAIN.RampHesapServo",
+          "fileOffset": 644670,
+          "instruction": "fld dword ptr [0x161ac4]"
+        },
+        {
+          "function": "MAIN.RampHesapServo",
+          "fileOffset": 644778,
+          "instruction": "fld dword ptr [0x161ac4]"
+        },
+        {
+          "function": "MAIN.RampHesapServo",
+          "fileOffset": 644868,
+          "instruction": "fld dword ptr [0x161ac4]"
+        }
+      ],
+      "readOnly": false
+    },
+    {
+      "key": "perfBatchPrewarning",
+      "symbol": ".stKaliciData.sRecipeData.diAdetOnceUyari",
+      "type": "DINT",
+      "label": "Предупреждение до конца пачки",
+      "en": "Batch completion prewarning",
+      "original": "Package previous quantity warning",
+      "unit": "шт.",
+      "description": "За сколько пакетов до заполнения пачки включается предварительный сигнал bPaketOncesiUyari. ПЛК сравнивает остаток до задания пачки с этим числом и дополнительно учитывает фазу цикла. Счётчики и размер пачки не изменяет.",
+      "descriptionEN": "Remaining package count at which bPaketOncesiUyari is asserted before batch completion. The PLC also checks the cycle phase. Does not change counters or batch size.",
+      "sourcePage": "VISU_PERFORMANS_2",
+      "sourceRect": [
+        539,
+        73,
+        630,
+        104
+      ],
+      "order": 10,
+      "minimum": 0.0,
+      "maximum": 20.0,
+      "originalMaximum": "20",
+      "proof": [
+        {
+          "function": "__VISU_PERFORMANS_2_INPUTCODE",
+          "fileOffset": 2762900,
+          "fileOffsetHex": "0x2a2894",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "MAIN.HesapFast"
+      ],
+      "nativeProof": [
+        {
+          "function": "MAIN.HesapFast",
+          "fileOffset": 640211,
+          "instruction": "mov eax, dword ptr [0x161c27]"
+        }
+      ],
+      "readOnly": false
+    },
+    {
+      "key": "perfJawEarlyOffset",
+      "symbol": ".stKaliciData.rCeneErkenKacmaPos",
+      "type": "REAL",
+      "label": "Коррекция раннего отвода ножа",
+      "en": "Jaw early return correction",
+      "original": "Cene Erken Kacma Degeri",
+      "unit": "",
+      "description": "Коррекция траектории ножа: x_CENE.Hesaplamalar переносит значение в rMidPointOfset и учитывает его при пересчёте движения. Штатный HMI не указывает единицу, поэтому она не приписана. Это не угол начала подачи и не задержка в мс.",
+      "descriptionEN": "Jaw trajectory correction copied by x_CENE.Hesaplamalar into rMidPointOfset for motion recalculation. Original HMI does not specify a unit. Not the feed start angle or a delay in ms.",
+      "sourcePage": "VISU_PERFORMANS_2",
+      "sourceRect": [
+        539,
+        110,
+        630,
+        146
+      ],
+      "order": 11,
+      "minimum": 0.0,
+      "maximum": 30.0,
+      "originalMaximum": "30",
+      "proof": [
+        {
+          "function": "__VISU_PERFORMANS_2_INPUTCODE",
+          "fileOffset": 2762391,
+          "fileOffsetHex": "0x2a2697",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "x_CENE.Hesaplamalar"
+      ],
+      "nativeProof": [
+        {
+          "function": "x_CENE.Hesaplamalar",
+          "fileOffset": 825649,
+          "instruction": "fld dword ptr [0x16262f]"
+        }
+      ],
+      "readOnly": false
+    },
+    {
+      "key": "perfProductLengthLimit",
+      "symbol": ".stKaliciData.iMaxUrunBoyu_mm",
+      "type": "INT",
+      "label": "Максимальная длина изделия",
+      "en": "Maximum product length",
+      "original": "Maks. Urun Boyu (mm)",
+      "unit": "мм",
+      "description": "Верхний допустимый размер изделия iMaxUrunBoyu_mm. Этот же предел ограничивает ввод размера пакета на главной странице; MAIN.InchMode учитывает выбранную систему единиц. Штатный ввод 10–10000 мм. Параметр не меняет текущую длину автоматически.",
+      "descriptionEN": "Product size ceiling iMaxUrunBoyu_mm. Also limits the main page package dimension; MAIN.InchMode handles the selected unit system. Original range: 10–10000 mm. Does not automatically change the current product length.",
+      "sourcePage": "VISU_PERFORMANS_2",
+      "sourceRect": [
+        539,
+        150,
+        630,
+        186
+      ],
+      "order": 12,
+      "minimum": 10.0,
+      "maximum": 10000.0,
+      "originalMaximum": "10000",
+      "proof": [
+        {
+          "function": "__VISU_PERFORMANS_2_INPUTCODE",
+          "fileOffset": 2761903,
+          "fileOffsetHex": "0x2a24af",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "MAIN.InchMode"
+      ],
+      "nativeProof": [
+        {
+          "function": "MAIN.InchMode",
+          "fileOffset": 641964,
+          "instruction": "movsx eax, word ptr [0x162393]"
+        },
+        {
+          "function": "MAIN.InchMode",
+          "fileOffset": 642099,
+          "instruction": "movsx eax, word ptr [0x162393]"
+        }
+      ],
+      "readOnly": false
+    },
+    {
+      "key": "perfHydraulicMode",
+      "symbol": ".stKaliciData.iHidrolikCalismaID",
+      "type": "INT",
+      "label": "Режим гидравлики",
+      "en": "Hydraulic operating mode",
+      "original": "Hidrolik Calisma Mod",
+      "unit": "",
+      "description": "Выбирает одну из трёх штатных ветвей управления гидромотором и клапанами подъёма/опускания в Slow_Task.Hesaplamalar. ПЛК ограничивает номер режимами 1–3. Отличается согласование мотора с кнопками вверх/вниз и таймером разрешения. Сохранены номера HMI: называть их «ручной/автоматический» без схемы нельзя.",
+      "descriptionEN": "Selects one of three hydraulic motor and up/down valve control branches in Slow_Task.Hesaplamalar. The PLC clamps the mode to 1–3. Modes differ in motor/button/timer coordination. Original mode numbers are retained; manual/automatic labels are not established.",
+      "sourcePage": "VISU_PERFORMANS_2",
+      "sourceRect": [
+        539,
+        190,
+        630,
+        226
+      ],
+      "order": 13,
+      "minimum": 1.0,
+      "maximum": 3.0,
+      "originalMaximum": "3",
+      "proof": [
+        {
+          "function": "__VISU_PERFORMANS_2_INPUTCODE",
+          "fileOffset": 2761423,
+          "fileOffsetHex": "0x2a22cf",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "Slow_Task.Hesaplamalar"
+      ],
+      "nativeProof": [
+        {
+          "function": "Slow_Task.Hesaplamalar",
+          "fileOffset": 760950,
+          "instruction": "movsx eax, word ptr [0x16239b]"
+        },
+        {
+          "function": "Slow_Task.Hesaplamalar",
+          "fileOffset": 760983,
+          "instruction": "mov word ptr [0x16239b], ax"
+        },
+        {
+          "function": "Slow_Task.Hesaplamalar",
+          "fileOffset": 760991,
+          "instruction": "movsx eax, word ptr [0x16239b]"
+        },
+        {
+          "function": "Slow_Task.Hesaplamalar",
+          "fileOffset": 761013,
+          "instruction": "mov word ptr [0x16239b], ax"
+        },
+        {
+          "function": "Slow_Task.Hesaplamalar",
+          "fileOffset": 761028,
+          "instruction": "movsx eax, word ptr [0x16239b]"
+        },
+        {
+          "function": "Slow_Task.Hesaplamalar",
+          "fileOffset": 761321,
+          "instruction": "movsx eax, word ptr [0x16239b]"
+        },
+        {
+          "function": "Slow_Task.Hesaplamalar",
+          "fileOffset": 761572,
+          "instruction": "movsx eax, word ptr [0x16239b]"
+        }
+      ],
+      "readOnly": false
+    },
+    {
+      "key": "perfBasketSpeedFactor",
+      "symbol": ".stKaliciData.rSepetCozguHizCarpani",
+      "type": "REAL",
+      "label": "Коэффициент скорости Sepet Cozgu",
+      "en": "Sepet Cozgu speed multiplier",
+      "original": "Sepet Cozgu Hiz Carpani",
+      "unit": "",
+      "description": "Множитель задания скорости отдельного привода Sepet Cozgu: MAIN.HesapFast умножает исходное аналоговое задание на этот коэффициент и ограничивает результат. Заводское имя узла сохранено: конкретное механическое исполнение по файлам не установлено. Не является общей скоростью линии.",
+      "descriptionEN": "Speed multiplier for the separate Sepet Cozgu drive. MAIN.HesapFast multiplies the analog reference and clamps the result. Original unit name retained because the physical assembly is not established. Not overall line speed.",
+      "sourcePage": "VISU_PERFORMANS_2",
+      "sourceRect": [
+        540,
+        230,
+        631,
+        266
+      ],
+      "order": 14,
+      "minimum": 0.0,
+      "maximum": 30.0,
+      "originalMaximum": "30",
+      "proof": [
+        {
+          "function": "__VISU_PERFORMANS_2_INPUTCODE",
+          "fileOffset": 2760939,
+          "fileOffsetHex": "0x2a20eb",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "MAIN.HesapFast"
+      ],
+      "nativeProof": [
+        {
+          "function": "MAIN.HesapFast",
+          "fileOffset": 640293,
+          "instruction": "fld dword ptr [0x16273b]"
+        },
+        {
+          "function": "MAIN.HesapFast",
+          "fileOffset": 640515,
+          "instruction": "fld dword ptr [0x16273b]"
+        }
+      ],
+      "readOnly": false
+    },
+    {
+      "key": "perfBasketManualSpeed",
+      "symbol": ".stKaliciData.iSepetCozguManHizRef",
+      "type": "INT",
+      "label": "Ручная скорость Sepet Cozgu",
+      "en": "Sepet Cozgu manual speed",
+      "original": "Sepet Cozgu Man Hiz Ref",
+      "unit": "%",
+      "description": "Отдельное ручное задание привода Sepet Cozgu. В ручной ветви MAIN.HesapFast умножает число 0–100 на 327 и передаёт его в аналоговый выход. Шкала соответствует процентному заданию; это не шт/мин. Физическое исполнение узла требует сверки со станком.",
+      "descriptionEN": "Separate manual speed reference for Sepet Cozgu. In the manual branch MAIN.HesapFast multiplies 0–100 by 327 for the analog output. A percentage reference, not products/min. Physical assembly still requires identification.",
+      "sourcePage": "VISU_PERFORMANS_2",
+      "sourceRect": [
+        539,
+        270,
+        630,
+        306
+      ],
+      "order": 15,
+      "minimum": 0.0,
+      "maximum": 100.0,
+      "originalMaximum": "100",
+      "proof": [
+        {
+          "function": "__VISU_PERFORMANS_2_INPUTCODE",
+          "fileOffset": 2760442,
+          "fileOffsetHex": "0x2a1efa",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "MAIN.HesapFast"
+      ],
+      "nativeProof": [
+        {
+          "function": "MAIN.HesapFast",
+          "fileOffset": 640646,
+          "instruction": "movsx eax, word ptr [0x1623a1]"
+        }
+      ],
+      "readOnly": false
+    },
+    {
+      "key": "perfInjet1Distance",
+      "symbol": ".stKaliciData.rHotmelt1FotoselInjet1Mesafe",
+      "type": "REAL",
+      "label": "Фотодатчик клея → Injet 1",
+      "en": "Glue sensor to Injet 1 distance",
+      "original": "Hotmelt 1 Fotosel - Injet 1 Mesafe (mm)",
+      "unit": "мм",
+      "description": "Расстояние от фотодатчика Hotmelt 1 до узла Injet 1. Участвует в координате запуска MAIN.fbValveControl1 с учётом смещения и компенсации задержки по энкодеру клея. Injet — заводское имя; отождествление с Videojet не подтверждено. В HMI верхняя граница пуста; предел ввода SCADA 100000 мм — программный, не механический.",
+      "descriptionEN": "Distance from Hotmelt 1 sensor to Injet 1. Used by MAIN.fbValveControl1 with start offset and encoder-based delay compensation. Injet is the original name; a Videojet identity is not established. Original upper bound is blank; SCADA caps input at 100000 mm as a software guard, not a machine limit.",
+      "sourcePage": "VISU_PERFORMANS_2",
+      "sourceRect": [
+        539,
+        310,
+        630,
+        346
+      ],
+      "order": 16,
+      "minimum": 0.0,
+      "maximum": 100000.0,
+      "originalMaximum": "",
+      "proof": [
+        {
+          "function": "__VISU_PERFORMANS_2_INPUTCODE",
+          "fileOffset": 2759950,
+          "fileOffsetHex": "0x2a1d0e",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "MAIN.HesapFast"
+      ],
+      "nativeProof": [
+        {
+          "function": "MAIN.HesapFast",
+          "fileOffset": 640906,
+          "instruction": "fld dword ptr [0x162747]"
+        }
+      ],
+      "readOnly": false,
+      "upperBoundPolicy": "SCADA input guard 100000 mm; original HMI upper bound is blank"
+    },
+    {
+      "key": "perfInjet2Distance",
+      "symbol": ".stKaliciData.rHotmelt1FotoselInjet2Mesafe",
+      "type": "REAL",
+      "label": "Фотодатчик клея → Injet 2",
+      "en": "Glue sensor to Injet 2 distance",
+      "original": "Hotmelt 1 Fotosel - Injet 2 Mesafe (mm)",
+      "unit": "мм",
+      "description": "Расстояние от фотодатчика Hotmelt 1 до Injet 2. ПЛК рассчитывает по нему положение запуска второго клапанного канала, учитывая смещение и задержку. Injet не переименован в Videojet без подтверждения. В HMI верхняя граница пуста; программный предел ввода SCADA — 100000 мм.",
+      "descriptionEN": "Distance from Hotmelt 1 sensor to Injet 2. Used for the second valve channel start position with offset and delay compensation. Injet has not been renamed Videojet. Original upper bound is blank; SCADA software input cap: 100000 mm.",
+      "sourcePage": "VISU_PERFORMANS_2",
+      "sourceRect": [
+        540,
+        350,
+        631,
+        386
+      ],
+      "order": 17,
+      "minimum": 0.0,
+      "maximum": 100000.0,
+      "originalMaximum": "",
+      "proof": [
+        {
+          "function": "__VISU_PERFORMANS_2_INPUTCODE",
+          "fileOffset": 2759434,
+          "fileOffsetHex": "0x2a1b0a",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "MAIN.HesapFast"
+      ],
+      "nativeProof": [
+        {
+          "function": "MAIN.HesapFast",
+          "fileOffset": 641092,
+          "instruction": "fld dword ptr [0x16274b]"
+        }
+      ],
+      "readOnly": false,
+      "upperBoundPolicy": "SCADA input guard 100000 mm; original HMI upper bound is blank"
+    },
+    {
+      "key": "perfLabelDistance",
+      "symbol": ".stKaliciData.rHotmelt1FotoselEtiketMesafe",
+      "type": "REAL",
+      "label": "Фотодатчик клея → этикетка",
+      "en": "Glue sensor to label unit distance",
+      "original": "Hotmelt 1 Fotosel - Etiket Ünite Mesafe (mm)",
+      "unit": "мм",
+      "description": "Расстояние от фотодатчика Hotmelt 1 до узла наклеивания этикетки. Используется MAIN.fbValveControl3 вместе с задержкой клапана и смещением старта. Положение отсчитывается по энкодеру Hotmelt. В HMI верхняя граница пуста; программный предел ввода SCADA — 100000 мм.",
+      "descriptionEN": "Distance from Hotmelt 1 sensor to the label application unit. Used by MAIN.fbValveControl3 with valve delay and start offset, referenced to the Hotmelt encoder. Original upper bound is blank; SCADA software input cap: 100000 mm.",
+      "sourcePage": "VISU_PERFORMANS_2",
+      "sourceRect": [
+        539,
+        390,
+        630,
+        426
+      ],
+      "order": 18,
+      "minimum": 0.0,
+      "maximum": 100000.0,
+      "originalMaximum": "",
+      "proof": [
+        {
+          "function": "__VISU_PERFORMANS_2_INPUTCODE",
+          "fileOffset": 2758918,
+          "fileOffsetHex": "0x2a1906",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "MAIN.HesapFast"
+      ],
+      "nativeProof": [
+        {
+          "function": "MAIN.HesapFast",
+          "fileOffset": 641290,
+          "instruction": "fld dword ptr [0x16274f]"
+        }
+      ],
+      "readOnly": false,
+      "upperBoundPolicy": "SCADA input guard 100000 mm; original HMI upper bound is blank"
+    },
+    {
+      "key": "perfLabelDelay",
+      "symbol": ".stKaliciData.iEtiketValfGecikmesi_ms",
+      "type": "INT",
+      "label": "Задержка клапана этикетки",
+      "en": "Label valve delay",
+      "original": "Etiket Valf Gecikme Suresi(ms)",
+      "unit": "мс",
+      "description": "Компенсация времени срабатывания клапана этикетки. ПЛК переводит миллисекунды в пройденное расстояние по скорости энкодера Hotmelt и вычитает компенсацию из позиции запуска. Это не длительность импульса клапана.",
+      "descriptionEN": "Label valve response compensation. The PLC converts milliseconds into travel distance using Hotmelt encoder velocity, then subtracts it from the start position. Not valve pulse duration.",
+      "sourcePage": "VISU_PERFORMANS_2",
+      "sourceRect": [
+        539,
+        430,
+        630,
+        466
+      ],
+      "order": 19,
+      "minimum": 0.0,
+      "maximum": 10000.0,
+      "originalMaximum": "10000",
+      "proof": [
+        {
+          "function": "__VISU_PERFORMANS_2_INPUTCODE",
+          "fileOffset": 2758402,
+          "fileOffsetHex": "0x2a1702",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "MAIN.HesapFast"
+      ],
+      "nativeProof": [
+        {
+          "function": "MAIN.HesapFast",
+          "fileOffset": 641227,
+          "instruction": "movsx eax, word ptr [0x1623ab]"
+        }
+      ],
+      "readOnly": false
+    },
+    {
+      "key": "perfInjet1Delay",
+      "symbol": ".stKaliciData.iInjet1Gecikmesi_ms",
+      "type": "INT",
+      "label": "Задержка Injet 1",
+      "en": "Injet 1 delay",
+      "original": "Injet 1 Gecikme Suresi(ms)",
+      "unit": "мс",
+      "description": "Временная компенсация канала Injet 1. MAIN.HesapFast пересчитывает её в мм по скорости энкодера Hotmelt и корректирует момент запуска клапанного канала. Это не настройка длительности печати и не подтверждённый параметр Videojet.",
+      "descriptionEN": "Time compensation for Injet 1. MAIN.HesapFast converts it to mm using Hotmelt encoder velocity and adjusts valve channel triggering. Neither print duration nor a confirmed Videojet setting.",
+      "sourcePage": "VISU_PERFORMANS_3",
+      "sourceRect": [
+        541,
+        68,
+        632,
+        104
+      ],
+      "order": 20,
+      "minimum": 0.0,
+      "maximum": 10000.0,
+      "originalMaximum": "10000",
+      "proof": [
+        {
+          "function": "__VISU_PERFORMANS_3_INPUTCODE",
+          "fileOffset": 2772326,
+          "fileOffsetHex": "0x2a4d66",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "MAIN.HesapFast"
+      ],
+      "nativeProof": [
+        {
+          "function": "MAIN.HesapFast",
+          "fileOffset": 640843,
+          "instruction": "movsx eax, word ptr [0x1623b1]"
+        }
+      ],
+      "readOnly": false
+    },
+    {
+      "key": "perfInjet2Delay",
+      "symbol": ".stKaliciData.iInjet2Gecikmesi_ms",
+      "type": "INT",
+      "label": "Задержка Injet 2",
+      "en": "Injet 2 delay",
+      "original": "Injet 2 Gecikme Suresi(ms)",
+      "unit": "мс",
+      "description": "Временная компенсация второго канала Injet. Пересчитывается ПЛК в расстояние по энкодеру Hotmelt и участвует в координате запуска MAIN.fbValveControl2.",
+      "descriptionEN": "Time compensation for the second Injet channel, converted by the PLC into travel distance using the Hotmelt encoder and used by MAIN.fbValveControl2.",
+      "sourcePage": "VISU_PERFORMANS_3",
+      "sourceRect": [
+        541,
+        108,
+        632,
+        144
+      ],
+      "order": 21,
+      "minimum": 0.0,
+      "maximum": 10000.0,
+      "originalMaximum": "10000",
+      "proof": [
+        {
+          "function": "__VISU_PERFORMANS_3_INPUTCODE",
+          "fileOffset": 2772817,
+          "fileOffsetHex": "0x2a4f51",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "MAIN.HesapFast"
+      ],
+      "nativeProof": [
+        {
+          "function": "MAIN.HesapFast",
+          "fileOffset": 641029,
+          "instruction": "movsx eax, word ptr [0x1623b3]"
+        }
+      ],
+      "readOnly": false
+    },
+    {
+      "key": "perfReinforcementIdleStrokes",
+      "symbol": ".stKaliciData.diCeneMinBosVurmaAdet_Takviye",
+      "type": "DINT",
+      "label": "Минимум холостых ударов · усиление",
+      "en": "Minimum idle strokes with reinforcement",
+      "original": "Cene Min Bos Vurma Adedi (Takviye)",
+      "unit": "",
+      "description": "Минимум холостых ударов между пачками при включённом bTakviyeHatCekiciAktif. MAIN.HesapFast применяет этот нижний предел к рабочему количеству холостых ударов; без данного узла нижний предел равен нулю. Это отдельная инженерная граница, а не само операторское задание.",
+      "descriptionEN": "Minimum idle strokes between batches while bTakviyeHatCekiciAktif is enabled. MAIN.HesapFast applies this lower bound to the working idle stroke count; without that unit the lower bound is zero. Separate from the operator setpoint.",
+      "sourcePage": "VISU_PERFORMANS_3",
+      "sourceRect": [
+        541,
+        148,
+        632,
+        184
+      ],
+      "order": 22,
+      "minimum": 0.0,
+      "maximum": 30.0,
+      "originalMaximum": "30",
+      "proof": [
+        {
+          "function": "__VISU_PERFORMANS_3_INPUTCODE",
+          "fileOffset": 2771835,
+          "fileOffsetHex": "0x2a4b7b",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "MAIN.HesapFast"
+      ],
+      "nativeProof": [
+        {
+          "function": "MAIN.HesapFast",
+          "fileOffset": 637047,
+          "instruction": "mov eax, dword ptr [0x162443]"
+        }
+      ],
+      "readOnly": false
+    },
+    {
+      "key": "perfInterbatchBrakeFactor",
+      "symbol": ".stKaliciData.rPaketArasiFrenKatsayi",
+      "type": "REAL",
+      "label": "Усиление торможения между пачками",
+      "en": "Interbatch brake multiplier",
+      "original": "Paket Arası Fren Katsayı",
+      "unit": "",
+      "description": "Множитель тормозного задания размотчика в паузе между пачками, когда активен bPidDondur. В ветвях размотки с тензодатчиком ПЛК использует этот коэффициент вместо 1 и умножает тормозной выход. Не задаёт торможение ножа.",
+      "descriptionEN": "Unwinder brake multiplier during the interbatch pause when bPidDondur is active. Load-cell unwinder branches use this coefficient instead of 1 to scale brake output. Not jaw braking.",
+      "sourcePage": "VISU_PERFORMANS_3",
+      "sourceRect": [
+        554,
+        188,
+        630,
+        225
+      ],
+      "order": 23,
+      "minimum": 1.0,
+      "maximum": 10.0,
+      "originalMaximum": "10",
+      "proof": [
+        {
+          "function": "__VISU_PERFORMANS_3_INPUTCODE",
+          "fileOffset": 2771305,
+          "fileOffsetHex": "0x2a4969",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "Acici2.WithLoadcell",
+        "Slow_Task.AciciFC_WithLoadcell"
+      ],
+      "nativeProof": [
+        {
+          "function": "Acici2.WithLoadcell",
+          "fileOffset": 326907,
+          "instruction": "fld dword ptr [0x161af4]"
+        },
+        {
+          "function": "Slow_Task.AciciFC_WithLoadcell",
+          "fileOffset": 736509,
+          "instruction": "fld dword ptr [0x161af4]"
+        }
+      ],
+      "readOnly": false
+    },
+    {
+      "key": "perfLowMaterialTime",
+      "symbol": ".stKaliciData.rMalAzaldiSuresi",
+      "type": "REAL",
+      "label": "Задержка остатка рулона · при макс. скорости",
+      "en": "Low roll delay at maximum speed",
+      "original": "Low Product Time at Max.Speed (se)",
+      "unit": "с",
+      "description": "Базовое время задержки контроля остатка рулона при максимальной скорости. В Slow_Task.Hesaplamalar фактическое время = база × MAIN.rAuxMaksHatHizi_addk / заданная скорость выпуска. При снижении скорости время растёт. Расчётное значение показывается отдельно и не редактируется. Это не 5-минутный таймер возврата контроля размотчика в SCADA.",
+      "descriptionEN": "Base low-roll delay at maximum speed. Slow_Task.Hesaplamalar computes actual time = base × MAIN.rAuxMaksHatHizi_addk / production speed setpoint. Lower speed increases the delay. Calculated time is read-only and separate from the SCADA five-minute sensor restoration timer.",
+      "sourcePage": "VISU_PERFORMANS_3",
+      "sourceRect": [
+        552,
+        233,
+        630,
+        262
+      ],
+      "order": 24,
+      "minimum": 0.0,
+      "maximum": 20.0,
+      "originalMaximum": "20",
+      "proof": [
+        {
+          "function": "__VISU_PERFORMANS_3_INPUTCODE",
+          "fileOffset": 2770805,
+          "fileOffsetHex": "0x2a4775",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "Slow_Task.Hesaplamalar"
+      ],
+      "nativeProof": [
+        {
+          "function": "Slow_Task.Hesaplamalar",
+          "fileOffset": 759101,
+          "instruction": "fld dword ptr [0x161b58]"
+        }
+      ],
+      "readOnly": false
+    },
+    {
+      "key": "feedStartActual",
+      "symbol": "x_CENE.lrMerdaneStartPos",
+      "label": "Расчётное начало подачи",
+      "en": "Calculated feed start",
+      "original": "Roller start angle · actual",
+      "type": "LREAL",
+      "unit": "°",
+      "description": "Расчётное начало подачи из x_CENE.lrMerdaneStartPos. Учитывает выбранный режим и расчёты ПЛК. Только чтение.",
+      "descriptionEN": "Calculated x_CENE.lrMerdaneStartPos, including selected mode and PLC calculations. Read-only.",
+      "readOnly": true,
+      "proof": [
+        {
+          "function": "__VISU_PERFORMANS_CYCLECODE",
+          "fileOffset": 2783529,
+          "fileOffsetHex": "0x2a7929",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "sourcePage": "VISU_PERFORMANS",
+      "order": 25,
+      "pairedWith": "feedStartSet"
+    },
+    {
+      "key": "feedStopActual",
+      "symbol": "x_CENE.lrMerdaneStopPos",
+      "label": "Расчётное окончание подачи",
+      "en": "Calculated feed stop",
+      "original": "Roller stop angle · actual",
+      "type": "LREAL",
+      "unit": "°",
+      "description": "Расчётное окончание подачи из x_CENE.lrMerdaneStopPos. Отдельное показание штатного HMI. Только чтение.",
+      "descriptionEN": "Calculated x_CENE.lrMerdaneStopPos, a separate original HMI reading. Read-only.",
+      "readOnly": true,
+      "proof": [
+        {
+          "function": "__VISU_PERFORMANS_CYCLECODE",
+          "fileOffset": 2783759,
+          "fileOffsetHex": "0x2a7a0f",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "sourcePage": "VISU_PERFORMANS",
+      "order": 26,
+      "pairedWith": "feedStopSet"
+    },
+    {
+      "key": "perfLowMaterialActual",
+      "symbol": "Slow_Task.rMalAzaldiSuresi",
+      "label": "Расчётная задержка остатка рулона",
+      "en": "Calculated low roll delay",
+      "original": "Low Product Time · actual",
+      "type": "REAL",
+      "unit": "с",
+      "description": "Текущее расчётное время контроля остатка рулона из ПЛК. На исходном HMI это жёлтое поле рядом с заданием. Время изменяется с заданной скоростью линии; это не отсчёт оставшихся секунд.",
+      "descriptionEN": "Current PLC-calculated low-roll delay. The yellow field next to the original HMI setpoint. Varies with the production speed setpoint; not a countdown.",
+      "readOnly": true,
+      "proof": [
+        {
+          "function": "__VISU_PERFORMANS_3_CYCLECODE",
+          "fileOffset": 2769933,
+          "fileOffsetHex": "0x2a440d",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "sourcePage": "VISU_PERFORMANS_3",
+      "order": 27,
+      "pairedWith": "perfLowMaterialTime"
+    }
+  ],
+  "editingMachineStates": "any; Engineer and fresh ADS required"
+}

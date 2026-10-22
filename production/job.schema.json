@@ -1,0 +1,125 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SCADA local production job v1",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "id",
+    "number",
+    "title",
+    "plan",
+    "spec"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{1,80}$"
+    },
+    "machineId": {
+      "type": "string",
+      "description": "Optional. Must equal the local machineId when present."
+    },
+    "number": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 120,
+      "x-maxUtf8Bytes": 120
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 240,
+      "x-maxUtf8Bytes": 240
+    },
+    "plan": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 1000000000
+    },
+    "priority": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "dueAt": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "spec": {
+      "type": "object",
+      "required": [
+        "id",
+        "revision",
+        "inputs"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120,
+          "x-maxUtf8Bytes": 120
+        },
+        "revision": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80,
+          "x-maxUtf8Bytes": 80
+        },
+        "inputs": {
+          "type": "object",
+          "required": [
+            "A",
+            "B",
+            "C",
+            "t",
+            "stack"
+          ],
+          "properties": {
+            "A": {
+              "type": "number",
+              "minimum": 1,
+              "maximum": 100000
+            },
+            "B": {
+              "type": "number",
+              "minimum": 1,
+              "maximum": 100000
+            },
+            "C": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100000
+            },
+            "t": {
+              "type": "number",
+              "minimum": 1,
+              "maximum": 100000
+            },
+            "stack": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100000
+            }
+          }
+        },
+        "settings": {
+          "type": "object"
+        },
+        "computed": {
+          "type": "object"
+        },
+        "display": {
+          "type": "object"
+        },
+        "calculatorVersion": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

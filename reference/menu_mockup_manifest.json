@@ -1,0 +1,483 @@
+{
+  "schema": 1,
+  "source": "GurisSCADA_Mockup_Backup_2026-10-14.zip / SCADA_Mockup.html",
+  "source_sha256": "284ef3a4a2b1d02b10943b42a8a628e7227e9df80d13faa3e3657663f96f6854",
+  "tile_width": 117,
+  "tile_height": 80,
+  "tiles": {
+    "edge": {
+      "svg": [
+        [
+          {
+            "tag": "path",
+            "attrs": [
+              [
+                "d",
+                "m9 18 6-6-6-6"
+              ]
+            ]
+          }
+        ]
+      ],
+      "canvas": [
+        {
+          "kind": "edge",
+          "width": "72",
+          "height": "28"
+        }
+      ]
+    },
+    "temperature": {
+      "svg": [
+        [
+          {
+            "tag": "path",
+            "attrs": [
+              [
+                "d",
+                "M14 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0Z"
+              ]
+            ]
+          }
+        ],
+        [
+          {
+            "tag": "path",
+            "attrs": [
+              [
+                "d",
+                "m9 18 6-6-6-6"
+              ]
+            ]
+          }
+        ]
+      ],
+      "canvas": [
+        {
+          "kind": "temperature",
+          "width": "48",
+          "height": "40"
+        }
+      ]
+    },
+    "glue": {
+      "svg": [
+        [
+          {
+            "tag": "path",
+            "attrs": [
+              [
+                "d",
+                "m2 22 1-1h3l9-9"
+              ]
+            ]
+          },
+          {
+            "tag": "path",
+            "attrs": [
+              [
+                "d",
+                "M3 21v-3l9-9"
+              ]
+            ]
+          },
+          {
+            "tag": "path",
+            "attrs": [
+              [
+                "d",
+                "m15 6 3.4-3.4a2.1 2.1 0 1 1 3 3L18 9l.4.4a2.1 2.1 0 1 1-3 3l-3.8-3.8a2.1 2.1 0 1 1 3-3l.4.4Z"
+              ]
+            ]
+          }
+        ],
+        [
+          {
+            "tag": "path",
+            "attrs": [
+              [
+                "d",
+                "m9 18 6-6-6-6"
+              ]
+            ]
+          }
+        ]
+      ],
+      "canvas": [
+        {
+          "kind": "glue",
+          "width": "72",
+          "height": "40"
+        }
+      ]
+    },
+    "longitudinal": {
+      "svg": [
+        [
+          {
+            "tag": "rect",
+            "attrs": [
+              [
+                "height",
+                "18"
+              ],
+              [
+                "rx",
+                "2"
+              ],
+              [
+                "width",
+                "18"
+              ],
+              [
+                "x",
+                "3"
+              ],
+              [
+                "y",
+                "3"
+              ]
+            ]
+          },
+          {
+            "tag": "path",
+            "attrs": [
+              [
+                "d",
+                "M12 3v18"
+              ]
+            ]
+          }
+        ],
+        [
+          {
+            "tag": "path",
+            "attrs": [
+              [
+                "d",
+                "m9 18 6-6-6-6"
+              ]
+            ]
+          }
+        ]
+      ],
+      "canvas": []
+    },
+    "eject": {
+      "svg": [
+        [
+          {
+            "tag": "path",
+            "attrs": [
+              [
+                "d",
+                "m9 18 6-6-6-6"
+              ]
+            ]
+          }
+        ]
+      ],
+      "canvas": [
+        {
+          "kind": "eject",
+          "width": "72",
+          "height": "40"
+        }
+      ]
+    },
+    "liner": {
+      "svg": [
+        [
+          {
+            "tag": "circle",
+            "attrs": [
+              [
+                "cx",
+                "12"
+              ],
+              [
+                "cy",
+                "12"
+              ],
+              [
+                "r",
+                "10"
+              ]
+            ]
+          },
+          {
+            "tag": "path",
+            "attrs": [
+              [
+                "d",
+                "M6 12c0-1.7.7-3.2 1.8-4.2"
+              ]
+            ]
+          },
+          {
+            "tag": "circle",
+            "attrs": [
+              [
+                "cx",
+                "12"
+              ],
+              [
+                "cy",
+                "12"
+              ],
+              [
+                "r",
+                "2"
+              ]
+            ]
+          },
+          {
+            "tag": "path",
+            "attrs": [
+              [
+                "d",
+                "M18 12c0 1.7-.7 3.2-1.8 4.2"
+              ]
+            ]
+          }
+        ],
+        [
+          {
+            "tag": "path",
+            "attrs": [
+              [
+                "d",
+                "m9 18 6-6-6-6"
+              ]
+            ]
+          }
+        ]
+      ],
+      "canvas": []
+    },
+    "takeoff": {
+      "svg": [
+        [
+          {
+            "tag": "path",
+            "attrs": [
+              [
+                "d",
+                "m9 18 6-6-6-6"
+              ]
+            ]
+          }
+        ]
+      ],
+      "canvas": [
+        {
+          "kind": "takeoff",
+          "width": "72",
+          "height": "40"
+        }
+      ]
+    },
+    "tension": {
+      "svg": [
+        [
+          {
+            "tag": "path",
+            "attrs": [
+              [
+                "d",
+                "m9 18 6-6-6-6"
+              ]
+            ]
+          }
+        ]
+      ],
+      "canvas": [
+        {
+          "kind": "tension",
+          "width": "72",
+          "height": "40"
+        }
+      ]
+    },
+    "air": {
+      "svg": [
+        [
+          {
+            "tag": "path",
+            "attrs": [
+              [
+                "d",
+                "m9 18 6-6-6-6"
+              ]
+            ]
+          }
+        ]
+      ],
+      "canvas": [
+        {
+          "kind": "air",
+          "width": "72",
+          "height": "28"
+        }
+      ]
+    },
+    "feedangles": {
+      "svg": [
+        [
+          {
+            "tag": "path",
+            "attrs": [
+              [
+                "d",
+                "m9 18 6-6-6-6"
+              ]
+            ]
+          }
+        ]
+      ],
+      "canvas": [
+        {
+          "kind": "feedangles",
+          "width": "72",
+          "height": "40"
+        }
+      ]
+    },
+    "knife": {
+      "svg": [
+        [
+          {
+            "tag": "path",
+            "attrs": [
+              [
+                "d",
+                "m9 18 6-6-6-6"
+              ]
+            ]
+          }
+        ]
+      ],
+      "canvas": [
+        {
+          "kind": "knife",
+          "width": "72",
+          "height": "28"
+        }
+      ]
+    },
+    "unwinder": {
+      "svg": [
+        [
+          {
+            "tag": "path",
+            "attrs": [
+              [
+                "d",
+                "m9 18 6-6-6-6"
+              ]
+            ]
+          }
+        ]
+      ],
+      "canvas": [
+        {
+          "kind": "unwinder",
+          "width": "72",
+          "height": "40"
+        }
+      ]
+    },
+    "ballerina": {
+      "svg": [
+        [
+          {
+            "tag": "path",
+            "attrs": [
+              [
+                "d",
+                "m9 18 6-6-6-6"
+              ]
+            ]
+          }
+        ]
+      ],
+      "canvas": [
+        {
+          "kind": "ballerina",
+          "width": "72",
+          "height": "40"
+        }
+      ]
+    },
+    "options": {
+      "svg": [
+        [
+          {
+            "tag": "path",
+            "attrs": [
+              [
+                "d",
+                "M20 7h-9"
+              ]
+            ]
+          },
+          {
+            "tag": "path",
+            "attrs": [
+              [
+                "d",
+                "M14 17H5"
+              ]
+            ]
+          },
+          {
+            "tag": "circle",
+            "attrs": [
+              [
+                "cx",
+                "17"
+              ],
+              [
+                "cy",
+                "17"
+              ],
+              [
+                "r",
+                "3"
+              ]
+            ]
+          },
+          {
+            "tag": "circle",
+            "attrs": [
+              [
+                "cx",
+                "7"
+              ],
+              [
+                "cy",
+                "7"
+              ],
+              [
+                "r",
+                "3"
+              ]
+            ]
+          }
+        ],
+        [
+          {
+            "tag": "path",
+            "attrs": [
+              [
+                "d",
+                "m9 18 6-6-6-6"
+              ]
+            ]
+          }
+        ]
+      ],
+      "canvas": []
+    }
+  }
+}

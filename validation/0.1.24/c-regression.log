@@ -1,0 +1,34 @@
+test_cleaning_clock compile 0
+
+test_cleaning_clock run 0
+PASS: +60/+120/+180, 170+60 ->180, duplicate ID, exact expiry, cancellation, journal and session expiry.
+
+test_unwinder_clock compile 0
+
+test_unwinder_clock run 0
+PASS: exact 300-second boundary, no extension, restart remaining time, expired/rollback recovery, role/stopped gates, persistent bypass, HMI disable, offline restore and shutdown return.
+
+test_ui_launch_config compile 0
+
+test_ui_launch_config run 0
+PASS: actual Edge command builder: kiosk URL quoting, fullscreen, no idle reset, translation disabled, dedicated profiles, compatibility GPU flag, diagnostic-mode and buffer guards.
+
+test_bootstrap compile 0
+
+test_bootstrap run 0
+PASS: native bootstrap expands nonce/token/kiosk mode, byte counts and terminators for both launch modes/themes; no test mode in production CLI.
+
+test_production_clock compile 0
+
+test_production_clock run 0
+PASS: monotonic durations, conservative loss boundary, all four states, batched/reset/gap counts, clock rollback and nonnegative intervals
+
+test_production_reasons compile 0
+
+test_production_reasons run 0
+PASS: all seven PLC material alarms, state fragmentation/manual motion, reset persistence, next-start boundary, ambiguity, stale/old alarms, polling skew, short stops, gaps
+
+test_production_shift compile 0
+
+test_production_shift run 0
+PASS: 08:00/20:00 boundaries, previous night, month/year changes, DST shifts use local clock hours

@@ -1,0 +1,7 @@
+{
+  "passed": true,
+  "errors": [],
+  "external": [],
+  "expectedSimulatedWrites": 1,
+  "checks": "heater cards, five-row fixed menu, 62 config rows, descriptions/confirmation/conflict/role/stopped gates, glue both modes, reduced-motion looping guide, separate operator job/spec view, import/export roles, job export, dark/classic HD/4K, Turkish HMI names"
+}

@@ -1,0 +1,573 @@
+{
+  "heat1Set": {
+    "value": 481.0,
+    "raw": "0080f043",
+    "symbol": ".stKaliciData.sIsiPar[1].rSP",
+    "actualType": "REAL",
+    "sourceIndex": 0
+  },
+  "heat1Enabled": {
+    "value": 1,
+    "raw": "01",
+    "symbol": ".stKaliciData.sIsiPar[1].bEnable",
+    "actualType": "BOOL",
+    "sourceIndex": 0
+  },
+  "heat1Identity": {
+    "value": 1,
+    "raw": "0100",
+    "symbol": ".stKaliciData.iActiveHeatId[1]",
+    "actualType": "INT",
+    "sourceIndex": 0
+  },
+  "heat2Set": {
+    "value": 101.0,
+    "raw": "0000ca42",
+    "symbol": ".stKaliciData.sIsiPar[2].rSP",
+    "actualType": "REAL",
+    "sourceIndex": 0
+  },
+  "heat2Enabled": {
+    "value": 0,
+    "raw": "00",
+    "symbol": ".stKaliciData.sIsiPar[2].bEnable",
+    "actualType": "BOOL",
+    "sourceIndex": 0
+  },
+  "heat2Identity": {
+    "value": 2,
+    "raw": "0200",
+    "symbol": ".stKaliciData.iActiveHeatId[2]",
+    "actualType": "INT",
+    "sourceIndex": 0
+  },
+  "heat3Set": {
+    "value": 2.0,
+    "raw": "00000040",
+    "symbol": ".stKaliciData.sIsiPar[3].rSP",
+    "actualType": "REAL",
+    "sourceIndex": 0
+  },
+  "heat3Enabled": {
+    "value": 0,
+    "raw": "00",
+    "symbol": ".stKaliciData.sIsiPar[3].bEnable",
+    "actualType": "BOOL",
+    "sourceIndex": 0
+  },
+  "heat3Identity": {
+    "value": 3,
+    "raw": "0300",
+    "symbol": ".stKaliciData.iActiveHeatId[3]",
+    "actualType": "INT",
+    "sourceIndex": 0
+  },
+  "heat4Set": {
+    "value": 2.0,
+    "raw": "00000040",
+    "symbol": ".stKaliciData.sIsiPar[4].rSP",
+    "actualType": "REAL",
+    "sourceIndex": 0
+  },
+  "heat4Enabled": {
+    "value": 0,
+    "raw": "00",
+    "symbol": ".stKaliciData.sIsiPar[4].bEnable",
+    "actualType": "BOOL",
+    "sourceIndex": 0
+  },
+  "heat4Identity": {
+    "value": 5,
+    "raw": "0500",
+    "symbol": ".stKaliciData.iActiveHeatId[4]",
+    "actualType": "INT",
+    "sourceIndex": 0
+  },
+  "heat5Set": {
+    "value": 126.0,
+    "raw": "0000fc42",
+    "symbol": ".stKaliciData.sIsiPar[5].rSP",
+    "actualType": "REAL",
+    "sourceIndex": 0
+  },
+  "heat5Enabled": {
+    "value": 0,
+    "raw": "00",
+    "symbol": ".stKaliciData.sIsiPar[5].bEnable",
+    "actualType": "BOOL",
+    "sourceIndex": 0
+  },
+  "heat5Identity": {
+    "value": 9,
+    "raw": "0900",
+    "symbol": ".stKaliciData.iActiveHeatId[5]",
+    "actualType": "INT",
+    "sourceIndex": 0
+  },
+  "heat6Set": {
+    "value": 31.0,
+    "raw": "0000f841",
+    "symbol": ".stKaliciData.sIsiPar[6].rSP",
+    "actualType": "REAL",
+    "sourceIndex": 0
+  },
+  "heat6Enabled": {
+    "value": 0,
+    "raw": "00",
+    "symbol": ".stKaliciData.sIsiPar[6].bEnable",
+    "actualType": "BOOL",
+    "sourceIndex": 0
+  },
+  "heat6Identity": {
+    "value": 21,
+    "raw": "1500",
+    "symbol": ".stKaliciData.iActiveHeatId[6]",
+    "actualType": "INT",
+    "sourceIndex": 0
+  },
+  "glueEnabled": {
+    "value": 1,
+    "raw": "01",
+    "symbol": ".stKaliciData.sRecipeData.bHotmeltUniteAktif",
+    "actualType": "BOOL",
+    "sourceIndex": 0
+  },
+  "gluePhotoMode": {
+    "value": 0,
+    "raw": "00",
+    "symbol": ".stKaliciData.sRecipeData.bHotmeltFotoselliCalismaAktif",
+    "actualType": "BOOL",
+    "sourceIndex": 0
+  },
+  "glueSearchWindow": {
+    "value": 100.0,
+    "raw": "0000c842",
+    "symbol": ".stKaliciData.sRecipeData.rHotmeltSensorKontrolAralik",
+    "actualType": "REAL",
+    "sourceIndex": 0
+  },
+  "glueMissLimit": {
+    "value": 20,
+    "raw": "14000000",
+    "symbol": ".stKaliciData.sRecipeData.diHotmeltSensorGormemeAdet",
+    "actualType": "DINT",
+    "sourceIndex": 0
+  },
+  "glueStartOffset": {
+    "value": 158.0,
+    "raw": "00001e43",
+    "symbol": ".stKaliciData.sRecipeData.rHotmeltStartOfset",
+    "actualType": "REAL",
+    "sourceIndex": 0
+  },
+  "glueWorkingDistance": {
+    "value": 0.0,
+    "raw": "00000000",
+    "symbol": ".stKaliciData.sRecipeData.rHotmeltCalismaMesafe",
+    "actualType": "REAL",
+    "sourceIndex": 0
+  },
+  "glueWithoutDistance": {
+    "value": 20.0,
+    "raw": "0000a041",
+    "symbol": ".stKaliciData.rHotmeltAraTutkalsizMesafe",
+    "actualType": "REAL",
+    "sourceIndex": 0
+  },
+  "glueReference": {
+    "value": 15000.0,
+    "raw": "00606a46",
+    "symbol": ".stKaliciData.sRecipeData.rHotmeltValfMaxHizdakiRef",
+    "actualType": "REAL",
+    "sourceIndex": 0
+  },
+  "glueEncoder": {
+    "value": 142.3379144668579,
+    "raw": "00000032d0ca6140",
+    "symbol": "HOTMELTUNITE1.LRACTUELMODPOS",
+    "actualType": "LREAL",
+    "sourceIndex": 0
+  },
+  "glueMeanLength": {
+    "value": 159.0,
+    "raw": "0000000000e06340",
+    "symbol": "HotmeltUnite1.lrHesaplananUrunBoy",
+    "actualType": "LREAL",
+    "sourceIndex": 0,
+    "source": "Named field from previous capture values used to seed offline recovery; binding proven by compiled HMI",
+    "previousMapping": {
+      "value": 159.0,
+      "raw": "0000000000e06340",
+      "symbol": ".LRVISUORTALAMABOY",
+      "actualType": "LREAL",
+      "sourceIndex": 0
+    }
+  },
+  "seamEnabled": {
+    "value": 0,
+    "raw": "00",
+    "symbol": ".stKaliciData.bYolunaKaynakStartValf1Aktif",
+    "actualType": "BOOL",
+    "sourceIndex": 0
+  },
+  "liner1Stretch": {
+    "value": 0.0,
+    "raw": "00000000",
+    "symbol": ".stKaliciData.sRecipeData.rBantTorkYuzde",
+    "actualType": "REAL",
+    "sourceIndex": 0
+  },
+  "liner1StopDiameter": {
+    "value": 190.0,
+    "raw": "00003e43",
+    "symbol": ".stKaliciData.rBantDurusCapi",
+    "actualType": "REAL",
+    "sourceIndex": 0
+  },
+  "liner1AutoStop": {
+    "value": 0,
+    "raw": "00",
+    "symbol": ".stKaliciData.sRecipeData.bBantKontrol",
+    "actualType": "BOOL",
+    "sourceIndex": 0
+  },
+  "liner1Diameter": {
+    "value": 500.0,
+    "raw": "0000000000407f40",
+    "symbol": "SERITBANT1.LRACTCAP",
+    "actualType": "LREAL",
+    "sourceIndex": 0
+  },
+  "liner2Stretch": {
+    "value": 0.0,
+    "raw": "00000000",
+    "symbol": ".stKaliciData.sRecipeData.rBantTorkYuzde2",
+    "actualType": "REAL",
+    "sourceIndex": 0
+  },
+  "liner2StopDiameter": {
+    "value": 210.0,
+    "raw": "00005243",
+    "symbol": ".stKaliciData.rBantDurusCapi2",
+    "actualType": "REAL",
+    "sourceIndex": 0
+  },
+  "liner2AutoStop": {
+    "value": 1,
+    "raw": "01",
+    "symbol": ".stKaliciData.sRecipeData.bBantKontrol2",
+    "actualType": "BOOL",
+    "sourceIndex": 0
+  },
+  "liner2Diameter": {
+    "value": 500.0,
+    "raw": "0000000000407f40",
+    "symbol": "SERITBANT2.LRACTCAP",
+    "actualType": "LREAL",
+    "sourceIndex": 0
+  },
+  "liner3Stretch": {
+    "value": 6.0,
+    "raw": "0000c040",
+    "symbol": ".stKaliciData.sRecipeData.rBantTorkYuzde3",
+    "actualType": "REAL",
+    "sourceIndex": 0
+  },
+  "liner3StopDiameter": {
+    "value": 410.0,
+    "raw": "0000cd43",
+    "symbol": ".stKaliciData.rBantDurusCapi3",
+    "actualType": "REAL",
+    "sourceIndex": 0
+  },
+  "liner3AutoStop": {
+    "value": 0,
+    "raw": "00",
+    "symbol": ".stKaliciData.sRecipeData.bBantKontrol3",
+    "actualType": "BOOL",
+    "sourceIndex": 0
+  },
+  "liner3Diameter": {
+    "value": 500.0,
+    "raw": "0000000000407f40",
+    "symbol": "SERITBANT3.LRACTCAP",
+    "actualType": "LREAL",
+    "sourceIndex": 0
+  },
+  "tensionSet": {
+    "value": -13.0,
+    "raw": "000050c1",
+    "symbol": ".stKaliciData.sRecipeData.rMerdane2SenkronYuzde",
+    "actualType": "REAL",
+    "sourceIndex": 0
+  },
+  "takeoffMoonstep": {
+    "value": 1,
+    "raw": "01",
+    "symbol": ".stKaliciData.bDizgiMoonStepAktif",
+    "actualType": "BOOL",
+    "sourceIndex": 0
+  },
+  "takeoffMoonstepValue": {
+    "value": 170.0,
+    "raw": "00002a43",
+    "symbol": ".stKaliciData.rDizgiMoonStepHizi_addk",
+    "actualType": "REAL",
+    "sourceIndex": 0
+  },
+  "takeoffOffset": {
+    "value": 55.0,
+    "raw": "00005c42",
+    "symbol": ".stKaliciData.rDizgiOfset",
+    "actualType": "REAL",
+    "sourceIndex": 0
+  },
+  "ejectEnabled": {
+    "value": 0,
+    "raw": "00",
+    "symbol": ".stKaliciData.bTutucuAktif",
+    "actualType": "BOOL",
+    "sourceIndex": 0
+  },
+  "ejectSpeedEnabled": {
+    "value": 0,
+    "raw": "00",
+    "symbol": ".stKaliciData.bTutucuMoonStepAktif",
+    "actualType": "BOOL",
+    "sourceIndex": 0
+  },
+  "ejectSpeed": {
+    "value": 225.0,
+    "raw": "00006143",
+    "symbol": ".stKaliciData.rTutucuMoonStepHizi_addk",
+    "actualType": "REAL",
+    "sourceIndex": 0
+  },
+  "ejectOffset": {
+    "value": 25.0,
+    "raw": "0000c841",
+    "symbol": ".stKaliciData.rTutucuOfset",
+    "actualType": "REAL",
+    "sourceIndex": 0
+  },
+  "support1Time": {
+    "value": 112,
+    "raw": "7000",
+    "symbol": ".stKaliciData.iValveDuration_ms[1]",
+    "actualType": "INT",
+    "sourceIndex": 0
+  },
+  "support1Enabled": {
+    "value": 0,
+    "raw": "00",
+    "symbol": ".stKaliciData.bValveAktif[1]",
+    "actualType": "BOOL",
+    "sourceIndex": 0
+  },
+  "support1Identity": {
+    "value": 1,
+    "raw": "0100",
+    "symbol": ".stKaliciData.iValveId[1]",
+    "actualType": "INT",
+    "sourceIndex": 0
+  },
+  "support2Time": {
+    "value": 60,
+    "raw": "3c00",
+    "symbol": ".stKaliciData.iValveDuration_ms[2]",
+    "actualType": "INT",
+    "sourceIndex": 0
+  },
+  "support2Enabled": {
+    "value": 0,
+    "raw": "00",
+    "symbol": ".stKaliciData.bValveAktif[2]",
+    "actualType": "BOOL",
+    "sourceIndex": 0
+  },
+  "support2Identity": {
+    "value": 2,
+    "raw": "0200",
+    "symbol": ".stKaliciData.iValveId[2]",
+    "actualType": "INT",
+    "sourceIndex": 0
+  },
+  "drill1Time": {
+    "value": 25,
+    "raw": "1900",
+    "symbol": ".stKaliciData.iValveDuration_ms[3]",
+    "actualType": "INT",
+    "sourceIndex": 0
+  },
+  "drill1Enabled": {
+    "value": 0,
+    "raw": "00",
+    "symbol": ".stKaliciData.bValveAktif[3]",
+    "actualType": "BOOL",
+    "sourceIndex": 0
+  },
+  "drill1Identity": {
+    "value": 7,
+    "raw": "0700",
+    "symbol": ".stKaliciData.iValveId[3]",
+    "actualType": "INT",
+    "sourceIndex": 0
+  },
+  "videojet1Time": {
+    "value": 1,
+    "raw": "0100",
+    "symbol": ".stKaliciData.iValveDuration_ms[4]",
+    "actualType": "INT",
+    "sourceIndex": 0
+  },
+  "videojet1Enabled": {
+    "value": 0,
+    "raw": "00",
+    "symbol": ".stKaliciData.bValveAktif[4]",
+    "actualType": "BOOL",
+    "sourceIndex": 0
+  },
+  "videojet1Identity": {
+    "value": 10,
+    "raw": "0a00",
+    "symbol": ".stKaliciData.iValveId[4]",
+    "actualType": "INT",
+    "sourceIndex": 0
+  },
+  "handle1Time": {
+    "value": 46,
+    "raw": "2e00",
+    "symbol": ".stKaliciData.iValveDuration_ms[5]",
+    "actualType": "INT",
+    "sourceIndex": 0
+  },
+  "handle1Enabled": {
+    "value": 0,
+    "raw": "00",
+    "symbol": ".stKaliciData.bValveAktif[5]",
+    "actualType": "BOOL",
+    "sourceIndex": 0
+  },
+  "handle1Identity": {
+    "value": 4,
+    "raw": "0400",
+    "symbol": ".stKaliciData.iValveId[5]",
+    "actualType": "INT",
+    "sourceIndex": 0
+  },
+  "photoEnabled": {
+    "value": 1,
+    "raw": "01",
+    "symbol": ".stKaliciData.sRecipeData.bPrintMarkAktif",
+    "actualType": "BOOL",
+    "sourceIndex": 0
+  },
+  "photoSearchWindow": {
+    "value": 35.0,
+    "raw": "00000c42",
+    "symbol": ".stKaliciData.sRecipeData.rPrintmarkKontrolAralik",
+    "actualType": "REAL",
+    "sourceIndex": 0
+  },
+  "photoMissLimit": {
+    "value": 10,
+    "raw": "0a000000",
+    "symbol": ".stKaliciData.sRecipeData.diIndexGormemeAdet",
+    "actualType": "DINT",
+    "sourceIndex": 0
+  },
+  "photoOffsetTenths": {
+    "value": 0.0,
+    "raw": "00000000",
+    "symbol": ".stKaliciData.sRecipeData.rIndexPosOfset",
+    "actualType": "REAL",
+    "sourceIndex": 0
+  },
+  "photoLength": {
+    "value": 159.0,
+    "raw": "0000000000e06340",
+    "symbol": ".LRVISUORTALAMABOY",
+    "actualType": "LREAL",
+    "sourceIndex": 0
+  },
+  "airStartAngle": {
+    "value": 45.0,
+    "raw": "00003442",
+    "symbol": ".stKaliciData.sRecipeData.rMedaneArasiValf_StartAci",
+    "actualType": "REAL",
+    "sourceIndex": 0
+  },
+  "airStopAngle": {
+    "value": 180.0,
+    "raw": "00003443",
+    "symbol": ".stKaliciData.sRecipeData.rMedaneArasiValf_StopAci",
+    "actualType": "REAL",
+    "sourceIndex": 0
+  },
+  "edge1Auto": {
+    "value": 0,
+    "raw": "00",
+    "symbol": ".stKaliciData.bOpKenKontrolOto[1]",
+    "actualType": "BOOL",
+    "sourceIndex": 0,
+    "source": "Named field from previous capture values used to seed offline recovery; binding proven by compiled HMI",
+    "previousMapping": {
+      "value": 0,
+      "raw": "0000010100",
+      "symbol": ".DI_KENARKONTROLOTOBTN",
+      "actualType": "ARRAY [0..4] OF BOOL",
+      "sourceIndex": 1
+    }
+  },
+  "edge1Reverse": {
+    "value": 0,
+    "raw": "00",
+    "symbol": ".stKaliciData.bKenarKontrolReverse[1]",
+    "actualType": "BOOL",
+    "sourceIndex": 0
+  },
+  "edge2Auto": {
+    "value": 0,
+    "raw": "00",
+    "symbol": ".stKaliciData.bOpKenKontrolOto[2]",
+    "actualType": "BOOL",
+    "sourceIndex": 0,
+    "source": "Named field from previous capture values used to seed offline recovery; binding proven by compiled HMI",
+    "previousMapping": {
+      "value": 1,
+      "raw": "0000010100",
+      "symbol": ".DI_KENARKONTROLOTOBTN",
+      "actualType": "ARRAY [0..4] OF BOOL",
+      "sourceIndex": 2
+    }
+  },
+  "edge2Reverse": {
+    "value": 0,
+    "raw": "00",
+    "symbol": ".stKaliciData.bKenarKontrolReverse[2]",
+    "actualType": "BOOL",
+    "sourceIndex": 0
+  },
+  "edge3Auto": {
+    "value": 0,
+    "raw": "00",
+    "symbol": ".stKaliciData.bOpKenKontrolOto[3]",
+    "actualType": "BOOL",
+    "sourceIndex": 0,
+    "source": "Named field from previous capture values used to seed offline recovery; binding proven by compiled HMI",
+    "previousMapping": {
+      "value": 1,
+      "raw": "0000010100",
+      "symbol": ".DI_KENARKONTROLOTOBTN",
+      "actualType": "ARRAY [0..4] OF BOOL",
+      "sourceIndex": 3
+    }
+  },
+  "edge3Reverse": {
+    "value": 0,
+    "raw": "00",
+    "symbol": ".stKaliciData.bKenarKontrolReverse[3]",
+    "actualType": "BOOL",
+    "sourceIndex": 0
+  }
+}

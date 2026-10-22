@@ -1,0 +1,25 @@
+{
+  "sha256": "e0474c00a149b37f8022ecb707c86e9af6206f02e0f8c8dde4787872d5a4b73d",
+  "bytes": 1524736,
+  "machine": "0x8664",
+  "magic": "0x20b",
+  "gui": true,
+  "dlls": [
+    "WS2_32.dll",
+    "SHELL32.dll",
+    "USER32.dll",
+    "bcrypt.dll",
+    "api-ms-win-crt-convert-l1-1-0.dll",
+    "api-ms-win-crt-heap-l1-1-0.dll",
+    "api-ms-win-crt-private-l1-1-0.dll",
+    "api-ms-win-crt-runtime-l1-1-0.dll",
+    "api-ms-win-crt-stdio-l1-1-0.dll",
+    "api-ms-win-crt-string-l1-1-0.dll",
+    "api-ms-win-crt-time-l1-1-0.dll",
+    "api-ms-win-crt-utility-l1-1-0.dll",
+    "KERNEL32.dll",
+    "api-ms-win-crt-math-l1-1-0.dll",
+    "api-ms-win-crt-environment-l1-1-0.dll"
+  ],
+  "windowsGuiRun": false
+}

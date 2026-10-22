@@ -1,0 +1,21 @@
+{
+  "passed": true,
+  "viewport": [
+    1024,
+    600
+  ],
+  "gpu": false,
+  "newPages": [
+    "feedangles",
+    "edge",
+    "unwinder",
+    "longitudinal"
+  ],
+  "heldCommands": "release, long-hold heartbeat, pointer drag-out and blur",
+  "alarms": "IDs, active/awaiting acknowledgement, ack and clear-history confirmation",
+  "languages": [
+    "ru",
+    "en"
+  ],
+  "errors": []
+}

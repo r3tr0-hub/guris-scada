@@ -1,0 +1,85 @@
+{
+  "schema": 1,
+  "purpose": "Read-only meanings confirmed by the user; no heating commands or unverified write limits",
+  "evidence": "HMI_screen_catalog.md, version 3, main_192828 and main_192846; historical typed PLC reads and user-confirmed meanings",
+  "fields": [
+    {
+      "key": "heat1Set",
+      "symbol": ".stKaliciData.sIsiPar[1].rSP",
+      "type": "REAL",
+      "size": 4,
+      "writable": false
+    },
+    {
+      "key": "heat1Actual",
+      "symbol": "Isilar.fbIsiKont[1].rAktIsi",
+      "type": "REAL",
+      "size": 4,
+      "writable": false
+    },
+    {
+      "key": "heat2Set",
+      "symbol": ".stKaliciData.sIsiPar[2].rSP",
+      "type": "REAL",
+      "size": 4,
+      "writable": false
+    },
+    {
+      "key": "heat2Actual",
+      "symbol": "Isilar.fbIsiKont[2].rAktIsi",
+      "type": "REAL",
+      "size": 4,
+      "writable": false
+    },
+    {
+      "key": "heat3Set",
+      "symbol": ".stKaliciData.sIsiPar[3].rSP",
+      "type": "REAL",
+      "size": 4,
+      "writable": false
+    },
+    {
+      "key": "heat3Actual",
+      "symbol": "Isilar.fbIsiKont[3].rAktIsi",
+      "type": "REAL",
+      "size": 4,
+      "writable": false
+    },
+    {
+      "key": "heat4Set",
+      "symbol": ".stKaliciData.sIsiPar[4].rSP",
+      "type": "REAL",
+      "size": 4,
+      "writable": false
+    },
+    {
+      "key": "heat4Actual",
+      "symbol": "Isilar.fbIsiKont[4].rAktIsi",
+      "type": "REAL",
+      "size": 4,
+      "writable": false
+    },
+    {
+      "key": "heat5Set",
+      "symbol": ".stKaliciData.sIsiPar[5].rSP",
+      "type": "REAL",
+      "size": 4,
+      "writable": false
+    },
+    {
+      "key": "heat5Actual",
+      "symbol": "Isilar.fbIsiKont[5].rAktIsi",
+      "type": "REAL",
+      "size": 4,
+      "writable": false
+    }
+  ],
+  "unbound": [
+    "heating enable commands",
+    "output power percentages",
+    "knife channel 6 physical scale",
+    "temperature writes"
+  ],
+  "historical": true,
+  "supersededBy": "docs/PARAMETER_BINDINGS.json, SCADA 0.1.10"
+}

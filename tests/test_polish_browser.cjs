@@ -1,0 +1,55 @@
+'use strict';
+const assert=require('node:assert/strict'),{chromium}=require('playwright');
+const [url,token,control,output]=process.argv.slice(2);
+async function main(){
+ const browser=await chromium.launch({executablePath:process.env.SCADA_BROWSER,headless:true,args:['--disable-gpu']});
+ try{
+  const context=await browser.newContext({viewport:{width:1024,height:600},reducedMotion:'reduce'}),page=await context.newPage(),errors=[];
+  page.on('pageerror',e=>errors.push(String(e)));
+  await page.goto(url);await page.waitForFunction(()=>!document.querySelector('[data-edit="width"]').disabled);
+  const api=(route,body)=>page.evaluate(async({route,body})=>{const r=await fetch(route,{method:body?'POST':'GET',headers:{'X-SCADA-Token':window.SCADA_BOOT.token,'Content-Type':'application/json'},body:body?JSON.stringify(body):undefined});return{status:r.status,data:await r.json()};},{route,body});
+  const set=async values=>assert((await fetch(control,{method:'POST',body:JSON.stringify(values)})).ok);
+  const home=()=>page.locator('.sc-nav-button[data-page="home"]').click(),menu=()=>page.locator('.sc-nav-button[data-page="menu"]').click();
+  const pin=async value=>{for(const digit of value)await page.locator(`[data-pin-key="${digit}"]`).click();};
+  const applyPin=()=>page.locator('[data-pin-apply]').click();
+  const visible=()=>page.waitForFunction(()=>!document.querySelector('[data-pin-overlay]').hidden);
+  const frozen=async()=>{const image=await page.locator('.sc-node-grid canvas').first().evaluate(n=>n.toDataURL());await page.waitForTimeout(200);assert.equal(await page.locator('.sc-node-grid canvas').first().evaluate(n=>n.toDataURL()),image);};
+  assert.equal((await api('/api/state')).data.fields.machineState.value,5);
+  for(const k of ['plc','ads'])assert.equal(await page.locator(`[data-indicator="${k}"] [data-indicator-text]`).textContent(),'Связь есть');
+  assert.equal(await page.locator('.sc-cadence').getAttribute('data-playing'),'false');
+  await menu();await page.waitForFunction(()=>document.querySelector('#guris-scada-demo').dataset.rollerPlaying==='true');
+  const animations=await page.locator('.sc-node-grid canvas').evaluateAll(async nodes=>{const before=nodes.map(n=>n.toDataURL());await new Promise(r=>setTimeout(r,450));return nodes.map((n,i)=>({kind:n.dataset.mechanism||'takeoff',moving:n.toDataURL()!==before[i]}));});assert(animations.every(x=>x.moving),JSON.stringify(animations));
+  const liner=await page.locator('[data-open-node="liner"] .sc-node-tile-head > svg').evaluate(async n=>{const a=getComputedStyle(n).transform;await new Promise(r=>setTimeout(r,200));return getComputedStyle(n).transform!==a;});assert(liner);
+  await page.screenshot({path:output+'/menu-idle.png'});
+  await set({heat1Actual:443.5,heat1Set:430.9,heat2Actual:22.9});await page.locator('[data-open-node="temperature"]').click();
+  await page.waitForFunction(()=>document.querySelector('[data-node-reading="heat1Actual"]').textContent==='443');
+  assert.equal(await page.locator('[data-value="heat1Set"]').textContent(),'430');assert.equal(await page.locator('[data-node-reading="heat2Actual"]').textContent(),'22');
+  assert.equal((await api('/api/state')).data.fields.heat1Actual.value,443.5);
+  assert.equal(await page.locator('[data-page-content="temperature"] [data-node-toggle]:enabled').count(),6);
+  assert(await page.locator('.sc-heat-unbound-note').isVisible());await page.screenshot({path:output+'/temperatures-whole.png'});
+  await page.locator('[data-edit-operator]').click();await page.locator('[data-auth-role="engineer"]').click();assert(await page.locator('[data-pin-overlay]').isHidden());await page.locator('[data-auth-password]').click();await visible();
+  assert.equal(await page.locator('[data-pin-entry]').getAttribute('type'),'password');
+  await pin('01234');await applyPin();assert(await page.locator('[data-pin-error]').isVisible());assert((await page.locator('[data-pin-error]').textContent()).includes('6'));
+  await page.locator('[data-pin-key="clear"]').click();await pin('012349');await page.locator('[data-pin-key="backspace"]').click();await pin('5');assert.equal(await page.locator('[data-pin-entry]').inputValue(),'012345');
+  await page.screenshot({path:output+'/pin-setup.png'});await applyPin();assert.equal(await page.locator('[data-pin-title]').textContent(),'Повторите пароль');await pin('012345');await applyPin();
+  await page.waitForFunction(()=>document.querySelector('[data-operator-overlay]').hidden);assert.equal((await api('/api/state')).data.auth.role,'engineer');assert.equal(await page.locator('[data-pin-entry]').inputValue(),'');
+  const toastBox=await page.locator('[data-toast]').boundingBox();assert(toastBox.y>=0&&toastBox.y<20&&toastBox.y+toastBox.height<110);
+  await menu();await page.locator('[data-page="scada"]').click();await page.locator('[data-open-password]').click();assert(await page.locator('[data-pin-overlay]').isHidden());await page.locator('[data-old-password]').click();await visible();
+  await pin('012345');await applyPin();assert.equal(await page.locator('[data-pin-title]').textContent(),'Новый пароль');await pin('654321');await applyPin();await pin('654321');await applyPin();
+  await page.waitForFunction(()=>document.querySelector('[data-password-overlay]').hidden);
+  await page.locator('[data-switch-operator]').click();await page.waitForFunction(()=>document.querySelector('[data-operator-name]').textContent==='Оператор');
+  await page.locator('[data-edit-operator]').click();await page.locator('[data-auth-role="engineer"]').click();assert(await page.locator('[data-pin-overlay]').isHidden());await page.locator('[data-auth-password]').click();await visible();
+  await page.locator('[data-pin-entry]').fill('incorrect-legacy-password');await applyPin();await page.waitForFunction(()=>document.querySelector('[data-auth-error]').textContent.includes('Неверный'));
+  await page.locator('[data-auth-password]').click();await pin('654321');await applyPin();await page.waitForFunction(()=>document.querySelector('[data-operator-overlay]').hidden);
+  assert.equal((await api('/api/options',{snow:1,animations:0,wallpaper:1})).status,200);await menu();await page.waitForFunction(()=>document.querySelector('#guris-scada-demo').dataset.rollerPlaying==='false');await frozen();
+  assert.equal((await api('/api/options',{snow:1,animations:1,wallpaper:1})).status,200);await page.waitForFunction(()=>document.querySelector('#guris-scada-demo').dataset.rollerPlaying==='true');
+  await home();await page.locator('[data-edit="width"]').click();await page.locator('[data-key="2"]').click();await page.locator('[data-key="5"]').click();await page.locator('[data-key="0"]').click();await page.locator('[data-apply-number]').click();await page.waitForFunction(()=>document.querySelector('[data-number-overlay]').hidden);
+  await page.waitForFunction(()=>document.querySelector('[data-toast]').textContent.includes('ПЛК подтвердил'));const confirmation=await page.locator('[data-toast]').boundingBox();assert(confirmation.y===12&&confirmation.y+confirmation.height<110);await page.screenshot({path:output+'/toast-top.png'});
+  await page.locator('[data-open-language]').click();await Promise.all([page.waitForNavigation(),page.locator('[data-choose-language="en"]').click()]);await page.waitForFunction(()=>document.documentElement.lang==='en');
+  assert.equal(await page.locator('[data-indicator="ads"] [data-indicator-text]').textContent(),'Connected');
+  await page.locator('[data-edit-operator]').click();assert(await page.locator('[data-pin-overlay]').isHidden());await page.locator('[data-auth-password]').click();await visible();assert((await page.locator('[data-pin-hint]').textContent()).includes('PC keyboard'));await page.locator('[data-pin-cancel]').click();assert.equal(await page.locator('[data-pin-entry]').inputValue(),'');await page.keyboard.press('Escape');
+  const report=(await api('/api/report')).data;const serialized=JSON.stringify(report);assert(!serialized.includes('012345')&&!serialized.includes('654321')&&!serialized.includes('incorrect-legacy-password'));assert.deepEqual(errors,[]);
+  await context.close();console.log('PASS: real native backend + Chromium GPU disabled/reduced motion: every menu canvas and liner SVG move in ready state; main pulse stays stopped, animation option stops motion; temperatures truncate while raw readings stay intact; ADS Connected; masked touch PIN setup/login/change, leading zero, 5-digit rejection, erase, legacy input, cancel and cleared buffers; PLC confirmation toast at top; RU/EN; reports omit passwords.');
+ }finally{await browser.close();}
+}
+main().catch(e=>{console.error(e);process.exitCode=1;});

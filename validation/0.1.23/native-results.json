@@ -1,0 +1,1134 @@
+{
+  "uniqueCases": 160,
+  "passed": 160,
+  "finalFailures": 0,
+  "policy": "Latest completed result per test case; targeted rerun replaces its earlier result",
+  "cases": [
+    {
+      "id": "test_ads_integration.Backend.test_access_validation_and_gates_send_nothing",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_ads_integration.Backend.test_ack_is_not_confirmation",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_ads_integration.Backend.test_all_plant_fields_resolve_and_report_their_metadata",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_ads_integration.Backend.test_changed_signedness_is_rejected_before_any_write",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_ads_integration.Backend.test_changed_value_and_generation_are_not_overwritten",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_ads_integration.Backend.test_counter_can_count_again_immediately_after_reset_release",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_ads_integration.Backend.test_counter_reset_accepts_any_machine_state_and_a_moving_counter",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_ads_integration.Backend.test_counter_reset_ack_and_lost_ack_do_not_fake_success_or_retry",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_ads_integration.Backend.test_counter_resets_are_zero_only_and_keep_generic_write_closed",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_ads_integration.Backend.test_fast_counters_and_slow_settings_with_sum_and_fallback",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_ads_integration.Backend.test_generic_idle_writes_allow_only_normal_speed",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_ads_integration.Backend.test_invalid_fast_fields_do_not_break_slow_fields",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_ads_integration.Backend.test_no_duplicate_or_replay_after_lost_ack",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_ads_integration.Backend.test_remaining_home_and_belt_bindings",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_ads_integration.Backend.test_slow_plc_leaves_a_gap_instead_of_catching_up",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_ads_integration.Backend.test_standard_metadata_still_resolves_after_reconnect",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_ads_integration.Backend.test_static_ui_and_report",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_ads_integration.Backend.test_stop_readonly_bad_reply_and_sum_fallback",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_ads_integration.Backend.test_typed_writes_persistent_recipe_and_offset_sign",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_ads_integration.Backend.test_ui_ready_and_error_are_authenticated_and_do_not_write_plc",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_complete_bindings.Complete.test_alarm_ids_and_ack_do_not_clear_an_existing_cause",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_complete_bindings.Complete.test_alarm_layout_mismatch_is_unavailable_not_no_alarms",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_complete_bindings.Complete.test_all_nine_manual_commands_release_and_generic_writes_are_closed",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_complete_bindings.Complete.test_all_visible_field_keys_are_bound",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_complete_bindings.Complete.test_dancer_reference_changes_and_invalid_index_are_not_hardcoded",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_complete_bindings.Complete.test_knife_fields_and_apply_require_engineer_and_stopped_machine",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_complete_bindings.Complete.test_lease_expires_without_heartbeat_and_never_reasserts",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_complete_bindings.Complete.test_limits_use_working_length_and_live_heat_configuration",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_complete_bindings.Complete.test_lost_assert_ack_only_releases_after_reconnection",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_complete_bindings.Complete.test_opposite_from_original_hmi_is_never_overwritten",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_complete_bindings.Complete.test_persisted_assertion_is_cleared_on_restart_without_resuming_motion",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_complete_bindings.Complete.test_pulses_and_toggles_preserve_hmi_semantics",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_complete_bindings.Complete.test_unwinder_and_edge_toggles_use_their_exact_flags",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_complete_bindings.Complete.test_waiting_quantity_tracks_both_live_bounds",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_idle_policy.IdlePolicy.test_13_accepts_boost_accumulation_and_manual_return",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_idle_policy.IdlePolicy.test_13_still_requires_auto_off_and_fresh_state",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_idle_policy.IdlePolicy.test_leaving_13_returns_10_even_when_controls_are_blocked",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_idle_policy.IdlePolicy.test_live_state_change_before_boost_write_rejects_45",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_idle_policy.IdlePolicy.test_live_state_change_before_generic_normal_write_is_rejected",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_idle_policy.IdlePolicy.test_manual_commands_keep_5_6_9_and_reject_13",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_idle_policy.IdlePolicy.test_other_states_reject_manual_normal_and_boost_without_writes",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_io.Diagnostics.test_48_signal_resolution_keeps_counters_polling",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_io.Diagnostics.test_all_scalar_types_bit_extraction_and_no_writes",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_io.Diagnostics.test_lease_expiry_and_explicit_pause_stop_io_reads",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_io.Diagnostics.test_missing_wrong_type_and_per_item_error_are_unknown",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_io.Diagnostics.test_selection_schema_bounds_epoch_and_authentication",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_io.Diagnostics.test_sum_read_fallback_remains_read_only",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_io.Diagnostics.test_symbol_version_resolves_selection_again_and_offline_is_unknown",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_io.Diagnostics.test_visible_page_change_never_leaks_old_values",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_local_features.Features.test_boost_accumulates_caps_and_deduplicates",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_local_features.Features.test_connection_loss_queues_normal_until_connection_recovers",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_local_features.Features.test_corrupt_profile_does_not_allow_bootstrap_overwrite",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_local_features.Features.test_expiry_returns_to_10_without_any_browser",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_local_features.Features.test_graceful_exit_returns_10_and_clears_journal",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_local_features.Features.test_legacy_unicode_password_migrates_to_numeric_pin",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_local_features.Features.test_login_throttle_and_cookie_cannot_be_replaced_by_role",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_local_features.Features.test_lost_boost_ack_recovers_to_10_without_retrying_45",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_local_features.Features.test_new_password_requires_six_ascii_digits_and_keeps_leading_zero",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_local_features.Features.test_no_boost_when_running_stale_or_journal_unwritable",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_local_features.Features.test_pending_journal_does_not_write_to_another_plc",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_local_features.Features.test_profiles_permission_and_hashed_password",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_local_features.Features.test_rapid_clicks_during_write_are_all_counted",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_local_features.Features.test_restart_restores_pending_speed_and_does_not_resume_boost",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_manuals.Manuals.test_api_token_and_image_token_required",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_manuals.Manuals.test_catalog_limit_and_long_unicode_titles_remain_valid_json",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_manuals.Manuals.test_cyrillic_spaces_nested_photos_and_stable_id",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_manuals.Manuals.test_directory_file_and_nested_links_are_refused",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_manuals.Manuals.test_invalid_encoding_nul_large_text_and_hidden_folders",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_manuals.Manuals.test_linked_root_is_refused",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_manuals.Manuals.test_new_guide_is_discovered_without_restart",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_manuals.Manuals.test_photo_signatures_size_and_extension",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_manuals.Manuals.test_reading_is_read_only_and_does_not_interrupt_counter_polling",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_manuals.Manuals.test_two_bundled_guides_and_real_photos",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_manuals.Manuals.test_unknown_id_and_media_cannot_escape_guide",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_manuals.Manuals.test_update_metadata_revision_bom_crlf_and_removal",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_menu_language.MenuLanguage.test_confirmed_temperature_fields_and_no_connection_writes",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_menu_language.MenuLanguage.test_language_is_operator_accessible_and_persists_with_options",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_menu_language.MenuLanguage.test_localization_assets_are_confined_and_catalogs_match",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_metadata.Metadata.test_all_26_live_catalog_types_in_both_layouts",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_metadata.Metadata.test_five_captured_nested_replies",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_metadata.Metadata.test_signedness_numeric_type_size_and_flags_stay_strict",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_metadata.Metadata.test_string_terminators_and_lengths_are_checked",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_operator_fixes.OperatorFixes.test_corrupt_journal_never_sends_unscoped_writes",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_operator_fixes.OperatorFixes.test_current_counter_uses_the_native_reset_pulse",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_operator_fixes.OperatorFixes.test_exit_visibility_persists_and_old_options_preserve_it",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_operator_fixes.OperatorFixes.test_expired_journal_and_no_late_repeat_of_disable",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_operator_fixes.OperatorFixes.test_legacy_edge_count_zero_keeps_three_readouts",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_operator_fixes.OperatorFixes.test_lost_disable_ack_restores_instead_of_reasserting",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_operator_fixes.OperatorFixes.test_pending_guard_never_writes_to_another_plc",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_operator_fixes.OperatorFixes.test_permanent_requires_engineer_and_survives_restart",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_operator_fixes.OperatorFixes.test_quit_restores_temporary_unwinder_before_process_exit",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_operator_fixes.OperatorFixes.test_startup_without_a_bypass_journal_restores_normal_monitoring",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_operator_fixes.OperatorFixes.test_temporary_disable_enable_and_dedicated_api",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_parameter_bindings.Bindings.test_channel_assignment_mismatch_blocks_cached_and_fresh_writes",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_parameter_bindings.Bindings.test_dynamic_bag_width_limits_are_checked_again_before_write",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_parameter_bindings.Bindings.test_edge_auto_is_per_channel_and_configured",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_parameter_bindings.Bindings.test_every_new_writable_uses_its_declared_type_and_readback",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_parameter_bindings.Bindings.test_full_poll_over_64_and_large_report",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_parameter_bindings.Bindings.test_hmi_limits_and_derived_fields",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_parameter_bindings.Bindings.test_new_settings_never_retry_after_lost_ack",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_photomark.Photomark.test_acknowledgement_without_changed_plc_bit_is_not_success",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_photomark.Photomark.test_average_length_is_readonly_and_window_keeps_native_limits",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_photomark.Photomark.test_explicit_set_is_restricted_and_validated",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_photomark.Photomark.test_hmi_starting_teach_before_the_write_blocks_offset",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_photomark.Photomark.test_latch_zero_manual_feed_and_finish_keep_the_measured_offset",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_photomark.Photomark.test_learning_values_poll_with_fast_counters",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_photomark.Photomark.test_lost_ack_is_not_replayed_after_reconnect",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_photomark.Photomark.test_manual_offset_correction_remains_available_during_automatic_run",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_photomark.Photomark.test_offset_limits_follow_working_length_in_mm",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_photomark.Photomark.test_plc_clears_on_start_and_late_finish_cannot_reenable",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_photomark.Photomark.test_repeated_enable_is_idempotent_and_does_not_zero_again",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_photomark.Photomark.test_teaching_state_unavailable_blocks_manual_offset",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_production.Production.test_ads_reconnect_never_adds_unobserved_counter_delta",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_production.Production.test_batched_positive_counter_change_is_not_rejected_by_speed_guess",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_production.Production.test_disk_lock_reports_failure_without_blocking_ads",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_production.Production.test_export_sequence_and_sources_are_stable",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_production.Production.test_import_permission_schema_and_immutable_id",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_production.Production.test_invalid_unicode_and_duplicate_json_do_not_disable_journal",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_production.Production.test_job_action_idempotency_and_one_active_job",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_production.Production.test_local_history_without_jobs_and_plc_writes",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_production.Production.test_manual_and_disconnected_states_are_not_stops",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_production.Production.test_persistence_crash_gap_and_stable_machine_id",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_production.Production.test_range_validation_token_and_detail_text_are_read_only",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_production.Production.test_real_counter_increments_stop_does_not_finish_and_pause",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_production.Production.test_reset_marks_incomplete_and_counts_after_reset_without_negative_delta",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_release20.Release20.test_actual_alarm_snapshot_infers_and_persists_read_only_reason",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_release20.Release20.test_engineer_history_rebins_only_bounded_window",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_release20.Release20.test_equipment_signals_are_read_only_and_fresh",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_release20.Release20.test_font_allowlist_legacy_save_and_disk_failure",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_release20.Release20.test_font_survives_native_restart_with_legacy_preferences",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_release20.Release20.test_operator_shift_summary_has_no_detail_or_query_escape",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_release20.Release20.test_version1_history_migration_preserves_rows_and_notes",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_release21.Release21.test_catalog_covers_all_original_pages_without_address_aliases",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_release21.Release21.test_configuration_conflict_does_not_overwrite_original_hmi",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_release21.Release21.test_engineer_configuration_writes_recheck_state_and_readback",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_release21.Release21.test_glue_diameter_is_operator_editable_only_when_stopped_and_apply_is_a_pulse",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_release21.Release21.test_numeric_limits_types_and_zero_scaling_are_enforced",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_release21.Release21.test_operator_can_read_all_jobs_and_spec_but_cannot_import_or_export_history",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_release21.Release21.test_operator_cannot_write_configuration_even_via_direct_api",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_release21.Release21.test_turkish_catalog_and_native_preference",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_release22.Release22.test_all_original_controls_write_correct_scalars_and_read_back",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_release22.Release22.test_catalog_and_original_names_in_english_turkish_modes",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_release22.Release22.test_operator_cannot_write_new_performance_settings",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_release22.Release22.test_original_25_controls_and_three_readings_are_bound_without_aliases",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_release22.Release22.test_original_bounds_integer_types_and_software_distance_guard",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_release22.Release22.test_original_hmi_conflict_and_readonly_values_are_not_overwritten",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_release22.Release22.test_stopped_state_is_checked_again_before_motion_configuration_write",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_release23.Release23.test_actual_readings_belong_to_their_setpoints_and_stay_readonly",
+      "result": "ok",
+      "attempts": [
+        "ok",
+        "ok"
+      ]
+    },
+    {
+      "id": "test_release23.Release23.test_live_type_and_writable_metadata_are_required_and_no_lost_ack_retry",
+      "result": "ok",
+      "attempts": [
+        "ok",
+        "ok"
+      ]
+    },
+    {
+      "id": "test_release23.Release23.test_one_shared_real_symbol_and_original_hmi_bounds",
+      "result": "ok",
+      "attempts": [
+        "ERROR",
+        "ok"
+      ]
+    },
+    {
+      "id": "test_release23.Release23.test_operator_can_set_fractional_dead_zone_with_native_readback",
+      "result": "ok",
+      "attempts": [
+        "ok",
+        "ok"
+      ]
+    },
+    {
+      "id": "test_release23.Release23.test_other_hmi_changes_are_not_overwritten",
+      "result": "ok",
+      "attempts": [
+        "ok",
+        "ok"
+      ]
+    },
+    {
+      "id": "test_release23.Release23.test_presence_uses_common_configuration_including_legacy_zero",
+      "result": "ok",
+      "attempts": [
+        "ok",
+        "ok"
+      ]
+    },
+    {
+      "id": "test_themes.Themes.test_common_preference_survives_restart_language_and_profile",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_themes.Themes.test_default_and_initial_html",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_themes.Themes.test_failed_save_retains_previous_theme",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_themes.Themes.test_invalid_selection_never_changes_current_or_saved_preference",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_themes.Themes.test_legacy_files_keep_preferences_and_default_to_dark",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_themes.Themes.test_legacy_option_requests_preserve_selected_theme",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    },
+    {
+      "id": "test_themes.Themes.test_unknown_saved_theme_falls_back_without_resetting_other_options",
+      "result": "ok",
+      "attempts": [
+        "ok"
+      ]
+    }
+  ]
+}

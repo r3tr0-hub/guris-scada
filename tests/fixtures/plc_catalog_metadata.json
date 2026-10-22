@@ -1,0 +1,265 @@
+{
+  "source": "Guris_symbols(10).csv; PLC symbol version 96. Addresses are test evidence only, never runtime defaults.",
+  "fields": [
+    {
+      "key": "width",
+      "symbol": ".stKaliciData.sRecipeData.rMerdanePosMesafe",
+      "type": "REAL",
+      "size": 4,
+      "data_type": 4,
+      "flags": 0,
+      "group": 16448,
+      "offset": 1300535
+    },
+    {
+      "key": "batch",
+      "symbol": ".stKaliciData.sRecipeData.diIstenenPaketAdet",
+      "type": "DINT",
+      "size": 4,
+      "data_type": 3,
+      "flags": 0,
+      "group": 16448,
+      "offset": 1300335
+    },
+    {
+      "key": "welding",
+      "symbol": ".stKaliciData.sRecipeData.rCeneKaynakHiz",
+      "type": "REAL",
+      "size": 4,
+      "data_type": 4,
+      "flags": 0,
+      "group": 16448,
+      "offset": 1300539
+    },
+    {
+      "key": "weldingEnabled",
+      "symbol": ".stKaliciData.sRecipeData.bMoonStepAktif",
+      "type": "BOOL",
+      "size": 1,
+      "data_type": 33,
+      "flags": 0,
+      "group": 16448,
+      "offset": 1300293
+    },
+    {
+      "key": "speedSet",
+      "symbol": ".stKaliciData.rCeneHizAdetSet_dk",
+      "type": "REAL",
+      "size": 4,
+      "data_type": 4,
+      "flags": 0,
+      "group": 16448,
+      "offset": 1300012
+    },
+    {
+      "key": "productionQty",
+      "symbol": ".stKaliciData.sRecipeData.diIstenilenUretimAdet",
+      "type": "DINT",
+      "size": 4,
+      "data_type": 3,
+      "flags": 0,
+      "group": 16448,
+      "offset": 1300367
+    },
+    {
+      "key": "current",
+      "symbol": "MAIN.diActPaketAdet",
+      "type": "DINT",
+      "size": 4,
+      "data_type": 3,
+      "flags": 0,
+      "group": 16448,
+      "offset": 521259
+    },
+    {
+      "key": "groups",
+      "symbol": "MAIN.diGrupAdet",
+      "type": "DINT",
+      "size": 4,
+      "data_type": 3,
+      "flags": 0,
+      "group": 16448,
+      "offset": 523642
+    },
+    {
+      "key": "total",
+      "symbol": "MAIN.diToplamAdet",
+      "type": "DINT",
+      "size": 4,
+      "data_type": 3,
+      "flags": 0,
+      "group": 16448,
+      "offset": 523601
+    },
+    {
+      "key": "machineState",
+      "symbol": ".I_MESSAGEID",
+      "type": "INT16",
+      "size": 2,
+      "data_type": 2,
+      "flags": 0,
+      "group": 16448,
+      "offset": 1168626
+    },
+    {
+      "key": "beltTimed",
+      "symbol": ".stKaliciData.sRecipeData.bBant_But",
+      "type": "BOOL",
+      "size": 1,
+      "data_type": 33,
+      "flags": 0,
+      "group": 16448,
+      "offset": 1300290
+    },
+    {
+      "key": "beltTime1",
+      "symbol": ".stKaliciData.iIstiflemeErkenStartSuresi_ms",
+      "type": "INT",
+      "size": 2,
+      "data_type": 2,
+      "flags": 0,
+      "group": 16448,
+      "offset": 1302179
+    },
+    {
+      "key": "beltTime2",
+      "symbol": ".stKaliciData.sRecipeData.diBantOtoSure",
+      "type": "DINT",
+      "size": 4,
+      "data_type": 3,
+      "flags": 0,
+      "group": 16448,
+      "offset": 1300339
+    },
+    {
+      "key": "beltTime3",
+      "symbol": ".stKaliciData.sRecipeData.diGrupBantSureOfset",
+      "type": "DINT",
+      "size": 4,
+      "data_type": 3,
+      "flags": 0,
+      "group": 16448,
+      "offset": 1300403
+    },
+    {
+      "key": "conveyorContinuous",
+      "symbol": ".stKaliciData.bBantSurekliCalismaAktif",
+      "type": "BOOL",
+      "size": 1,
+      "data_type": 33,
+      "flags": 0,
+      "group": 16448,
+      "offset": 1301848
+    },
+    {
+      "key": "conveyorTime1",
+      "symbol": ".stKaliciData.rKonvoyorFrekans",
+      "type": "REAL",
+      "size": 4,
+      "data_type": 4,
+      "flags": 0,
+      "group": 16448,
+      "offset": 1302783
+    },
+    {
+      "key": "conveyorTime2",
+      "symbol": ".stKaliciData.rPaketArasiBantFrekans",
+      "type": "REAL",
+      "size": 4,
+      "data_type": 4,
+      "flags": 0,
+      "group": 16448,
+      "offset": 1303175
+    },
+    {
+      "key": "beltStep",
+      "symbol": ".stKaliciData.sRecipeData.rBantUzeriIstenenUrunAdet",
+      "type": "REAL",
+      "size": 4,
+      "data_type": 4,
+      "flags": 0,
+      "group": 16448,
+      "offset": 1300715
+    },
+    {
+      "key": "waitingQty",
+      "symbol": ".stKaliciData.sRecipeData.diCeneBosVurmaAdet",
+      "type": "DINT",
+      "size": 4,
+      "data_type": 3,
+      "flags": 0,
+      "group": 16448,
+      "offset": 1300399
+    },
+    {
+      "key": "offset",
+      "symbol": ".stKaliciData.sRecipeData.rKayisOfset",
+      "type": "REAL",
+      "size": 4,
+      "data_type": 4,
+      "flags": 0,
+      "group": 16448,
+      "offset": 1300719
+    },
+    {
+      "key": "beltIdleSpeed",
+      "symbol": ".stKaliciData.rKayisStopHizYuzde",
+      "type": "REAL",
+      "size": 4,
+      "data_type": 4,
+      "flags": 0,
+      "group": 16448,
+      "offset": 1303071
+    },
+    {
+      "key": "offsetDisplay",
+      "symbol": "SLOW_TASK.RKAYISKADEMEOFSET",
+      "type": "REAL",
+      "size": 4,
+      "data_type": 4,
+      "flags": 0,
+      "group": 16448,
+      "offset": 766125
+    },
+    {
+      "key": "offsetStep",
+      "symbol": ".stKaliciData.rKayisOfset_Adim",
+      "type": "REAL",
+      "size": 4,
+      "data_type": 4,
+      "flags": 0,
+      "group": 16448,
+      "offset": 1303075
+    },
+    {
+      "key": "speedLimit",
+      "symbol": "X_CENE.LRCENEHIZLIMIT",
+      "type": "LREAL",
+      "size": 8,
+      "data_type": 5,
+      "flags": 0,
+      "group": 16448,
+      "offset": 966778
+    },
+    {
+      "key": "waitingLimit",
+      "symbol": "MAIN.IMAXCENEBOSVURMAADET",
+      "type": "INT16",
+      "size": 2,
+      "data_type": 2,
+      "flags": 0,
+      "group": 16448,
+      "offset": 653343
+    },
+    {
+      "key": "automatic",
+      "symbol": "MAIN.BSISTEMOTOMATIK",
+      "type": "BOOL",
+      "size": 1,
+      "data_type": 33,
+      "flags": 0,
+      "group": 16448,
+      "offset": 524893
+    }
+  ]
+}

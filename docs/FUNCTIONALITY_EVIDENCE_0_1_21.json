@@ -1,0 +1,2182 @@
+{
+  "schema": 1,
+  "title": "Функционал",
+  "original": "OPSIYONLAR",
+  "version": "0.1.21",
+  "sourceSHA256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6",
+  "parameters": [
+    {
+      "key": "cfgCeneServoVar",
+      "symbol": ".stKaliciData.bCeneServoVar",
+      "page": 1,
+      "column": 1,
+      "order": 0,
+      "type": "BOOL",
+      "label": "Сервопривод ножа",
+      "en": "Jaw servo",
+      "original": "Jaw Servo Available",
+      "description": "Наличие сервопривода ножа в конфигурации машины. Рабочие разрешения, референс и команды движения задаются отдельно.",
+      "proof": [
+        {
+          "function": "__VISU_OPSIYON_INPUTCODE",
+          "fileOffset": 2609438,
+          "fileOffsetHex": "0x27d11e",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        {
+          "function": "__VISU_OPSIYON_INPUTCODE",
+          "fileOffset": 2609640,
+          "fileOffsetHex": "0x27d1e8",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "MAIN",
+        "MAIN.AciKontrolStart",
+        "MAIN.AxisStart_Org",
+        "MAIN.HesapFast",
+        "MAIN.HomeArama",
+        "MAIN.ValfAciKontrol",
+        "Slow_Task.Arizalar",
+        "Slow_Task.Hesaplamalar",
+        "x_EKKAYNAK",
+        "x_TUTUCU.AxisControl",
+        "x_TVKFIRE"
+      ],
+      "legacy": false,
+      "safety": false
+    },
+    {
+      "key": "cfgElgecmeServoVar",
+      "symbol": ".stKaliciData.bElgecmeServoVar",
+      "page": 1,
+      "column": 1,
+      "order": 1,
+      "type": "BOOL",
+      "label": "Сервопривод вырубной ручки",
+      "en": "Handle servo",
+      "original": "Handle Servo Available",
+      "description": "Наличие сервопривода узла вырубной ручки. Не является командой вырубки или ручного движения.",
+      "proof": [
+        {
+          "function": "__VISU_OPSIYON_INPUTCODE",
+          "fileOffset": 2613332,
+          "fileOffsetHex": "0x27e054",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        {
+          "function": "__VISU_OPSIYON_INPUTCODE",
+          "fileOffset": 2613534,
+          "fileOffsetHex": "0x27e11e",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "MAIN.AxisStart_Org",
+        "Slow_Task.DigerValfVeMotorKontrol"
+      ],
+      "legacy": false,
+      "safety": false
+    },
+    {
+      "key": "cfgTutucuServoVar",
+      "symbol": ".stKaliciData.bTutucuServoVar",
+      "page": 1,
+      "column": 1,
+      "order": 2,
+      "type": "BOOL",
+      "label": "Сервопривод выкидных валов",
+      "en": "Ejection servo",
+      "original": "Holder Servo Available",
+      "description": "Наличие сервопривода выкидных валов. Пуск узла и настройка его скорости выполняются отдельно.",
+      "proof": [
+        {
+          "function": "__VISU_OPSIYON_INPUTCODE",
+          "fileOffset": 2613736,
+          "fileOffsetHex": "0x27e1e8",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        {
+          "function": "__VISU_OPSIYON_INPUTCODE",
+          "fileOffset": 2613938,
+          "fileOffsetHex": "0x27e2b2",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "MAIN.AxisStart_Org",
+        "Slow_Task.UniteAktivasyon",
+        "x_TUTUCU.AxisControl"
+      ],
+      "legacy": false,
+      "safety": false
+    },
+    {
+      "key": "equipmentGlue",
+      "symbol": ".stKaliciData.bHotmeltUniteVar",
+      "page": 1,
+      "column": 1,
+      "order": 3,
+      "type": "BOOL",
+      "label": "Клеевая станция 1",
+      "en": "Hotmelt unit 1",
+      "original": "Hotmelt Unit",
+      "description": "Наличие первой клеевой станции. Управляет доступностью её функций и кнопки «Клей»; рабочая подача клея включается отдельно.",
+      "proof": [
+        {
+          "function": "__VISU_OPSIYON_INPUTCODE",
+          "fileOffset": 2612928,
+          "fileOffsetHex": "0x27dec0",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        {
+          "function": "__VISU_OPSIYON_INPUTCODE",
+          "fileOffset": 2613130,
+          "fileOffsetHex": "0x27df8a",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "HotmeltUnite1.Hesaplamalar",
+        "SeritBant1",
+        "SeritBant2",
+        "SeritBant3"
+      ],
+      "legacy": false,
+      "safety": false
+    },
+    {
+      "key": "equipmentLiner",
+      "symbol": ".stKaliciData.bBantVar",
+      "page": 1,
+      "column": 1,
+      "order": 4,
+      "type": "BOOL",
+      "label": "Узел лайнера",
+      "en": "Liner unit",
+      "original": "Tape Include",
+      "description": "Наличие узла лайнера (ленты). Управляет доступностью меню лайнера; контроль диаметра и автоостановка настраиваются отдельно.",
+      "proof": [
+        {
+          "function": "__VISU_OPSIYON_INPUTCODE",
+          "fileOffset": 2614140,
+          "fileOffsetHex": "0x27e37c",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        {
+          "function": "__VISU_OPSIYON_INPUTCODE",
+          "fileOffset": 2614342,
+          "fileOffsetHex": "0x27e446",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "SeritBant1",
+        "SeritBant2",
+        "SeritBant3"
+      ],
+      "legacy": false,
+      "safety": false
+    },
+    {
+      "key": "cfgSariciVar",
+      "symbol": ".stKaliciData.bSariciVar",
+      "page": 1,
+      "column": 1,
+      "order": 5,
+      "type": "BOOL",
+      "label": "Намотчик",
+      "en": "Winder",
+      "original": "Winder Include",
+      "description": "Наличие намотчика в конфигурации. Это комплектация станка, а не команда его запуска.",
+      "proof": [
+        {
+          "function": "__VISU_OPSIYON_INPUTCODE",
+          "fileOffset": 2612524,
+          "fileOffsetHex": "0x27dd2c",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        {
+          "function": "__VISU_OPSIYON_INPUTCODE",
+          "fileOffset": 2612726,
+          "fileOffsetHex": "0x27ddf6",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [],
+      "legacy": false,
+      "safety": false
+    },
+    {
+      "key": "cfgDelikEncUniteVar",
+      "symbol": ".stKaliciData.bDelikEncUniteVar",
+      "page": 1,
+      "column": 1,
+      "order": 6,
+      "type": "BOOL",
+      "label": "Многократная пробивка",
+      "en": "Multiple drilling unit",
+      "original": "Multiple Drill Unit",
+      "description": "Разрешает вариант энкодерного управления пробивкой. Флаг используется программой DelikDelmeValf; не является командой одиночного пробоя.",
+      "proof": [
+        {
+          "function": "__VISU_OPSIYON_INPUTCODE",
+          "fileOffset": 2611312,
+          "fileOffsetHex": "0x27d870",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        {
+          "function": "__VISU_OPSIYON_INPUTCODE",
+          "fileOffset": 2611514,
+          "fileOffsetHex": "0x27d93a",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "DelikDelmeValf"
+      ],
+      "legacy": false,
+      "safety": false
+    },
+    {
+      "key": "cfgBalerin2PotansCalismaAktif",
+      "symbol": ".stKaliciData.bBalerin2PotansCalismaAktif",
+      "page": 1,
+      "column": 1,
+      "order": 7,
+      "type": "BOOL",
+      "label": "Баллерина 2: прямой потенциометр",
+      "en": "Dancer 2 direct potentiometer",
+      "original": "Dancer2 Direct Potance",
+      "description": "Дополнительный флаг старой страницы HMI, занимающий ту же строку, что Multiple Drill Unit в другом варианте. Прямых обращений рабочей логики к этому флагу в данном Boot не найдено; физический эффект не подтверждён.",
+      "proof": [
+        {
+          "function": "__VISU_OPSIYON_INPUTCODE",
+          "fileOffset": 2612120,
+          "fileOffsetHex": "0x27db98",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        {
+          "function": "__VISU_OPSIYON_INPUTCODE",
+          "fileOffset": 2612322,
+          "fileOffsetHex": "0x27dc62",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [],
+      "legacy": true,
+      "safety": false,
+      "readOnly": true,
+      "unconfirmedPhysicalEffect": true
+    },
+    {
+      "key": "cfgPotansliCalismaAktif",
+      "symbol": ".stKaliciData.bPotansliCalismaAktif",
+      "page": 1,
+      "column": 1,
+      "order": 8,
+      "type": "BOOL",
+      "label": "Управление потенциометром",
+      "en": "Potentiometer control",
+      "original": "Potans Aktif",
+      "description": "Выбор предусмотренного ПЛК режима управления от потенциометра. Не задаёт скорость сам по себе: учитываются остальные разрешения машины.",
+      "proof": [
+        {
+          "function": "__VISU_OPSIYON_INPUTCODE",
+          "fileOffset": 2608630,
+          "fileOffsetHex": "0x27cdf6",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        {
+          "function": "__VISU_OPSIYON_INPUTCODE",
+          "fileOffset": 2608832,
+          "fileOffsetHex": "0x27cec0",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "MAIN.Cene_HizKontrol_AC"
+      ],
+      "legacy": false,
+      "safety": false
+    },
+    {
+      "key": "cfgSistemdeEmniyetPLCVar",
+      "symbol": ".stKaliciData.bSistemdeEmniyetPLCVar",
+      "page": 1,
+      "column": 2,
+      "order": 9,
+      "type": "BOOL",
+      "label": "ПЛК безопасности установлен",
+      "en": "Safety PLC installed",
+      "original": "Safty PLC Active",
+      "description": "Указывает, что в системе установлен отдельный ПЛК безопасности. Меняет схему проверки разрешений безопасности; не является сбросом аварии.",
+      "proof": [
+        {
+          "function": "__VISU_OPSIYON_INPUTCODE",
+          "fileOffset": 2611716,
+          "fileOffsetHex": "0x27da04",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        {
+          "function": "__VISU_OPSIYON_INPUTCODE",
+          "fileOffset": 2611918,
+          "fileOffsetHex": "0x27dace",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "PRG_FactorySettings",
+        "PRG_FILELIST.a_Action",
+        "Safety.Inputs",
+        "PRG_KaliciHafiza"
+      ],
+      "legacy": false,
+      "safety": true
+    },
+    {
+      "key": "cfgEmniyetPLC_ModulluVersiyon",
+      "symbol": ".stKaliciData.bEmniyetPLC_ModulluVersiyon",
+      "page": 1,
+      "column": 2,
+      "order": 10,
+      "type": "BOOL",
+      "label": "ПЛК безопасности с модулями",
+      "en": "Modular safety PLC",
+      "original": "Safety PLC With Modulles",
+      "description": "Выбор модульного исполнения установленного ПЛК безопасности. Должен соответствовать фактической электрической конфигурации.",
+      "proof": [
+        {
+          "function": "__VISU_OPSIYON_INPUTCODE",
+          "fileOffset": 2610504,
+          "fileOffsetHex": "0x27d548",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        {
+          "function": "__VISU_OPSIYON_INPUTCODE",
+          "fileOffset": 2610706,
+          "fileOffsetHex": "0x27d612",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "Safety.Inputs"
+      ],
+      "legacy": false,
+      "safety": true
+    },
+    {
+      "key": "cfgEmniyetKapilarPasif",
+      "symbol": ".stKaliciData.bEmniyetKapilarPasif",
+      "page": 1,
+      "column": 2,
+      "order": 11,
+      "type": "BOOL",
+      "label": "Контроль дверей отключён",
+      "en": "Door monitoring disabled",
+      "original": "Doors Are Passive",
+      "description": "ВКЛ означает отключённый контроль защитных дверей. Смысл флага обратный обычному разрешению контроля; настройка изменяет обработку защитных дверей ПЛК.",
+      "proof": [
+        {
+          "function": "__VISU_OPSIYON_INPUTCODE",
+          "fileOffset": 2610908,
+          "fileOffsetHex": "0x27d6dc",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        {
+          "function": "__VISU_OPSIYON_INPUTCODE",
+          "fileOffset": 2611110,
+          "fileOffsetHex": "0x27d7a6",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "Safety.Act_Basic"
+      ],
+      "legacy": false,
+      "safety": true
+    },
+    {
+      "key": "cfgEmniyetKapiVAR",
+      "symbol": ".stKaliciData.bEmniyetKapiVAR",
+      "page": 1,
+      "column": 2,
+      "order": 12,
+      "type": "BOOL",
+      "label": "Защитные двери установлены",
+      "en": "Safety doors installed",
+      "original": "Emniyet Kapilar VAR",
+      "description": "Наличие защитных дверей и соответствующих входов в конфигурации машины. Отдельный флаг Doors Are Passive отключает их контроль.",
+      "proof": [
+        {
+          "function": "__VISU_OPSIYON_INPUTCODE",
+          "fileOffset": 2608226,
+          "fileOffsetHex": "0x27cc62",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        {
+          "function": "__VISU_OPSIYON_INPUTCODE",
+          "fileOffset": 2608428,
+          "fileOffsetHex": "0x27cd2c",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "Safety.Inputs"
+      ],
+      "legacy": false,
+      "safety": true
+    },
+    {
+      "key": "cfgEmniyetBariyerVAR",
+      "symbol": ".stKaliciData.bEmniyetBariyerVAR",
+      "page": 1,
+      "column": 2,
+      "order": 13,
+      "type": "BOOL",
+      "label": "Защитный барьер установлен",
+      "en": "Safety barrier installed",
+      "original": "Emniyet Bariyer VAR",
+      "description": "Наличие защитного барьера в конфигурации безопасности. Должен соответствовать установленному оборудованию и его цепи безопасности.",
+      "proof": [
+        {
+          "function": "__VISU_OPSIYON_INPUTCODE",
+          "fileOffset": 2607822,
+          "fileOffsetHex": "0x27cace",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        {
+          "function": "__VISU_OPSIYON_INPUTCODE",
+          "fileOffset": 2608024,
+          "fileOffsetHex": "0x27cb98",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "Safety.Inputs"
+      ],
+      "legacy": false,
+      "safety": true
+    },
+    {
+      "key": "cfgYolunaKaynakVar1",
+      "symbol": ".stKaliciData.bYolunaKaynakVar1",
+      "page": 1,
+      "column": 2,
+      "order": 14,
+      "type": "BOOL",
+      "label": "Продольный шов 1",
+      "en": "Longitudinal sealing unit 1",
+      "original": "1. Yoluna Kaynak Var",
+      "description": "Наличие первого узла продольного шва. Доступность общего меню также рассчитывается ПЛК; опускание и нагрев включаются отдельно.",
+      "proof": [
+        {
+          "function": "__VISU_OPSIYON_INPUTCODE",
+          "fileOffset": 2610100,
+          "fileOffsetHex": "0x27d3b4",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        {
+          "function": "__VISU_OPSIYON_INPUTCODE",
+          "fileOffset": 2610302,
+          "fileOffsetHex": "0x27d47e",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "Slow_Task.Hesaplamalar",
+        "Slow_Task.UniteAktivasyon"
+      ],
+      "legacy": false,
+      "safety": false
+    },
+    {
+      "key": "cfgYolunaKaynakVar2",
+      "symbol": ".stKaliciData.bYolunaKaynakVar2",
+      "page": 1,
+      "column": 2,
+      "order": 15,
+      "type": "BOOL",
+      "label": "Продольный шов 2",
+      "en": "Longitudinal sealing unit 2",
+      "original": "2. Yoluna Kaynak Var",
+      "description": "Наличие второго узла продольного шва. Флаг комплектации, не команда опускания сварочной планки.",
+      "proof": [
+        {
+          "function": "__VISU_OPSIYON_INPUTCODE",
+          "fileOffset": 2609034,
+          "fileOffsetHex": "0x27cf8a",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        {
+          "function": "__VISU_OPSIYON_INPUTCODE",
+          "fileOffset": 2609236,
+          "fileOffsetHex": "0x27d054",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "Slow_Task.Hesaplamalar",
+        "Slow_Task.UniteAktivasyon"
+      ],
+      "legacy": false,
+      "safety": false
+    },
+    {
+      "key": "cfgEkKartUniteVar",
+      "symbol": ".stKaliciData.bEkKartUniteVar",
+      "page": 2,
+      "column": 1,
+      "order": 0,
+      "type": "BOOL",
+      "label": "Узел подачи картонной вставки",
+      "en": "Support card feeder",
+      "original": "Support Card Unit Var",
+      "description": "Наличие узла подачи картонной вставки Ek Kart. Не путать с платой электроники и отдельной усилительной протяжкой Takviye.",
+      "proof": [
+        {
+          "function": "__VISU_OPSIYON2_INPUTCODE",
+          "fileOffset": 2557000,
+          "fileOffsetHex": "0x270448",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        {
+          "function": "__VISU_OPSIYON2_INPUTCODE",
+          "fileOffset": 2557202,
+          "fileOffsetHex": "0x270512",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [],
+      "legacy": false,
+      "safety": false
+    },
+    {
+      "key": "cfgCiftCeneUnite",
+      "symbol": ".stKaliciData.bCiftCeneUnite",
+      "page": 2,
+      "column": 1,
+      "order": 1,
+      "type": "BOOL",
+      "label": "Двойной нож",
+      "en": "Dual jaw unit",
+      "original": "Dual Jaw Unit",
+      "description": "Выбор исполнения машины с двойным узлом ножа. Используется при расчётах и разрешениях соответствующего механизма.",
+      "proof": [
+        {
+          "function": "__VISU_OPSIYON2_INPUTCODE",
+          "fileOffset": 2557404,
+          "fileOffsetHex": "0x2705dc",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        {
+          "function": "__VISU_OPSIYON2_INPUTCODE",
+          "fileOffset": 2557606,
+          "fileOffsetHex": "0x2706a6",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [],
+      "legacy": false,
+      "safety": false
+    },
+    {
+      "key": "cfgSonicUniteVar",
+      "symbol": ".stKaliciData.bSonicUniteVar",
+      "page": 2,
+      "column": 1,
+      "order": 2,
+      "type": "BOOL",
+      "label": "Ультразвуковой узел",
+      "en": "Ultrasonic unit",
+      "original": "Sonic Unit",
+      "description": "Наличие ультразвукового узла Sonic. Рабочее включение этого узла задаётся отдельно.",
+      "proof": [
+        {
+          "function": "__VISU_OPSIYON2_INPUTCODE",
+          "fileOffset": 2556596,
+          "fileOffsetHex": "0x2702b4",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        {
+          "function": "__VISU_OPSIYON2_INPUTCODE",
+          "fileOffset": 2556798,
+          "fileOffsetHex": "0x27037e",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "Slow_Task.DigerValfVeMotorKontrol",
+        "Slow_Task.UniteAktivasyon"
+      ],
+      "legacy": false,
+      "safety": false
+    },
+    {
+      "key": "unwinderSensorPresent",
+      "symbol": ".stKaliciData.bMalAzaldiSenVar",
+      "page": 2,
+      "column": 1,
+      "order": 3,
+      "type": "BOOL",
+      "label": "Датчик окончания материала",
+      "en": "Material low sensor",
+      "original": "Product Low Sensor",
+      "description": "Наличие датчика малого остатка материала. Определяет участие соответствующего сигнала в логике; это не временное отключение контроля размотчика.",
+      "proof": [
+        {
+          "function": "__VISU_OPSIYON2_INPUTCODE",
+          "fileOffset": 2555936,
+          "fileOffsetHex": "0x270020",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        {
+          "function": "__VISU_OPSIYON2_INPUTCODE",
+          "fileOffset": 2556138,
+          "fileOffsetHex": "0x2700ea",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [],
+      "legacy": false,
+      "safety": false
+    },
+    {
+      "key": "cfgDilimlemeUniteVar",
+      "symbol": ".stKaliciData.bDilimlemeUniteVar",
+      "page": 2,
+      "column": 1,
+      "order": 4,
+      "type": "BOOL",
+      "label": "Узел продольной резки",
+      "en": "Slitting unit",
+      "original": "Slice Unit",
+      "description": "Наличие узла продольной резки Dilimleme. Не относится к поперечному ножу пакета.",
+      "proof": [
+        {
+          "function": "__VISU_OPSIYON2_INPUTCODE",
+          "fileOffset": 2555532,
+          "fileOffsetHex": "0x26fe8c",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        {
+          "function": "__VISU_OPSIYON2_INPUTCODE",
+          "fileOffset": 2555734,
+          "fileOffsetHex": "0x26ff56",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "Slow_Task.DigerValfVeMotorKontrol",
+        "Slow_Task.UniteAktivasyon"
+      ],
+      "legacy": false,
+      "safety": false
+    },
+    {
+      "key": "cfgLoadCellUniteVar",
+      "symbol": ".stKaliciData.bLoadCellUniteVar",
+      "page": 2,
+      "column": 1,
+      "order": 5,
+      "type": "BOOL",
+      "label": "Контроль натяжения тензодатчиком",
+      "en": "Load cell tension control",
+      "original": "Load Cell Unit",
+      "description": "Наличие узла натяжения с тензодатчиком Load Cell. Электронный модуль датчика выбирается отдельным флагом.",
+      "proof": [
+        {
+          "function": "__VISU_OPSIYON2_INPUTCODE",
+          "fileOffset": 2555128,
+          "fileOffsetHex": "0x26fcf8",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        {
+          "function": "__VISU_OPSIYON2_INPUTCODE",
+          "fileOffset": 2555330,
+          "fileOffsetHex": "0x26fdc2",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [],
+      "legacy": false,
+      "safety": false
+    },
+    {
+      "key": "cfgLoadcelModulVar",
+      "symbol": ".stKaliciData.bLoadcelModulVar",
+      "page": 2,
+      "column": 1,
+      "order": 6,
+      "type": "BOOL",
+      "label": "Модуль тензодатчика EL3351",
+      "en": "EL3351 load cell module",
+      "original": "Loadcell Modul (EL3351) Available",
+      "description": "Указывает наличие терминала EL3351 для измерения усилия. Должен соответствовать фактически установленному модулю ввода.",
+      "proof": [
+        {
+          "function": "__VISU_OPSIYON2_INPUTCODE",
+          "fileOffset": 2554320,
+          "fileOffsetHex": "0x26f9d0",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        {
+          "function": "__VISU_OPSIYON2_INPUTCODE",
+          "fileOffset": 2554522,
+          "fileOffsetHex": "0x26fa9a",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "Slow_Task.AciciFC_WithLoadcell"
+      ],
+      "legacy": false,
+      "safety": false
+    },
+    {
+      "key": "cfgAciciCapSensorAktif",
+      "symbol": ".stKaliciData.bAciciCapSensorAktif",
+      "page": 2,
+      "column": 1,
+      "order": 7,
+      "type": "BOOL",
+      "label": "Датчик диаметра размотки",
+      "en": "Unwinder diameter sensor",
+      "original": "Unwinder Diameter Sensor",
+      "description": "Использование датчика диаметра размотчика. Не является датчиком окончания рулона и не отменяет его таймер восстановления.",
+      "proof": [
+        {
+          "function": "__VISU_OPSIYON2_INPUTCODE",
+          "fileOffset": 2551234,
+          "fileOffsetHex": "0x26edc2",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        {
+          "function": "__VISU_OPSIYON2_INPUTCODE",
+          "fileOffset": 2551436,
+          "fileOffsetHex": "0x26ee8c",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "Slow_Task.Arizalar"
+      ],
+      "legacy": false,
+      "safety": false
+    },
+    {
+      "key": "cfgYumusakSapUniteVarYok",
+      "symbol": ".stKaliciData.bYumusakSapUniteVarYok",
+      "page": 2,
+      "column": 1,
+      "order": 8,
+      "type": "BOOL",
+      "label": "Пневматическая мягкая ручка",
+      "en": "Pneumatic soft handle",
+      "original": "Pnomatik Yumusak Sap",
+      "description": "Наличие пневматического варианта узла мягкой ручки. Сервоисполнение выбирается другим флагом.",
+      "proof": [
+        {
+          "function": "__VISU_OPSIYON2_INPUTCODE",
+          "fileOffset": 2553916,
+          "fileOffsetHex": "0x26f83c",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        {
+          "function": "__VISU_OPSIYON2_INPUTCODE",
+          "fileOffset": 2554118,
+          "fileOffsetHex": "0x26f906",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "Slow_Task.DigerValfVeMotorKontrol",
+        "Slow_Task.UniteAktivasyon"
+      ],
+      "legacy": false,
+      "safety": false
+    },
+    {
+      "key": "equipmentEjectAC",
+      "symbol": ".stKaliciData.bAcTutucuUnite",
+      "page": 2,
+      "column": 2,
+      "order": 9,
+      "type": "BOOL",
+      "label": "Асинхронные выкидные валы",
+      "en": "Asynchronous ejection rollers",
+      "original": "Asenkron Tutucu",
+      "description": "Исполнение выкидных валов с асинхронным приводом. Учитывается при доступности меню выкидных валов.",
+      "proof": [
+        {
+          "function": "__VISU_OPSIYON2_INPUTCODE",
+          "fileOffset": 2553254,
+          "fileOffsetHex": "0x26f5a6",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        {
+          "function": "__VISU_OPSIYON2_INPUTCODE",
+          "fileOffset": 2553456,
+          "fileOffsetHex": "0x26f670",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "Slow_Task.Hesaplamalar",
+        "Slow_Task.KayisKontrol",
+        "Slow_Task.UniteAktivasyon"
+      ],
+      "legacy": false,
+      "safety": false
+    },
+    {
+      "key": "cfgZipYolunaKaynakUniteVarYok",
+      "symbol": ".stKaliciData.bZipYolunaKaynakUniteVarYok",
+      "page": 2,
+      "column": 2,
+      "order": 10,
+      "type": "BOOL",
+      "label": "Продольная сварка зиппера",
+      "en": "Zipper longitudinal sealing",
+      "original": "Zipper Yoluna Kaynak",
+      "description": "Наличие отдельного узла продольной сварки зиппера. Сам зиппер и обычные продольные швы имеют отдельные флаги.",
+      "proof": [
+        {
+          "function": "__VISU_OPSIYON2_INPUTCODE",
+          "fileOffset": 2554724,
+          "fileOffsetHex": "0x26fb64",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        {
+          "function": "__VISU_OPSIYON2_INPUTCODE",
+          "fileOffset": 2554926,
+          "fileOffsetHex": "0x26fc2e",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "Slow_Task.DigerValfVeMotorKontrol",
+        "Slow_Task.UniteAktivasyon"
+      ],
+      "legacy": false,
+      "safety": false
+    },
+    {
+      "key": "cfgKatlamaUniteOpsiyon",
+      "symbol": ".stKaliciData.bKatlamaUniteOpsiyon",
+      "page": 2,
+      "column": 2,
+      "order": 11,
+      "type": "BOOL",
+      "label": "Узел складывания",
+      "en": "Folding unit",
+      "original": "Katlama Unite Opsiyon",
+      "description": "Наличие дополнительного узла складывания Katlama. Флаг терминальной станции этого узла находится рядом.",
+      "proof": [
+        {
+          "function": "__VISU_OPSIYON2_INPUTCODE",
+          "fileOffset": 2552850,
+          "fileOffsetHex": "0x26f412",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        {
+          "function": "__VISU_OPSIYON2_INPUTCODE",
+          "fileOffset": 2553052,
+          "fileOffsetHex": "0x26f4dc",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "KenKontrol.Status",
+        "Slow_Task.UniteAktivasyon"
+      ],
+      "legacy": false,
+      "safety": false
+    },
+    {
+      "key": "cfgKatlamaEK1100",
+      "symbol": ".stKaliciData.bKatlamaEK1100",
+      "page": 2,
+      "column": 2,
+      "order": 12,
+      "type": "BOOL",
+      "label": "Станция EK1100 узла складывания",
+      "en": "Folding unit EK1100 station",
+      "original": "Katlama Unite EK1100",
+      "description": "Наличие станции EK1100 для узла складывания. Должно соответствовать топологии EtherCAT машины.",
+      "proof": [
+        {
+          "function": "__VISU_OPSIYON2_INPUTCODE",
+          "fileOffset": 2550830,
+          "fileOffsetHex": "0x26ec2e",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        {
+          "function": "__VISU_OPSIYON2_INPUTCODE",
+          "fileOffset": 2551032,
+          "fileOffsetHex": "0x26ecf8",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "MAIN.AxisStart_Org"
+      ],
+      "legacy": false,
+      "safety": false
+    },
+    {
+      "key": "cfgTakviyeVar",
+      "symbol": ".stKaliciData.bTakviyeVar",
+      "page": 2,
+      "column": 2,
+      "order": 13,
+      "type": "BOOL",
+      "label": "Узел усиления",
+      "en": "Reinforcement unit",
+      "original": "Takviye Var",
+      "description": "Наличие узла усиления Takviye в комплектации. Подача усиления и усилительная протяжка настраиваются отдельно.",
+      "proof": [
+        {
+          "function": "__VISU_OPSIYON2_INPUTCODE",
+          "fileOffset": 2552446,
+          "fileOffsetHex": "0x26f27e",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        {
+          "function": "__VISU_OPSIYON2_INPUTCODE",
+          "fileOffset": 2552648,
+          "fileOffsetHex": "0x26f348",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [],
+      "legacy": false,
+      "safety": false
+    },
+    {
+      "key": "cfgEkKaynakServoVar",
+      "symbol": ".stKaliciData.bEkKaynakServoVar",
+      "page": 2,
+      "column": 2,
+      "order": 14,
+      "type": "BOOL",
+      "label": "Сервопривод дополнительной сварки",
+      "en": "Additional sealing servo",
+      "original": "EkKaynak (Tavuk) Servo",
+      "description": "Наличие сервопривода дополнительной сварки Ek Kaynak, на HMI также названного Tavuk. Это выбор комплектации, не команда движения.",
+      "proof": [
+        {
+          "function": "__VISU_OPSIYON2_INPUTCODE",
+          "fileOffset": 2552042,
+          "fileOffsetHex": "0x26f0ea",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        {
+          "function": "__VISU_OPSIYON2_INPUTCODE",
+          "fileOffset": 2552244,
+          "fileOffsetHex": "0x26f1b4",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "MAIN.AxisStart_Org",
+        "x_EKKAYNAK.a_AxisControl",
+        "x_EKKAYNAK.b_AxisControl"
+      ],
+      "legacy": false,
+      "safety": false
+    },
+    {
+      "key": "cfgTavukFireUnite",
+      "symbol": ".stKaliciData.bTavukFireUnite",
+      "page": 2,
+      "column": 2,
+      "order": 15,
+      "type": "BOOL",
+      "label": "Удаление отхода Tavuk",
+      "en": "Tavuk waste removal unit",
+      "original": "Tavuk Fire Unite",
+      "description": "Наличие узла удаления отхода в варианте Tavuk. Название варианта сохранено, чтобы не приписывать ему неподтверждённый тип изделия.",
+      "proof": [
+        {
+          "function": "__VISU_OPSIYON2_INPUTCODE",
+          "fileOffset": 2551638,
+          "fileOffsetHex": "0x26ef56",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        {
+          "function": "__VISU_OPSIYON2_INPUTCODE",
+          "fileOffset": 2551840,
+          "fileOffsetHex": "0x26f020",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "x_TVKFIRE.a_AxisControl",
+        "x_TVKFIRE.b_AxisControl"
+      ],
+      "legacy": false,
+      "safety": false
+    },
+    {
+      "key": "equipmentTakeoff",
+      "symbol": ".stKaliciData.bDizgiServoVar",
+      "page": 3,
+      "column": 1,
+      "order": 0,
+      "type": "BOOL",
+      "label": "Сервопривод приёмного вала",
+      "en": "Takeoff servo",
+      "original": "Dizgi Servo",
+      "description": "Наличие сервопривода приёмного вала Dizgi. Управляет доступностью его меню; Moonstep и синхронизация задаются отдельно.",
+      "proof": [
+        {
+          "function": "__VISU_OPSIYON3_INPUTCODE",
+          "fileOffset": 2570363,
+          "fileOffsetHex": "0x27387b",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        {
+          "function": "__VISU_OPSIYON3_INPUTCODE",
+          "fileOffset": 2570565,
+          "fileOffsetHex": "0x273945",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "MAIN.AxisStart_Org",
+        "x_DIZGI.AxisControl",
+        "x_DIZGI.Others"
+      ],
+      "legacy": false,
+      "safety": false
+    },
+    {
+      "key": "cfgTakviyeHatCekiciUnite",
+      "symbol": ".stKaliciData.bTakviyeHatCekiciUnite",
+      "page": 3,
+      "column": 1,
+      "order": 1,
+      "type": "BOOL",
+      "label": "Протяжка усилительной вставки",
+      "en": "Reinforcement insert feeder",
+      "original": "Takviye Kart Unite",
+      "description": "Наличие отдельной протяжки усилительной вставки Takviye Hat Cekici. Не относится к обычному меню лайнера.",
+      "proof": [
+        {
+          "function": "__VISU_OPSIYON3_INPUTCODE",
+          "fileOffset": 2576681,
+          "fileOffsetHex": "0x275129",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        {
+          "function": "__VISU_OPSIYON3_INPUTCODE",
+          "fileOffset": 2576883,
+          "fileOffsetHex": "0x2751f3",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "KenKontrol.Status",
+        "MAIN.AxisStart_Org",
+        "x_TAKVIYEHATCEKICI.AxisControl",
+        "x_TAKVIYEHATCEKICI.Others",
+        "x_TAKVIYEKONVEYOR.AxisControl"
+      ],
+      "legacy": false,
+      "safety": false
+    },
+    {
+      "key": "cfgSenkronMerdane2Var",
+      "symbol": ".stKaliciData.bSenkronMerdane2Var",
+      "page": 3,
+      "column": 1,
+      "order": 2,
+      "type": "BOOL",
+      "label": "Синхронный вал 1",
+      "en": "Synchronous roller 1",
+      "original": "Senkron Merdane 1",
+      "description": "Наличие первого дополнительного синхронного вала по нумерации HMI. В ПЛК он обозначен Merdane2; эти номера намеренно не приравниваются.",
+      "proof": [
+        {
+          "function": "__VISU_OPSIYON3_INPUTCODE",
+          "fileOffset": 2576277,
+          "fileOffsetHex": "0x274f95",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        {
+          "function": "__VISU_OPSIYON3_INPUTCODE",
+          "fileOffset": 2576479,
+          "fileOffsetHex": "0x27505f",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "MAIN.Axis_Servo",
+        "MAIN.AxisStart_Org",
+        "ValveKontrol.Control",
+        "ValveKontrol.Valve"
+      ],
+      "legacy": false,
+      "safety": false
+    },
+    {
+      "key": "cfgSenkronMerdane3Var",
+      "symbol": ".stKaliciData.bSenkronMerdane3Var",
+      "page": 3,
+      "column": 1,
+      "order": 3,
+      "type": "BOOL",
+      "label": "Синхронный вал 2",
+      "en": "Synchronous roller 2",
+      "original": "Senkron Merdane 2",
+      "description": "Наличие второго дополнительного синхронного вала по нумерации HMI. Его переменная ПЛК содержит Merdane3.",
+      "proof": [
+        {
+          "function": "__VISU_OPSIYON3_INPUTCODE",
+          "fileOffset": 2575469,
+          "fileOffsetHex": "0x274c6d",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        {
+          "function": "__VISU_OPSIYON3_INPUTCODE",
+          "fileOffset": 2575671,
+          "fileOffsetHex": "0x274d37",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "MAIN.AxisStart_Org"
+      ],
+      "legacy": false,
+      "safety": false
+    },
+    {
+      "key": "cfgHotmelt2UniteVar",
+      "symbol": ".stKaliciData.bHotmelt2UniteVar",
+      "page": 3,
+      "column": 1,
+      "order": 4,
+      "type": "BOOL",
+      "label": "Клеевая станция 2",
+      "en": "Hotmelt unit 2",
+      "original": "Hotmelt 2 Unite",
+      "description": "Наличие второй клеевой станции. Не является включением подачи клея первой станции.",
+      "proof": [
+        {
+          "function": "__VISU_OPSIYON3_INPUTCODE",
+          "fileOffset": 2575065,
+          "fileOffsetHex": "0x274ad9",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        {
+          "function": "__VISU_OPSIYON3_INPUTCODE",
+          "fileOffset": 2575267,
+          "fileOffsetHex": "0x274ba3",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "HotmeltUnite2.Hesaplamalar"
+      ],
+      "legacy": false,
+      "safety": false
+    },
+    {
+      "key": "cfgInchMode",
+      "symbol": ".stKaliciData.bInchMode",
+      "page": 3,
+      "column": 1,
+      "order": 5,
+      "type": "BOOL",
+      "label": "Размеры в дюймах",
+      "en": "Inch dimensions",
+      "original": "Inch Mode",
+      "description": "Режим задания ширины пакета в дюймах. В MAIN.InchMode значение ширины умножается на 25,4 при расчёте рабочей длины в миллиметрах. Это не ручной Jog.",
+      "proof": [
+        {
+          "function": "__VISU_OPSIYON3_INPUTCODE",
+          "fileOffset": 2574661,
+          "fileOffsetHex": "0x274945",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        {
+          "function": "__VISU_OPSIYON3_INPUTCODE",
+          "fileOffset": 2574863,
+          "fileOffsetHex": "0x274a0f",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "HotmeltUnite1.Hesaplamalar",
+        "HotmeltUnite2.Hesaplamalar",
+        "HotmeltUnite3.Hesaplamalar",
+        "MAIN.InchMode"
+      ],
+      "legacy": false,
+      "safety": false
+    },
+    {
+      "key": "cfgElGecme2ServoVar",
+      "symbol": ".stKaliciData.bElGecme2ServoVar",
+      "page": 3,
+      "column": 1,
+      "order": 6,
+      "type": "BOOL",
+      "label": "Сервопривод вырубной ручки 2",
+      "en": "Handle servo 2",
+      "original": "ElGecme Servo 2",
+      "description": "Наличие второго сервопривода узла вырубной ручки. Первый привод имеет отдельный флаг.",
+      "proof": [
+        {
+          "function": "__VISU_OPSIYON3_INPUTCODE",
+          "fileOffset": 2574257,
+          "fileOffsetHex": "0x2747b1",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        {
+          "function": "__VISU_OPSIYON3_INPUTCODE",
+          "fileOffset": 2574459,
+          "fileOffsetHex": "0x27487b",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "MAIN.AxisStart_Org",
+        "x_ELGECME2.AxisControl"
+      ],
+      "legacy": false,
+      "safety": false
+    },
+    {
+      "key": "equipmentEjectAutoJog",
+      "symbol": ".stKaliciData.bTutucuServoAutoJogMode",
+      "page": 3,
+      "column": 1,
+      "order": 7,
+      "type": "BOOL",
+      "label": "Выкидные валы: серворежим AutoJog",
+      "en": "Ejection servo AutoJog mode",
+      "original": "Kirmali Tutucu Servo",
+      "description": "Выбор специального серворежима выкидных валов AutoJog, в HMI Kirmali Tutucu Servo. Это постоянная конфигурация, а не кнопка ручной прокрутки.",
+      "proof": [
+        {
+          "function": "__VISU_OPSIYON3_INPUTCODE",
+          "fileOffset": 2573853,
+          "fileOffsetHex": "0x27461d",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        {
+          "function": "__VISU_OPSIYON3_INPUTCODE",
+          "fileOffset": 2574055,
+          "fileOffsetHex": "0x2746e7",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "Slow_Task.Hesaplamalar",
+        "x_TUTUCU.Homing"
+      ],
+      "legacy": false,
+      "safety": false
+    },
+    {
+      "key": "cfgHotmelt3UniteVar",
+      "symbol": ".stKaliciData.bHotmelt3UniteVar",
+      "page": 3,
+      "column": 1,
+      "order": 8,
+      "type": "BOOL",
+      "label": "Клеевой клапан 3",
+      "en": "Hotmelt valve 3",
+      "original": "Hotmelt 3 Valf",
+      "description": "Наличие третьего клеевого узла, обозначенного в HMI как Hotmelt 3 Valf. Его подача управляется отдельно.",
+      "proof": [
+        {
+          "function": "__VISU_OPSIYON3_INPUTCODE",
+          "fileOffset": 2573449,
+          "fileOffsetHex": "0x274489",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        {
+          "function": "__VISU_OPSIYON3_INPUTCODE",
+          "fileOffset": 2573651,
+          "fileOffsetHex": "0x274553",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "HotmeltUnite3.Hesaplamalar"
+      ],
+      "legacy": false,
+      "safety": false
+    },
+    {
+      "key": "cfgHotmeltSwKontrol",
+      "symbol": ".stKaliciData.bHotmeltSwKontrol",
+      "page": 3,
+      "column": 2,
+      "order": 9,
+      "type": "BOOL",
+      "label": "Контроль готовности клеевой станции",
+      "en": "Hotmelt ready signal monitoring",
+      "original": "Hotmelt Sw Kontrol",
+      "description": "Учитывать внешний сигнал готовности клеевой станции при формировании неисправности bHotmeltHazirDegil. Проверка выполняется с задержкой ПЛК; это не включение насоса.",
+      "proof": [
+        {
+          "function": "__VISU_OPSIYON3_INPUTCODE",
+          "fileOffset": 2573045,
+          "fileOffsetHex": "0x2742f5",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        {
+          "function": "__VISU_OPSIYON3_INPUTCODE",
+          "fileOffset": 2573247,
+          "fileOffsetHex": "0x2743bf",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "Slow_Task.Arizalar"
+      ],
+      "legacy": false,
+      "safety": false
+    },
+    {
+      "key": "equipmentTemperature",
+      "symbol": ".stKaliciData.bIsiKontrolVar",
+      "page": 3,
+      "column": 2,
+      "order": 10,
+      "type": "BOOL",
+      "label": "Регулирование температуры",
+      "en": "Temperature control",
+      "original": "Temperature Active",
+      "description": "Наличие температурного регулирования. Управляет доступностью меню температуры; каждый канал нагрева включается отдельно.",
+      "proof": [
+        {
+          "function": "__VISU_OPSIYON3_INPUTCODE",
+          "fileOffset": 2572641,
+          "fileOffsetHex": "0x274161",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        {
+          "function": "__VISU_OPSIYON3_INPUTCODE",
+          "fileOffset": 2572843,
+          "fileOffsetHex": "0x27422b",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [],
+      "legacy": false,
+      "safety": false
+    },
+    {
+      "key": "cfgSicaklikAlarmStopYapsin",
+      "symbol": ".stKaliciData.bSicaklikAlarmStopYapsin",
+      "page": 3,
+      "column": 2,
+      "order": 11,
+      "type": "BOOL",
+      "label": "Остановка по аварии температуры",
+      "en": "Stop on temperature alarm",
+      "original": "Sicaklik Alarm Stop Yapsin",
+      "description": "Разрешает ПЛК останавливать линию по температурной аварии. Отключение меняет реакцию на температурные неисправности.",
+      "proof": [
+        {
+          "function": "__VISU_OPSIYON3_INPUTCODE",
+          "fileOffset": 2572237,
+          "fileOffsetHex": "0x273fcd",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        {
+          "function": "__VISU_OPSIYON3_INPUTCODE",
+          "fileOffset": 2572439,
+          "fileOffsetHex": "0x274097",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "Isilar.a_Control"
+      ],
+      "legacy": false,
+      "safety": true
+    },
+    {
+      "key": "cfgZipperUniteVar",
+      "symbol": ".stKaliciData.bZipperUniteVar",
+      "page": 3,
+      "column": 2,
+      "order": 12,
+      "type": "BOOL",
+      "label": "Узел зиппера",
+      "en": "Zipper unit",
+      "original": "Zipper Unite",
+      "description": "Наличие узла зиппера. Его продольная сварка имеет отдельный флаг комплектации.",
+      "proof": [
+        {
+          "function": "__VISU_OPSIYON3_INPUTCODE",
+          "fileOffset": 2571833,
+          "fileOffsetHex": "0x273e39",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        {
+          "function": "__VISU_OPSIYON3_INPUTCODE",
+          "fileOffset": 2572035,
+          "fileOffsetHex": "0x273f03",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "Zipper.Hesaplamalar"
+      ],
+      "legacy": false,
+      "safety": false
+    },
+    {
+      "key": "cfgTeflonUniteVar",
+      "symbol": ".stKaliciData.bTeflonUniteVar",
+      "page": 3,
+      "column": 2,
+      "order": 13,
+      "type": "BOOL",
+      "label": "Узел тефлоновой ленты",
+      "en": "Teflon unit",
+      "original": "Teflon Unite",
+      "description": "Наличие узла Teflon в конфигурации. Его рабочий режим и параметры задаются в отдельном разделе HMI.",
+      "proof": [
+        {
+          "function": "__VISU_OPSIYON3_INPUTCODE",
+          "fileOffset": 2575873,
+          "fileOffsetHex": "0x274e01",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        {
+          "function": "__VISU_OPSIYON3_INPUTCODE",
+          "fileOffset": 2576075,
+          "fileOffsetHex": "0x274ecb",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "SeritBant1",
+        "SeritBant2",
+        "SeritBant3",
+        "Zipper.Hesaplamalar",
+        "Zipper.Teflon_Surucu"
+      ],
+      "legacy": false,
+      "safety": false
+    },
+    {
+      "key": "cfgIstiflemePistonuYOK",
+      "symbol": ".stKaliciData.bIstiflemePistonuYOK",
+      "page": 3,
+      "column": 2,
+      "order": 14,
+      "type": "BOOL",
+      "label": "Укладочный пневмоцилиндр отключён",
+      "en": "Stacking cylinder disabled",
+      "original": "Istifleme Pistonu Pasif",
+      "description": "ВКЛ означает, что укладочный пневмоцилиндр не используется. Имя переменной содержит YOK («нет»), поэтому состояние не инвертируется при показе.",
+      "proof": [
+        {
+          "function": "__VISU_OPSIYON3_INPUTCODE",
+          "fileOffset": 2571429,
+          "fileOffsetHex": "0x273ca5",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        {
+          "function": "__VISU_OPSIYON3_INPUTCODE",
+          "fileOffset": 2571631,
+          "fileOffsetHex": "0x273d6f",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "Isilar.a_Control",
+        "Isilar.Analog",
+        "Slow_Task.DigerValfVeMotorKontrol"
+      ],
+      "legacy": false,
+      "safety": false
+    },
+    {
+      "key": "cfgKorukUniteVar",
+      "symbol": ".stKaliciData.bKorukUniteVar",
+      "page": 3,
+      "column": 2,
+      "order": 15,
+      "type": "BOOL",
+      "label": "Узел формирования складки Körük",
+      "en": "Gusset forming unit",
+      "original": "Koruk Unite Var-Yok",
+      "description": "Наличие узла Körük. В штатных рабочих опциях он связан с названием Blower Unit; точное механическое исполнение зависит от комплектации машины.",
+      "proof": [
+        {
+          "function": "__VISU_OPSIYON3_INPUTCODE",
+          "fileOffset": 2571025,
+          "fileOffsetHex": "0x273b11",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        {
+          "function": "__VISU_OPSIYON3_INPUTCODE",
+          "fileOffset": 2571227,
+          "fileOffsetHex": "0x273bdb",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "MAIN.AxisStart_Org"
+      ],
+      "legacy": false,
+      "safety": false
+    },
+    {
+      "key": "cfgServoYumusakSapUniteVarYok",
+      "symbol": ".stKaliciData.bServoYumusakSapUniteVarYok",
+      "page": 4,
+      "column": 1,
+      "order": 0,
+      "type": "BOOL",
+      "label": "Сервопривод мягкой ручки",
+      "en": "Servo soft handle unit",
+      "original": "Servo Yumusak Sap Unite",
+      "description": "Наличие сервоисполнения узла мягкой ручки. Пневматическое исполнение задаётся отдельным флагом.",
+      "proof": [
+        {
+          "function": "__VISU_OPSIYON4_INPUTCODE",
+          "fileOffset": 2593797,
+          "fileOffsetHex": "0x279405",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        {
+          "function": "__VISU_OPSIYON4_INPUTCODE",
+          "fileOffset": 2593999,
+          "fileOffsetHex": "0x2794cf",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "KenKontrol.Status",
+        "MAIN.AxisStart_Org",
+        "Slow_Task.UniteAktivasyon",
+        "x_YSAP",
+        "x_YSAP.AxisControl",
+        "x_YSAPMERDANE"
+      ],
+      "legacy": false,
+      "safety": false
+    },
+    {
+      "key": "cfgUrunToplamaVar",
+      "symbol": ".stKaliciData.bUrunToplamaVar",
+      "page": 4,
+      "column": 1,
+      "order": 1,
+      "type": "BOOL",
+      "label": "Сбор изделий с мягкой ручкой",
+      "en": "Soft handle product collection",
+      "original": "Yumusak Sap Urun Toplama",
+      "description": "Наличие узла сбора изделий для исполнения с мягкой ручкой. Это конфигурация механизма, не разовая команда сбора.",
+      "proof": [
+        {
+          "function": "__VISU_OPSIYON4_INPUTCODE",
+          "fileOffset": 2593393,
+          "fileOffsetHex": "0x279271",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        {
+          "function": "__VISU_OPSIYON4_INPUTCODE",
+          "fileOffset": 2593595,
+          "fileOffsetHex": "0x27933b",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [],
+      "legacy": false,
+      "safety": false
+    },
+    {
+      "key": "cfgYolunaKaynakBlowerVar",
+      "symbol": ".stKaliciData.bYolunaKaynakBlowerVar",
+      "page": 4,
+      "column": 1,
+      "order": 2,
+      "type": "BOOL",
+      "label": "Обдув продольного шва",
+      "en": "Longitudinal sealing blower",
+      "original": "Yoluna Kaynak Blower",
+      "description": "Наличие узла обдува продольного шва. Не является включением самого сварочного узла.",
+      "proof": [
+        {
+          "function": "__VISU_OPSIYON4_INPUTCODE",
+          "fileOffset": 2592989,
+          "fileOffsetHex": "0x2790dd",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        {
+          "function": "__VISU_OPSIYON4_INPUTCODE",
+          "fileOffset": 2593191,
+          "fileOffsetHex": "0x2791a7",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "Slow_Task.UniteAktivasyon"
+      ],
+      "legacy": false,
+      "safety": false
+    },
+    {
+      "key": "cfgOPCActive",
+      "symbol": ".stKaliciData.bOPCActive",
+      "page": 4,
+      "column": 1,
+      "order": 3,
+      "type": "BOOL",
+      "label": "Обмен OPC UA в ПЛК",
+      "en": "PLC OPC UA program",
+      "original": "OPC Aktif",
+      "description": "Разрешает вызов программы OPC_UA в Slow_Task. Флаг не настраивает сервер предприятия и не включает сетевую синхронизацию заданий SCADA.",
+      "proof": [
+        {
+          "function": "__VISU_OPSIYON4_INPUTCODE",
+          "fileOffset": 2592585,
+          "fileOffsetHex": "0x278f49",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        {
+          "function": "__VISU_OPSIYON4_INPUTCODE",
+          "fileOffset": 2592787,
+          "fileOffsetHex": "0x279013",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "Slow_Task"
+      ],
+      "legacy": false,
+      "safety": false
+    },
+    {
+      "key": "cfgAcic2UniteVar",
+      "symbol": ".stKaliciData.bAcic2UniteVar",
+      "page": 4,
+      "column": 1,
+      "order": 4,
+      "type": "BOOL",
+      "label": "Размотчик 2",
+      "en": "Unwinder 2",
+      "original": "Acici 2 Unite",
+      "description": "Наличие второго размотчика. Его обработка вызывается ПЛК при включённом флаге.",
+      "proof": [
+        {
+          "function": "__VISU_OPSIYON4_INPUTCODE",
+          "fileOffset": 2592181,
+          "fileOffsetHex": "0x278db5",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        {
+          "function": "__VISU_OPSIYON4_INPUTCODE",
+          "fileOffset": 2592383,
+          "fileOffsetHex": "0x278e7f",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "KenKontrol",
+        "Slow_Task"
+      ],
+      "legacy": false,
+      "safety": false
+    },
+    {
+      "key": "cfgSedefTakmaVarYok",
+      "symbol": ".stKaliciData.bSedefTakmaVarYok",
+      "page": 4,
+      "column": 1,
+      "order": 5,
+      "type": "BOOL",
+      "label": "Узел Sedef Takma",
+      "en": "Sedef Takma unit",
+      "original": "Sedef Takma Unite",
+      "description": "Наличие узла Sedef Takma. Оригинальное имя сохранено: по доступным файлам нельзя достоверно уточнить тип устанавливаемой детали.",
+      "proof": [
+        {
+          "function": "__VISU_OPSIYON4_INPUTCODE",
+          "fileOffset": 2591777,
+          "fileOffsetHex": "0x278c21",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        {
+          "function": "__VISU_OPSIYON4_INPUTCODE",
+          "fileOffset": 2591979,
+          "fileOffsetHex": "0x278ceb",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "Salmalar.StartKosul",
+        "Slow_Task.Arizalar"
+      ],
+      "legacy": false,
+      "safety": false
+    },
+    {
+      "key": "cfgKargoMakinasi",
+      "symbol": ".stKaliciData.bKargoMakinasi",
+      "page": 4,
+      "column": 1,
+      "order": 6,
+      "type": "BOOL",
+      "label": "Исполнение Kargo",
+      "en": "Kargo machine variant",
+      "original": "Kargo Makinasi",
+      "description": "Выбор исполнения машины Kargo. Влияет на соответствующую вариантную логику; не является выбором текущего производственного задания.",
+      "proof": [
+        {
+          "function": "__VISU_OPSIYON4_INPUTCODE",
+          "fileOffset": 2591373,
+          "fileOffsetHex": "0x278a8d",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        {
+          "function": "__VISU_OPSIYON4_INPUTCODE",
+          "fileOffset": 2591575,
+          "fileOffsetHex": "0x278b57",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "KenKontrol.Status",
+        "Slow_Task.UniteAktivasyon"
+      ],
+      "legacy": false,
+      "safety": false
+    },
+    {
+      "key": "cfgAkimAlarmStopYapsin",
+      "symbol": ".stKaliciData.bAkimAlarmStopYapsin",
+      "page": 4,
+      "column": 1,
+      "order": 7,
+      "type": "BOOL",
+      "label": "Остановка по аварии тока",
+      "en": "Stop on current alarm",
+      "original": "Akim Alarm Stop Yapsin",
+      "description": "Разрешает остановку по аварии тока. Время задержки задаётся соседним параметром в секундах.",
+      "proof": [
+        {
+          "function": "__VISU_OPSIYON4_INPUTCODE",
+          "fileOffset": 2590969,
+          "fileOffsetHex": "0x2788f9",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        {
+          "function": "__VISU_OPSIYON4_INPUTCODE",
+          "fileOffset": 2591171,
+          "fileOffsetHex": "0x2789c3",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "Isilar.a_Control"
+      ],
+      "legacy": false,
+      "safety": true
+    },
+    {
+      "key": "cfgInjetUniteVar",
+      "symbol": ".stKaliciData.bInjetUniteVar",
+      "page": 4,
+      "column": 1,
+      "order": 8,
+      "type": "BOOL",
+      "label": "Узел Injet",
+      "en": "Injet unit",
+      "original": "Injet Unite Var-Yok",
+      "description": "Наличие узла Injet по исходному имени ПЛК и HMI. Не приравнивается автоматически к отдельному выходу VideoJet.",
+      "proof": [
+        {
+          "function": "__VISU_OPSIYON4_INPUTCODE",
+          "fileOffset": 2590054,
+          "fileOffsetHex": "0x278566",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        {
+          "function": "__VISU_OPSIYON4_INPUTCODE",
+          "fileOffset": 2590256,
+          "fileOffsetHex": "0x278630",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [],
+      "legacy": false,
+      "safety": false
+    },
+    {
+      "key": "cfgMerkezPanoStopSinyaliVar",
+      "symbol": ".stKaliciData.bMerkezPanoStopSinyaliVar",
+      "page": 4,
+      "column": 2,
+      "order": 9,
+      "type": "BOOL",
+      "label": "Сигнал «Стоп» центрального шкафа",
+      "en": "Main cabinet stop signal",
+      "original": "Merkez Pano Stop Sinyali Var",
+      "description": "Наличие внешнего сигнала останова центрального шкафа. Это участие входа в логике, а не кнопка отправки команды «Стоп».",
+      "proof": [
+        {
+          "function": "__VISU_OPSIYON4_INPUTCODE",
+          "fileOffset": 2589650,
+          "fileOffsetHex": "0x2783d2",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        {
+          "function": "__VISU_OPSIYON4_INPUTCODE",
+          "fileOffset": 2589852,
+          "fileOffsetHex": "0x27849c",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "MAIN.AxisStart_Org"
+      ],
+      "legacy": false,
+      "safety": true
+    },
+    {
+      "key": "cfgKargoPanoStopSinyaliVar",
+      "symbol": ".stKaliciData.bKargoPanoStopSinyaliVar",
+      "page": 4,
+      "column": 2,
+      "order": 10,
+      "type": "BOOL",
+      "label": "Сигнал «Стоп» шкафа Kargo",
+      "en": "Kargo cabinet stop signal",
+      "original": "Kargo Pano Stop Sinyali Var",
+      "description": "Наличие внешнего сигнала останова шкафа Kargo. Флаг должен соответствовать подключённой схеме машины.",
+      "proof": [
+        {
+          "function": "__VISU_OPSIYON4_INPUTCODE",
+          "fileOffset": 2589246,
+          "fileOffsetHex": "0x27823e",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        {
+          "function": "__VISU_OPSIYON4_INPUTCODE",
+          "fileOffset": 2589448,
+          "fileOffsetHex": "0x278308",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "MAIN.AxisStart_Org"
+      ],
+      "legacy": false,
+      "safety": true
+    },
+    {
+      "key": "cfgHotmeltEncoderModuluVar",
+      "symbol": ".stKaliciData.bHotmeltEncoderModuluVar",
+      "page": 4,
+      "column": 2,
+      "order": 11,
+      "type": "BOOL",
+      "label": "Модуль энкодера клеевой станции",
+      "en": "Hotmelt encoder module",
+      "original": "Hotmelt Encoder Modulu Var",
+      "description": "Выбирает расчёт масштаба с отдельным модулем энкодера. В ScalingFaktor учитывается число импульсов; после изменения нужен штатный запрос применения масштаба.",
+      "proof": [
+        {
+          "function": "__VISU_OPSIYON4_INPUTCODE",
+          "fileOffset": 2588842,
+          "fileOffsetHex": "0x2780aa",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        {
+          "function": "__VISU_OPSIYON4_INPUTCODE",
+          "fileOffset": 2589044,
+          "fileOffsetHex": "0x278174",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      ],
+      "readers": [
+        "Slow_Task.ScalingFaktor"
+      ],
+      "legacy": false,
+      "safety": false
+    },
+    {
+      "key": "cfgCurrentAlarmDelay",
+      "symbol": ".stKaliciData.iAkimAlarmStopDelayTime_sn",
+      "page": 4,
+      "column": 2,
+      "order": 30,
+      "type": "INT",
+      "label": "Задержка остановки по току",
+      "en": "Current alarm stop delay",
+      "original": "Akim Alarm Stop Delay Time (sn)",
+      "unit": "с",
+      "description": "Задержка остановки по аварии тока в секундах. Используется совместно с Akim Alarm Stop Yapsin; исходный диапазон HMI 0–1000 с.",
+      "proof": [
+        {
+          "page": "VISU_OPSIYON4",
+          "rect": [
+            232,
+            382,
+            293,
+            413
+          ],
+          "expression": "stKaliciData.iAkimAlarmStopDelayTime_sn",
+          "symbol": ".stKaliciData.iAkimAlarmStopDelayTime_sn",
+          "type": "INT",
+          "relativeBits": 0,
+          "minimum": "0",
+          "maximum": "1000",
+          "limitDependencies": {},
+          "visibleInModelMode": "press",
+          "rawABI": {
+            "nIsString_TPY": 1,
+            "nType_TPY": 1
+          },
+          "proof": {
+            "function": "__VISU_OPSIYON4_INPUTCODE",
+            "fileOffset": 2590795,
+            "fileOffsetHex": "0x27884b",
+            "source": "TCPLC_P_1.wbp",
+            "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+          },
+          "structureOnlyPath": false,
+          "bindingKind": "scalar",
+          "indexDependencies": [],
+          "captionCandidates": [
+            {
+              "text": "Akim Alarm Stop Yapsin",
+              "textKey": null,
+              "rect": [
+                6,
+                376,
+                397,
+                417
+              ],
+              "basis": "nearby/same-row caption candidate",
+              "proof": {
+                "function": "__VISU_OPSIYON4_CYCLECODE",
+                "fileOffset": 2584544,
+                "fileOffsetHex": "0x276fe0",
+                "source": "TCPLC_P_1.wbp",
+                "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "cfgGlueEncoderPulses",
+      "symbol": ".stKaliciData.rHotmeltEncoderPulse",
+      "page": 4,
+      "column": 2,
+      "order": 31,
+      "type": "REAL",
+      "label": "Импульсов энкодера клея",
+      "en": "Hotmelt encoder pulses",
+      "original": "Hotmelt Encoder Pulse",
+      "unit": "",
+      "description": "Число импульсов отдельного энкодерного модуля клеевой станции. ПЛК использует множитель 4 × число импульсов / 1048576 при расчёте окружности. SCADA исключает нулевой масштаб; после изменения нажмите «Применить масштаб» в меню клея.",
+      "proof": [
+        {
+          "page": "VISU_OPSIYON4",
+          "rect": [
+            625,
+            161,
+            690,
+            195
+          ],
+          "expression": "stKaliciData.rHotmeltEncoderPulse",
+          "symbol": ".stKaliciData.rHotmeltEncoderPulse",
+          "type": "REAL",
+          "relativeBits": 0,
+          "minimum": "0",
+          "maximum": "10000",
+          "limitDependencies": {},
+          "visibleInModelMode": "structure_only_CFG_277f59_event1",
+          "rawABI": {
+            "nIsString_TPY": 6,
+            "nType_TPY": 1
+          },
+          "proof": {
+            "function": "__VISU_OPSIYON4_INPUTCODE",
+            "fileOffset": 2588668,
+            "fileOffsetHex": "0x277ffc",
+            "source": "TCPLC_P_1.wbp",
+            "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+          },
+          "structureOnlyPath": true,
+          "bindingKind": "scalar",
+          "indexDependencies": [],
+          "captionCandidates": [
+            {
+              "text": "Hotmelt Encoder Modulu Var",
+              "textKey": null,
+              "rect": [
+                403,
+                158,
+                794,
+                199
+              ],
+              "basis": "nearby/same-row caption candidate",
+              "proof": {
+                "function": "__VISU_OPSIYON4_CYCLECODE",
+                "fileOffset": 2586605,
+                "fileOffsetHex": "0x2777ed",
+                "source": "TCPLC_P_1.wbp",
+                "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+              }
+            },
+            {
+              "text": "Yoluna Kaynak Blower",
+              "textKey": null,
+              "rect": [
+                6,
+                157,
+                397,
+                198
+              ],
+              "basis": "nearby/same-row caption candidate",
+              "proof": {
+                "function": "__VISU_OPSIYON4_CYCLECODE",
+                "fileOffset": 2582374,
+                "fileOffsetHex": "0x276766",
+                "source": "TCPLC_P_1.wbp",
+                "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

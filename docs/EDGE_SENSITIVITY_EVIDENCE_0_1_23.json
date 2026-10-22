@@ -1,0 +1,168 @@
+{
+  "symbol": {
+    "symbol": ".stKaliciData.rKenarKontrol_OluBolge",
+    "type": "REAL",
+    "relativeBits": 0,
+    "bits": 32,
+    "memoryAddress": 1448772,
+    "root": ".stKaliciData",
+    "rootOffset": 494,
+    "memoryBase": 148624
+  },
+  "references": [
+    {
+      "function": "KenKontrol.Kontrol",
+      "offset": 616282,
+      "context": [
+        "00096745: push eax",
+        "00096746: mov eax, 1",
+        "0009674b: imul eax, eax, 0x55",
+        "00096751: mov edi, eax",
+        "00096753: pop eax",
+        "00096754: fstp qword ptr [edi + 0x95b8d]",
+        "0009675a: fld dword ptr [0x161b44]",
+        "00096760: add al, 0",
+        "00096762: push eax",
+        "00096763: mov eax, 1",
+        "00096768: imul eax, eax, 0x55",
+        "0009676e: mov edi, eax",
+        "00096770: pop eax",
+        "00096771: fstp qword ptr [edi + 0x95b95]",
+        "00096777: call 0x96784 ; @0x96784",
+        "00096784: pop eax",
+        "00096785: fld qword ptr [eax]",
+        "00096788: add al, 0"
+      ]
+    },
+    {
+      "function": "KenKontrol.Kontrol",
+      "offset": 617041,
+      "context": [
+        "00096a3c: push eax",
+        "00096a3d: mov eax, 2",
+        "00096a42: imul eax, eax, 0x55",
+        "00096a48: mov edi, eax",
+        "00096a4a: pop eax",
+        "00096a4b: fstp qword ptr [edi + 0x95b8d]",
+        "00096a51: fld dword ptr [0x161b44]",
+        "00096a57: add al, 0",
+        "00096a59: push eax",
+        "00096a5a: mov eax, 2",
+        "00096a5f: imul eax, eax, 0x55",
+        "00096a65: mov edi, eax",
+        "00096a67: pop eax",
+        "00096a68: fstp qword ptr [edi + 0x95b95]",
+        "00096a6e: call 0x96a7b ; @0x96a7b",
+        "00096a7b: pop eax",
+        "00096a7c: fld qword ptr [eax]",
+        "00096a7f: add al, 0"
+      ]
+    },
+    {
+      "function": "KenKontrol.Kontrol",
+      "offset": 617813,
+      "context": [
+        "00096d40: push eax",
+        "00096d41: mov eax, 3",
+        "00096d46: imul eax, eax, 0x55",
+        "00096d4c: mov edi, eax",
+        "00096d4e: pop eax",
+        "00096d4f: fstp qword ptr [edi + 0x95b8d]",
+        "00096d55: fld dword ptr [0x161b44]",
+        "00096d5b: add al, 0",
+        "00096d5d: push eax",
+        "00096d5e: mov eax, 3",
+        "00096d63: imul eax, eax, 0x55",
+        "00096d69: mov edi, eax",
+        "00096d6b: pop eax",
+        "00096d6c: fstp qword ptr [edi + 0x95b95]",
+        "00096d72: call 0x96d7f ; @0x96d7f",
+        "00096d7f: pop eax",
+        "00096d80: fld qword ptr [eax]",
+        "00096d83: add al, 0"
+      ]
+    },
+    {
+      "function": "KenKontrol.Kontrol",
+      "offset": 618577,
+      "context": [
+        "0009703c: push eax",
+        "0009703d: mov eax, 4",
+        "00097042: imul eax, eax, 0x55",
+        "00097048: mov edi, eax",
+        "0009704a: pop eax",
+        "0009704b: fstp qword ptr [edi + 0x95b8d]",
+        "00097051: fld dword ptr [0x161b44]",
+        "00097057: add al, 0",
+        "00097059: push eax",
+        "0009705a: mov eax, 4",
+        "0009705f: imul eax, eax, 0x55",
+        "00097065: mov edi, eax",
+        "00097067: pop eax",
+        "00097068: fstp qword ptr [edi + 0x95b95]",
+        "0009706e: call 0x9707b ; @0x9707b",
+        "0009707b: pop eax",
+        "0009707c: fld qword ptr [eax]",
+        "0009707f: add al, 0"
+      ]
+    }
+  ],
+  "numericHmi": {
+    "page": "VISU_KENARKONTROL_KALIBRE",
+    "rect": [
+      492,
+      75,
+      631,
+      109
+    ],
+    "expression": "stKaliciData.rKenarKontrol_OluBolge",
+    "symbol": ".stKaliciData.rKenarKontrol_OluBolge",
+    "type": "REAL",
+    "relativeBits": 0,
+    "minimum": "0.1",
+    "maximum": "10",
+    "limitDependencies": {},
+    "visibleInModelMode": "press",
+    "rawABI": {
+      "nIsString_TPY": 6,
+      "nType_TPY": 1
+    },
+    "proof": {
+      "function": "__VISU_KENARKONTROL_KALIBRE_INPUTCODE",
+      "fileOffset": 2471275,
+      "fileOffsetHex": "0x25b56b",
+      "source": "TCPLC_P_1.wbp",
+      "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+    },
+    "structureOnlyPath": false,
+    "bindingKind": "scalar",
+    "indexDependencies": [],
+    "captionCandidates": [
+      {
+        "text": "Side Control Dead Zone (mm)",
+        "textKey": "Calib.217",
+        "rect": [
+          5,
+          70,
+          636,
+          113
+        ],
+        "basis": "nearby/same-row caption candidate",
+        "proof": {
+          "function": "__VISU_KENARKONTROL_KALIBRE_CYCLECODE",
+          "fileOffset": 2467162,
+          "fileOffsetHex": "0x25a55a",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        }
+      }
+    ]
+  },
+  "sharedChannels": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "behavior": "Absolute position error is compared to LrOluBolgeGenislik in fb_KenarKontrol; inside the threshold automatic left/right requests are cleared. It is a positional dead zone, not a reaction delay or speed setpoint."
+}

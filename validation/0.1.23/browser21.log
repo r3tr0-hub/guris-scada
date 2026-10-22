@@ -1,0 +1,2 @@
+PASS: release21 UI, permissions, animations, native readback, both themes and HD/4K
+Actual mock writes: [('cfgCeneServoVar', '01')]

@@ -1,0 +1,657 @@
+{
+  "schema_version": 1,
+  "collected_date_local": "2026-10-13",
+  "local_timezone": "UTC+03:00",
+  "machine": {
+    "panel_ip": "192.168.1.250",
+    "ams_net_id": "5.105.198.193.1.1",
+    "ads_runtime_port": 801
+  },
+  "state_source": {
+    "symbol": ".I_MESSAGEID",
+    "logger_type": "INT16",
+    "bytes": 2,
+    "mode": "read_only",
+    "selection_rule": "Use current PLC code; preserve separate codes even when their texts are similar.",
+    "fast_poll_verified": true,
+    "requested_focus_interval_ms": 500
+  },
+  "hmi_catalog_source": {
+    "file": "dyntextgeneral.xml.wbp",
+    "prefix": "MESSAGE",
+    "encoding": "UTF-16",
+    "sha256": "57c0ba18fc71d075e485b772a0cf7dcf38641f84e28ab1aff68f68c0cb6a0e45",
+    "meaning": "Declared HMI texts. Presence in the catalog does not establish that every code is used by this machine."
+  },
+  "states": [
+    {
+      "code": 1,
+      "hmi_text_en": "TARGET QUANTITY FULL",
+      "hmi_text_tr": "ÜRETİM ADET TAMAMLANDI",
+      "label_ru": "Производственное задание выполнено",
+      "label_ru_status": "proposed_translation",
+      "verification": "hmi_catalog_only"
+    },
+    {
+      "code": 2,
+      "hmi_text_en": "SYSTEM ALLARM",
+      "hmi_text_tr": "SİSTEM ALARM",
+      "label_ru": "Авария системы",
+      "label_ru_status": "proposed_translation",
+      "verification": "observed_confirmed"
+    },
+    {
+      "code": 3,
+      "hmi_text_en": "JAW NOT AT REFFRANCE",
+      "hmi_text_tr": "ÇENE REFERANSTA DEĞİL",
+      "label_ru": "Нож не в исходном положении",
+      "label_ru_status": "proposed_translation",
+      "verification": "observed_confirmed"
+    },
+    {
+      "code": 4,
+      "hmi_text_en": "SYSTEM AUTOMATIC WORKING",
+      "hmi_text_tr": "SİSTEM OTOMATİK ÇALIŞMADA",
+      "label_ru": "Автоматическая работа",
+      "label_ru_status": "proposed_translation",
+      "verification": "observed_confirmed"
+    },
+    {
+      "code": 5,
+      "hmi_text_en": "SYSTEM START READY",
+      "hmi_text_tr": "SİSTEM START HAZIR",
+      "label_ru": "Готова к запуску",
+      "label_ru_status": "proposed_translation",
+      "verification": "observed_confirmed"
+    },
+    {
+      "code": 6,
+      "hmi_text_en": "JOGGING ACTIVE",
+      "hmi_text_tr": "SİSTEM JOGDA HAREKET EDİYOR",
+      "label_ru": "Ручное движение / JOG",
+      "label_ru_status": "proposed_translation",
+      "verification": "hmi_catalog_only"
+    },
+    {
+      "code": 7,
+      "hmi_text_en": "SYSTEM RUNNING",
+      "hmi_text_tr": "SİSTEM OTOMATİKTE ÇALIŞIYOR",
+      "label_ru": "Система работает",
+      "label_ru_status": "proposed_translation",
+      "verification": "hmi_catalog_only"
+    },
+    {
+      "code": 8,
+      "hmi_text_en": "TARGET QUANTITY REACHED",
+      "hmi_text_tr": "ÜRETİM ADEDİ DOLDU",
+      "label_ru": "Заданное количество достигнуто",
+      "label_ru_status": "proposed_translation",
+      "verification": "hmi_catalog_only"
+    },
+    {
+      "code": 9,
+      "hmi_text_en": "MACHINE READY",
+      "hmi_text_tr": "MAKİNE HAZIR",
+      "label_ru": "Машина готова",
+      "label_ru_status": "proposed_translation",
+      "verification": "hmi_catalog_only"
+    },
+    {
+      "code": 10,
+      "hmi_text_en": "Safety Plc Alarm",
+      "hmi_text_tr": "Emniyet Plc Alarmı",
+      "label_ru": "Авария системы безопасности",
+      "label_ru_status": "proposed_translation",
+      "verification": "hmi_catalog_only"
+    },
+    {
+      "code": 11,
+      "hmi_text_en": "SAFETY KEY UNLOCK FOR MANUEL",
+      "hmi_text_tr": "EMNİYET KİLİT AÇIK",
+      "label_ru": "Защитный замок разблокирован для ручной работы",
+      "label_ru_status": "proposed_translation",
+      "verification": "hmi_catalog_only"
+    },
+    {
+      "code": 12,
+      "hmi_text_en": "SYSTEM GOING REFERANCE",
+      "hmi_text_tr": "SİSTEM REFERANS YAPIYOR",
+      "label_ru": "Поиск исходного положения",
+      "label_ru_status": "proposed_translation",
+      "verification": "hmi_catalog_only"
+    },
+    {
+      "code": 13,
+      "hmi_text_en": "MACHINE NOT READY",
+      "hmi_text_tr": "MAKİNE HAZIR DEĞİL",
+      "label_ru": "Машина не готова",
+      "label_ru_status": "proposed_translation",
+      "verification": "observed_confirmed"
+    }
+  ],
+  "runtime_evidence": [
+    {
+      "archive": "Guris_20261013_102428_515_6048_0.zip",
+      "observed_codes": [
+        4,
+        5
+      ],
+      "samples": 49,
+      "quality_counts": {
+        "OK": 49
+      },
+      "observed_changes": [
+        {
+          "utc": "2026-10-13T07:24:54.688Z",
+          "elapsed_ms": 26172,
+          "code": 4
+        },
+        {
+          "utc": "2026-10-13T07:30:43.884Z",
+          "elapsed_ms": 375359,
+          "code": 5
+        },
+        {
+          "utc": "2026-10-13T07:30:58.556Z",
+          "elapsed_ms": 390031,
+          "code": 4
+        },
+        {
+          "utc": "2026-10-13T07:31:06.086Z",
+          "elapsed_ms": 397562,
+          "code": 5
+        },
+        {
+          "utc": "2026-10-13T07:31:16.654Z",
+          "elapsed_ms": 408125,
+          "code": 4
+        }
+      ]
+    },
+    {
+      "archive": "Guris_20261013_150442_151_2740_0.zip",
+      "observed_codes": [
+        4
+      ],
+      "samples": 11,
+      "quality_counts": {
+        "OK": 11
+      },
+      "observed_changes": [
+        {
+          "utc": "2026-10-13T12:05:08.385Z",
+          "elapsed_ms": 26234,
+          "code": 4
+        }
+      ]
+    },
+    {
+      "archive": "Guris_20261013_151700_682_2852_0.zip",
+      "observed_codes": [
+        4,
+        5
+      ],
+      "samples": 11,
+      "quality_counts": {
+        "OK": 11
+      },
+      "observed_changes": [
+        {
+          "utc": "2026-10-13T12:17:27.427Z",
+          "elapsed_ms": 26750,
+          "code": 4
+        },
+        {
+          "utc": "2026-10-13T12:19:05.229Z",
+          "elapsed_ms": 124547,
+          "code": 5
+        }
+      ]
+    },
+    {
+      "archive": "Guris_20261013_153309_782_7780_0.zip",
+      "sha256": "373e514269e857cea9cfb33e6ef43709ddf5e48157e419c4b34f99955e467fa4",
+      "observed_codes": [
+        2,
+        3,
+        4,
+        5,
+        13
+      ],
+      "samples": 68,
+      "quality_counts": {
+        "OK": 68
+      },
+      "operator_scenario_supplied": true,
+      "observed_changes": [
+        {
+          "utc": "2026-10-13T12:33:35.535Z",
+          "elapsed_ms": 25750,
+          "code": 5
+        },
+        {
+          "utc": "2026-10-13T12:33:53.146Z",
+          "elapsed_ms": 43360,
+          "code": 4
+        },
+        {
+          "utc": "2026-10-13T12:34:05.216Z",
+          "elapsed_ms": 55422,
+          "code": 5
+        },
+        {
+          "utc": "2026-10-13T12:34:22.310Z",
+          "elapsed_ms": 72516,
+          "code": 4
+        },
+        {
+          "utc": "2026-10-13T12:34:29.846Z",
+          "elapsed_ms": 80063,
+          "code": 5
+        },
+        {
+          "utc": "2026-10-13T12:34:40.418Z",
+          "elapsed_ms": 90625,
+          "code": 3
+        },
+        {
+          "utc": "2026-10-13T12:35:52.577Z",
+          "elapsed_ms": 162797,
+          "code": 5
+        },
+        {
+          "utc": "2026-10-13T12:36:15.150Z",
+          "elapsed_ms": 185360,
+          "code": 4
+        },
+        {
+          "utc": "2026-10-13T12:36:25.245Z",
+          "elapsed_ms": 195453,
+          "code": 5
+        },
+        {
+          "utc": "2026-10-13T12:36:44.890Z",
+          "elapsed_ms": 215110,
+          "code": 13
+        },
+        {
+          "utc": "2026-10-13T12:37:24.748Z",
+          "elapsed_ms": 254953,
+          "code": 5
+        },
+        {
+          "utc": "2026-10-13T12:37:31.289Z",
+          "elapsed_ms": 261500,
+          "code": 4
+        },
+        {
+          "utc": "2026-10-13T12:37:36.875Z",
+          "elapsed_ms": 267094,
+          "code": 5
+        },
+        {
+          "utc": "2026-10-13T12:37:52.505Z",
+          "elapsed_ms": 282719,
+          "code": 13
+        },
+        {
+          "utc": "2026-10-13T12:38:12.219Z",
+          "elapsed_ms": 302438,
+          "code": 2
+        },
+        {
+          "utc": "2026-10-13T12:38:31.848Z",
+          "elapsed_ms": 322063,
+          "code": 3
+        },
+        {
+          "utc": "2026-10-13T12:38:35.870Z",
+          "elapsed_ms": 326078,
+          "code": 13
+        },
+        {
+          "utc": "2026-10-13T12:38:51.561Z",
+          "elapsed_ms": 341782,
+          "code": 5
+        },
+        {
+          "utc": "2026-10-13T12:38:57.178Z",
+          "elapsed_ms": 347391,
+          "code": 4
+        },
+        {
+          "utc": "2026-10-13T12:39:53.060Z",
+          "elapsed_ms": 403266,
+          "code": 5
+        },
+        {
+          "utc": "2026-10-13T12:40:10.809Z",
+          "elapsed_ms": 421016,
+          "code": 4
+        },
+        {
+          "utc": "2026-10-13T12:40:32.933Z",
+          "elapsed_ms": 443141,
+          "code": 2
+        },
+        {
+          "utc": "2026-10-13T12:40:40.958Z",
+          "elapsed_ms": 451172,
+          "code": 5
+        },
+        {
+          "utc": "2026-10-13T12:40:59.083Z",
+          "elapsed_ms": 469297,
+          "code": 4
+        }
+      ]
+    }
+  ],
+  "unverified_conditions_ru": [
+    "Появление кодов 2, 3, 4, 5 и 13 на этой машине подтверждено; остальные пока известны только по каталогу HMI.",
+    "Полный порядок приоритетов и все условия выбора кодов пока не установлены.",
+    "Коды 1 и 8, 4 и 7, 5 и 9 не объединять по похожим текстам.",
+    "Код 2 — общее состояние системной аварии. В новом сеансе оно сопровождало как аварийную кнопку, так и окончание лайнера. Причина этих эпизодов известна по сценарию оператора; отдельные коды конкретных аварий ещё не закреплены.",
+    "Наличие и полный список активных аварий требуют собственного источника; .I_MESSAGEID не заменяет этот список."
+  ],
+  "unknown_state_policy": {
+    "unlisted_code_label_ru": "Неизвестное состояние (код {code})",
+    "zero_is_ready": false,
+    "lost_communication_label_ru": "Нет связи с ПЛК",
+    "last_value_is_current_when_disconnected": false
+  },
+  "capture_protocol_ru": [
+    "В GurisPLCLogger 0.2 выбрать «Главная»; .I_MESSAGEID входит в быстрый опрос.",
+    "Запустить запись и дождаться завершения первичного обхода.",
+    "Выбрать параметр «Состояние машины». Для каждой новой надписи оригинального HMI добавлять метку с её точным текстом в новом значении; прежние числовые значения из других параметров очистить.",
+    "Следующий короткий опыт — штатная ручная протяжка/JOG и возврат к обычному состоянию. Каждую надпись по возможности удерживать 3–5 секунд.",
+    "Состояния референсирования и выполнения производственного задания записывать при соответствующих штатных операциях.",
+    "Состояния защиты и аварий записывать при их штатном возникновении.",
+    "Остановить запись и прислать ZIP вместе с описанием действий; отметки сопоставляются с кодами и связанными сигналами."
+  ],
+  "verified_codes": [
+    2,
+    3,
+    4,
+    5,
+    13
+  ],
+  "last_verification_date_local": "2026-10-13",
+  "incident_observations": [
+    {
+      "archive": "Guris_20261013_153309_782_7780_0.zip",
+      "observed_utc": "2026-10-13T12:34:40.418Z",
+      "state_code": 3,
+      "operator_report": "jaw not a referance",
+      "verification": "operator_scenario_and_plc_code"
+    },
+    {
+      "archive": "Guris_20261013_153309_782_7780_0.zip",
+      "observed_utc": "2026-10-13T12:36:44.890Z",
+      "state_code": 13,
+      "operator_report": "machine not ready",
+      "verification": "operator_scenario_and_plc_code"
+    },
+    {
+      "archive": "Guris_20261013_153309_782_7780_0.zip",
+      "observed_utc": "2026-10-13T12:38:12.219Z",
+      "state_code": 2,
+      "operator_report": "Нажата аварийная кнопка",
+      "verification": "operator_scenario_and_plc_code",
+      "specific_alarm_mapping_confirmed": false
+    },
+    {
+      "archive": "Guris_20261013_153309_782_7780_0.zip",
+      "observed_utc": "2026-10-13T12:40:32.933Z",
+      "state_code": 2,
+      "operator_report": "Окончился лайнер, появилась ошибка окончания лайнера",
+      "verification": "operator_scenario_and_plc_code",
+      "specific_alarm_mapping_confirmed": false
+    }
+  ],
+  "latest_state_timeline": [
+    {
+      "utc": "2026-10-13T12:33:35.535Z",
+      "local_time": "15:33:35.535",
+      "state_code": 5,
+      "last_observed_pack_count": 96,
+      "last_observed_total_count": 75426,
+      "last_observed_group_count": 943,
+      "last_observed_speed_set_pcs_min": 190.0
+    },
+    {
+      "utc": "2026-10-13T12:33:53.146Z",
+      "local_time": "15:33:53.146",
+      "state_code": 4,
+      "last_observed_pack_count": 96,
+      "last_observed_total_count": 75426,
+      "last_observed_group_count": 943,
+      "last_observed_speed_set_pcs_min": 190.0
+    },
+    {
+      "utc": "2026-10-13T12:34:05.216Z",
+      "local_time": "15:34:05.216",
+      "state_code": 5,
+      "last_observed_pack_count": 21,
+      "last_observed_total_count": 75451,
+      "last_observed_group_count": 944,
+      "last_observed_speed_set_pcs_min": 190.0
+    },
+    {
+      "utc": "2026-10-13T12:34:22.310Z",
+      "local_time": "15:34:22.310",
+      "state_code": 4,
+      "last_observed_pack_count": 21,
+      "last_observed_total_count": 75451,
+      "last_observed_group_count": 944,
+      "last_observed_speed_set_pcs_min": 190.0
+    },
+    {
+      "utc": "2026-10-13T12:34:29.846Z",
+      "local_time": "15:34:29.846",
+      "state_code": 5,
+      "last_observed_pack_count": 36,
+      "last_observed_total_count": 75466,
+      "last_observed_group_count": 944,
+      "last_observed_speed_set_pcs_min": 190.0
+    },
+    {
+      "utc": "2026-10-13T12:34:40.418Z",
+      "local_time": "15:34:40.418",
+      "state_code": 3,
+      "last_observed_pack_count": 36,
+      "last_observed_total_count": 75466,
+      "last_observed_group_count": 944,
+      "last_observed_speed_set_pcs_min": 190.0
+    },
+    {
+      "utc": "2026-10-13T12:35:52.577Z",
+      "local_time": "15:35:52.577",
+      "state_code": 5,
+      "last_observed_pack_count": 36,
+      "last_observed_total_count": 75466,
+      "last_observed_group_count": 944,
+      "last_observed_speed_set_pcs_min": 190.0
+    },
+    {
+      "utc": "2026-10-13T12:36:15.150Z",
+      "local_time": "15:36:15.150",
+      "state_code": 4,
+      "last_observed_pack_count": 36,
+      "last_observed_total_count": 75466,
+      "last_observed_group_count": 944,
+      "last_observed_speed_set_pcs_min": 195.0
+    },
+    {
+      "utc": "2026-10-13T12:36:25.245Z",
+      "local_time": "15:36:25.245",
+      "state_code": 5,
+      "last_observed_pack_count": 60,
+      "last_observed_total_count": 75490,
+      "last_observed_group_count": 944,
+      "last_observed_speed_set_pcs_min": 195.0
+    },
+    {
+      "utc": "2026-10-13T12:36:44.890Z",
+      "local_time": "15:36:44.890",
+      "state_code": 13,
+      "last_observed_pack_count": 60,
+      "last_observed_total_count": 75490,
+      "last_observed_group_count": 944,
+      "last_observed_speed_set_pcs_min": 195.0
+    },
+    {
+      "utc": "2026-10-13T12:37:24.748Z",
+      "local_time": "15:37:24.748",
+      "state_code": 5,
+      "last_observed_pack_count": 60,
+      "last_observed_total_count": 75490,
+      "last_observed_group_count": 944,
+      "last_observed_speed_set_pcs_min": 190.0
+    },
+    {
+      "utc": "2026-10-13T12:37:31.289Z",
+      "local_time": "15:37:31.289",
+      "state_code": 4,
+      "last_observed_pack_count": 60,
+      "last_observed_total_count": 75490,
+      "last_observed_group_count": 944,
+      "last_observed_speed_set_pcs_min": 190.0
+    },
+    {
+      "utc": "2026-10-13T12:37:36.875Z",
+      "local_time": "15:37:36.875",
+      "state_code": 5,
+      "last_observed_pack_count": 69,
+      "last_observed_total_count": 75499,
+      "last_observed_group_count": 944,
+      "last_observed_speed_set_pcs_min": 190.0
+    },
+    {
+      "utc": "2026-10-13T12:37:52.505Z",
+      "local_time": "15:37:52.505",
+      "state_code": 13,
+      "last_observed_pack_count": 69,
+      "last_observed_total_count": 75499,
+      "last_observed_group_count": 944,
+      "last_observed_speed_set_pcs_min": 190.0
+    },
+    {
+      "utc": "2026-10-13T12:38:12.219Z",
+      "local_time": "15:38:12.219",
+      "state_code": 2,
+      "last_observed_pack_count": 69,
+      "last_observed_total_count": 75499,
+      "last_observed_group_count": 944,
+      "last_observed_speed_set_pcs_min": 195.0
+    },
+    {
+      "utc": "2026-10-13T12:38:31.848Z",
+      "local_time": "15:38:31.848",
+      "state_code": 3,
+      "last_observed_pack_count": 69,
+      "last_observed_total_count": 75499,
+      "last_observed_group_count": 944,
+      "last_observed_speed_set_pcs_min": 190.0
+    },
+    {
+      "utc": "2026-10-13T12:38:35.870Z",
+      "local_time": "15:38:35.870",
+      "state_code": 13,
+      "last_observed_pack_count": 69,
+      "last_observed_total_count": 75499,
+      "last_observed_group_count": 944,
+      "last_observed_speed_set_pcs_min": 190.0
+    },
+    {
+      "utc": "2026-10-13T12:38:51.561Z",
+      "local_time": "15:38:51.561",
+      "state_code": 5,
+      "last_observed_pack_count": 69,
+      "last_observed_total_count": 75499,
+      "last_observed_group_count": 944,
+      "last_observed_speed_set_pcs_min": 190.0
+    },
+    {
+      "utc": "2026-10-13T12:38:57.178Z",
+      "local_time": "15:38:57.178",
+      "state_code": 4,
+      "last_observed_pack_count": 70,
+      "last_observed_total_count": 75500,
+      "last_observed_group_count": 944,
+      "last_observed_speed_set_pcs_min": 190.0
+    },
+    {
+      "utc": "2026-10-13T12:39:53.060Z",
+      "local_time": "15:39:53.060",
+      "state_code": 5,
+      "last_observed_pack_count": 31,
+      "last_observed_total_count": 75661,
+      "last_observed_group_count": 946,
+      "last_observed_speed_set_pcs_min": 190.0
+    },
+    {
+      "utc": "2026-10-13T12:40:10.809Z",
+      "local_time": "15:40:10.809",
+      "state_code": 4,
+      "last_observed_pack_count": 31,
+      "last_observed_total_count": 75661,
+      "last_observed_group_count": 946,
+      "last_observed_speed_set_pcs_min": 190.0
+    },
+    {
+      "utc": "2026-10-13T12:40:32.933Z",
+      "local_time": "15:40:32.933",
+      "state_code": 2,
+      "last_observed_pack_count": 100,
+      "last_observed_total_count": 75730,
+      "last_observed_group_count": 947,
+      "last_observed_speed_set_pcs_min": 195.0
+    },
+    {
+      "utc": "2026-10-13T12:40:40.958Z",
+      "local_time": "15:40:40.958",
+      "state_code": 5,
+      "last_observed_pack_count": 0,
+      "last_observed_total_count": 75730,
+      "last_observed_group_count": 947,
+      "last_observed_speed_set_pcs_min": 195.0
+    },
+    {
+      "utc": "2026-10-13T12:40:59.083Z",
+      "local_time": "15:40:59.083",
+      "state_code": 4,
+      "last_observed_pack_count": 0,
+      "last_observed_total_count": 75730,
+      "last_observed_group_count": 947,
+      "last_observed_speed_set_pcs_min": 190.0
+    }
+  ],
+  "latest_timeline_note": "PC read times; the counter and state samples are not a PLC-cycle-atomic snapshot.",
+  "recovery_sequences_observed": [
+    {
+      "archive": "Guris_20261013_153309_782_7780_0.zip",
+      "episode": "Аварийная кнопка, затем восстановление",
+      "begin_utc": "2026-10-13T12:38:12.219Z",
+      "end_utc": "2026-10-13T12:38:57.178Z",
+      "codes": [
+        2,
+        3,
+        13,
+        5,
+        4
+      ]
+    },
+    {
+      "archive": "Guris_20261013_153309_782_7780_0.zip",
+      "episode": "Окончание лайнера, затем восстановление",
+      "begin_utc": "2026-10-13T12:40:32.933Z",
+      "end_utc": "2026-10-13T12:40:59.083Z",
+      "codes": [
+        2,
+        5,
+        4
+      ]
+    }
+  ]
+}

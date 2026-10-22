@@ -1,0 +1,2 @@
+PASS: complete bindings UI, held commands, alarms, help, live readouts and RU/EN.
+Actual mock writes: [('feedStartSet', '0000a041'), ('feedStopSet', '00007a43'), ('edge2Auto', '01'), ('edge1JogFw', '01'), ('edge1JogFw', '00'), ('edge1JogFw', '01'), ('edge1JogFw', '00'), ('takeoffJog', '01'), ('takeoffJog', '00'), ('glueTest', '01'), ('glueTest', '00'), ('glueReset', '01'), ('glueReset', '00'), ('photoReset', '01'), ('unwinderAutoStop', '00'), ('alarmAck', '01'), ('alarmAck', '00'), ('alarmClear', '01'), ('alarmClear', '00')]

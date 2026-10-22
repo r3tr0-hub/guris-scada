@@ -1,0 +1,11 @@
+test_actual_readings_belong_to_their_setpoints_and_stay_readonly (test_release23.Release23.test_actual_readings_belong_to_their_setpoints_and_stay_readonly) ... ok
+test_live_type_and_writable_metadata_are_required_and_no_lost_ack_retry (test_release23.Release23.test_live_type_and_writable_metadata_are_required_and_no_lost_ack_retry) ... ok
+test_one_shared_real_symbol_and_original_hmi_bounds (test_release23.Release23.test_one_shared_real_symbol_and_original_hmi_bounds) ... ok
+test_operator_can_set_fractional_dead_zone_with_native_readback (test_release23.Release23.test_operator_can_set_fractional_dead_zone_with_native_readback) ... ok
+test_other_hmi_changes_are_not_overwritten (test_release23.Release23.test_other_hmi_changes_are_not_overwritten) ... ok
+test_presence_uses_common_configuration_including_legacy_zero (test_release23.Release23.test_presence_uses_common_configuration_including_legacy_zero) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 9.134s
+
+OK

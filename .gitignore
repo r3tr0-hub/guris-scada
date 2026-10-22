@@ -1,0 +1,55 @@
+# Local machine configuration, accounts, journals and production history
+/connection.json
+/local/
+/logs/
+/edge-profile/
+/SCADA_Diagnostics_*.txt
+/SCADA_Report_*.json
+/scada-report-*.json
+*.sqlite
+*.sqlite-*
+*.db
+*.db-*
+*.log
+
+# Build output and development dependencies
+/GurisSCADA_0_1.exe
+/scada-test-host
+/build/
+/dist/
+/artifacts/
+/qa/
+/tests/qa/
+/tests/test-results/
+/tests/playwright-report/
+node_modules/
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.zig-cache/
+zig-cache/
+zig-out/
+*.o
+*.obj
+*.pdb
+*.exe
+*.dll
+
+# Workstation/editor files and credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.swp
+*.tmp
+*~
+.idea/
+.vscode/
+
+# Keep historical, already sanitised validation reports in version control.
+!/validation/**/*.log

@@ -1,0 +1,640 @@
+{
+  "schema_version": 1,
+  "page": "belt",
+  "verified_date_local": "2026-10-13",
+  "local_timezone": "UTC+03:00",
+  "machine": {
+    "panel_ip": "192.168.1.250",
+    "ams_net_id": "5.105.198.193.1.1",
+    "ads_runtime_port": 801
+  },
+  "parameters": [
+    {
+      "parameter_key": "beltTimed",
+      "label_ru": "Работа ленты по времени",
+      "kind": "switch",
+      "read_symbol": ".stKaliciData.sRecipeData.bBant_But",
+      "logger_type": "BOOL",
+      "bytes": 1,
+      "unit": null,
+      "unit_verification": "boolean",
+      "read_binding_verification": "observed_changes_and_operator_markers",
+      "write_verified_from_scada": false,
+      "initial_raw_value": "TRUE",
+      "final_raw_value": "TRUE",
+      "evidence": {
+        "archive": "Guris_20261013_160125_659_6016_0.zip",
+        "markers": [
+          {
+            "utc": "2026-10-13T13:04:18.040Z",
+            "elapsed_ms": "172375",
+            "parameter_key": "beltTimed",
+            "before": "",
+            "after": "",
+            "note": ""
+          },
+          {
+            "utc": "2026-10-13T13:04:19.547Z",
+            "elapsed_ms": "173891",
+            "parameter_key": "beltTimed",
+            "before": "",
+            "after": "",
+            "note": ""
+          }
+        ],
+        "changes": [
+          {
+            "utc": "2026-10-13T13:03:36.307Z",
+            "local_time": "16:03:36.307",
+            "value": "FALSE",
+            "raw_hex": "00",
+            "tier": "focus"
+          },
+          {
+            "utc": "2026-10-13T13:03:51.380Z",
+            "local_time": "16:03:51.380",
+            "value": "TRUE",
+            "raw_hex": "01",
+            "tier": "focus"
+          },
+          {
+            "utc": "2026-10-13T13:04:05.011Z",
+            "local_time": "16:04:05.011",
+            "value": "FALSE",
+            "raw_hex": "00",
+            "tier": "focus"
+          },
+          {
+            "utc": "2026-10-13T13:04:08.018Z",
+            "local_time": "16:04:08.018",
+            "value": "TRUE",
+            "raw_hex": "01",
+            "tier": "focus"
+          }
+        ]
+      },
+      "states": {
+        "TRUE": "ВКЛ",
+        "FALSE": "ВЫКЛ"
+      },
+      "write_symbol_candidate": ".stKaliciData.sRecipeData.bBant_But"
+    },
+    {
+      "parameter_key": "beltTime1",
+      "label_ru": "Лента · время 1",
+      "kind": "setpoint",
+      "read_symbol": ".stKaliciData.iIstiflemeErkenStartSuresi_ms",
+      "logger_type": "INT",
+      "bytes": 2,
+      "unit": "мс",
+      "unit_verification": "confirmed_from_ms_name",
+      "read_binding_verification": "observed_changes_and_operator_markers",
+      "write_verified_from_scada": false,
+      "initial_raw_value": "350",
+      "final_raw_value": "400",
+      "evidence": {
+        "archive": "Guris_20261013_160125_659_6016_0.zip",
+        "markers": [
+          {
+            "utc": "2026-10-13T13:04:46.510Z",
+            "elapsed_ms": "200844",
+            "parameter_key": "beltTime1",
+            "before": "350",
+            "after": "400",
+            "note": ""
+          }
+        ],
+        "changes": [
+          {
+            "utc": "2026-10-13T13:04:34.728Z",
+            "local_time": "16:04:34.728",
+            "value": "400",
+            "raw_hex": "9001",
+            "tier": "focus"
+          }
+        ]
+      },
+      "write_symbol_candidate": ".stKaliciData.iIstiflemeErkenStartSuresi_ms",
+      "hmi_input_bounds": {
+        "min": 0,
+        "max": 2000,
+        "source": "TCPLC_P_1.wbp inline bounds adjacent to this named HMI input call",
+        "verification": "decoded_from_supplied_boot_binary_not_runtime_tested_at_limits"
+      }
+    },
+    {
+      "parameter_key": "beltTime2",
+      "label_ru": "Лента · время 2",
+      "kind": "setpoint",
+      "read_symbol": ".stKaliciData.sRecipeData.diBantOtoSure",
+      "logger_type": "DINT",
+      "bytes": 4,
+      "unit": "мс",
+      "unit_verification": "operator_and_hmi_group",
+      "read_binding_verification": "observed_changes_and_operator_markers",
+      "write_verified_from_scada": false,
+      "initial_raw_value": "1200",
+      "final_raw_value": "1250",
+      "evidence": {
+        "archive": "Guris_20261013_160125_659_6016_0.zip",
+        "markers": [
+          {
+            "utc": "2026-10-13T13:05:23.657Z",
+            "elapsed_ms": "238000",
+            "parameter_key": "beltTime2",
+            "before": "1200",
+            "after": "1250",
+            "note": ""
+          }
+        ],
+        "changes": [
+          {
+            "utc": "2026-10-13T13:04:59.390Z",
+            "local_time": "16:04:59.390",
+            "value": "1250",
+            "raw_hex": "E2040000",
+            "tier": "focus"
+          }
+        ]
+      },
+      "write_symbol_candidate": ".stKaliciData.sRecipeData.diBantOtoSure",
+      "hmi_input_bounds": {
+        "min": 30,
+        "max": 10000,
+        "source": "TCPLC_P_1.wbp inline bounds adjacent to this named HMI input call",
+        "verification": "decoded_from_supplied_boot_binary_not_runtime_tested_at_limits"
+      }
+    },
+    {
+      "parameter_key": "beltTime3",
+      "label_ru": "Лента · время 3",
+      "kind": "setpoint",
+      "read_symbol": ".stKaliciData.sRecipeData.diGrupBantSureOfset",
+      "logger_type": "DINT",
+      "bytes": 4,
+      "unit": "мс",
+      "unit_verification": "operator_and_hmi_group",
+      "read_binding_verification": "observed_changes_and_operator_markers",
+      "write_verified_from_scada": false,
+      "initial_raw_value": "900",
+      "final_raw_value": "950",
+      "evidence": {
+        "archive": "Guris_20261013_160125_659_6016_0.zip",
+        "markers": [
+          {
+            "utc": "2026-10-13T13:05:46.358Z",
+            "elapsed_ms": "260703",
+            "parameter_key": "beltTime3",
+            "before": "900",
+            "after": "950",
+            "note": ""
+          }
+        ],
+        "changes": [
+          {
+            "utc": "2026-10-13T13:05:33.168Z",
+            "local_time": "16:05:33.168",
+            "value": "950",
+            "raw_hex": "B6030000",
+            "tier": "focus"
+          }
+        ]
+      },
+      "write_symbol_candidate": ".stKaliciData.sRecipeData.diGrupBantSureOfset",
+      "hmi_input_bounds": {
+        "min": 0,
+        "max": 10000,
+        "source": "TCPLC_P_1.wbp inline bounds adjacent to this named HMI input call",
+        "verification": "decoded_from_supplied_boot_binary_not_runtime_tested_at_limits"
+      }
+    },
+    {
+      "parameter_key": "conveyorContinuous",
+      "label_ru": "Непрерывная работа конвейера",
+      "kind": "switch",
+      "read_symbol": ".stKaliciData.bBantSurekliCalismaAktif",
+      "logger_type": "BOOL",
+      "bytes": 1,
+      "unit": null,
+      "unit_verification": "boolean",
+      "read_binding_verification": "observed_changes_and_operator_markers",
+      "write_verified_from_scada": false,
+      "initial_raw_value": "FALSE",
+      "final_raw_value": "FALSE",
+      "evidence": {
+        "archive": "Guris_20261013_160125_659_6016_0.zip",
+        "markers": [
+          {
+            "utc": "2026-10-13T13:06:17.461Z",
+            "elapsed_ms": "291797",
+            "parameter_key": "conveyorContinuous",
+            "before": "выкл",
+            "after": "вкл",
+            "note": ""
+          }
+        ],
+        "changes": [
+          {
+            "utc": "2026-10-13T13:05:55.446Z",
+            "local_time": "16:05:55.446",
+            "value": "TRUE",
+            "raw_hex": "01",
+            "tier": "focus"
+          },
+          {
+            "utc": "2026-10-13T13:06:00.962Z",
+            "local_time": "16:06:00.962",
+            "value": "FALSE",
+            "raw_hex": "00",
+            "tier": "focus"
+          }
+        ]
+      },
+      "states": {
+        "TRUE": "ВКЛ",
+        "FALSE": "ВЫКЛ"
+      },
+      "write_symbol_candidate": ".stKaliciData.bBantSurekliCalismaAktif"
+    },
+    {
+      "parameter_key": "conveyorTime1",
+      "label_ru": "Конвейер · параметр 1",
+      "kind": "setpoint",
+      "read_symbol": ".stKaliciData.rKonvoyorFrekans",
+      "logger_type": "REAL",
+      "bytes": 4,
+      "unit": null,
+      "unit_verification": "unconfirmed_previous_ms_label_not_supported",
+      "read_binding_verification": "observed_changes_and_operator_markers",
+      "write_verified_from_scada": false,
+      "initial_raw_value": "100",
+      "final_raw_value": "50",
+      "evidence": {
+        "archive": "Guris_20261013_160125_659_6016_0.zip",
+        "markers": [
+          {
+            "utc": "2026-10-13T13:06:58.051Z",
+            "elapsed_ms": "332391",
+            "parameter_key": "conveyorTime1",
+            "before": "100",
+            "after": "50",
+            "note": ""
+          }
+        ],
+        "changes": [
+          {
+            "utc": "2026-10-13T13:06:41.904Z",
+            "local_time": "16:06:41.904",
+            "value": "50",
+            "raw_hex": "00004842",
+            "tier": "focus"
+          }
+        ]
+      },
+      "write_symbol_candidate": ".stKaliciData.rKonvoyorFrekans",
+      "hmi_input_bounds": {
+        "min": 5,
+        "max": 100,
+        "source": "TCPLC_P_1.wbp inline bounds adjacent to this named HMI input call",
+        "verification": "decoded_from_supplied_boot_binary_not_runtime_tested_at_limits"
+      }
+    },
+    {
+      "parameter_key": "conveyorTime2",
+      "label_ru": "Конвейер · параметр 2",
+      "kind": "setpoint",
+      "read_symbol": ".stKaliciData.rPaketArasiBantFrekans",
+      "logger_type": "REAL",
+      "bytes": 4,
+      "unit": null,
+      "unit_verification": "unconfirmed_previous_ms_label_not_supported",
+      "read_binding_verification": "observed_changes_and_operator_markers",
+      "write_verified_from_scada": false,
+      "initial_raw_value": "100",
+      "final_raw_value": "75",
+      "evidence": {
+        "archive": "Guris_20261013_160125_659_6016_0.zip",
+        "markers": [
+          {
+            "utc": "2026-10-13T13:07:16.982Z",
+            "elapsed_ms": "351328",
+            "parameter_key": "conveyorTime2",
+            "before": "100",
+            "after": "75",
+            "note": ""
+          },
+          {
+            "utc": "2026-10-13T13:07:18.675Z",
+            "elapsed_ms": "353016",
+            "parameter_key": "conveyorTime2",
+            "before": "100",
+            "after": "75",
+            "note": ""
+          }
+        ],
+        "changes": [
+          {
+            "utc": "2026-10-13T13:07:07.572Z",
+            "local_time": "16:07:07.572",
+            "value": "75",
+            "raw_hex": "00009642",
+            "tier": "focus"
+          }
+        ]
+      },
+      "write_symbol_candidate": ".stKaliciData.rPaketArasiBantFrekans",
+      "hmi_input_bounds": {
+        "min": 5,
+        "max": 100,
+        "source": "TCPLC_P_1.wbp inline bounds adjacent to this named HMI input call",
+        "verification": "decoded_from_supplied_boot_binary_not_runtime_tested_at_limits"
+      }
+    },
+    {
+      "parameter_key": "beltStep",
+      "label_ru": "Шаг ленты",
+      "kind": "setpoint",
+      "read_symbol": ".stKaliciData.sRecipeData.rBantUzeriIstenenUrunAdet",
+      "logger_type": "REAL",
+      "bytes": 4,
+      "unit": null,
+      "unit_verification": "dimensionless",
+      "read_binding_verification": "observed_changes_and_operator_markers",
+      "write_verified_from_scada": false,
+      "initial_raw_value": "3",
+      "final_raw_value": "4",
+      "evidence": {
+        "archive": "Guris_20261013_160125_659_6016_0.zip",
+        "markers": [
+          {
+            "utc": "2026-10-13T13:07:38.880Z",
+            "elapsed_ms": "373219",
+            "parameter_key": "beltStep",
+            "before": "3",
+            "after": "4",
+            "note": ""
+          }
+        ],
+        "changes": [
+          {
+            "utc": "2026-10-13T13:07:27.230Z",
+            "local_time": "16:07:27.230",
+            "value": "4",
+            "raw_hex": "00008040",
+            "tier": "focus"
+          }
+        ]
+      },
+      "display_kind": "whole_number_display_but_real_plc_storage",
+      "write_symbol_candidate": ".stKaliciData.sRecipeData.rBantUzeriIstenenUrunAdet",
+      "hmi_input_bounds": {
+        "min": 1,
+        "max": 20,
+        "source": "TCPLC_P_1.wbp inline bounds adjacent to this named HMI input call",
+        "verification": "decoded_from_supplied_boot_binary_not_runtime_tested_at_limits"
+      }
+    },
+    {
+      "parameter_key": "waitingQty",
+      "label_ru": "Количество холостых ударов",
+      "kind": "setpoint",
+      "read_symbol": ".stKaliciData.sRecipeData.diCeneBosVurmaAdet",
+      "logger_type": "DINT",
+      "bytes": 4,
+      "unit": "ударов",
+      "unit_verification": "operator_confirmed",
+      "read_binding_verification": "observed_changes_and_operator_markers",
+      "write_verified_from_scada": false,
+      "initial_raw_value": "4",
+      "final_raw_value": "5",
+      "evidence": {
+        "archive": "Guris_20261013_160125_659_6016_0.zip",
+        "markers": [
+          {
+            "utc": "2026-10-13T13:07:56.704Z",
+            "elapsed_ms": "391047",
+            "parameter_key": "waitingQty",
+            "before": "4",
+            "after": "5",
+            "note": ""
+          }
+        ],
+        "changes": [
+          {
+            "utc": "2026-10-13T13:07:47.526Z",
+            "local_time": "16:07:47.526",
+            "value": "5",
+            "raw_hex": "05000000",
+            "tier": "focus"
+          }
+        ]
+      },
+      "write_symbol_candidate": ".stKaliciData.sRecipeData.diCeneBosVurmaAdet"
+    },
+    {
+      "parameter_key": "offsetHundredths",
+      "label_ru": "Тонкая настройка шага",
+      "kind": "adjustment",
+      "read_symbol": "SLOW_TASK.RKAYISKADEMEOFSET",
+      "logger_type": "REAL",
+      "bytes": 4,
+      "unit": null,
+      "unit_verification": "dimensionless",
+      "read_binding_verification": "observed_changes_and_operator_markers",
+      "write_verified_from_scada": false,
+      "initial_raw_value": "-0.574999988",
+      "final_raw_value": "-0.425000042",
+      "evidence": {
+        "archive": "Guris_20261013_160125_659_6016_0.zip",
+        "markers": [
+          {
+            "utc": "2026-10-13T13:08:54.847Z",
+            "elapsed_ms": "449188",
+            "parameter_key": "offsetHundredths",
+            "before": "-0.57",
+            "after": "-0.50",
+            "note": ""
+          }
+        ],
+        "changes": [
+          {
+            "utc": "2026-10-13T13:08:29.451Z",
+            "local_time": "16:08:29.451",
+            "value": "-0.550000012",
+            "raw_hex": "CDCC0CBF",
+            "tier": "focus"
+          },
+          {
+            "utc": "2026-10-13T13:08:29.961Z",
+            "local_time": "16:08:29.961",
+            "value": "-0.525000036",
+            "raw_hex": "676606BF",
+            "tier": "focus"
+          },
+          {
+            "utc": "2026-10-13T13:08:30.956Z",
+            "local_time": "16:08:30.956",
+            "value": "-0.50000006",
+            "raw_hex": "010000BF",
+            "tier": "focus"
+          },
+          {
+            "utc": "2026-10-13T13:09:03.941Z",
+            "local_time": "16:09:03.941",
+            "value": "-0.475000054",
+            "raw_hex": "3533F3BE",
+            "tier": "focus"
+          },
+          {
+            "utc": "2026-10-13T13:09:04.523Z",
+            "local_time": "16:09:04.523",
+            "value": "-0.425000042",
+            "raw_hex": "9B99D9BE",
+            "tier": "focus"
+          }
+        ]
+      },
+      "storage_symbol": ".stKaliciData.sRecipeData.rKayisOfset",
+      "write_symbol_candidate": ".stKaliciData.sRecipeData.rKayisOfset",
+      "storage_to_display_transform": {
+        "scale": -1,
+        "offset": 0,
+        "verified_in_observed_range": true
+      },
+      "storage_changes": [
+        {
+          "utc": "2026-10-13T13:08:29.448Z",
+          "value": "0.550000012"
+        },
+        {
+          "utc": "2026-10-13T13:08:29.957Z",
+          "value": "0.525000036"
+        },
+        {
+          "utc": "2026-10-13T13:08:30.953Z",
+          "value": "0.50000006"
+        },
+        {
+          "utc": "2026-10-13T13:09:03.937Z",
+          "value": "0.475000054"
+        },
+        {
+          "utc": "2026-10-13T13:09:04.431Z",
+          "value": "0.425000042"
+        }
+      ],
+      "step_source_symbol": ".stKaliciData.rKayisOfset_Adim",
+      "observed_step": 0.0250000004,
+      "legacy_key_note": "offsetHundredths is a prototype key; actual PLC step was 0.025, so preserve REAL precision rather than using an integer count of hundredths.",
+      "observed_display_range": {
+        "min": -0.574999988,
+        "max": -0.425000042
+      },
+      "auto_step_wrap": {
+        "source": "operator_description",
+        "described_display_thresholds": [
+          -0.8,
+          0.8
+        ],
+        "observed_in_this_log": false,
+        "verification": "pending",
+        "implementation_note": "Do not assume that writing the display variable is equivalent to HMI buttons. Verify the PLC wrap and button command path before implementing behavior at the boundary."
+      }
+    },
+    {
+      "parameter_key": "beltIdleSpeed",
+      "label_ru": "Скорость холостой работы ленты",
+      "kind": "setpoint",
+      "read_symbol": ".stKaliciData.rKayisStopHizYuzde",
+      "logger_type": "REAL",
+      "bytes": 4,
+      "unit": "%",
+      "unit_verification": "percentage_name_and_existing_hmi_profile",
+      "read_binding_verification": "observed_changes_and_operator_markers",
+      "write_verified_from_scada": false,
+      "initial_raw_value": "20",
+      "final_raw_value": "25",
+      "evidence": {
+        "archive": "Guris_20261013_160125_659_6016_0.zip",
+        "markers": [
+          {
+            "utc": "2026-10-13T13:09:35.468Z",
+            "elapsed_ms": "489813",
+            "parameter_key": "beltIdleSpeed",
+            "before": "20",
+            "after": "25",
+            "note": ""
+          }
+        ],
+        "changes": [
+          {
+            "utc": "2026-10-13T13:09:23.050Z",
+            "local_time": "16:09:23.050",
+            "value": "25",
+            "raw_hex": "0000C841",
+            "tier": "focus"
+          }
+        ]
+      },
+      "write_symbol_candidate": ".stKaliciData.rKayisStopHizYuzde",
+      "hmi_input_bounds": {
+        "min": -10,
+        "max": 50,
+        "source": "TCPLC_P_1.wbp inline bounds adjacent to this named HMI input call",
+        "verification": "decoded_from_supplied_boot_binary_not_runtime_tested_at_limits"
+      }
+    }
+  ],
+  "dependency_rules": [
+    {
+      "enabled_by": "beltTimed",
+      "dependent_fields": [
+        "beltTime1",
+        "beltTime2",
+        "beltTime3"
+      ],
+      "source": "approved_ui_requirement"
+    },
+    {
+      "enabled_by": "conveyorContinuous",
+      "dependent_fields": [
+        "conveyorTime1",
+        "conveyorTime2"
+      ],
+      "source": "approved_ui_requirement"
+    }
+  ],
+  "evidence_archive": {
+    "name": "Guris_20261013_160125_659_6016_0.zip",
+    "sha256": "ba697bdc984c81cf013d27dae3740cc5a5032c954e1cf7757de73f0f732ce1df",
+    "sample_rows": 71411,
+    "quality_counts": {
+      "OK": 71411
+    },
+    "observed_symbols": 7687,
+    "initial_focus_fields": 207,
+    "final_focus_fields": 72,
+    "timing_note": "PC observation timestamps; not an atomic PLC-cycle snapshot. Record interval is not the same as poll interval."
+  },
+  "unresolved": [
+    {
+      "key": "conveyor_units",
+      "note_ru": "Два поля ранее названы временем в мс. В логе совпали rKonvoyorFrekans и rPaketArasiBantFrekans; их шкала/единицы пока не подтверждены. В оригинальном фото единицы возле этих полей не указаны."
+    },
+    {
+      "key": "offset_boundary_wrap",
+      "note_ru": "В логе тонкая настройка была от -0.575 до -0.425. Переходы через ±0.80 и автоматическая смена основного шага не наблюдались."
+    },
+    {
+      "key": "writes",
+      "note_ru": "Изменения выполнялись на оригинальном HMI. Прямая запись из будущей SCADA и подтверждение обратным чтением ещё не проверены."
+    }
+  ],
+  "implementation_rules": [
+    "Resolve current address/type by symbol name; do not store addresses from this capture as permanent mappings.",
+    "Use exact PLC numeric size; beltStep is REAL, not DINT.",
+    "Read the actual offset from SLOW_TASK.RKAYISKADEMEOFSET; storage has the opposite sign.",
+    "After writing a candidate setpoint, read back the PLC value. Keep pending/error distinct from confirmed acceptance.",
+    "Unknown conveyor units must not be labeled ms."
+  ]
+}

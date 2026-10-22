@@ -1,0 +1,32 @@
+{
+  "passed": true,
+  "parameters": 25,
+  "readings": 3,
+  "pairedRows": 3,
+  "sharedEdgeSensitivity": 1,
+  "functionality": 62,
+  "touchSwipes": 4,
+  "parameterDescriptions": 28,
+  "simulatedWrites": [
+    "perfFeedAcceleration",
+    "perfHydraulicMode",
+    "perfBatchPrewarning",
+    "edgeSensitivity"
+  ],
+  "layouts": [
+    "1024x600",
+    "1920x1080",
+    "3840x2160"
+  ],
+  "themes": [
+    "dark",
+    "classic"
+  ],
+  "languages": [
+    "ru",
+    "en",
+    "tr"
+  ],
+  "errors": [],
+  "external": []
+}

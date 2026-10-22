@@ -1,0 +1,1412 @@
+{
+  "target": "Windows 10/11 x64",
+  "compiler": "Zig 0.13.0 x86_64-windows-gnu, C11, -Wall -Wextra -Wpedantic; no warnings",
+  "source_archives": [
+    {
+      "name": "hmi_20261015_170246_479_2892_0.zip",
+      "bytes": 16436478,
+      "sha256": "5c1fec108269a97aabf0c114a7b33d3cdff06be3e10d7431b6bed72935f0b018"
+    },
+    {
+      "name": "hmi_20261015_170617_478_2892_0.zip",
+      "bytes": 36188070,
+      "sha256": "21834b5cd3f16aea682d8289346220416e59bda672d32d6cb332dfcf009e4aae"
+    },
+    {
+      "name": "hmi_20261015_170827_230_2892_0.zip",
+      "bytes": 46571319,
+      "sha256": "3d9b238bf17f65162807698b200cbd76b89b4a845e9bf74c0a1ac28fd7cbe88d"
+    },
+    {
+      "name": "hmi_20261015_171824_797_2892_0.zip",
+      "bytes": 106516830,
+      "sha256": "d615b7fb6056f65295c17eeb03f84747b8b992fdf7d18205d8ae07c146d8e2bf"
+    }
+  ],
+  "identity": {
+    "provider": "local",
+    "roles": [
+      "operator",
+      "engineer"
+    ],
+    "credential_file": "local/accounts.json; PBKDF2-HMAC-SHA256, 600000 iterations, random 16-byte salt, 32-byte key; no plaintext PIN",
+    "server_scaling": "native local provider and roles preserved"
+  },
+  "cleaning_mode": {
+    "owner": "SCADA native backend process",
+    "normal_speed": 10,
+    "boost_speed": 45,
+    "add_seconds": 60,
+    "maximum_remaining_seconds": 180,
+    "journal": "local/cleaning.json",
+    "offline_limitation": "PLC cannot receive return to 10 while backend/connection is unavailable; restoration journal retained. Not a PLC safety function."
+  },
+  "unwinder_policy": {
+    "normal": 1,
+    "temporary_value": 0,
+    "temporary_seconds": 300,
+    "permanent_role": "engineer",
+    "permanent_stopped_required": true,
+    "permanent_confirmation": "dedicated modal",
+    "journal": "local/unwinder.json",
+    "timer_owner": "native SCADA worker",
+    "running_clock": "monotonic milliseconds",
+    "restart_clock": "UTC milliseconds with rollback/expiry checks",
+    "repeat_does_not_extend": true,
+    "hmi_disable_detected": true,
+    "unscoped_startup_disable": "return to normal",
+    "explicit_exit": "restore temporary bypass before stopping, within the existing 5-second shutdown window",
+    "network_or_pc_offline": "Cannot deliver enable until the backend and the original PLC connection are available; recovery journal retained",
+    "generic_write_bypass": false
+  },
+  "ui_lifecycle": {
+    "native_window_identity": "unique local port marker plus membership of the owned Edge job; independent of version title",
+    "dedicated_profile": "random disposable subdirectory for this run, per launch mode",
+    "owned_process_group": "Win32 job with KILL_ON_JOB_CLOSE; process assigned before resume",
+    "close": "WM_CLOSE to owned windows, then close only the owned process group",
+    "personal_browser_processes": "not assigned to SCADA job",
+    "gui_execution_verified": false,
+    "exit_frontend": "single request, inert controls, no repeat after backend shutdown"
+  },
+  "themes": {
+    "available": [
+      "dark",
+      "classic"
+    ],
+    "default": "dark",
+    "persistence": "local/scada_options.json",
+    "scope": "all local profiles",
+    "editor_role": "engineer",
+    "initial_theme": "rendered by native HTTP backend",
+    "switching": "after successful atomic save; no reload or PLC writes",
+    "canvas": "refresh cached palette and repaint paused drawings, preserving phase and seam position",
+    "reference": "original HMI temperature/glue/engineering photographs",
+    "dark_style_sha256": "d6edf60e82d593649b2827bf27433c288ee34f616d7883e58434c0e132eae4cd"
+  },
+  "idle_speed_policy": {
+    "manual_machine_states": [
+      13
+    ],
+    "automatic_mode": 0,
+    "normal_speed": 10,
+    "boost_speed": 45,
+    "checks": [
+      "HTTP cached fresh state",
+      "live state/auto read before write"
+    ],
+    "automatic_restore": "return to 10 on expiry, leaving state 13, auto on, stale data, disconnect or quit; journal retained until confirmed",
+    "manual_commands_states": [
+      5,
+      6,
+      9
+    ],
+    "engineer_normal_restore": "Engineer may write normal 10 in any machine state; direct 45 remains prohibited"
+  },
+  "diagnostics_io": {
+    "catalog": "ui/io_catalog.json",
+    "process_image_elements": 872,
+    "runtime_hmi_indications": 11,
+    "total_tags": 883,
+    "original_pages": 8,
+    "original_rows": 241,
+    "bound_rows": 241,
+    "read_only": true,
+    "visible_selection_max": 48,
+    "poll_ms": 500,
+    "lease_ms": 2500,
+    "lookup_limit_per_cycle": 2,
+    "live_symbol_resolution": true,
+    "original_expressions": 3
+  },
+  "counter_reset_policy": {
+    "machine_state_gate": false,
+    "automatic_gate": false,
+    "fresh_plc_required": true,
+    "moving_count_confirmation": true,
+    "zero_read_during_owned_pulse": true,
+    "release_confirmed": true,
+    "post_release_count_allowed": true,
+    "lost_assertion_ack_not_replayed": true
+  },
+  "manuals": {
+    "directory": "manuals",
+    "guide_filename": "index.md",
+    "encoding": "UTF-8",
+    "discovery_ms": 3000,
+    "native_scan_cache_ms": 2000,
+    "role": "operator and engineer",
+    "works_without_plc": true,
+    "plc_writes": false,
+    "read_only_files": true,
+    "max_guides": 128,
+    "markdown_max_bytes": 65536,
+    "photo_max_bytes": 16777216,
+    "photos": [
+      "jpg",
+      "jpeg",
+      "png",
+      "webp"
+    ],
+    "search": "title, summary, category",
+    "metadata": [
+      "title",
+      "summary",
+      "category",
+      "order"
+    ],
+    "open_guide_updates": "explicit reload notification; preserve reading until accepted",
+    "photo_zoom": "fit window, up to 4x fit",
+    "parser": {
+      "name": "marked",
+      "version": "17.0.5",
+      "license": "MIT",
+      "runtime": "bundled offline browser UMD",
+      "license_file": "ui/vendor/MARKED_LICENSE.md"
+    },
+    "rendering": "whitelisted Markdown tokens into DOM; raw HTML is plain text; no external images",
+    "path_policy": "rooted directory reads, no traversal, links/reparse points or ADS alternate streams; image signatures and session checked",
+    "examples": [
+      "01-photo-guide",
+      "02-add-manual"
+    ],
+    "example_file_hashes": {
+      "manuals/01-photo-guide/images/hmi-menu.jpg": "e53363440fdc51ebef34eb439efcfb143723f39c50348588bea6c57627d1c2b4",
+      "manuals/01-photo-guide/index.md": "50c7c14bdbeed97e04c416f3fe48c7608df6a7b5816b76d095f476a2d4317789",
+      "manuals/02-add-manual/images/hmi-temperature.png": "6f6f2c45fa95f61ffe5f55742caae772c3e5bb48e2cc7be393c1569ba47c718d",
+      "manuals/02-add-manual/index.md": "43d2dffe891e5549ed8cea2b28b1afdee3b15d2a39687a699a9ad754e883ae0d",
+      "manuals/README_RU.md": "c2f3e144bf24875d6e545fb37824984d9c1d33407eae27864ebdf5b2496466b4"
+    },
+    "editable_examples_checked_by_runtime_checker": false
+  },
+  "polling": {
+    "fast_ms": 100,
+    "full_ms": 500,
+    "max_sum_fields": 64,
+    "overlapping_requests": false,
+    "fast_fields": [
+      "current",
+      "groups",
+      "total",
+      "machineState",
+      "automatic",
+      "photoReset",
+      "photoOffsetTenths"
+    ],
+    "engineeringScopeLeaseMs": 5000,
+    "engineeringResolveBudget": 4,
+    "engineeringLazy": true
+  },
+  "jog_research": {
+    "confirmedJogSettings": 18,
+    "numericEditorSites": 19,
+    "persistentNumericJog": 33,
+    "otherPersistentNumeric": 15,
+    "physicalJogButtons": 83,
+    "hmiJogTargets": 9,
+    "servoAxes": 19
+  },
+  "research_report": "docs/JOG_IO_TOWER_0_1_16_RU.md",
+  "version": "0.1.24",
+  "previous_release": "0.1.23",
+  "built_utc": "2026-10-22T13:19:54.563567+00:00",
+  "windows_gui_run": false,
+  "real_machine_write_test": false,
+  "imports": [
+    "WS2_32.dll",
+    "SHELL32.dll",
+    "USER32.dll",
+    "bcrypt.dll",
+    "api-ms-win-crt-convert-l1-1-0.dll",
+    "api-ms-win-crt-heap-l1-1-0.dll",
+    "api-ms-win-crt-private-l1-1-0.dll",
+    "api-ms-win-crt-runtime-l1-1-0.dll",
+    "api-ms-win-crt-stdio-l1-1-0.dll",
+    "api-ms-win-crt-string-l1-1-0.dll",
+    "api-ms-win-crt-time-l1-1-0.dll",
+    "api-ms-win-crt-utility-l1-1-0.dll",
+    "KERNEL32.dll",
+    "api-ms-win-crt-math-l1-1-0.dll",
+    "api-ms-win-crt-environment-l1-1-0.dll"
+  ],
+  "exe_sha256": "e0474c00a149b37f8022ecb707c86e9af6206f02e0f8c8dde4787872d5a4b73d",
+  "bindings": {
+    "nativeFields": 714,
+    "alwaysPolledFields": 256,
+    "visibleFieldKeys": 652,
+    "visibleFieldKeysBound": 652,
+    "writableSettings": 596,
+    "dedicatedCommands": 42,
+    "heldCommands": 9,
+    "unboundElements": 0,
+    "tpyTypeMismatches": 0
+  },
+  "generic_scalar_settings": 594,
+  "policy_controlled_scalar_settings": 2,
+  "binding_catalog": "docs/PARAMETER_BINDINGS.json",
+  "binding_report": "docs/PARAMETER_BINDINGS_RU.md",
+  "release_notes": "docs/CHANGES_0_1_24_RU.md",
+  "validation_report": "docs/VALIDATION_0_1_24_RU.md",
+  "handoff": "docs/CONTINUE_SCADA_0_1_24_RU.md",
+  "python_tests": {
+    "passed": 170,
+    "uniqueCases": 170,
+    "finalFailures": 0,
+    "results": "validation/0.1.24/native-final.log"
+  },
+  "c_suites": [
+    {
+      "name": "test_cleaning_clock",
+      "returncode": 0
+    },
+    {
+      "name": "test_unwinder_clock",
+      "returncode": 0
+    },
+    {
+      "name": "test_ui_launch_config",
+      "returncode": 0
+    },
+    {
+      "name": "test_bootstrap",
+      "returncode": 0
+    },
+    {
+      "name": "test_production_clock",
+      "returncode": 0
+    },
+    {
+      "name": "test_production_reasons",
+      "returncode": 0
+    },
+    {
+      "name": "test_production_shift",
+      "returncode": 0
+    }
+  ],
+  "browser_results": [
+    {
+      "name": "test_ui",
+      "returncode": 0
+    },
+    {
+      "name": "test_release21_browser",
+      "returncode": 0
+    },
+    {
+      "name": "test_release22_browser",
+      "returncode": 0
+    },
+    {
+      "name": "test_release23_browser",
+      "returncode": 0
+    },
+    {
+      "name": "test_complete_browser",
+      "returncode": 0
+    }
+  ],
+  "browser_environment": {
+    "chromium": "153.0.8010.0",
+    "headless": true,
+    "gpu": false,
+    "physical_monitor_test": false,
+    "viewports": [
+      [
+        1024,
+        600
+      ],
+      [
+        1920,
+        1080
+      ],
+      [
+        3840,
+        2160
+      ]
+    ]
+  },
+  "write_policy": "Fresh full-name ADS metadata/type/size/version and baseline bytes, source bounds, role and readback; parameter editing independent of machine state. No replay after uncertain write.",
+  "remaining_limits": [
+    "Windows GUI and physical PLC commissioning were not executed here",
+    "Offline SCADA timers cannot deliver commands to the PLC",
+    "One legacy Dancer2 flag is read-only because its physical effect is unconfirmed",
+    "Turkish development locale preserves original HMI names; some older SCADA text uses English fallback",
+    "Applying an encoder scale is an original PLC/NC request; readback does not measure physical glue dose",
+    "Three PERFORMANS distance inputs have a software upper bound because the original HMI bound is blank",
+    "Injet/Sepet Cozgu physical unit identities and the early jaw offset unit remain unconfirmed",
+    "The physical unit of rTakviyeKartGecikmeMesafe remains ambiguous between its HMI caption and member name; transferred without conversion.",
+    "Literal source HMI potentiometer channel discrepancies are preserved and explained in the UI.",
+    "The physical unit of rTakviyeKartGecikmeMesafe remains ambiguous between its HMI caption and member name; transferred without conversion.",
+    "Literal source HMI potentiometer channel discrepancies are preserved and explained in the UI."
+  ],
+  "localization": {
+    "languages": [
+      "ru",
+      "en",
+      "tr"
+    ],
+    "messages_per_language": 2236,
+    "turkish_mode": "Original HMI names, translated main UI and new explanations, English fallback for some older SCADA-only text"
+  },
+  "functionality": {
+    "parameters": 62,
+    "boolean": 60,
+    "numeric": 2,
+    "engineerOnly": true,
+    "explicitConfirmationForBooleanChanges": true,
+    "descriptions": "click parameter label; original HMI name and PLC symbol retained",
+    "legacyUnconfirmedFlag": "cfgBalerin2PotansCalismaAktif",
+    "zeroEncoderPulses": "excluded: original HMI permits 0, but the PLC formula would generate a zero scale",
+    "widthUnit": "cfgInchMode changes width entry unit; workingLength remains mm",
+    "legacyUnconfirmedFlagReadOnly": true,
+    "layout": "one continuous two-column list, vertical native touch scrolling",
+    "pageTabs": false,
+    "machineState": "any"
+  },
+  "menu_equipment": {
+    "columns": 5,
+    "fixed": {
+      "edge": {
+        "cell": [
+          1,
+          1
+        ],
+        "expression": "always; KenKontrol.bOtherPage selects the original HMI variant"
+      },
+      "temperature": {
+        "cell": [
+          1,
+          2
+        ],
+        "expression": ".stKaliciData.bIsiKontrolVar == TRUE",
+        "field": "equipmentTemperature"
+      },
+      "glue": {
+        "cell": [
+          1,
+          3
+        ],
+        "expression": ".stKaliciData.bHotmeltUniteVar == TRUE",
+        "field": "equipmentGlue"
+      },
+      "longitudinal": {
+        "cell": [
+          2,
+          2
+        ],
+        "expression": "NOT Slow_Task.bYolunaKaynakInvisible",
+        "field": "equipmentSeamHidden",
+        "derived": "bYolunaKaynakVar1 OR bYolunaKaynakVar2 OR iTelKaynak1BalerinRef>0 OR iTelKaynak2BalerinRef>0",
+        "writer": "Slow_Task.Hesaplamalar @ 0xBA2F8..0xBA336"
+      },
+      "eject": {
+        "cell": [
+          3,
+          1
+        ],
+        "expression": "MAIN.bTutucuServoEnable OR .stKaliciData.bAcTutucuUnite OR .stKaliciData.bTutucuServoAutoJogMode",
+        "fields": [
+          "equipmentEjectServo",
+          "equipmentEjectAC",
+          "equipmentEjectAutoJog"
+        ]
+      },
+      "liner": {
+        "cell": [
+          3,
+          2
+        ],
+        "expression": ".stKaliciData.bBantVar == TRUE",
+        "field": "equipmentLiner"
+      },
+      "takeoff": {
+        "cell": [
+          3,
+          4
+        ],
+        "expression": ".stKaliciData.bDizgiServoVar == TRUE",
+        "field": "equipmentTakeoff"
+      },
+      "tension": {
+        "cell": [
+          4,
+          2
+        ],
+        "expression": "always; constant visibility in original HMI"
+      }
+    },
+    "reserved_engineering_cells": {
+      "scada": [
+        4,
+        5
+      ],
+      "options": [
+        5,
+        5
+      ]
+    },
+    "extras": "source order, row-major traversal excluding all reserved cells, including absent/hidden ones",
+    "runtime": "Live ADS BOOL metadata and quality control visibility. Configuration flags can be changed only by Engineer with fresh stopped machine state; derived visibility flags remain read-only.",
+    "hmi_render_proofs": [
+      {
+        "kind": "DrawBitmap",
+        "rect": [
+          276,
+          160,
+          395,
+          239
+        ],
+        "arguments": {
+          "nId": 44,
+          "nXCorner": 276,
+          "nYCorner": 160,
+          "mXCorner": 395,
+          "mYCorner": 239,
+          "nIso": 2,
+          "dwColorTransparent": 0,
+          "bVisible": 1
+        },
+        "dependencies": {
+          "nId": [
+            ".RTGraphic_nBitmap_2816_186"
+          ],
+          "bVisible": [
+            "Slow_Task.bYolunaKaynakInvisible"
+          ]
+        },
+        "proof": {
+          "function": "__VISU_PAGE_SEND_CYCLECODE",
+          "fileOffset": 2693564,
+          "fileOffsetHex": "0x2919bc",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        "structureOnlyPath": false
+      },
+      {
+        "kind": "DrawBitmap",
+        "rect": [
+          276,
+          240,
+          396,
+          320
+        ],
+        "arguments": {
+          "nId": 46,
+          "nXCorner": 276,
+          "nYCorner": 240,
+          "mXCorner": 396,
+          "mYCorner": 320,
+          "nIso": 0,
+          "dwColorTransparent": 0,
+          "bVisible": 1
+        },
+        "dependencies": {
+          "nId": [
+            ".RTGraphic_nBitmap_2816_189"
+          ],
+          "bVisible": [
+            ".stKaliciData.bBantVar"
+          ]
+        },
+        "proof": {
+          "function": "__VISU_PAGE_SEND_CYCLECODE",
+          "fileOffset": 2693691,
+          "fileOffsetHex": "0x291a3b",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        "structureOnlyPath": false
+      },
+      {
+        "kind": "DrawBitmap",
+        "rect": [
+          155,
+          240,
+          274,
+          320
+        ],
+        "arguments": {
+          "nId": 47,
+          "nXCorner": 155,
+          "nYCorner": 240,
+          "mXCorner": 274,
+          "mYCorner": 320,
+          "nIso": 2,
+          "dwColorTransparent": 0,
+          "bVisible": 1
+        },
+        "dependencies": {
+          "nId": [
+            ".RTGraphic_nBitmap_2816_190"
+          ],
+          "bVisible": [
+            "MAIN.bTutucuServoEnable"
+          ]
+        },
+        "proof": {
+          "function": "__VISU_PAGE_SEND_CYCLECODE",
+          "fileOffset": 2693756,
+          "fileOffsetHex": "0x291a7c",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        "structureOnlyPath": false
+      },
+      {
+        "kind": "DrawBitmap",
+        "rect": [
+          276,
+          81,
+          395,
+          160
+        ],
+        "arguments": {
+          "nId": 49,
+          "nXCorner": 276,
+          "nYCorner": 81,
+          "mXCorner": 395,
+          "mYCorner": 160,
+          "nIso": 2,
+          "dwColorTransparent": 0,
+          "bVisible": 1
+        },
+        "dependencies": {
+          "nId": [
+            ".RTGraphic_nBitmap_2816_192"
+          ],
+          "bVisible": [
+            ".stKaliciData.bIsiKontrolVar"
+          ]
+        },
+        "proof": {
+          "function": "__VISU_PAGE_SEND_CYCLECODE",
+          "fileOffset": 2693883,
+          "fileOffsetHex": "0x291afb",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        "structureOnlyPath": false
+      },
+      {
+        "kind": "DrawBitmap",
+        "rect": [
+          276,
+          320,
+          395,
+          399
+        ],
+        "arguments": {
+          "nId": 50,
+          "nXCorner": 276,
+          "nYCorner": 320,
+          "mXCorner": 395,
+          "mYCorner": 399,
+          "nIso": 0,
+          "dwColorTransparent": 0,
+          "bVisible": 1
+        },
+        "dependencies": {
+          "nId": [
+            ".RTGraphic_nBitmap_2816_193"
+          ]
+        },
+        "proof": {
+          "function": "__VISU_PAGE_SEND_CYCLECODE",
+          "fileOffset": 2693942,
+          "fileOffsetHex": "0x291b36",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        "structureOnlyPath": false
+      },
+      {
+        "kind": "DrawBitmap",
+        "rect": [
+          405,
+          81,
+          524,
+          160
+        ],
+        "arguments": {
+          "nId": 51,
+          "nXCorner": 405,
+          "nYCorner": 81,
+          "mXCorner": 524,
+          "mYCorner": 160,
+          "nIso": 0,
+          "dwColorTransparent": 0,
+          "bVisible": 1
+        },
+        "dependencies": {
+          "nId": [
+            ".RTGraphic_nBitmap_2816_194"
+          ],
+          "bVisible": [
+            ".stKaliciData.bHotmeltUniteVar"
+          ]
+        },
+        "proof": {
+          "function": "__VISU_PAGE_SEND_CYCLECODE",
+          "fileOffset": 2694004,
+          "fileOffsetHex": "0x291b74",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        "structureOnlyPath": false
+      },
+      {
+        "kind": "DrawBitmap",
+        "rect": [
+          155,
+          240,
+          274,
+          320
+        ],
+        "arguments": {
+          "nId": 47,
+          "nXCorner": 155,
+          "nYCorner": 240,
+          "mXCorner": 274,
+          "mYCorner": 320,
+          "nIso": 2,
+          "dwColorTransparent": 0,
+          "bVisible": 0
+        },
+        "dependencies": {
+          "nId": [
+            ".RTGraphic_nBitmap_2816_214"
+          ],
+          "bVisible": [
+            ".stKaliciData.bAcTutucuUnite",
+            ".stKaliciData.bTutucuServoAutoJogMode"
+          ]
+        },
+        "proof": {
+          "function": "__VISU_PAGE_SEND_CYCLECODE",
+          "fileOffset": 2697899,
+          "fileOffsetHex": "0x292aab",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        "structureOnlyPath": false
+      },
+      {
+        "kind": "DrawBitmap",
+        "rect": [
+          530,
+          240,
+          649,
+          320
+        ],
+        "arguments": {
+          "nId": 57,
+          "nXCorner": 530,
+          "nYCorner": 240,
+          "mXCorner": 649,
+          "mYCorner": 320,
+          "nIso": 0,
+          "dwColorTransparent": 0,
+          "bVisible": 1
+        },
+        "dependencies": {
+          "nId": [
+            ".RTGraphic_nBitmap_2816_219"
+          ],
+          "bVisible": [
+            ".stKaliciData.bDizgiServoVar"
+          ]
+        },
+        "proof": {
+          "function": "__VISU_PAGE_SEND_CYCLECODE",
+          "fileOffset": 2698106,
+          "fileOffsetHex": "0x292b7a",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        "structureOnlyPath": false
+      },
+      {
+        "kind": "DrawBitmap",
+        "rect": [
+          155,
+          81,
+          274,
+          160
+        ],
+        "arguments": {
+          "nId": 64,
+          "nXCorner": 155,
+          "nYCorner": 81,
+          "mXCorner": 274,
+          "mYCorner": 160,
+          "nIso": 2,
+          "dwColorTransparent": 0,
+          "bVisible": 0
+        },
+        "dependencies": {
+          "nId": [
+            ".RTGraphic_nBitmap_2816_255"
+          ],
+          "bVisible": [
+            "KenKontrol.bOtherPage"
+          ]
+        },
+        "proof": {
+          "function": "__VISU_PAGE_SEND_CYCLECODE",
+          "fileOffset": 2701713,
+          "fileOffsetHex": "0x293991",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        "structureOnlyPath": false
+      },
+      {
+        "kind": "DrawBitmap",
+        "rect": [
+          155,
+          81,
+          274,
+          160
+        ],
+        "arguments": {
+          "nId": 64,
+          "nXCorner": 155,
+          "nYCorner": 81,
+          "mXCorner": 274,
+          "mYCorner": 160,
+          "nIso": 2,
+          "dwColorTransparent": 0,
+          "bVisible": 1
+        },
+        "dependencies": {
+          "nId": [
+            ".RTGraphic_nBitmap_2816_256"
+          ],
+          "bVisible": [
+            "KenKontrol.bOtherPage"
+          ]
+        },
+        "proof": {
+          "function": "__VISU_PAGE_SEND_CYCLECODE",
+          "fileOffset": 2701780,
+          "fileOffsetHex": "0x2939d4",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        "structureOnlyPath": false
+      }
+    ],
+    "removedMenuEntries": [
+      "jog",
+      "knife",
+      "ballerina"
+    ],
+    "rows": 5
+  },
+  "commands": {
+    "total": 42,
+    "held": 9,
+    "lease_ms": 700,
+    "ui_heartbeat_ms": 150,
+    "pulse_ms": 80,
+    "ownership_journal": "local/command_pending.json",
+    "manual_states": [
+      5,
+      6,
+      9
+    ],
+    "manual_automatic_required": 0,
+    "restart": "Release owned pending signal, never resume movement",
+    "generic_write_to_command_flags": false,
+    "limitations": "No release can reach PLC during network/PLC unavailability. The SCADA lease is not a PLC watchdog or safety function.",
+    "counter_reset_states": "any; fresh PLC and exclusive command transaction required",
+    "counter_reset_pulse_ms": "80 ms, extended by readback up to six attempts with 20 ms gaps, then release",
+    "scale_apply_states": "any",
+    "scale_apply_automatic_required": "any",
+    "scale_apply_source_task_us": 20000
+  },
+  "production": {
+    "storage": "local/production.sqlite",
+    "sqlite_version": "3.54.1",
+    "journal_mode": "WAL",
+    "synchronous": "FULL",
+    "writer": "separate native thread",
+    "commit_interval_ms": 500,
+    "snapshot_queue": 512,
+    "states": [
+      "work",
+      "stop",
+      "manual",
+      "unknown"
+    ],
+    "plc_source": [
+      ".I_MESSAGEID",
+      "MAIN.BSISTEMOTOMATIK",
+      "MAIN.diToplamAdet"
+    ],
+    "job_states": [
+      "queued",
+      "active",
+      "paused",
+      "done"
+    ],
+    "import": "UTF-8 JSON, 128 KiB; engineer only",
+    "max_jobs": 5000,
+    "visible_jobs": 500,
+    "history_page_size": 100,
+    "max_range_days": 31,
+    "timeline_bins": 480,
+    "permanent_machine_id": true,
+    "event_ids": "machineId-sequence",
+    "server_connected": false,
+    "server_adapter": "requires agreed API and server availability",
+    "reason_editor": false,
+    "new_plc_commands": false,
+    "constructor": "tools/Constructor_TZ_SCADA.html",
+    "examples": [
+      "example_100x150.json",
+      "example_500x600.json"
+    ],
+    "physical_machine_tested": false,
+    "clock_test": "deterministic monotonic duration, loss boundary, counter reset/gap, scheduler gap and wall-clock rollback: passed",
+    "schema_version": 2,
+    "operator_view": "Jobs queue and full documents on separate Jobs page; Production history remains current shift totals/overview only",
+    "engineer_only": [
+      "job import/export",
+      "job accounting actions",
+      "period/state/job filters",
+      "interval details",
+      "history export"
+    ],
+    "permission_enforcement": "native HTTP API plus UI; stale privileged UI responses discarded after role revocation",
+    "operator_api": [
+      "/api/production",
+      "/api/production/job/{id}",
+      "/api/production/shift"
+    ],
+    "timeline_zoom": "480 bins recomputed for bounded visible window, UI minimum 60 seconds; touch/mouse pan; no future state extrapolation",
+    "history_list": "100-row batches; scroll/load more; 2000 UI rows max; full export retained",
+    "automatic_reasons": {
+      "conditions": [
+        {
+          "id": 14,
+          "name": "Лайнер №1 - закончился",
+          "condition": ".sysF.bBantUrunBitti[1]",
+          "reasonCode": "liner_change"
+        },
+        {
+          "id": 15,
+          "name": "Лайнер №2 - закончился",
+          "condition": ".sysF.bBantUrunBitti[2]",
+          "reasonCode": "liner_change"
+        },
+        {
+          "id": 28,
+          "name": "Лайнер №1 - заканчивается",
+          "condition": ".sysF.bBantCapBitti[1]",
+          "reasonCode": "liner_change"
+        },
+        {
+          "id": 29,
+          "name": "Лайнер №2 - заканчивается",
+          "condition": ".sysF.bBantCapBitti[2]",
+          "reasonCode": "liner_change"
+        },
+        {
+          "id": 67,
+          "name": "Лента 3 Диаметр Уменьшается",
+          "condition": ".sysF.bBantCapBitti[3]",
+          "reasonCode": "liner_change"
+        },
+        {
+          "id": 68,
+          "name": "Лента 3 Завершена",
+          "condition": ".sysF.bBantUrunBitti[3]",
+          "reasonCode": "liner_change"
+        },
+        {
+          "id": 27,
+          "name": "Рулон (ПФ) - заканчивается",
+          "condition": "Slow_Task.bAll_MalAzaldi",
+          "reasonCode": "roll_change"
+        }
+      ],
+      "source": "Slow_Task.Alarms @ 0xB482D..0xB4865, 0xB4975..0xB49C5, 0xB4D4D..0xB4D85",
+      "roll_evidence": "Slow_Task.Arizalar @ 0xB5C50..0xB5CAA; material-low is included in bAll_Genel @ 0xB6B87..0xB6BB2. ID 27 is low material, not a dedicated verified roll-change confirmation.",
+      "policy": "fresh active condition edges only, at most 2 seconds before/after observed work-to-stop/manual; settle after 2 seconds or next work. Same-cause state fragments share inferred reason until next observed work. Competing categories, old conditions, startup/gaps/PLC changes remain unassigned. No manual reason entry. Old history is not re-labelled."
+    },
+    "database_migration": "additive schema 1 -> 2, stop_causes; preserves jobs/intervals/notes, no historical backfill",
+    "jobs_entry": "Home Current job card only",
+    "production_tabs": "History only"
+  },
+  "photomark": {
+    "teaching_command": "MAIN.bIndexSensorReset_but",
+    "api": "explicit desired 1/0 with fresh readback; PLC clears on start",
+    "offset": "0…rMakineUrunBoy mm, PLC owned during teaching",
+    "encoder_source_in_boot": "Axis_Merdane1.NcToPlc.SetPos",
+    "control_window": "acceptance tolerance around expected mark; larger widens recognition",
+    "average_length": "read-only LREAL",
+    "fast_read_ms": 100,
+    "help": "restored approved canvas, three steps, actual PLC state, RU/EN, dark/classic, HD/4K",
+    "evidence": "docs/PHOTOMARK_RU.md",
+    "help_animation": "Repeated scenes while SCADA animations are enabled, independent of Windows reduced-motion preference and PLC connection; no writes by illustration"
+  },
+  "operator_ui_changes": {
+    "temperature_channels": "six separate cards",
+    "menu_grid": [
+      5,
+      5
+    ],
+    "engineering_cells": {
+      "scada": [
+        4,
+        5
+      ],
+      "options": [
+        5,
+        5
+      ]
+    },
+    "removed_menu_entries": [
+      "jog",
+      "knife",
+      "ballerina"
+    ],
+    "jobs": "separate page from Home only, viewable by Operator",
+    "glue_fields": [
+      "glueActualReference",
+      "glueRollDiameter"
+    ],
+    "glue_apply": "explicit original request, no machine-state gate; separate test commands retain manual conditions",
+    "engineering_descriptions": "tap label"
+  },
+  "engineering_photo_sha256": {
+    "reference/engineering-functionality/hmi-options-photo-4.png": "001815726e4730b599fa7168b92b182933752cadebdd5becdca16e6bc200fda0",
+    "reference/engineering-functionality/hmi-options-photo-5.png": "02c0fff1cd4bfc0e4e9555eefc827212df11919f56682f6d46de831bd1b14800",
+    "reference/engineering-functionality/hmi-options-photo-6.png": "21cbe95c5709d3f87f9726dc1efd483530c7e4f12a26ca7faf33ae943cf0289f",
+    "reference/engineering-functionality/hmi-options-photo-7.png": "8c2b0e3f1009231501fd9536afc8ce69d2ae8735a7741beedd758bd42edcda02"
+  },
+  "performance": {
+    "originalControls": 25,
+    "readings": 3,
+    "engineerOnly": true,
+    "pageTabs": false,
+    "layout": "25 setting rows with paired read-only actual values; one continuous scrolling list",
+    "descriptions": "click parameter name; original HMI names and symbolic PLC bindings retained",
+    "distanceSoftwareLimit": "100000 mm on the three distance inputs with blank original HMI upper bound; not a mechanical/PLC limit",
+    "maximumLength": "Editable INT .stKaliciData.iMaxUrunBoyu_mm is separate from read-only REAL MAIN.rMaxUrunBoy",
+    "sharedAirFields": "Existing operator access is retained; engineering page requires Engineer, with no machine-state restriction.",
+    "pairedReadings": {
+      "feedStartActual": "feedStartSet",
+      "feedStopActual": "feedStopSet",
+      "perfLowMaterialActual": "perfLowMaterialTime"
+    },
+    "machineState": "any"
+  },
+  "engineering_performance_photo_sha256": {
+    "reference/engineering-performance/hmi-performance-1.png": "1d2eaca67ea0e4f649a0feaf5f9adbc558548aa16cbea6b9137990a055da020f",
+    "reference/engineering-performance/hmi-performance-3.png": "7758ceb829200bd9c445477c0bb4505d7e7ccd4ca59d8143466669a7803b64c7",
+    "reference/engineering-performance/hmi-performance-2.png": "959caf08b4d2c94bae5b1f9b0bea03e42cdbc47435dbd58a762990f609ae68e2"
+  },
+  "edge_sensitivity": {
+    "sharedSymbol": ".stKaliciData.rKenarKontrol_OluBolge",
+    "sharedPLCChannels": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "uiControls": 1,
+    "hmiRange": [
+      0.1,
+      10
+    ],
+    "unit": "mm",
+    "roles": [
+      "operator",
+      "engineer"
+    ],
+    "meaning": "position dead zone; smaller = more sensitive, larger = less sensitive",
+    "defaultWrite": false
+  },
+  "engineering": {
+    "sections": 30,
+    "catalog": "ui/engineering.json",
+    "proof": "reference/engineering-0.1.24-bindings.json",
+    "engineerOnly": true,
+    "machineState": "any",
+    "leaseMs": 5000,
+    "lazyMetadataPerCycle": 4
+  },
+  "native_results": [
+    {
+      "name": "unittest_discover",
+      "returncode": 0,
+      "passed": 170
+    }
+  ],
+  "required_files_sha256": {
+    "ui/index.html": "8c5632d22d2da206e88ea390783414a57242e4c62137b315b38e5b2e31d69486",
+    "ui/app.js": "69fa7a787c105c5986d54480ccc93d83e3bf2005b9f171e703fb1a3d5113c86b",
+    "ui/style.css": "f2ca74d949c9402334a391a5e33f8af7462aa271b6d9b4b3c504079b5bcf2bd4",
+    "ui/themes.css": "a068836e15a97723d84eea1ea1ab8424416dad7bf9990d98147e415b6e074420",
+    "ui/assets/brand.png": "39225dbf9f1bb2999ed4e38f5f449c23b4e78a25efaa7052e79e2dd680e104ab",
+    "ui/favicon.svg": "f398f5dc19f76aa5600db34efc7477b662d1cb9fbe09692384eb911bd2e2776d",
+    "ui/mockup.css": "8d94d1617ce0374d73a54c0ec7b5e67da0a06561ef6c290d30b7ea1bbdb623f5",
+    "ui/mechanisms.js": "f399a96d0c61c99a10acbbf12a1ec3ebdf4081352edd5092ea9ca2dc049ccd59",
+    "ui/i18n.js": "b387509b43edab4a1583ba995fab944b02dd9cda9516508d607f43a5b7bd802d",
+    "ui/alarms.json": "fd51eb220b11dd25dc1a466ee00d1e58c7ef4dc4454f34b364c8be55a25d9ed6",
+    "ui/io.js": "d661d10fcf7171da34e47d3fcc2df629a672d7cd61d5b718c70abc9d5f9b1e06",
+    "ui/manuals.js": "e76b86c88f70baf4f30fb7b074592ebc44f3b3a9776b8224600b9046d4a4c1b3",
+    "ui/manuals.css": "10aba3363883a08d665ecc8539e58152b5ce4f124fc6a97d5e076ce8ab44797f",
+    "ui/production.js": "dcacb69ef7f3d76ff74942a165ba4487fa19414a8a28fca577dd20b8d5e2b93a",
+    "ui/production.css": "4b1a00ec08a80ae650ef6b62b2cad0c19049f30478c7920a0e5004fbb17f4a4d",
+    "ui/vendor/marked-17.0.5.umd.js": "0db7abc826b5ac76f6ed11951ae34074ba50438ce6ea8d52889203779e5cbbad",
+    "ui/io_catalog.json": "02b38f3d0412e411b3a1b6193a9d707130c59d3777da5af228756371e9f6d00a",
+    "ui/locales/catalog.json": "2b9eb5b1e098bc0d08fd0396d658666a9a19bcb335b7bf6ff19494be980908b5",
+    "ui/locales/ru.json": "b106fa7738291f57cda8ae822a891670fe2160b06357a7c7f30bd1436a623552",
+    "ui/locales/en.json": "f2996e96cd3044d5e83c665460a7622e115929323b0b778de12fa452d2c22a17",
+    "ui/locales/tr.json": "af1aea603f53d57d57c681c59b8b8a5045053e7ef02e073d5cac857c4da0dd8f",
+    "ui/functionality.js": "64b9e99f865bb8c2d6215aafab6c17d76941f6774849c6e9f599fd7dcf0ebf3c",
+    "ui/functionality.json": "fc1ae5576e520395606c5a7d8ffdb835e99d5919269222928791e4a8b26cca5c",
+    "ui/performance.json": "179f4b97d66d4882e58af560a6f7af10e88646764ffe5a2787c3c983eb52c6b1",
+    "ui/engineering.json": "08a47c56c8f9710710cca5c516d3fba3f1b13870ddf752b02b0815050666f077",
+    "ui/assets/flags/tr.svg": "cebdaba5ab835f735ad63fbef38baef53cfdd0b45d6c3cb79668a82a2b9cea53",
+    "ui/assets/flags/ru.svg": "da2b589502b2a508f167efd1cfda4f7e33f195727ba3cadd7c8254ada0095052",
+    "ui/assets/flags/gb.svg": "c21f77159ee7276ed67639536b56b9010c88215294eb46baa320dcde7ec505f9",
+    "GurisSCADA_0_1.exe": "e0474c00a149b37f8022ecb707c86e9af6206f02e0f8c8dde4787872d5a4b73d",
+    "Check_SCADA.ps1": "cda0fb49a86d15d92b1797561f5ecde5928322a77b00c325b1d1d93f6b5f0529"
+  },
+  "source_files_sha256": {
+    "src/ads.h": "7054d8f94a173e6cf456919fb6b924e790e6e808d1032c62c1efa9372c31a780",
+    "src/app.h": "beebd09dcc7a6b91bc3833dbc7775f053f98f93ca82587d1f51d44369e9d24cd",
+    "src/cleaning.h": "86b0ac4eb25d35600050a8212bf0f1fcb4a5abdd7630c0bb9fcff12def351398",
+    "src/commands.h": "9d135016b9330d2c78874ceeec2ccdb7931e92edde71f4b429372b4e37879893",
+    "src/control_types.h": "7b1566cf6d57909e057880e40a89cc8049235bba5ab7ee5419aacf13bbe1f473",
+    "src/derived.h": "50a2988774ca2fcec7c328cfc7c44361ee0e2c6c4f50a78da03783536e4d56b1",
+    "src/engineering_catalog.h": "647f33f77f9195b504dd84cfdd48336c9ae30724e17cc925c69087f03bb3c221",
+    "src/fields.h": "398808c436354fb6576938afcca8b85463b1efd0f6d95930b89df56ca011a386",
+    "src/http.h": "168733dbe59a6b3bb6d7a6f57e54708a22ae157337ca32c00a438a39b1d91973",
+    "src/io_monitor.h": "4b634c220f2dafe69bb3d95d1a192def7461a2aa29863df46c2a060708af749f",
+    "src/io_tags.h": "d3e5ba955ac6490e5e0d8ff46e28d9661291c5a486d704cdd79e3a61f3201ffa",
+    "src/io_types.h": "faab0a574e3e50f6de39309c170664ca90f57508e79034b580310a7b2ec52b73",
+    "src/json.h": "975fd181aee144995af0ea8574934134ebc19cfa229cd09b3e94b0ab970ab211",
+    "src/local.h": "ceff88a6c0026b5c0690f9c9525da653fe1bd841775a596844b4550547a495ca",
+    "src/local_types.h": "5a3dd3d7d96a76377fa9be85345facf21d20aaf6c2ca9fd8f427155b776253eb",
+    "src/main.c": "924e6ffdc79744885d1ffdefbf61b032a802349d196a8585026e263a5c1867b6",
+    "src/manuals.h": "393c6ae26eae3d20fe88675ad87d6d8b42213bc11264aaede61d40fd86cbc5ec",
+    "src/platform.h": "64a1703d7e7b82ac2e71c3bb1a4847607ee00aed3705857d4729fd5d731b5905",
+    "src/production.h": "2aa4d71623a74e1801749b84bec2afb35167b3af008e31974085c22c379b5144",
+    "src/production_queue.h": "34e9eb8ee21c3ff53f3272bf45d745f7a2ca2875300a6198e847923a8c6f1a67",
+    "src/ui_launch.h": "4e3ed50eca198ccc662129c16a7b0a9c40f980581c56293858de2a6b748e1a88",
+    "src/ui_launch_config.h": "6c8b2828578d57c49389b848ac54eac75a298d0523a22190304d62835a9ec76e",
+    "src/unwinder.h": "8a95d4fcd3744f5e3cc50ea9646e174efa0c7d87bdb1ba1c668fea745b34ba22",
+    "tests/fixtures/captured_menu_20261015.json": "ca6e9b72940e87241505425a5a826cda80fee89cf1d31fa306a83cfbe674616d",
+    "tests/fixtures/performance_hmi_values.json": "866b25cd4e878c96d462f83beb664d51ba0d0967bd77c02660b5956e08dd751c",
+    "tests/fixtures/plc_catalog_metadata.json": "0b4439aa4f07991e9d12a926d3fef0d14c56911c13ae1b46f74a4e7f42f93622",
+    "tests/fixtures/plc_nested_metadata.json": "cc369b56bc0ed71ad1337364939f763aba4dc094b0912b6549a169bad57424fc",
+    "tests/mock_io.py": "9f26dcd0e57a1ff573dabb232c813eddefd1a26fe8c2e607e9db29d9eb529f88",
+    "tests/package.json": "f0adf1a7b484b9db1399aaeb4584278917beab81196b898f744b746da9387fe1",
+    "tests/run_browser.py": "403797db2b9105ca2a7bd73e4e2395e4c13fe0b660b88a5908017567af3aa712",
+    "tests/test_ads_integration.py": "b34c31f8affd121de49683754cf54d152ac5530ffdb2716b1342d3b7ae5ac62a",
+    "tests/test_animation.cjs": "2c34eb1f8d66ceefa3d7f9f8b3b4bcc930b91f89408466ea6b5bbce5f4504e17",
+    "tests/test_bindings_browser.cjs": "af0b39a8269e6c2b717f8f60a21e903ad339811c8d39514a4c12cb0671327a21",
+    "tests/test_bootstrap.c": "eeb78681aa656ff3ca57dabfc017cc4bfbac56b637bf438a70d9be7df883438b",
+    "tests/test_browser.cjs": "6ca1e6ddd25d49c3ab6a1156b0cf141c09e867e25ee9a77d48fce7b57ce1eff1",
+    "tests/test_cleaning_clock.c": "73895a508ee268a9823db21c6a29d8d8896b723fac47cf8ae569648906c0f040",
+    "tests/test_complete_bindings.py": "06edaf020d819fa507db7c121b8d550e2050fd55c3862f9b1acf249ffe519179",
+    "tests/test_complete_browser.cjs": "6935c8656d411f52ef9f7b0cb6931198b01111740acf2396c72fd1a6cfbb6218",
+    "tests/test_display_browser.cjs": "4fd7dc5224be86338f292a405333433c135409de84f3aa118e7176b7a389d5a9",
+    "tests/test_idle_policy.py": "eb4911a45dfefa0f0ddf2156e33bc8244b8df78433dd133ab56de30bf0cd2095",
+    "tests/test_io.py": "e8edadf5ee3ac6edf9ce291300f07678b71584f504380a3d42ad1d42d78ad159",
+    "tests/test_kiosk_browser.cjs": "9b4a56867ffeb08063063c4d3e8684dc330949e569f3dc7f4224b4cfec0e6531",
+    "tests/test_local_features.py": "bd42a50e32e8aa4fb346ffbb687c3d3d930ac022e0c44efaceddf406216c1d16",
+    "tests/test_manuals.py": "9dd497dfa416914e4f4e61438cdec62387be273d8436f5fceb2dda357e0f1660",
+    "tests/test_manuals_browser.cjs": "4a221a28485667f15725682beaff62a85d0e6a75d5070e7a2d2ecf2937adf061",
+    "tests/test_menu_browser.cjs": "4c1fdde04e0fa1fae7ec64e71b0ac2010479af2156745b74e3af8fc5829b3b6f",
+    "tests/test_menu_language.py": "d5fce90a99f70b19da45cb67be43669619bec91c575e95a2ad176696842f4276",
+    "tests/test_metadata.py": "113a712ca0f476ea33d690cc83236408b98d8e4ec72a418962628d1713d60a32",
+    "tests/test_operator_browser.cjs": "122b930dd8a82bfff1e50ce36885231b488a63da3f63f837cc7fca9e64e1f344",
+    "tests/test_operator_fixes.py": "69d766c591d8517e9721a451ed5b6c95856c2e7509b199e07fe0d0c0f4288f6d",
+    "tests/test_parameter_bindings.py": "945798130e2198952fa1c4635dcf5206db33620b468dfa76158a0ee2f5eb1f08",
+    "tests/test_photomark.py": "e485ee4196bae0c09acbcc4a62c57af59fec7b9e68ead67c6c8a9f7dd83673bf",
+    "tests/test_photomark_browser.cjs": "c7afda8316f1b5a343db1a4d28e16d29eec2fc280a74edb28a66a796c804e7e3",
+    "tests/test_polish_browser.cjs": "437236220b45d38b088e19654d631718e15134c901d1700a1d349e822366f7d3",
+    "tests/test_production.py": "c509d0351c34c15ac4be2d2ba48ce7085fa85de3da3b0ca5c48d3ffce810c7e7",
+    "tests/test_production_browser.cjs": "5ca72f5d68aa3fe00aef7f9fc3d67712feed0df8cff61aefd59707a1f59b6c32",
+    "tests/test_production_clock.c": "e787223c69d27d9fcbad8d006cd3a224785e521b28423f8e8948cd6edcafd379",
+    "tests/test_production_reasons.c": "91661c8078c92ffe2148054d10c72cbb6261bc453fbcffe32421e4110e81f03b",
+    "tests/test_production_shift.c": "072b3d545f16346650bb25079e163f7583817522866de24ceafaebca431dd9a3",
+    "tests/test_release20.py": "61a604586898b7346ad932db761d914e95dcd1d61e42f2a06686b84d717e971c",
+    "tests/test_release20_browser.cjs": "237843a28461e0704eac5abde755cfd8986462b38a0bb30b3f19112766e5fddf",
+    "tests/test_release21.py": "f37e2152b340517ce7b4a48d6b2f13946715e3fe67a19e4518c32665f00372c7",
+    "tests/test_release21_browser.cjs": "9e8e388098aa03612a0294c23e3e5ee49a5792a73ce551a93e16192eb44d730e",
+    "tests/test_release22.py": "eb6360ffa43686e79bf32f0dfb98507bb710a6741d0a76d511f6629aea8eea83",
+    "tests/test_release22_browser.cjs": "cff31c450b5def35ac9ed0bca29a5f701b05013b2480b5b17d99fd11b0ce5b0b",
+    "tests/test_release23.py": "bdd7df7777dbb1a265ca6eb02c252677e2abb9ec8a02b11e7508796d1aaec43d",
+    "tests/test_release23_browser.cjs": "997a3e22633a602d99ffdc081f7a100fd1288626600b661fed2b4d5154aa7ea0",
+    "tests/test_release24.py": "8a5873a7c812516d11878bc7970b714b4a82391a5b96a0aacf45758ab6c30487",
+    "tests/test_release24_browser.cjs": "a269b7b22255cc138bdefc059db7802f75cc4afbafc512ddf9624d78c711b076",
+    "tests/test_themes.py": "5aea429cc753529e785f7731b6a182a630506a10f310fc89dcb80ebdc4c5e9be",
+    "tests/test_themes_browser.cjs": "f9a7b1ab83c6132b4c9b51aea564c53af4e6a708ea0f056b3f4e7e9330a28b33",
+    "tests/test_ui.cjs": "ef5f94b963cb654c44a6f2643c3b3a1944ae4522fda5aa64e2dc37bdf3a03347",
+    "tests/test_ui15_browser.cjs": "997de3ec7f520a75e26386b88acc9b19d1c3a3df39a68a3db09d30e06bb0b9c6",
+    "tests/test_ui16_browser.cjs": "b971a03976583e94a1a3b0e583c31aea8d05c6802e2ee398f1635d41de7de6b6",
+    "tests/test_ui_launch_config.c": "07d86342312bdb2c17446ef3a4efed8ee76a4ab472c8ffcd69b6a17a6902078d",
+    "tests/test_unwinder_clock.c": "350f4d63c9b7b97164bf34ec04eaea3955b97f1caef5057e32239a69e20bc3b3",
+    "ui/alarms.json": "fd51eb220b11dd25dc1a466ee00d1e58c7ef4dc4454f34b364c8be55a25d9ed6",
+    "ui/app.js": "69fa7a787c105c5986d54480ccc93d83e3bf2005b9f171e703fb1a3d5113c86b",
+    "ui/assets/brand.png": "39225dbf9f1bb2999ed4e38f5f449c23b4e78a25efaa7052e79e2dd680e104ab",
+    "ui/assets/flags/gb.svg": "c21f77159ee7276ed67639536b56b9010c88215294eb46baa320dcde7ec505f9",
+    "ui/assets/flags/ru.svg": "da2b589502b2a508f167efd1cfda4f7e33f195727ba3cadd7c8254ada0095052",
+    "ui/assets/flags/tr.svg": "cebdaba5ab835f735ad63fbef38baef53cfdd0b45d6c3cb79668a82a2b9cea53",
+    "ui/engineering.json": "08a47c56c8f9710710cca5c516d3fba3f1b13870ddf752b02b0815050666f077",
+    "ui/favicon.svg": "f398f5dc19f76aa5600db34efc7477b662d1cb9fbe09692384eb911bd2e2776d",
+    "ui/functionality.js": "64b9e99f865bb8c2d6215aafab6c17d76941f6774849c6e9f599fd7dcf0ebf3c",
+    "ui/functionality.json": "fc1ae5576e520395606c5a7d8ffdb835e99d5919269222928791e4a8b26cca5c",
+    "ui/i18n.js": "b387509b43edab4a1583ba995fab944b02dd9cda9516508d607f43a5b7bd802d",
+    "ui/index.html": "8c5632d22d2da206e88ea390783414a57242e4c62137b315b38e5b2e31d69486",
+    "ui/io.js": "d661d10fcf7171da34e47d3fcc2df629a672d7cd61d5b718c70abc9d5f9b1e06",
+    "ui/io_catalog.json": "02b38f3d0412e411b3a1b6193a9d707130c59d3777da5af228756371e9f6d00a",
+    "ui/locales/catalog.json": "2b9eb5b1e098bc0d08fd0396d658666a9a19bcb335b7bf6ff19494be980908b5",
+    "ui/locales/en.json": "f2996e96cd3044d5e83c665460a7622e115929323b0b778de12fa452d2c22a17",
+    "ui/locales/ru.json": "b106fa7738291f57cda8ae822a891670fe2160b06357a7c7f30bd1436a623552",
+    "ui/locales/tr.json": "af1aea603f53d57d57c681c59b8b8a5045053e7ef02e073d5cac857c4da0dd8f",
+    "ui/manuals.css": "10aba3363883a08d665ecc8539e58152b5ce4f124fc6a97d5e076ce8ab44797f",
+    "ui/manuals.js": "e76b86c88f70baf4f30fb7b074592ebc44f3b3a9776b8224600b9046d4a4c1b3",
+    "ui/mechanisms.js": "f399a96d0c61c99a10acbbf12a1ec3ebdf4081352edd5092ea9ca2dc049ccd59",
+    "ui/mockup.css": "8d94d1617ce0374d73a54c0ec7b5e67da0a06561ef6c290d30b7ea1bbdb623f5",
+    "ui/performance.json": "179f4b97d66d4882e58af560a6f7af10e88646764ffe5a2787c3c983eb52c6b1",
+    "ui/production.css": "4b1a00ec08a80ae650ef6b62b2cad0c19049f30478c7920a0e5004fbb17f4a4d",
+    "ui/production.js": "dcacb69ef7f3d76ff74942a165ba4487fa19414a8a28fca577dd20b8d5e2b93a",
+    "ui/style.css": "f2ca74d949c9402334a391a5e33f8af7462aa271b6d9b4b3c504079b5bcf2bd4",
+    "ui/themes.css": "a068836e15a97723d84eea1ea1ab8424416dad7bf9990d98147e415b6e074420",
+    "ui/vendor/MARKED_LICENSE.md": "8e3a3f82f59a60958f56ca08f445647c32a4733dc7ca6c2c46f6eb898471ab9c",
+    "ui/vendor/marked-17.0.5.umd.js": "0db7abc826b5ac76f6ed11951ae34074ba50438ce6ea8d52889203779e5cbbad"
+  },
+  "package_files_sha256": {
+    "Check_SCADA.ps1": "cda0fb49a86d15d92b1797561f5ecde5928322a77b00c325b1d1d93f6b5f0529",
+    "GurisSCADA_0_1.exe": "e0474c00a149b37f8022ecb707c86e9af6206f02e0f8c8dde4787872d5a4b73d",
+    "LICENSE_LUCIDE.txt": "1e7290b35280a048667bbf0ebabac1c7fd52a75300e8b2946ac165715997f2bc",
+    "README_RU.md": "ac71a49192ae3809aba6ed161b033b5448b12650a37972c754fc9aceb2c980bf",
+    "Run_SCADA_Check.cmd": "e7a3cbebd5f9187b284416adcf0b34736ae58f89d2c63d98618ee790e3ffa012",
+    "Start_Browser.cmd": "1f34553d869ee03912bc6f4bb0711297c15e4de337f039b12225362838251681",
+    "Start_Compatibility.cmd": "4c2b22f4a863974bf15436d8ddf5f7bdf334b98b0222e5125178ff1c1155481b",
+    "build_linux_test.sh": "dfc3195232fe5210083f333e55c84c9724b738fdff6c8e1730f5bb16b07a5ab7",
+    "build_windows.bat": "20b0f29d17cf15520213d59c2d5f2debc72b9905d95ba1c51f9d02ded5ea7a54",
+    "connection.json": "50a1247476cdeeb3dc14ea2065be4612d233a2bff88ee6d7961f3d15cc609bd4",
+    "docs/CHANGES_0_1_13_RU.md": "c34d006a682c8c94a9d187651d770c7f61a0fdf0ef30c71c10e6ed70c9e4216c",
+    "docs/CHANGES_0_1_14_RU.md": "b95d2c371d5622d5d85d9894238a368184809560bd81e74e9f7d8bc8161220d6",
+    "docs/CHANGES_0_1_15_RU.md": "d659e06ad140e9ff3c9322664abab890f8bd1bd887901ce3eeaa0162c1e7a541",
+    "docs/CHANGES_0_1_16_RU.md": "b5b293e3a43bb0f51dbaa3947a918e005f514e20ae00bea81b45c4b25761bf70",
+    "docs/CHANGES_0_1_17_RU.md": "19d0a66ed177f5d1d750d3989bf50bb5a3bcc6eabcf8a605697962ea2ad144ef",
+    "docs/CHANGES_0_1_18_RU.md": "11faaa2370cd9638be5e063a67a83ba95671d2a6e430d551b09d9be35d9d2824",
+    "docs/CHANGES_0_1_19_RU.md": "83bb2f9600b1446ff2b8371a104a852a87eb346c3384e9b2fef9f488cec02b00",
+    "docs/CHANGES_0_1_20_RU.md": "6f6d6c7418022f11c75c2774e84b31b56d514a9a807ac1683684f67ef3a54bbb",
+    "docs/CHANGES_0_1_21_RU.md": "e92fca1fef377b035b7402ef706086781894a721212f291723c868fcae9465d1",
+    "docs/CHANGES_0_1_22_RU.md": "676c98de07bb2bcc20d9833ff74f7047de21fa08b1cb3894bdbe5d70563d7ce0",
+    "docs/CHANGES_0_1_23_RU.md": "e23d9df9e97b7cd31e4199fb35f7bce27201ce7785828a97353b2e4a704d6d10",
+    "docs/CHANGES_0_1_24_RU.md": "6cf18123bd335431b371f002a993c9ffb2379c8b3d82b6c97f3a568199638745",
+    "docs/CONTINUE_SCADA_0_1_21_RU.md": "c7c06107f6cf2c7f6665f3cf8e15ee61ab77eb255f919f76ee529833266cfd71",
+    "docs/CONTINUE_SCADA_0_1_22_RU.md": "cb869a04e641c6012c8b090eb079b27eb6c314b0aeadec1fe31289a8f3259392",
+    "docs/CONTINUE_SCADA_0_1_23_RU.md": "a9c2da720aab695b71a6824a7b9a70e244c6d816bde7bbf0832ee64036ba63b9",
+    "docs/CONTINUE_SCADA_0_1_24_RU.md": "45f23bfb441f52a2ef98f1bf3cf467b78e54dde1c6a90c996a5c720a101fd2c8",
+    "docs/DISPLAY_0_1_12_RU.md": "ef9344077e65dc04bf84eff35708ee64e9da9e925f8f82b289460e224309b626",
+    "docs/EDGE_SENSITIVITY_EVIDENCE_0_1_23.json": "41f362465820a1e8bf3be01c6f46668df8f8d82ef0c6088189ac8c337891ea20",
+    "docs/ENGINEERING_PARAMETERS_0_1_24_RU.md": "2e8848c0f9f8fd35b036434b74b6b3f0ddc31877a608fedd809615b847351716",
+    "docs/FUNCTIONALITY_EVIDENCE_0_1_21.json": "a31adf9b620b4c75e61aea49999b5d760c6d37485e2948fbeef20b2aef3aca4f",
+    "docs/JOG_IO_TOWER_0_1_16_RU.md": "6e71d0b5991fd5cf771740e8c583fca3088f15186f4aead5faa15236aaa9a9af",
+    "docs/LOCALIZATION.md": "15d751fca01d0bf6120b14ebe86e76d0db61681ccd6f065da1673c2ad9807897",
+    "docs/LOCAL_AUTH.md": "85803bf14d5e8ea6ae6f3d557eaac89406956e81ce899e420a226a6912b3b154",
+    "docs/MENU_PORT.md": "e17ea4b260ce20e18084b18c2b00fd259863c29fa978a376bd0d5e0843b698e5",
+    "docs/MENU_PRODUCTION_EVIDENCE_0_1_20.json": "b41f2cea1437deed1e70d0e7b06c464682a44c9cfb0209aeea9d6dcc86687c00",
+    "docs/PARAMETER_BINDINGS.json": "d03fb62843e43b4b2af46bf087dff8201fd4016db81205b09271f0d781810515",
+    "docs/PARAMETER_BINDINGS_RU.md": "cb6fc2eb5543efd6d4c422171674c6497b21827c67246fc62f754134c3a092ee",
+    "docs/PERFORMANCE_EVIDENCE_0_1_22.json": "0ceb3fca4d8512583b9084b944ee3e02c0bed3838ff74d6e7243f5ddbad374ef",
+    "docs/PERFORMANCE_PARAMETERS_RU.md": "7d755229350806d89e681c3f95736912fe13ac7c4b9a45c1471a731c80148c55",
+    "docs/PHOTOMARK_RU.md": "3ed0394f21c6e7297de8c52aaf89610dbef5346032e4ae254cb808a6d8ef9fc6",
+    "docs/PRODUCTION_RU.md": "b25e7ba7e6541011a1a0b660bc02dc13f3edd64ad9129a1ed6577436305aec77",
+    "docs/README_0_1_10_ARCHIVE_RU.md": "c35d4d193d8ef7ffe6f74bba2df0f3769bb2b94fcb2bfe3077d3241d093edb40",
+    "docs/README_0_1_12_ARCHIVE_RU.md": "90696c86b0f2283e7e05dd06b043bba90c5e5515a4edbbf7891e72357b1194fb",
+    "docs/RELEASE_0_1_21_CHECKS.json": "c39d79ab1c22459d25f7dfc2f2ea4bd7fc5c369cc939b71239a7a6805c92d3ab",
+    "docs/ROADMAP_RU.md": "e6c06980efc7279947b19cea6865a5c254f4fba5eb0e58c6514e8a40abed3f6e",
+    "docs/VALIDATION_0_1_11_RU.md": "49cb94521ce85f995e0a92c8c586962623fb5b372557fb84e00c87f31c1bc03b",
+    "docs/VALIDATION_0_1_13_RU.md": "4a853d7a1e5d13abd6c9df7aae66ef3f45e0be44c9cffb0aea13715fce09ff37",
+    "docs/VALIDATION_0_1_14_RU.md": "5b5f7b4d70ef2d662192fda7892254499e720100f259f06feaca60276e220db6",
+    "docs/VALIDATION_0_1_15_RU.md": "c6065ad394d482bfd7fc274a61feca0832a10ef1f957c8a4f2adbaa79b920053",
+    "docs/VALIDATION_0_1_16_RU.md": "1b5e2bf08c4273867b3c6e12e980f8fa729baaf96b0edf8fd58951b57a575280",
+    "docs/VALIDATION_0_1_17_RU.md": "ef6136de983616229ffda96a1dcadc0109eada9f7fb17ac2be9a4ed209961c36",
+    "docs/VALIDATION_0_1_18_RU.md": "ac0c70b27057197f79b418a4874975f30b4cfe495c632f2ed8cc16bd0f412cc2",
+    "docs/VALIDATION_0_1_19_RU.md": "11765c3877b5c1b3019429e35b663d3de7e549982d7374bdf25d8b1f6afbd5f2",
+    "docs/VALIDATION_0_1_20_RU.md": "cf230794ad972cfac737cdaf3f98b8cc98ea7a6a4ff0762268a7e84b62615080",
+    "docs/VALIDATION_0_1_21_RU.md": "9e1e5d075b1af093dcca82caf652348c8d29efa72125ecefa572ab927f23b975",
+    "docs/VALIDATION_0_1_22_RU.md": "00853a4ea0a9b9070d36d649d620d605b55e8ed00ca5cbccc4698081915636ff",
+    "docs/VALIDATION_0_1_23_RU.md": "510c73e0797935013ba4fcd2635f22fa279cfd9d26757381235ff361c3f4c602",
+    "docs/VALIDATION_0_1_24_RU.md": "5e8456b3e821ece30718ff9eaec017da0d29afa0bc40d9288eb78c4167afd89a",
+    "manuals/01-photo-guide/images/hmi-menu.jpg": "e53363440fdc51ebef34eb439efcfb143723f39c50348588bea6c57627d1c2b4",
+    "manuals/01-photo-guide/index.md": "50c7c14bdbeed97e04c416f3fe48c7608df6a7b5816b76d095f476a2d4317789",
+    "manuals/02-add-manual/images/hmi-temperature.png": "6f6f2c45fa95f61ffe5f55742caae772c3e5bb48e2cc7be393c1569ba47c718d",
+    "manuals/02-add-manual/index.md": "43d2dffe891e5549ed8cea2b28b1afdee3b15d2a39687a699a9ad754e883ae0d",
+    "manuals/README_RU.md": "c2f3e144bf24875d6e545fb37824984d9c1d33407eae27864ebdf5b2496466b4",
+    "plc-integration/BELT_CLEANING.md": "d6b7e38bae445f7a41aac38d575467a87da99df674fb172084af1632aad4ffa0",
+    "production/README_RU.md": "3a5dbe23795b57658bc12183ebb6fcc8b45ae6af4378f3840f955e7edbc95af9",
+    "production/examples/example_100x150.json": "949bce8bceec4cd0ed1b795d9c31e51e3aa9816c3129185ae3d3a8d89856a96f",
+    "production/examples/example_500x600.json": "75b428cd54ad0376a1e14c417e40212750ae5a85ae8b05a43d930b98aa8a5e06",
+    "production/job.schema.json": "dc824d06b72584f6500b054ef6cd07960c0ccee16040fba2de3eddf4e7b0c6f8",
+    "reference/SCADA_belt_parameters.json": "5763a64f9114f41359a6c732e8e361e1ea01c6e07ad654752508beffeab916ed",
+    "reference/SCADA_confirmed_parameters.json": "7ee0cfb942021c455267bdd163b3791595df68c1cc85be91610df92adf1afa9d",
+    "reference/SCADA_machine_states.json": "77797a60fbbc58e545c8cf5f707200d139f7df88235fd3ff4477d9665e4b106c",
+    "reference/SCADA_temperature_readonly.json": "78386af6ee970239531754bf4139de4bef73393de6d31bc12a1a81668063de22",
+    "reference/ads_wire_readonly.h": "ad79427072d6e9b1d0bd9aafb3f1d479667b83694cc5d4c3662e0f0dea4a3f5e",
+    "reference/engineering-0.1.24-bindings.json": "1c414c9347135fe7cac20b2cf95e5440c96580c10607bf0069c081e7cbf60872",
+    "reference/engineering-functionality/hmi-options-photo-4.png": "001815726e4730b599fa7168b92b182933752cadebdd5becdca16e6bc200fda0",
+    "reference/engineering-functionality/hmi-options-photo-5.png": "02c0fff1cd4bfc0e4e9555eefc827212df11919f56682f6d46de831bd1b14800",
+    "reference/engineering-functionality/hmi-options-photo-6.png": "21cbe95c5709d3f87f9726dc1efd483530c7e4f12a26ca7faf33ae943cf0289f",
+    "reference/engineering-functionality/hmi-options-photo-7.png": "8c2b0e3f1009231501fd9536afc8ce69d2ae8735a7741beedd758bd42edcda02",
+    "reference/engineering-performance/hmi-edge-dead-zone.png": "8ff9eb0cf30d25c7760aca756f579070a6867cce29e555c6ced8ffb60bd4106f",
+    "reference/engineering-performance/hmi-performance-1.png": "1d2eaca67ea0e4f649a0feaf5f9adbc558548aa16cbea6b9137990a055da020f",
+    "reference/engineering-performance/hmi-performance-2.png": "959caf08b4d2c94bae5b1f9b0bea03e42cdbc47435dbd58a762990f609ae68e2",
+    "reference/engineering-performance/hmi-performance-3.png": "7758ceb829200bd9c445477c0bb4505d7e7ccd4ca59d8143466669a7803b64c7",
+    "reference/menu_hmi_20261021.png": "016cf01e2241480714572d976985aa5d8c171b6f6cff2611eb32abb6b224af01",
+    "reference/menu_mockup_manifest.json": "62933bf7d48a5741640e5a88bf5feed12b29c9d504a694a2be1337554712b0bc",
+    "src/ads.h": "7054d8f94a173e6cf456919fb6b924e790e6e808d1032c62c1efa9372c31a780",
+    "src/app.h": "beebd09dcc7a6b91bc3833dbc7775f053f98f93ca82587d1f51d44369e9d24cd",
+    "src/cleaning.h": "86b0ac4eb25d35600050a8212bf0f1fcb4a5abdd7630c0bb9fcff12def351398",
+    "src/commands.h": "9d135016b9330d2c78874ceeec2ccdb7931e92edde71f4b429372b4e37879893",
+    "src/control_types.h": "7b1566cf6d57909e057880e40a89cc8049235bba5ab7ee5419aacf13bbe1f473",
+    "src/derived.h": "50a2988774ca2fcec7c328cfc7c44361ee0e2c6c4f50a78da03783536e4d56b1",
+    "src/engineering_catalog.h": "647f33f77f9195b504dd84cfdd48336c9ae30724e17cc925c69087f03bb3c221",
+    "src/fields.h": "398808c436354fb6576938afcca8b85463b1efd0f6d95930b89df56ca011a386",
+    "src/http.h": "168733dbe59a6b3bb6d7a6f57e54708a22ae157337ca32c00a438a39b1d91973",
+    "src/io_monitor.h": "4b634c220f2dafe69bb3d95d1a192def7461a2aa29863df46c2a060708af749f",
+    "src/io_tags.h": "d3e5ba955ac6490e5e0d8ff46e28d9661291c5a486d704cdd79e3a61f3201ffa",
+    "src/io_types.h": "faab0a574e3e50f6de39309c170664ca90f57508e79034b580310a7b2ec52b73",
+    "src/json.h": "975fd181aee144995af0ea8574934134ebc19cfa229cd09b3e94b0ab970ab211",
+    "src/local.h": "ceff88a6c0026b5c0690f9c9525da653fe1bd841775a596844b4550547a495ca",
+    "src/local_types.h": "5a3dd3d7d96a76377fa9be85345facf21d20aaf6c2ca9fd8f427155b776253eb",
+    "src/main.c": "924e6ffdc79744885d1ffdefbf61b032a802349d196a8585026e263a5c1867b6",
+    "src/manuals.h": "393c6ae26eae3d20fe88675ad87d6d8b42213bc11264aaede61d40fd86cbc5ec",
+    "src/platform.h": "64a1703d7e7b82ac2e71c3bb1a4847607ee00aed3705857d4729fd5d731b5905",
+    "src/production.h": "2aa4d71623a74e1801749b84bec2afb35167b3af008e31974085c22c379b5144",
+    "src/production_queue.h": "34e9eb8ee21c3ff53f3272bf45d745f7a2ca2875300a6198e847923a8c6f1a67",
+    "src/ui_launch.h": "4e3ed50eca198ccc662129c16a7b0a9c40f980581c56293858de2a6b748e1a88",
+    "src/ui_launch_config.h": "6c8b2828578d57c49389b848ac54eac75a298d0523a22190304d62835a9ec76e",
+    "src/unwinder.h": "8a95d4fcd3744f5e3cc50ea9646e174efa0c7d87bdb1ba1c668fea745b34ba22",
+    "tests/fixtures/captured_menu_20261015.json": "ca6e9b72940e87241505425a5a826cda80fee89cf1d31fa306a83cfbe674616d",
+    "tests/fixtures/performance_hmi_values.json": "866b25cd4e878c96d462f83beb664d51ba0d0967bd77c02660b5956e08dd751c",
+    "tests/fixtures/plc_catalog_metadata.json": "0b4439aa4f07991e9d12a926d3fef0d14c56911c13ae1b46f74a4e7f42f93622",
+    "tests/fixtures/plc_nested_metadata.json": "cc369b56bc0ed71ad1337364939f763aba4dc094b0912b6549a169bad57424fc",
+    "tests/mock_io.py": "9f26dcd0e57a1ff573dabb232c813eddefd1a26fe8c2e607e9db29d9eb529f88",
+    "tests/package.json": "f0adf1a7b484b9db1399aaeb4584278917beab81196b898f744b746da9387fe1",
+    "tests/run_browser.py": "403797db2b9105ca2a7bd73e4e2395e4c13fe0b660b88a5908017567af3aa712",
+    "tests/test_ads_integration.py": "b34c31f8affd121de49683754cf54d152ac5530ffdb2716b1342d3b7ae5ac62a",
+    "tests/test_animation.cjs": "2c34eb1f8d66ceefa3d7f9f8b3b4bcc930b91f89408466ea6b5bbce5f4504e17",
+    "tests/test_bindings_browser.cjs": "af0b39a8269e6c2b717f8f60a21e903ad339811c8d39514a4c12cb0671327a21",
+    "tests/test_bootstrap.c": "eeb78681aa656ff3ca57dabfc017cc4bfbac56b637bf438a70d9be7df883438b",
+    "tests/test_browser.cjs": "6ca1e6ddd25d49c3ab6a1156b0cf141c09e867e25ee9a77d48fce7b57ce1eff1",
+    "tests/test_cleaning_clock.c": "73895a508ee268a9823db21c6a29d8d8896b723fac47cf8ae569648906c0f040",
+    "tests/test_complete_bindings.py": "06edaf020d819fa507db7c121b8d550e2050fd55c3862f9b1acf249ffe519179",
+    "tests/test_complete_browser.cjs": "6935c8656d411f52ef9f7b0cb6931198b01111740acf2396c72fd1a6cfbb6218",
+    "tests/test_display_browser.cjs": "4fd7dc5224be86338f292a405333433c135409de84f3aa118e7176b7a389d5a9",
+    "tests/test_idle_policy.py": "eb4911a45dfefa0f0ddf2156e33bc8244b8df78433dd133ab56de30bf0cd2095",
+    "tests/test_io.py": "e8edadf5ee3ac6edf9ce291300f07678b71584f504380a3d42ad1d42d78ad159",
+    "tests/test_kiosk_browser.cjs": "9b4a56867ffeb08063063c4d3e8684dc330949e569f3dc7f4224b4cfec0e6531",
+    "tests/test_local_features.py": "bd42a50e32e8aa4fb346ffbb687c3d3d930ac022e0c44efaceddf406216c1d16",
+    "tests/test_manuals.py": "9dd497dfa416914e4f4e61438cdec62387be273d8436f5fceb2dda357e0f1660",
+    "tests/test_manuals_browser.cjs": "4a221a28485667f15725682beaff62a85d0e6a75d5070e7a2d2ecf2937adf061",
+    "tests/test_menu_browser.cjs": "4c1fdde04e0fa1fae7ec64e71b0ac2010479af2156745b74e3af8fc5829b3b6f",
+    "tests/test_menu_language.py": "d5fce90a99f70b19da45cb67be43669619bec91c575e95a2ad176696842f4276",
+    "tests/test_metadata.py": "113a712ca0f476ea33d690cc83236408b98d8e4ec72a418962628d1713d60a32",
+    "tests/test_operator_browser.cjs": "122b930dd8a82bfff1e50ce36885231b488a63da3f63f837cc7fca9e64e1f344",
+    "tests/test_operator_fixes.py": "69d766c591d8517e9721a451ed5b6c95856c2e7509b199e07fe0d0c0f4288f6d",
+    "tests/test_parameter_bindings.py": "945798130e2198952fa1c4635dcf5206db33620b468dfa76158a0ee2f5eb1f08",
+    "tests/test_photomark.py": "e485ee4196bae0c09acbcc4a62c57af59fec7b9e68ead67c6c8a9f7dd83673bf",
+    "tests/test_photomark_browser.cjs": "c7afda8316f1b5a343db1a4d28e16d29eec2fc280a74edb28a66a796c804e7e3",
+    "tests/test_polish_browser.cjs": "437236220b45d38b088e19654d631718e15134c901d1700a1d349e822366f7d3",
+    "tests/test_production.py": "c509d0351c34c15ac4be2d2ba48ce7085fa85de3da3b0ca5c48d3ffce810c7e7",
+    "tests/test_production_browser.cjs": "5ca72f5d68aa3fe00aef7f9fc3d67712feed0df8cff61aefd59707a1f59b6c32",
+    "tests/test_production_clock.c": "e787223c69d27d9fcbad8d006cd3a224785e521b28423f8e8948cd6edcafd379",
+    "tests/test_production_reasons.c": "91661c8078c92ffe2148054d10c72cbb6261bc453fbcffe32421e4110e81f03b",
+    "tests/test_production_shift.c": "072b3d545f16346650bb25079e163f7583817522866de24ceafaebca431dd9a3",
+    "tests/test_release20.py": "61a604586898b7346ad932db761d914e95dcd1d61e42f2a06686b84d717e971c",
+    "tests/test_release20_browser.cjs": "237843a28461e0704eac5abde755cfd8986462b38a0bb30b3f19112766e5fddf",
+    "tests/test_release21.py": "f37e2152b340517ce7b4a48d6b2f13946715e3fe67a19e4518c32665f00372c7",
+    "tests/test_release21_browser.cjs": "9e8e388098aa03612a0294c23e3e5ee49a5792a73ce551a93e16192eb44d730e",
+    "tests/test_release22.py": "eb6360ffa43686e79bf32f0dfb98507bb710a6741d0a76d511f6629aea8eea83",
+    "tests/test_release22_browser.cjs": "cff31c450b5def35ac9ed0bca29a5f701b05013b2480b5b17d99fd11b0ce5b0b",
+    "tests/test_release23.py": "bdd7df7777dbb1a265ca6eb02c252677e2abb9ec8a02b11e7508796d1aaec43d",
+    "tests/test_release23_browser.cjs": "997a3e22633a602d99ffdc081f7a100fd1288626600b661fed2b4d5154aa7ea0",
+    "tests/test_release24.py": "8a5873a7c812516d11878bc7970b714b4a82391a5b96a0aacf45758ab6c30487",
+    "tests/test_release24_browser.cjs": "a269b7b22255cc138bdefc059db7802f75cc4afbafc512ddf9624d78c711b076",
+    "tests/test_themes.py": "5aea429cc753529e785f7731b6a182a630506a10f310fc89dcb80ebdc4c5e9be",
+    "tests/test_themes_browser.cjs": "f9a7b1ab83c6132b4c9b51aea564c53af4e6a708ea0f056b3f4e7e9330a28b33",
+    "tests/test_ui.cjs": "ef5f94b963cb654c44a6f2643c3b3a1944ae4522fda5aa64e2dc37bdf3a03347",
+    "tests/test_ui15_browser.cjs": "997de3ec7f520a75e26386b88acc9b19d1c3a3df39a68a3db09d30e06bb0b9c6",
+    "tests/test_ui16_browser.cjs": "b971a03976583e94a1a3b0e583c31aea8d05c6802e2ee398f1635d41de7de6b6",
+    "tests/test_ui_launch_config.c": "07d86342312bdb2c17446ef3a4efed8ee76a4ab472c8ffcd69b6a17a6902078d",
+    "tests/test_unwinder_clock.c": "350f4d63c9b7b97164bf34ec04eaea3955b97f1caef5057e32239a69e20bc3b3",
+    "tools/Constructor_TZ_SCADA.html": "99b049d13230bd64a0de1229497dea437185c4444f38cf8a895a25ac56a1b9d5",
+    "ui/alarms.json": "fd51eb220b11dd25dc1a466ee00d1e58c7ef4dc4454f34b364c8be55a25d9ed6",
+    "ui/app.js": "69fa7a787c105c5986d54480ccc93d83e3bf2005b9f171e703fb1a3d5113c86b",
+    "ui/assets/brand.png": "39225dbf9f1bb2999ed4e38f5f449c23b4e78a25efaa7052e79e2dd680e104ab",
+    "ui/assets/flags/gb.svg": "c21f77159ee7276ed67639536b56b9010c88215294eb46baa320dcde7ec505f9",
+    "ui/assets/flags/ru.svg": "da2b589502b2a508f167efd1cfda4f7e33f195727ba3cadd7c8254ada0095052",
+    "ui/assets/flags/tr.svg": "cebdaba5ab835f735ad63fbef38baef53cfdd0b45d6c3cb79668a82a2b9cea53",
+    "ui/engineering.json": "08a47c56c8f9710710cca5c516d3fba3f1b13870ddf752b02b0815050666f077",
+    "ui/favicon.svg": "f398f5dc19f76aa5600db34efc7477b662d1cb9fbe09692384eb911bd2e2776d",
+    "ui/functionality.js": "64b9e99f865bb8c2d6215aafab6c17d76941f6774849c6e9f599fd7dcf0ebf3c",
+    "ui/functionality.json": "fc1ae5576e520395606c5a7d8ffdb835e99d5919269222928791e4a8b26cca5c",
+    "ui/i18n.js": "b387509b43edab4a1583ba995fab944b02dd9cda9516508d607f43a5b7bd802d",
+    "ui/index.html": "8c5632d22d2da206e88ea390783414a57242e4c62137b315b38e5b2e31d69486",
+    "ui/io.js": "d661d10fcf7171da34e47d3fcc2df629a672d7cd61d5b718c70abc9d5f9b1e06",
+    "ui/io_catalog.json": "02b38f3d0412e411b3a1b6193a9d707130c59d3777da5af228756371e9f6d00a",
+    "ui/locales/catalog.json": "2b9eb5b1e098bc0d08fd0396d658666a9a19bcb335b7bf6ff19494be980908b5",
+    "ui/locales/en.json": "f2996e96cd3044d5e83c665460a7622e115929323b0b778de12fa452d2c22a17",
+    "ui/locales/ru.json": "b106fa7738291f57cda8ae822a891670fe2160b06357a7c7f30bd1436a623552",
+    "ui/locales/tr.json": "af1aea603f53d57d57c681c59b8b8a5045053e7ef02e073d5cac857c4da0dd8f",
+    "ui/manuals.css": "10aba3363883a08d665ecc8539e58152b5ce4f124fc6a97d5e076ce8ab44797f",
+    "ui/manuals.js": "e76b86c88f70baf4f30fb7b074592ebc44f3b3a9776b8224600b9046d4a4c1b3",
+    "ui/mechanisms.js": "f399a96d0c61c99a10acbbf12a1ec3ebdf4081352edd5092ea9ca2dc049ccd59",
+    "ui/mockup.css": "8d94d1617ce0374d73a54c0ec7b5e67da0a06561ef6c290d30b7ea1bbdb623f5",
+    "ui/performance.json": "179f4b97d66d4882e58af560a6f7af10e88646764ffe5a2787c3c983eb52c6b1",
+    "ui/production.css": "4b1a00ec08a80ae650ef6b62b2cad0c19049f30478c7920a0e5004fbb17f4a4d",
+    "ui/production.js": "dcacb69ef7f3d76ff74942a165ba4487fa19414a8a28fca577dd20b8d5e2b93a",
+    "ui/style.css": "f2ca74d949c9402334a391a5e33f8af7462aa271b6d9b4b3c504079b5bcf2bd4",
+    "ui/themes.css": "a068836e15a97723d84eea1ea1ab8424416dad7bf9990d98147e415b6e074420",
+    "ui/vendor/MARKED_LICENSE.md": "8e3a3f82f59a60958f56ca08f445647c32a4733dc7ca6c2c46f6eb898471ab9c",
+    "ui/vendor/marked-17.0.5.umd.js": "0db7abc826b5ac76f6ed11951ae34074ba50438ce6ea8d52889203779e5cbbad",
+    "validation/0.1.22/browser21.log": "5e223e40714cf50313fc50c929a8d2311ac28fc82719f741ae20aadf3b5f4bd2",
+    "validation/0.1.22/browser22.log": "f8bfaab7794ce53de57c305975e5e8daa8f492df57fc5a6bf51959c24f3c0065",
+    "validation/0.1.22/c-suites.log": "4af48cdf0c7e5d4a253864215614ff2fdcd90c5778eb80e96e3a46b4b6828f36",
+    "validation/0.1.22/complete-browser.json": "13882f2519aca754a1354933912a626e4a967887a1725b060478a37329f7c2bf",
+    "validation/0.1.22/complete-browser.log": "41e5aa6072c4c3abb3e2deff7748a4b3dcb6d945b40284a0ee94969ee08805e0",
+    "validation/0.1.22/jsdom.log": "6a0b10788a9d8c5dd0eec274979d3938e92ebaec33913230efa4c11782f20d9f",
+    "validation/0.1.22/pe-inspection.json": "74a97ba51864f873254c81066130db6ac78d2b16aa226a13489951a4100e2e5e",
+    "validation/0.1.22/python-tests.log": "1c7a6fe7b467eaf697bcddacf7d506c2c24b8acb62549368da6df62d1a22ed84",
+    "validation/0.1.22/release21-browser-results.json": "bd010488a5daeb6ab911c8dd13c321ac1fd1c1ac1e466d521678169f73accd58",
+    "validation/0.1.22/release22-browser-results.json": "7d279532427a800d361899e1f102044a9f02caa8baf83911e29d3c05cb6f40e3",
+    "validation/0.1.22/windows-build.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "validation/0.1.23/GurisSCADA_0_1-pe.json": "71fd4d9a9ed2ab862eb6b17ec1ffbb6395c38c648080ce2002dd651d9b71db77",
+    "validation/0.1.23/browser21.log": "5e223e40714cf50313fc50c929a8d2311ac28fc82719f741ae20aadf3b5f4bd2",
+    "validation/0.1.23/browser22.log": "f8bfaab7794ce53de57c305975e5e8daa8f492df57fc5a6bf51959c24f3c0065",
+    "validation/0.1.23/browser23.log": "f56f6dd06d3c5dafb4fb9a160ce20a7239696ef4d57cfb0469dca8bba0cc9e8a",
+    "validation/0.1.23/c-suites.log": "4af48cdf0c7e5d4a253864215614ff2fdcd90c5778eb80e96e3a46b4b6828f36",
+    "validation/0.1.23/complete-browser.json": "13882f2519aca754a1354933912a626e4a967887a1725b060478a37329f7c2bf",
+    "validation/0.1.23/complete-browser.log": "41e5aa6072c4c3abb3e2deff7748a4b3dcb6d945b40284a0ee94969ee08805e0",
+    "validation/0.1.23/jsdom.log": "6a0b10788a9d8c5dd0eec274979d3938e92ebaec33913230efa4c11782f20d9f",
+    "validation/0.1.23/native-results.json": "c6e296b9b981b2a826ac6c09518d011433020fbaeb08cd44883440dc8f6279a8",
+    "validation/0.1.23/release21-browser-results.json": "bd010488a5daeb6ab911c8dd13c321ac1fd1c1ac1e466d521678169f73accd58",
+    "validation/0.1.23/release22-browser-results.json": "7d279532427a800d361899e1f102044a9f02caa8baf83911e29d3c05cb6f40e3",
+    "validation/0.1.23/release23-api.log": "9d2b59ee5e874bb0ebaeb4b8366d0e77da9ccc0818923373259143d77543f353",
+    "validation/0.1.23/release23-browser-results.json": "76997419bd7d32078c390428b4d16b218b43dd7b42471665a61e8e1a8939c3f7",
+    "validation/0.1.24/browser24-results.json": "b2f65ad1d9abf01fc4648a2b5b07490adb27188ff7bd5d92a47f8661d3cadecb",
+    "validation/0.1.24/c-regression.log": "d18b9690567173e00e2b6e97ef2b86b3607eaeaf2911ceb69cd6929395cf48d2",
+    "validation/0.1.24/native-final.log": "1181ffbd77e965a6808fd55b85c3382132abeeaea725f9d0a92b15395dd50e8c",
+    "validation/0.1.24/production-pe.json": "ecd37cdf5f30c11754a8b4c3b417bb74ecb22831ebd529656b3308583fed4186",
+    "vendor/sqlite/README.md": "4e3a099549acbaaccec5b49eb457d4e9d92bfda142079f3cdf011649dc73b01e",
+    "vendor/sqlite/SOURCE.json": "c299decf132d371e12ea841f380082496d970612077d52c09875384b4872d67b",
+    "vendor/sqlite/sqlite3.c": "0c657666d819f261cc4007526ad57e1669de9949df7a8ea847aa284a2bf0ee52",
+    "vendor/sqlite/sqlite3.h": "d6c84557261893439b341d2e6c35187ae3ea24fbfd843ad94616f72d89242b8c"
+  }
+}

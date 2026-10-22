@@ -1,0 +1,263 @@
+{
+  "schema": 1,
+  "purpose": "Confirmed HMI-to-PLC meanings for future SCADA development; not an executable connection profile.",
+  "machine": {
+    "panel_ip": "192.168.1.250",
+    "target_ams_net_id": "5.105.198.193.1.1",
+    "ads_port": 801,
+    "resolve_metadata_afresh": true
+  },
+  "evidence": {
+    "report_filename": "SCADA_Test_report.txt",
+    "report_library_file_id": "libfile_50e57f00285081919eeb27b5bfaf3f11",
+    "reported_symbol_version": 96,
+    "test_exe": "SCADA_Test_0_1.exe",
+    "user_confirmation": "всё совпало.",
+    "confirmation_at": "2026-10-11T20:51:33+03:00",
+    "confirmation_scope": [
+      ".stKaliciData.sRecipeData.rMerdanePosMesafe",
+      ".stKaliciData.sRecipeData.diIstenenPaketAdet",
+      ".stKaliciData.rCeneHizAdetSet_dk"
+    ]
+  },
+  "confirmed_count": 16,
+  "unconfirmed_count": 7,
+  "rules": [
+    "Observed report values are historical evidence, not live defaults.",
+    "Production total is machine output, not boxed good-product count.",
+    "Speed is a setpoint, not measured production speed. Its unit was not separately stated in this confirmation.",
+    "Unconfirmed fields can be read, but their meaning and polarity require validation."
+  ],
+  "fields": [
+    {
+      "name": "MAIN.diActPaketAdet",
+      "expected_type": "DINT",
+      "label_ru": "Пакетов в текущей пачке",
+      "unit": "шт",
+      "meaning_confirmed": true,
+      "confirmation_source": "previous_user_confirmation",
+      "observed_value_in_report": "32",
+      "report_pc_time": "2026-10-11 16:05:37.066"
+    },
+    {
+      "name": "MAIN.diToplamAdet",
+      "expected_type": "DINT",
+      "label_ru": "Всего изготовлено станком",
+      "unit": "шт",
+      "meaning_confirmed": true,
+      "confirmation_source": "previous_user_confirmation",
+      "observed_value_in_report": "84734",
+      "report_pc_time": "2026-10-11 16:05:37.067"
+    },
+    {
+      "name": "MAIN.diGrupAdet",
+      "expected_type": "DINT",
+      "label_ru": "Сформировано пачек",
+      "unit": "пачек",
+      "meaning_confirmed": true,
+      "confirmation_source": "previous_user_confirmation",
+      "observed_value_in_report": "108",
+      "report_pc_time": "2026-10-11 16:05:37.068"
+    },
+    {
+      "name": "Isilar.fbIsiKont[1].rAktIsi",
+      "expected_type": "REAL",
+      "label_ru": "Верхний нож: фактическая температура",
+      "unit": "°C",
+      "meaning_confirmed": true,
+      "confirmation_source": "previous_user_confirmation",
+      "observed_value_in_report": "436.5",
+      "report_pc_time": "2026-10-11 16:05:37.069"
+    },
+    {
+      "name": "Isilar.fbIsiKont[1].rSP",
+      "expected_type": "REAL",
+      "label_ru": "Верхний нож: задание температуры",
+      "unit": "°C",
+      "meaning_confirmed": true,
+      "confirmation_source": "previous_user_confirmation",
+      "observed_value_in_report": "435.0",
+      "report_pc_time": "2026-10-11 16:05:37.070"
+    },
+    {
+      "name": "Isilar.fbIsiKont[2].rAktIsi",
+      "expected_type": "REAL",
+      "label_ru": "Нижний нож: фактическая температура",
+      "unit": "°C",
+      "meaning_confirmed": true,
+      "confirmation_source": "previous_user_confirmation",
+      "observed_value_in_report": "24.6",
+      "report_pc_time": "2026-10-11 16:05:37.071"
+    },
+    {
+      "name": "Isilar.fbIsiKont[2].rSP",
+      "expected_type": "REAL",
+      "label_ru": "Нижний нож: задание температуры",
+      "unit": "°C",
+      "meaning_confirmed": true,
+      "confirmation_source": "previous_user_confirmation",
+      "observed_value_in_report": "100.0",
+      "report_pc_time": "2026-10-11 16:05:37.072"
+    },
+    {
+      "name": "Isilar.fbIsiKont[3].rAktIsi",
+      "expected_type": "REAL",
+      "label_ru": "Подпайщик 1: фактическая температура",
+      "unit": "°C",
+      "meaning_confirmed": true,
+      "confirmation_source": "previous_user_confirmation",
+      "observed_value_in_report": "26.0",
+      "report_pc_time": "2026-10-11 16:05:37.073"
+    },
+    {
+      "name": "Isilar.fbIsiKont[3].rSP",
+      "expected_type": "REAL",
+      "label_ru": "Подпайщик 1: задание температуры",
+      "unit": "°C",
+      "meaning_confirmed": true,
+      "confirmation_source": "previous_user_confirmation",
+      "observed_value_in_report": "1.0",
+      "report_pc_time": "2026-10-11 16:05:37.074"
+    },
+    {
+      "name": "Isilar.fbIsiKont[4].rAktIsi",
+      "expected_type": "REAL",
+      "label_ru": "Подпайщик 2: фактическая температура",
+      "unit": "°C",
+      "meaning_confirmed": true,
+      "confirmation_source": "previous_user_confirmation",
+      "observed_value_in_report": "24.6",
+      "report_pc_time": "2026-10-11 16:05:37.075"
+    },
+    {
+      "name": "Isilar.fbIsiKont[4].rSP",
+      "expected_type": "REAL",
+      "label_ru": "Подпайщик 2: задание температуры",
+      "unit": "°C",
+      "meaning_confirmed": true,
+      "confirmation_source": "previous_user_confirmation",
+      "observed_value_in_report": "1.0",
+      "report_pc_time": "2026-10-11 16:05:37.076"
+    },
+    {
+      "name": "Isilar.fbIsiKont[5].rAktIsi",
+      "expected_type": "REAL",
+      "label_ru": "Продольный шов: фактическая температура",
+      "unit": "°C",
+      "meaning_confirmed": true,
+      "confirmation_source": "previous_user_confirmation",
+      "observed_value_in_report": "27.5",
+      "report_pc_time": "2026-10-11 16:05:37.076"
+    },
+    {
+      "name": "Isilar.fbIsiKont[5].rSP",
+      "expected_type": "REAL",
+      "label_ru": "Продольный шов: задание температуры",
+      "unit": "°C",
+      "meaning_confirmed": true,
+      "confirmation_source": "previous_user_confirmation",
+      "observed_value_in_report": "125.0",
+      "report_pc_time": "2026-10-11 16:05:37.077"
+    },
+    {
+      "name": ".I_MESSAGEID",
+      "expected_type": "INT16",
+      "label_ru": ".I_MESSAGEID",
+      "unit": null,
+      "meaning_confirmed": false,
+      "confirmation_source": null,
+      "observed_value_in_report": "13",
+      "report_pc_time": "2026-10-11 16:05:37.078"
+    },
+    {
+      "name": "MAIN.BSISTEMOTOMATIK",
+      "expected_type": "BOOL",
+      "label_ru": "MAIN.BSISTEMOTOMATIK",
+      "unit": null,
+      "meaning_confirmed": false,
+      "confirmation_source": null,
+      "observed_value_in_report": "FALSE",
+      "report_pc_time": "2026-10-11 16:05:37.080"
+    },
+    {
+      "name": "MAIN.BSISTEMOTOSTARTIZIN",
+      "expected_type": "BOOL",
+      "label_ru": "MAIN.BSISTEMOTOSTARTIZIN",
+      "unit": null,
+      "meaning_confirmed": false,
+      "confirmation_source": null,
+      "observed_value_in_report": "FALSE",
+      "report_pc_time": "2026-10-11 16:05:37.081"
+    },
+    {
+      "name": "MAIN.BSTARTIZIN",
+      "expected_type": "BOOL",
+      "label_ru": "MAIN.BSTARTIZIN",
+      "unit": null,
+      "meaning_confirmed": false,
+      "confirmation_source": null,
+      "observed_value_in_report": "FALSE",
+      "report_pc_time": "2026-10-11 16:05:37.082"
+    },
+    {
+      "name": "MAIN.BSTOPACTIVE",
+      "expected_type": "BOOL",
+      "label_ru": "MAIN.BSTOPACTIVE",
+      "unit": null,
+      "meaning_confirmed": false,
+      "confirmation_source": null,
+      "observed_value_in_report": "FALSE",
+      "report_pc_time": "2026-10-11 16:05:37.082"
+    },
+    {
+      "name": "SLOW_TASK.UDIMACHINETIME_SA",
+      "expected_type": "UDINT",
+      "label_ru": "SLOW_TASK.UDIMACHINETIME_SA",
+      "unit": null,
+      "meaning_confirmed": false,
+      "confirmation_source": null,
+      "observed_value_in_report": "24670",
+      "report_pc_time": "2026-10-11 16:05:37.083"
+    },
+    {
+      "name": "SLOW_TASK.UDIRUNTIME_SA",
+      "expected_type": "UDINT",
+      "label_ru": "SLOW_TASK.UDIRUNTIME_SA",
+      "unit": null,
+      "meaning_confirmed": false,
+      "confirmation_source": null,
+      "observed_value_in_report": "18029",
+      "report_pc_time": "2026-10-11 16:05:37.084"
+    },
+    {
+      "name": ".stKaliciData.sRecipeData.rMerdanePosMesafe",
+      "expected_type": "REAL",
+      "label_ru": "Длина пакета",
+      "unit": "мм",
+      "meaning_confirmed": true,
+      "confirmation_source": "user_confirmation_20261011",
+      "observed_value_in_report": "168.0",
+      "report_pc_time": "2026-10-11 16:05:37.084"
+    },
+    {
+      "name": ".stKaliciData.sRecipeData.diIstenenPaketAdet",
+      "expected_type": "DINT",
+      "label_ru": "Задание количества пакетов в пачке",
+      "unit": "шт",
+      "meaning_confirmed": true,
+      "confirmation_source": "user_confirmation_20261011",
+      "observed_value_in_report": "100",
+      "report_pc_time": "2026-10-11 16:05:37.085"
+    },
+    {
+      "name": ".stKaliciData.rCeneHizAdetSet_dk",
+      "expected_type": "REAL",
+      "label_ru": "Задание скорости",
+      "unit": null,
+      "meaning_confirmed": true,
+      "confirmation_source": "user_confirmation_20261011",
+      "observed_value_in_report": "230.0",
+      "report_pc_time": "2026-10-11 16:05:37.086"
+    }
+  ]
+}

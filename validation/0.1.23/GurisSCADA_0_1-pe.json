@@ -1,0 +1,23 @@
+{
+  "machine": "x86_64",
+  "subsystem": "Windows GUI",
+  "imports": [
+    "WS2_32.dll",
+    "SHELL32.dll",
+    "USER32.dll",
+    "bcrypt.dll",
+    "api-ms-win-crt-convert-l1-1-0.dll",
+    "api-ms-win-crt-heap-l1-1-0.dll",
+    "api-ms-win-crt-private-l1-1-0.dll",
+    "api-ms-win-crt-runtime-l1-1-0.dll",
+    "api-ms-win-crt-stdio-l1-1-0.dll",
+    "api-ms-win-crt-string-l1-1-0.dll",
+    "api-ms-win-crt-time-l1-1-0.dll",
+    "api-ms-win-crt-utility-l1-1-0.dll",
+    "KERNEL32.dll",
+    "api-ms-win-crt-math-l1-1-0.dll",
+    "api-ms-win-crt-environment-l1-1-0.dll"
+  ],
+  "windowsExecuted": false,
+  "sha256": "b9f1a450227f4dfd623745d3e92fd8d26c0268b017e7e86bb7a86ff3823df226"
+}

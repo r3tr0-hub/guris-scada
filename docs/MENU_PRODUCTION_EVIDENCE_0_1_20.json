@@ -1,0 +1,549 @@
+{
+  "version": "0.1.20",
+  "source": "TCPLC_P_1.wbp + CurrentPlc_1.tpy + dyntextgeneral.xml.wbp + supplied HMI photo",
+  "source_sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6",
+  "tpy_sha256": "511cdb20d64a206d3745ee60db708d2527c4b765e0cd6e8c0b014a20ac14653a",
+  "photo_sha256": "016cf01e2241480714572d976985aa5d8c171b6f6cff2611eb32abb6b224af01",
+  "menu": {
+    "columns": 5,
+    "fixed": {
+      "edge": {
+        "cell": [
+          1,
+          1
+        ],
+        "expression": "always; KenKontrol.bOtherPage selects the original HMI variant"
+      },
+      "temperature": {
+        "cell": [
+          1,
+          2
+        ],
+        "expression": ".stKaliciData.bIsiKontrolVar == TRUE",
+        "field": "equipmentTemperature"
+      },
+      "glue": {
+        "cell": [
+          1,
+          3
+        ],
+        "expression": ".stKaliciData.bHotmeltUniteVar == TRUE",
+        "field": "equipmentGlue"
+      },
+      "longitudinal": {
+        "cell": [
+          2,
+          2
+        ],
+        "expression": "NOT Slow_Task.bYolunaKaynakInvisible",
+        "field": "equipmentSeamHidden",
+        "derived": "bYolunaKaynakVar1 OR bYolunaKaynakVar2 OR iTelKaynak1BalerinRef>0 OR iTelKaynak2BalerinRef>0",
+        "writer": "Slow_Task.Hesaplamalar @ 0xBA2F8..0xBA336"
+      },
+      "eject": {
+        "cell": [
+          3,
+          1
+        ],
+        "expression": "MAIN.bTutucuServoEnable OR .stKaliciData.bAcTutucuUnite OR .stKaliciData.bTutucuServoAutoJogMode",
+        "fields": [
+          "equipmentEjectServo",
+          "equipmentEjectAC",
+          "equipmentEjectAutoJog"
+        ]
+      },
+      "liner": {
+        "cell": [
+          3,
+          2
+        ],
+        "expression": ".stKaliciData.bBantVar == TRUE",
+        "field": "equipmentLiner"
+      },
+      "takeoff": {
+        "cell": [
+          3,
+          4
+        ],
+        "expression": ".stKaliciData.bDizgiServoVar == TRUE",
+        "field": "equipmentTakeoff"
+      },
+      "tension": {
+        "cell": [
+          4,
+          2
+        ],
+        "expression": "always; constant visibility in original HMI"
+      }
+    },
+    "reserved_engineering_cells": {
+      "scada": [
+        3,
+        5
+      ],
+      "options": [
+        4,
+        5
+      ]
+    },
+    "extras": "source order, row-major traversal excluding all reserved cells, including absent/hidden ones",
+    "runtime": "live ADS symbolic lookup, BOOL metadata/quality; unknown is visible but disabled and static; no equipment writes",
+    "hmi_render_proofs": [
+      {
+        "kind": "DrawBitmap",
+        "rect": [
+          276,
+          160,
+          395,
+          239
+        ],
+        "arguments": {
+          "nId": 44,
+          "nXCorner": 276,
+          "nYCorner": 160,
+          "mXCorner": 395,
+          "mYCorner": 239,
+          "nIso": 2,
+          "dwColorTransparent": 0,
+          "bVisible": 1
+        },
+        "dependencies": {
+          "nId": [
+            ".RTGraphic_nBitmap_2816_186"
+          ],
+          "bVisible": [
+            "Slow_Task.bYolunaKaynakInvisible"
+          ]
+        },
+        "proof": {
+          "function": "__VISU_PAGE_SEND_CYCLECODE",
+          "fileOffset": 2693564,
+          "fileOffsetHex": "0x2919bc",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        "structureOnlyPath": false
+      },
+      {
+        "kind": "DrawBitmap",
+        "rect": [
+          276,
+          240,
+          396,
+          320
+        ],
+        "arguments": {
+          "nId": 46,
+          "nXCorner": 276,
+          "nYCorner": 240,
+          "mXCorner": 396,
+          "mYCorner": 320,
+          "nIso": 0,
+          "dwColorTransparent": 0,
+          "bVisible": 1
+        },
+        "dependencies": {
+          "nId": [
+            ".RTGraphic_nBitmap_2816_189"
+          ],
+          "bVisible": [
+            ".stKaliciData.bBantVar"
+          ]
+        },
+        "proof": {
+          "function": "__VISU_PAGE_SEND_CYCLECODE",
+          "fileOffset": 2693691,
+          "fileOffsetHex": "0x291a3b",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        "structureOnlyPath": false
+      },
+      {
+        "kind": "DrawBitmap",
+        "rect": [
+          155,
+          240,
+          274,
+          320
+        ],
+        "arguments": {
+          "nId": 47,
+          "nXCorner": 155,
+          "nYCorner": 240,
+          "mXCorner": 274,
+          "mYCorner": 320,
+          "nIso": 2,
+          "dwColorTransparent": 0,
+          "bVisible": 1
+        },
+        "dependencies": {
+          "nId": [
+            ".RTGraphic_nBitmap_2816_190"
+          ],
+          "bVisible": [
+            "MAIN.bTutucuServoEnable"
+          ]
+        },
+        "proof": {
+          "function": "__VISU_PAGE_SEND_CYCLECODE",
+          "fileOffset": 2693756,
+          "fileOffsetHex": "0x291a7c",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        "structureOnlyPath": false
+      },
+      {
+        "kind": "DrawBitmap",
+        "rect": [
+          276,
+          81,
+          395,
+          160
+        ],
+        "arguments": {
+          "nId": 49,
+          "nXCorner": 276,
+          "nYCorner": 81,
+          "mXCorner": 395,
+          "mYCorner": 160,
+          "nIso": 2,
+          "dwColorTransparent": 0,
+          "bVisible": 1
+        },
+        "dependencies": {
+          "nId": [
+            ".RTGraphic_nBitmap_2816_192"
+          ],
+          "bVisible": [
+            ".stKaliciData.bIsiKontrolVar"
+          ]
+        },
+        "proof": {
+          "function": "__VISU_PAGE_SEND_CYCLECODE",
+          "fileOffset": 2693883,
+          "fileOffsetHex": "0x291afb",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        "structureOnlyPath": false
+      },
+      {
+        "kind": "DrawBitmap",
+        "rect": [
+          276,
+          320,
+          395,
+          399
+        ],
+        "arguments": {
+          "nId": 50,
+          "nXCorner": 276,
+          "nYCorner": 320,
+          "mXCorner": 395,
+          "mYCorner": 399,
+          "nIso": 0,
+          "dwColorTransparent": 0,
+          "bVisible": 1
+        },
+        "dependencies": {
+          "nId": [
+            ".RTGraphic_nBitmap_2816_193"
+          ]
+        },
+        "proof": {
+          "function": "__VISU_PAGE_SEND_CYCLECODE",
+          "fileOffset": 2693942,
+          "fileOffsetHex": "0x291b36",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        "structureOnlyPath": false
+      },
+      {
+        "kind": "DrawBitmap",
+        "rect": [
+          405,
+          81,
+          524,
+          160
+        ],
+        "arguments": {
+          "nId": 51,
+          "nXCorner": 405,
+          "nYCorner": 81,
+          "mXCorner": 524,
+          "mYCorner": 160,
+          "nIso": 0,
+          "dwColorTransparent": 0,
+          "bVisible": 1
+        },
+        "dependencies": {
+          "nId": [
+            ".RTGraphic_nBitmap_2816_194"
+          ],
+          "bVisible": [
+            ".stKaliciData.bHotmeltUniteVar"
+          ]
+        },
+        "proof": {
+          "function": "__VISU_PAGE_SEND_CYCLECODE",
+          "fileOffset": 2694004,
+          "fileOffsetHex": "0x291b74",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        "structureOnlyPath": false
+      },
+      {
+        "kind": "DrawBitmap",
+        "rect": [
+          155,
+          240,
+          274,
+          320
+        ],
+        "arguments": {
+          "nId": 47,
+          "nXCorner": 155,
+          "nYCorner": 240,
+          "mXCorner": 274,
+          "mYCorner": 320,
+          "nIso": 2,
+          "dwColorTransparent": 0,
+          "bVisible": 0
+        },
+        "dependencies": {
+          "nId": [
+            ".RTGraphic_nBitmap_2816_214"
+          ],
+          "bVisible": [
+            ".stKaliciData.bAcTutucuUnite",
+            ".stKaliciData.bTutucuServoAutoJogMode"
+          ]
+        },
+        "proof": {
+          "function": "__VISU_PAGE_SEND_CYCLECODE",
+          "fileOffset": 2697899,
+          "fileOffsetHex": "0x292aab",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        "structureOnlyPath": false
+      },
+      {
+        "kind": "DrawBitmap",
+        "rect": [
+          530,
+          240,
+          649,
+          320
+        ],
+        "arguments": {
+          "nId": 57,
+          "nXCorner": 530,
+          "nYCorner": 240,
+          "mXCorner": 649,
+          "mYCorner": 320,
+          "nIso": 0,
+          "dwColorTransparent": 0,
+          "bVisible": 1
+        },
+        "dependencies": {
+          "nId": [
+            ".RTGraphic_nBitmap_2816_219"
+          ],
+          "bVisible": [
+            ".stKaliciData.bDizgiServoVar"
+          ]
+        },
+        "proof": {
+          "function": "__VISU_PAGE_SEND_CYCLECODE",
+          "fileOffset": 2698106,
+          "fileOffsetHex": "0x292b7a",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        "structureOnlyPath": false
+      },
+      {
+        "kind": "DrawBitmap",
+        "rect": [
+          155,
+          81,
+          274,
+          160
+        ],
+        "arguments": {
+          "nId": 64,
+          "nXCorner": 155,
+          "nYCorner": 81,
+          "mXCorner": 274,
+          "mYCorner": 160,
+          "nIso": 2,
+          "dwColorTransparent": 0,
+          "bVisible": 0
+        },
+        "dependencies": {
+          "nId": [
+            ".RTGraphic_nBitmap_2816_255"
+          ],
+          "bVisible": [
+            "KenKontrol.bOtherPage"
+          ]
+        },
+        "proof": {
+          "function": "__VISU_PAGE_SEND_CYCLECODE",
+          "fileOffset": 2701713,
+          "fileOffsetHex": "0x293991",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        "structureOnlyPath": false
+      },
+      {
+        "kind": "DrawBitmap",
+        "rect": [
+          155,
+          81,
+          274,
+          160
+        ],
+        "arguments": {
+          "nId": 64,
+          "nXCorner": 155,
+          "nYCorner": 81,
+          "mXCorner": 274,
+          "mYCorner": 160,
+          "nIso": 2,
+          "dwColorTransparent": 0,
+          "bVisible": 1
+        },
+        "dependencies": {
+          "nId": [
+            ".RTGraphic_nBitmap_2816_256"
+          ],
+          "bVisible": [
+            "KenKontrol.bOtherPage"
+          ]
+        },
+        "proof": {
+          "function": "__VISU_PAGE_SEND_CYCLECODE",
+          "fileOffset": 2701780,
+          "fileOffsetHex": "0x2939d4",
+          "source": "TCPLC_P_1.wbp",
+          "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+        },
+        "structureOnlyPath": false
+      }
+    ]
+  },
+  "downtime": {
+    "conditions": [
+      {
+        "id": 14,
+        "name": "Лайнер №1 - закончился",
+        "condition": ".sysF.bBantUrunBitti[1]",
+        "reasonCode": "liner_change"
+      },
+      {
+        "id": 15,
+        "name": "Лайнер №2 - закончился",
+        "condition": ".sysF.bBantUrunBitti[2]",
+        "reasonCode": "liner_change"
+      },
+      {
+        "id": 28,
+        "name": "Лайнер №1 - заканчивается",
+        "condition": ".sysF.bBantCapBitti[1]",
+        "reasonCode": "liner_change"
+      },
+      {
+        "id": 29,
+        "name": "Лайнер №2 - заканчивается",
+        "condition": ".sysF.bBantCapBitti[2]",
+        "reasonCode": "liner_change"
+      },
+      {
+        "id": 67,
+        "name": "Лента 3 Диаметр Уменьшается",
+        "condition": ".sysF.bBantCapBitti[3]",
+        "reasonCode": "liner_change"
+      },
+      {
+        "id": 68,
+        "name": "Лента 3 Завершена",
+        "condition": ".sysF.bBantUrunBitti[3]",
+        "reasonCode": "liner_change"
+      },
+      {
+        "id": 27,
+        "name": "Рулон (ПФ) - заканчивается",
+        "condition": "Slow_Task.bAll_MalAzaldi",
+        "reasonCode": "roll_change"
+      }
+    ],
+    "source": "Slow_Task.Alarms @ 0xB482D..0xB4865, 0xB4975..0xB49C5, 0xB4D4D..0xB4D85",
+    "roll_evidence": "Slow_Task.Arizalar @ 0xB5C50..0xB5CAA; material-low is included in bAll_Genel @ 0xB6B87..0xB6BB2. ID 27 is low material, not a dedicated verified roll-change confirmation.",
+    "policy": "fresh active condition edges only, at most 2 seconds before/after observed work-to-stop/manual; settle after 2 seconds or next work. Same-cause state fragments share inferred reason until next observed work. Competing categories, old conditions, startup/gaps/PLC changes remain unassigned. No manual reason entry. Old history is not re-labelled."
+  },
+  "tpy_verification": [
+    {
+      "key": "equipmentTemperature",
+      "symbol": ".stKaliciData.bIsiKontrolVar",
+      "type": "BOOL",
+      "bits": 8,
+      "runtimeAddressPolicy": "resolved symbol metadata; static analysis address is not used at runtime"
+    },
+    {
+      "key": "equipmentGlue",
+      "symbol": ".stKaliciData.bHotmeltUniteVar",
+      "type": "BOOL",
+      "bits": 8,
+      "runtimeAddressPolicy": "resolved symbol metadata; static analysis address is not used at runtime"
+    },
+    {
+      "key": "equipmentSeamHidden",
+      "symbol": "Slow_Task.bYolunaKaynakInvisible",
+      "type": "BOOL",
+      "bits": 8,
+      "runtimeAddressPolicy": "resolved symbol metadata; static analysis address is not used at runtime"
+    },
+    {
+      "key": "equipmentLiner",
+      "symbol": ".stKaliciData.bBantVar",
+      "type": "BOOL",
+      "bits": 8,
+      "runtimeAddressPolicy": "resolved symbol metadata; static analysis address is not used at runtime"
+    },
+    {
+      "key": "equipmentEjectServo",
+      "symbol": "MAIN.bTutucuServoEnable",
+      "type": "BOOL",
+      "bits": 8,
+      "runtimeAddressPolicy": "resolved symbol metadata; static analysis address is not used at runtime"
+    },
+    {
+      "key": "equipmentEjectAC",
+      "symbol": ".stKaliciData.bAcTutucuUnite",
+      "type": "BOOL",
+      "bits": 8,
+      "runtimeAddressPolicy": "resolved symbol metadata; static analysis address is not used at runtime"
+    },
+    {
+      "key": "equipmentEjectAutoJog",
+      "symbol": ".stKaliciData.bTutucuServoAutoJogMode",
+      "type": "BOOL",
+      "bits": 8,
+      "runtimeAddressPolicy": "resolved symbol metadata; static analysis address is not used at runtime"
+    },
+    {
+      "key": "equipmentTakeoff",
+      "symbol": ".stKaliciData.bDizgiServoVar",
+      "type": "BOOL",
+      "bits": 8,
+      "runtimeAddressPolicy": "resolved symbol metadata; static analysis address is not used at runtime"
+    }
+  ]
+}
