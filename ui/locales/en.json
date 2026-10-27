@@ -2237,6 +2237,19 @@
     "Применить масштаб · вырубная ручка 1": "Apply scale · handle unit 1",
     "Применить масштаб · тефлон": "Apply scale · teflon",
     "Применить масштаб · вал мягкой ручки": "Apply scale · soft handle roller",
-    "Применить масштаб · механизм мягкой ручки": "Apply scale · soft handle mechanism"
+    "Применить масштаб · механизм мягкой ручки": "Apply scale · soft handle mechanism",
+    "Снимок состояния · JSON": "Current state · JSON",
+    "Диагностический пакет": "Diagnostic package",
+    "Проверка записи диагностики…": "Checking the recorder…",
+    "Последние 12 часов": "Last 12 hours",
+    "Запись идёт постоянно, пока работает SCADA. Отправляйте ZIP целиком.": "Recording continues while SCADA runs. Send the entire ZIP.",
+    "Не удалось получить диагностику": "Cannot read diagnostics",
+    "Запись диагностики недоступна: {0}": "Recorder unavailable: {0}",
+    "Диагностика записывается · сохранено: {0} · пропущено: {1}": "Recording · saved: {0} · dropped: {1}",
+    "Пакет изменился. Повторите выгрузку.": "Package changed. Export again.",
+    "Подготовка пакета: {0}%": "Preparing package: {0}%",
+    "Скачивание пакета: {0}%": "Downloading package: {0}%",
+    "Пакет прочитан не полностью": "Package download is incomplete",
+    "Диагностический пакет сохранён. Отправьте ZIP целиком.": "Diagnostic package saved. Send the entire ZIP."
   }
 }

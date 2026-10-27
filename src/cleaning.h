@@ -31,7 +31,7 @@ static int cleaning_add(Pair *p,int n,char *reason,size_t cap,int engineer){
   Reading *r=&app.fields[F_IDLE];if(memcmp(baseline,r->raw,4)){unlock(&app.mutex);copy_s(reason,cap,"Скорость изменилась. Повторите нажатие по свежим данным");return 409;}
   if(!cleaning_journal_start()){app.cleaning.storage_error=1;unlock(&app.mutex);copy_s(reason,cap,"Не удалось сохранить задание возврата 10. Ускорение не отправлено");return 503;}
   app.cleaning.pending=1;app.cleaning.active=1;app.cleaning.storage_error=0;app.cleaning.deadline=now;copy_s(app.cleaning.ip,64,app.ip);copy_s(app.cleaning.netid,64,app.netid);app.cleaning.port=app.ads_port;
-  Transaction tx;memset(&tx,0,sizeof(tx));copy_s(tx.id,65,id);copy_s(tx.status,24,"queued");tx.field=F_IDLE;tx.cleaning=1;copy_s(tx.actor,32,engineer?"local-engineer":"local-operator");tx.requested=45;tx.before=r->value;tx.epoch=app.epoch;memcpy(tx.expected,r->raw,4);float speed=45;uint32_t bits;memcpy(&bits,&speed,4);put32(tx.wanted,bits);app.tx=tx;app.queue=1;app.busy=1;
+  Transaction tx;memset(&tx,0,sizeof(tx));copy_s(tx.id,65,id);copy_s(tx.status,24,"queued");tx.field=F_IDLE;tx.cleaning=1;copy_s(tx.actor,32,engineer?"local-engineer":"local-operator");tx.requested=45;tx.before=r->value;tx.epoch=app.epoch;memcpy(tx.expected,r->raw,4);float speed=45;uint32_t bits;memcpy(&bits,&speed,4);put32(tx.wanted,bits);app.tx=tx;app.queue=1;app.busy=1;diagnostic_transaction_event(&tx,"transaction.queued");
  }
  uint64_t next=app.cleaning.deadline>now?app.cleaning.deadline:now;next+=60000;app.cleaning.deadline=next>now+180000?now+180000:next;
  if(app.cleaning.ids_n>=64){memmove(app.cleaning.ids,app.cleaning.ids+1,63*sizeof(app.cleaning.ids[0]));app.cleaning.ids_n=63;}copy_s(app.cleaning.ids[app.cleaning.ids_n++],65,id);

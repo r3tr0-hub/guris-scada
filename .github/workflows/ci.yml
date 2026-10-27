@@ -43,6 +43,10 @@ jobs:
         env:
           SCADA_QA_DIR: ${{ runner.temp }}/scada-ui-qa
         run: python3 tests/run_browser.py test_release24_browser.cjs
+      - name: Test diagnostic archive downloads in Chromium
+        env:
+          SCADA_QA_DIR: ${{ runner.temp }}/scada-ui-qa
+        run: python3 tests/run_browser.py test_diagnostics_browser.cjs
 
   windows:
     name: Windows x64 build

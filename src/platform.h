@@ -7,6 +7,7 @@
 #include <string.h>
 #include <stdarg.h>
 #include <math.h>
+#include <limits.h>
 #include <time.h>
 #ifdef _WIN32
 #define WIN32_LEAN_AND_MEAN
@@ -52,6 +53,13 @@ static void pause_ms(unsigned ms){struct timespec t={ms/1000,(long)(ms%1000)*100
 static int set_nonblocking(Socket s){return fcntl(s,F_SETFL,fcntl(s,F_GETFL,0)|O_NONBLOCK)==0;}
 static int sock_would_block(void){return errno==EWOULDBLOCK||errno==EAGAIN||errno==EINPROGRESS;}
 #endif
+static int local_utc_offset_minutes(void){
+#ifdef _WIN32
+ TIME_ZONE_INFORMATION zone;DWORD state=GetTimeZoneInformation(&zone);if(state==TIME_ZONE_ID_INVALID)return 0;return -(int)(zone.Bias+(state==TIME_ZONE_ID_DAYLIGHT?zone.DaylightBias:state==TIME_ZONE_ID_STANDARD?zone.StandardBias:0));
+#else
+ time_t at=time(NULL);struct tm local,utc;localtime_r(&at,&local);gmtime_r(&at,&utc);utc.tm_isdst=local.tm_isdst;return (int)(difftime(mktime(&local),mktime(&utc))/60);
+#endif
+}
 static int wait_io(Socket s,int writing,unsigned ms){
  fd_set r,w,e;FD_ZERO(&r);FD_ZERO(&w);FD_ZERO(&e);FD_SET(s,&e);
  if(writing)FD_SET(s,&w);else FD_SET(s,&r);

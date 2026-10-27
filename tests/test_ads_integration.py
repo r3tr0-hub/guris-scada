@@ -246,7 +246,7 @@ class Backend(unittest.TestCase):
         self.assertEqual(self.terminal(body)['status'],'confirmed');self.assertEqual(self.mock.writes,[('beltIdleSpeed',struct.pack('<f',10))])
     def test_all_plant_fields_resolve_and_report_their_metadata(self):
         state=self.state()
-        self.assertEqual(state['version'],'0.1.24')
+        self.assertEqual(state['version'],'0.1.25')
         self.assertEqual(len(state['fields']),len(rows))
         self.assertTrue(all(field['quality'] for field in state['fields'].values()))
         for key,field in state['fields'].items():

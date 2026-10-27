@@ -41,6 +41,10 @@ def main():
     if not re.fullmatch(r'\d+\.\d+\.\d+', version):
         parser.error('VERSION must contain a three-part numeric version')
     validate_exe(args.exe)
+    source_id = 'sha256:' + subprocess.check_output(
+        [__import__('sys').executable, str(ROOT / 'tools/source_id.py')], text=True).strip()
+    if source_id.encode() not in args.exe.read_bytes():
+        raise ValueError('Executable source identity differs from current build inputs; rebuild first')
     output = args.output_dir.resolve()
     output.mkdir(parents=True, exist_ok=True)
     archive = output / ('GurisSCADA_' + version.replace('.', '_') + '_Windows_x64.zip')
@@ -66,10 +70,11 @@ def main():
                 shutil.copy2(source, stage / 'manuals' / entry)
             else:
                 raise FileNotFoundError('Missing bundled manual: ' + str(source))
-        for name in ('Start_Compatibility.cmd', 'Start_Browser.cmd', 'Run_SCADA_Check.cmd', 'LICENSE_LUCIDE.txt'):
+        for name in ('Start_Compatibility.cmd', 'Start_Browser.cmd', 'Run_SCADA_Check.cmd', 'LICENSE_LUCIDE.txt', 'LICENSE_MINIZ.txt'):
             shutil.copy2(ROOT / name, stage / name)
         (stage / 'tools').mkdir()
         shutil.copy2(ROOT / 'tools/Constructor_TZ_SCADA.html', stage / 'tools/Constructor_TZ_SCADA.html')
+        shutil.copy2(ROOT / 'tools/analyze_diagnostics.py', stage / 'tools/analyze_diagnostics.py')
         shutil.copy2(args.exe, stage / 'GurisSCADA_0_1.exe')
         shutil.copy2(ROOT / 'connection.example.json', stage / 'connection.json')
         mandatory = [stage / 'GurisSCADA_0_1.exe'] + sorted(p for p in (stage / 'ui').rglob('*') if p.is_file())
@@ -91,6 +96,7 @@ def main():
         (stage / 'Check_SCADA.ps1').write_bytes(b'\xef\xbb\xbf' + diagnostics.replace('\n', '\r\n').encode('utf-8'))
         readme = (
             '# Guris SCADA ' + version + '\n\n'
+            'Сбор диагностики: [docs/DIAGNOSTICS_0_1_25_RU.md](docs/DIAGNOSTICS_0_1_25_RU.md).\n'
             'Инструкция: [docs/OPERATIONS_RU.md](docs/OPERATIONS_RU.md).\n\n'
             'Распакуйте архив целиком на локальный диск. Запуск: Start_Compatibility.cmd.\n'
             'В новой сборке подключение выключено. При обновлении перенесите прежние connection.json, '
@@ -98,7 +104,7 @@ def main():
         )
         (stage / 'README_RU.md').write_text(readme, encoding='utf-8')
         manifest = {'version': version, 'target': 'windows-x86_64', 'git_commit': commit,
-                    'connection_enabled_by_default': False, 'required_files_sha256': hashes}
+                    'source_build': source_id, 'connection_enabled_by_default': False, 'required_files_sha256': hashes}
         (stage / 'BUILD_INFO.json').write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
         with zipfile.ZipFile(archive, 'w', compression=zipfile.ZIP_DEFLATED, compresslevel=9) as target:
             for path in sorted(stage.rglob('*')):

@@ -26,7 +26,7 @@ static void unwinder_init(void){
 static int unwinder_available(uint64_t now){Reading *r=&app.fields[F_UNWINDER_STOP];return app.connected&&app.ads_status==5&&r->quality&&now-r->observed<=1500&&r->meta.valid&&!(r->meta.flags&32u)&&binding_ready(F_UNWINDER_STOP,now);}
 static void unwinder_queue(const char *id,int kind,int engineer){
  Reading *r=&app.fields[F_UNWINDER_STOP];Transaction tx;memset(&tx,0,sizeof(tx));tx.field=F_UNWINDER_STOP;tx.unwinder=kind;tx.requested=kind==2?1:0;tx.before=r->value;tx.epoch=app.epoch;
- copy_s(tx.id,65,id);copy_s(tx.status,24,"queued");copy_s(tx.actor,32,kind==2&&!engineer?"scada-unwinder":engineer?"local-engineer":"local-operator");memcpy(tx.expected,r->raw,1);encode_value(&defs[F_UNWINDER_STOP],tx.requested,tx.wanted);app.tx=tx;app.queue=1;app.busy=1;
+ copy_s(tx.id,65,id);copy_s(tx.status,24,"queued");copy_s(tx.actor,32,kind==2&&!engineer?"scada-unwinder":engineer?"local-engineer":"local-operator");memcpy(tx.expected,r->raw,1);encode_value(&defs[F_UNWINDER_STOP],tx.requested,tx.wanted);app.tx=tx;app.queue=1;app.busy=1;diagnostic_transaction_event(&tx,"transaction.queued");
 }
 static int unwinder_request(Pair *p,int n,char *reason,size_t cap,int engineer){
  const char *id=pair_get(p,n,"id"),*mode=pair_get(p,n,"mode");double epoch;unsigned char raw[8];

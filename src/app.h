@@ -1,5 +1,8 @@
 #ifndef SCADA_APP_H
 #define SCADA_APP_H
+#ifndef SCADA_BUILD_ID
+#define SCADA_BUILD_ID "development-unidentified"
+#endif
 #include <stdatomic.h>
 #include "platform.h"
 #include "fields.h"
@@ -14,7 +17,7 @@ typedef struct {char id[65],status[24],message[256],utc[40],actor[32];int field,
 #include "control_types.h"
 enum { POLL_FAST_MS=100,POLL_FULL_MS=500,POLL_IDLE_MS=25 };
 typedef struct {
- Mutex mutex,log_mutex;atomic_int stop,quitting;
+ Mutex mutex,log_mutex;atomic_int stop,quitting,diag_audit_error;
  LocalAuth auth;LocalOptions options;Cleaning cleaning;UnwinderGuard unwinder;uint64_t quit_started;char language[20];
  char ip[64],netid[64],base[2048],token[65],url[256],log_path[2400],message[256];
  unsigned tcp_port,ads_port,http_port,config_serial,epoch;unsigned char symbol_version;
@@ -23,7 +26,7 @@ typedef struct {
  AlarmSnapshot alarms;CommandLease command;IoView io;
  unsigned char engineering_selected[F_COUNT];uint64_t engineering_until;int engineering_section;
  Reading fields[F_COUNT];Transaction tx,history[32];unsigned history_n;
- unsigned ui_ready_count,ui_document_count,ui_error_count;char ui_error[256];int ui_kiosk;
+ unsigned ui_ready_count,ui_document_count,ui_error_count;char ui_error[256];int ui_kiosk,diag_ui_mode;char diag_user_agent[512];
  FILE *log;
 } App;
 static App app;
@@ -94,14 +97,20 @@ static int metadata_type_matches(int i,const Meta *m){
 }
 static int metadata_matches(int i,const Meta *m){return m->valid&&metadata_type_matches(i,m)&&!(m->flags&6u);}
 static void csv_text(FILE *f,const char *s){fputc('"',f);for(;*s;s++){if(*s=='"')fputc('"',f);fputc((unsigned char)*s,f);}fputc('"',f);}
+static void diagnostic_transaction_event(const Transaction *tx,const char *stage){
+ if(tx->field<0||tx->field>=F_COUNT)return;
+ char text[1700],expected[33],wanted[33];raw_hex(tx->expected,defs[tx->field].bytes,expected);raw_hex(tx->wanted,defs[tx->field].bytes,wanted);Buffer b;binit(&b,text,sizeof(text));
+ bf(&b,"{\"operationId\":");bj(&b,tx->id);bf(&b,",\"key\":");bj(&b,defs[tx->field].key);bf(&b,",\"actor\":");bj(&b,tx->actor);bf(&b,",\"requested\":%.17g,\"before\":%.17g,\"expectedRaw\":",tx->requested,tx->before);bj(&b,expected);bf(&b,",\"wantedRaw\":");bj(&b,wanted);bf(&b,",\"epoch\":%u,\"sent\":%s}",tx->epoch,tx->sent?"true":"false");if(!b.failed)diagnostic_event(stage,text);
+}
 static void audit(const Transaction *tx){
  lock(&app.log_mutex);if(app.log){char n[64];csv_text(app.log,tx->utc);fputc(';',app.log);csv_text(app.log,tx->id);fputc(';',app.log);csv_text(app.log,defs[tx->field].key);fputc(';',app.log);csv_text(app.log,tx->status);fputc(';',app.log);
  snprintf(n,sizeof(n),"%.17g",tx->before);csv_text(app.log,n);fputc(';',app.log);snprintf(n,sizeof(n),"%.17g",tx->requested);csv_text(app.log,n);fputc(';',app.log);
- if(tx->has_actual)snprintf(n,sizeof(n),"%.17g",tx->actual);else n[0]=0;csv_text(app.log,n);fputc(';',app.log);snprintf(n,sizeof(n),"0x%08X",tx->error);csv_text(app.log,n);fputc(';',app.log);csv_text(app.log,tx->message);fputc(';',app.log);csv_text(app.log,tx->actor);fputs("\r\n",app.log);fflush(app.log);}unlock(&app.log_mutex);
+ if(tx->has_actual)snprintf(n,sizeof(n),"%.17g",tx->actual);else n[0]=0;csv_text(app.log,n);fputc(';',app.log);snprintf(n,sizeof(n),"0x%08X",tx->error);csv_text(app.log,n);fputc(';',app.log);csv_text(app.log,tx->message);fputc(';',app.log);csv_text(app.log,tx->actor);fputs("\r\n",app.log);if(fflush(app.log)||ferror(app.log)){atomic_store(&app.diag_audit_error,1);diagnostic_event("audit.write_failed","{}");}}unlock(&app.log_mutex);
 }
 static void transaction_finish(Transaction *tx,const char *status,const char *message){
  copy_s(tx->status,sizeof(tx->status),status);copy_s(tx->message,sizeof(tx->message),message);utc_stamp(tx->utc);
  lock(&app.mutex);app.tx=*tx;app.busy=0;app.queue=0;
+ char dj[1600];Buffer db;binit(&db,dj,sizeof(dj));bf(&db,"{\"operationId\":");bj(&db,tx->id);bf(&db,",\"key\":");bj(&db,defs[tx->field].key);bf(&db,",\"actor\":");bj(&db,tx->actor);bf(&db,",\"status\":");bj(&db,status);bf(&db,",\"before\":%.17g,\"requested\":%.17g,\"actual\":",tx->before,tx->requested);if(tx->has_actual)bf(&db,"%.17g",tx->actual);else bf(&db,"null");bf(&db,",\"sent\":%s,\"adsError\":%u,\"epoch\":%u}",tx->sent?"true":"false",tx->error,tx->epoch);if(!db.failed)diagnostic_event("transaction.finished",dj);
  if(app.history_n==32){memmove(app.history,app.history+1,31*sizeof(Transaction));app.history_n=31;}app.history[app.history_n++]=*tx;unlock(&app.mutex);audit(tx);cleaning_transaction_done(tx);unwinder_transaction_done(tx);
 }
 static void offline(const char *message){lock(&app.mutex);app.command.desired=0;app.alarms.quality=0;app.connected=0;app.ads_status=0;copy_s(app.message,sizeof(app.message),message);for(int i=0;i<F_COUNT;i++)app.fields[i].quality=0;unlock(&app.mutex);production_capture();}
@@ -215,7 +224,7 @@ static void process_write(Ads *c,Meta *metas,unsigned char version,Transaction t
  if(!same_epoch||atomic_load(&app.stop)){transaction_finish(&tx,"cancelled","Сессия изменилась до отправки записи");return;}
  if(tx.cleaning==1){lock(&app.mutex);int allowed=app.cleaning.active&&app.cleaning.deadline>now_ms()&&!atomic_load(&app.quitting);unlock(&app.mutex);if(!allowed){transaction_finish(&tx,"cancelled","Ускорение отменено до отправки");return;}}
  if(tx.unwinder&&tx.unwinder!=2){lock(&app.mutex);int allowed=!atomic_load(&app.quitting)&&(tx.unwinder==3?app.unwinder.mode==UNWINDER_OFF:app.unwinder.mode==UNWINDER_TEMP&&app.unwinder.deadline>now_ms());unlock(&app.mutex);if(!allowed){transaction_finish(&tx,"cancelled","Отключение размотчика отменено до отправки");return;}}
- tx.sent=1;lock(&app.mutex);copy_s(app.tx.status,sizeof(app.tx.status),"verifying");app.tx.sent=1;unlock(&app.mutex);
+ tx.sent=1;diagnostic_transaction_event(&tx,"transaction.sent");lock(&app.mutex);copy_s(app.tx.status,sizeof(app.tx.status),"verifying");app.tx.sent=1;unlock(&app.mutex);
  int ack=ads_write_field(c,&fresh,tx.wanted,defs[i].bytes,defs[i].writable||(tx.reset&&reset_counter(i)&&tx.requested==0));
  if(ack==-1){tx.error=c->error;snprintf(msg,sizeof(msg),"ADS отклонил запись: 0x%08X",tx.error);transaction_finish(&tx,"rejected",msg);return;}
  if(!ack){transaction_finish(&tx,"uncertain","Ответ на запись не получен. Результат неизвестен; повторной отправки нет");offline("Связь потеряна во время записи");return;}
@@ -320,20 +329,21 @@ static int enqueue_transaction(Pair *pairs,int count,char *reason,size_t cap,int
  if(v<lo||v>hi){unlock(&app.mutex);snprintf(reason,cap,"Допустимый диапазон по текущей ширине: %.9g…%.9g",lo,hi);return 422;}
  if(memcmp(r->raw,t.expected,defs[i].bytes)){unlock(&app.mutex);copy_s(reason,cap,"Значение изменилось. Откройте ввод заново");return 409;}
  if(gate>=0&&(!app.fields[gate].quality||now_ms()-app.fields[gate].observed>1500||app.fields[gate].value!=1)){unlock(&app.mutex);copy_s(reason,cap,"Сначала включите соответствующий режим");return 409;}
- t.before=r->value;app.tx=t;app.queue=1;app.busy=1;unlock(&app.mutex);copy_s(reason,cap,"Запись поставлена в очередь; ожидаем ПЛК");return 202;
+ t.before=r->value;app.tx=t;app.queue=1;app.busy=1;diagnostic_transaction_event(&t,"transaction.queued");unlock(&app.mutex);copy_s(reason,cap,"Запись поставлена в очередь; ожидаем ПЛК");return 202;
 }
 static int enqueue_write(Pair *pairs,int count,char *reason,size_t cap,int engineer){return enqueue_transaction(pairs,count,reason,cap,0,engineer);}
 static int enqueue_counter_reset(Pair *pairs,int count,char *reason,size_t cap,int engineer){return enqueue_counter_command(pairs,count,reason,cap,engineer);}
 static void tx_json(Buffer *b,const Transaction *t){bf(b,"{\"id\":");bj(b,t->id);bf(b,",\"key\":");bj(b,t->field>=0&&t->field<F_COUNT?defs[t->field].key:"");bf(b,",\"kind\":");bj(b,t->reset?"counter_reset":t->cleaning==1?"cleaning_boost":t->cleaning==2?"cleaning_normal":t->command?"command":"setting");bf(b,",\"status\":");bj(b,t->status);bf(b,",\"message\":");bj(b,t->message);bf(b,",\"before\":%.17g,\"requested\":%.17g,\"sent\":%s,\"epoch\":%u,\"actual\":",t->before,t->requested,t->sent?"true":"false",t->epoch);if(t->has_actual)bf(b,"%.17g",t->actual);else bf(b,"null");bf(b,",\"utc\":");bj(b,t->utc);bf(b,",\"actor\":");bj(b,t->actor);bf(b,"}");}
 static size_t state_json(char *out,size_t cap,int engineer){
  Buffer b;binit(&b,out,cap);lock(&app.mutex);uint64_t now=now_ms();
- bf(&b,"{\"version\":\"0.1.24\",\"connected\":%s,\"epoch\":%u,\"adsState\":%d,\"symbolVersion\":%u,\"busy\":%s,\"message\":",app.connected?"true":"false",app.epoch,app.ads_status,app.symbol_version,app.busy?"true":"false");bj(&b,app.message);bf(&b,",\"ip\":");bj(&b,app.ip);bf(&b,",\"netId\":");bj(&b,app.netid);bf(&b,",\"port\":%u,\"language\":",app.ads_port);bj(&b,app.language);bf(&b,",\"fields\":{");
+ bf(&b,"{\"version\":\"0.1.25\",\"connected\":%s,\"epoch\":%u,\"adsState\":%d,\"symbolVersion\":%u,\"busy\":%s,\"message\":",app.connected?"true":"false",app.epoch,app.ads_status,app.symbol_version,app.busy?"true":"false");bj(&b,app.message);bf(&b,",\"ip\":");bj(&b,app.ip);bf(&b,",\"netId\":");bj(&b,app.netid);bf(&b,",\"port\":%u,\"language\":",app.ads_port);bj(&b,app.language);bf(&b,",\"fields\":{");
  for(int i=0,emitted=0;i<F_COUNT;i++){if(i>=F_ENGINEERING_FIRST&&(!engineer||!engineering_requested(i,now)))continue;if(emitted++)bf(&b,",");bj(&b,defs[i].key);bf(&b,":{");Reading *r=&app.fields[i];int identity=binding_ready(i,now),range=range_ready(i,now);double min,max;field_bounds(i,range?app.fields[F_WORK_LENGTH].value:0,&min,&max);int fresh=app.connected&&r->quality&&now-r->observed<=1500&&identity;char hex[33];raw_hex(r->raw,defs[i].bytes,hex);bf(&b,"\"quality\":%s,\"value\":",fresh?"true":"false");if(fresh)bf(&b,"%.17g",r->value);else bf(&b,"null");bf(&b,",\"raw\":");bj(&b,hex);bf(&b,",\"writable\":%s,\"min\":%.9g,\"max\":%.9g,\"integer\":%s,\"type\":",(i!=F_UNWINDER_STOP&&(i!=F_UNWINDER_SENSOR||app.unwinder.mode==UNWINDER_NORMAL)&&defs[i].writable&&r->meta.valid&&!(r->meta.flags&32u)&&identity&&range&&(i!=F_PHOTO_OFFSET_TENTHS||photo_offset_ready(now))&&(!field_engineer(i)||engineer)&&(!field_stopped(i)||engineering_ready(now)))?"true":"false",min,max,defs[i].integer?"true":"false");bj(&b,type_name(defs[i].type));bf(&b,",\"unit\":");bj(&b,i==F_WIDTH&&app.fields[F_CFG_INCH_MODE].quality&&now-app.fields[F_CFG_INCH_MODE].observed<=1500&&app.fields[F_CFG_INCH_MODE].value==1?"дюйм":defs[i].unit);bf(&b,",\"label\":");bj(&b,defs[i].label);bf(&b,",\"error\":%u,\"symbol\":",r->error);bj(&b,defs[i].symbol);
-  bf(&b,",\"bindingReady\":%s,\"rangeReady\":%s,\"sourceIndex\":%d,\"gate\":",identity?"true":"false",range?"true":"false",field_virtual(i)?r->source_index:field_source_index(&defs[i]));if(defs[i].gate>=0)bj(&b,defs[defs[i].gate].key);else bf(&b,"null");
+  bf(&b,",\"observedMonoMs\":%llu,\"ageMs\":%llu",(unsigned long long)r->observed,(unsigned long long)(now>=r->observed?now-r->observed:0));bf(&b,",\"bindingReady\":%s,\"rangeReady\":%s,\"sourceIndex\":%d,\"gate\":",identity?"true":"false",range?"true":"false",field_virtual(i)?r->source_index:field_source_index(&defs[i]));if(defs[i].gate>=0)bj(&b,defs[defs[i].gate].key);else bf(&b,"null");
   bf(&b,",\"resettable\":%s",(reset_counter(i)&&command_available(command_index(counter_command_key(i)),now,engineer))?"true":"false");
   bf(&b,",\"metadata\":{\"resolved\":%s,\"status\":",r->meta.valid?"true":"false");bj(&b,metadata_status(&r->meta));
   bf(&b,",\"layout\":%d,\"adsError\":%u,\"actualType\":",r->meta.layout,r->meta.lookup_error);bj(&b,r->meta.type);
   bf(&b,",\"actualSize\":%u,\"dataType\":%u,\"flags\":%u,\"group\":%u,\"offset\":%u}}",r->meta.size,r->meta.data_type,r->meta.flags,r->meta.group,r->meta.offset);}
  bf(&b,"}");alarms_json(&b,now);command_json(&b,now,engineer);unwinder_json(&b,now);bf(&b,",\"auth\":{\"provider\":\"local\",\"userId\":\"%s\",\"role\":\"%s\",\"engineerConfigured\":%s,\"locked\":%s},\"options\":{\"snow\":%s,\"animations\":%s,\"wallpaper\":%s,\"exitButton\":%s,\"theme\":\"%s\",\"font\":\"%s\"},\"quitting\":%s,\"cleaning\":{\"available\":true,\"normalSpeed\":10,\"boostSpeed\":45,\"addSeconds\":60,\"maxSeconds\":180,\"owner\":\"scada\",\"active\":%s,\"pendingRestore\":%s,\"remainingMs\":%llu,\"storageError\":%s,\"message\":",engineer?"local-engineer":"local-operator",engineer?"engineer":"operator",app.auth.configured?"true":"false",app.auth.locked?"true":"false",app.options.snow?"true":"false",app.options.animations?"true":"false",app.options.wallpaper?"true":"false",app.options.exit_button?"true":"false",display_theme_code(app.options.theme),display_font_code(app.options.font),atomic_load(&app.quitting)?"true":"false",app.cleaning.active?"true":"false",app.cleaning.pending?"true":"false",(unsigned long long)(app.cleaning.active&&app.cleaning.deadline>now?app.cleaning.deadline-now:0),app.cleaning.storage_error?"true":"false");bj(&b,app.cleaning.message);bf(&b,"},\"polling\":{\"fastIntervalMs\":%u,\"fullIntervalMs\":%u,\"lastCycleMs\":%llu,\"maxCycleMs\":%llu,\"cycles\":%u,\"fullCycles\":%u,\"sumRead\":%s},\"operation\":",POLL_FAST_MS,POLL_FULL_MS,(unsigned long long)app.poll_duration,(unsigned long long)app.poll_max_duration,app.poll_cycles,app.poll_full_cycles,app.poll_sum?"true":"false");tx_json(&b,&app.tx);bf(&b,",\"history\":[");for(unsigned k=0;k<app.history_n;k++){if(k)bf(&b,",");tx_json(&b,&app.history[k]);}bf(&b,"]}");unlock(&app.mutex);return b.failed?0:b.used;
 }
+#include "diagnostics.h"
 #endif

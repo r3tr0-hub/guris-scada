@@ -1,0 +1,73 @@
+{
+  "version": "0.1.25",
+  "validation_date": "2026-10-27",
+  "native_python": {
+    "passed": true,
+    "tests": 184,
+    "seconds": 421.783
+  },
+  "native_c": {
+    "passed": true,
+    "suites": 8
+  },
+  "ui_dom_css": {
+    "passed": true
+  },
+  "engineering_browser": {
+    "passed": true,
+    "sections": 30,
+    "pairedReadings": 29,
+    "writes": [
+      "eng0001",
+      "eng0450",
+      "eng0029"
+    ],
+    "errors": []
+  },
+  "diagnostic_browser": {
+    "passed": true,
+    "exports": [
+      {
+        "hours": 12,
+        "size": 59540
+      },
+      {
+        "hours": 24,
+        "size": 59934
+      }
+    ],
+    "viewport": "1024x600",
+    "themes": [
+      "dark",
+      "classic"
+    ],
+    "languages": [
+      "ru",
+      "en",
+      "tr"
+    ],
+    "unexpectedWrites": [],
+    "errors": []
+  },
+  "synthetic_volume_24h": {
+    "type": "accelerated_synthetic_volume_not_endurance",
+    "passed": true,
+    "seededSamples": 870001,
+    "seededContextSnapshots": 2901,
+    "seedSeconds": 1.654,
+    "databaseBytes": 187252736,
+    "exportSecondsIncludingChunkDownloadAndCRC": 6.04,
+    "zipBytes": 17650161,
+    "traceSamplesInArchive": 869987,
+    "liveItemsWrittenDuringExport": 60,
+    "droppedDuringActiveSession": 0,
+    "storageError": false,
+    "extraPlcWrites": 0
+  },
+  "real_machine_tested": false,
+  "actual_12h_or_24h_endurance_tested": false,
+  "windows_gui_executed": false,
+  "windows_x64_cross_compiled": true,
+  "source_build": "sha256:e27725374cce9a7b61177902ade3b7b3fdc561cf9bfc31421bd0d0b5a36bed27",
+  "exe_sha256": "400999ff7080156c064162564cc83a8faa766c17ed63ab499070eee7627020f0"
+}

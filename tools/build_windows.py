@@ -7,6 +7,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import hashlib
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 
@@ -30,15 +31,21 @@ def main():
         parser.error('Expected Zig 0.13.0, found ' + version)
     output = args.output.resolve()
     output.parent.mkdir(parents=True, exist_ok=True)
-    common = ['cc', '-target', 'x86_64-windows-gnu', '-std=c11', '-O2', '-Wall', '-Wextra']
+    build_id = subprocess.check_output([sys.executable, str(ROOT / 'tools/source_id.py')], text=True).strip()
+    common = ['cc', '-target', 'x86_64-windows-gnu', '-std=c11', '-O2', '-Wall', '-Wextra', '-DSCADA_BUILD_ID=\"sha256:' + build_id + '\"']
     with tempfile.TemporaryDirectory(prefix='guris-windows-') as temporary:
         sqlite = str(pathlib.Path(temporary) / 'sqlite.o')
         subprocess.run(zig + common + [
             '-Wno-unused-parameter', '-DSQLITE_OMIT_LOAD_EXTENSION', '-DSQLITE_DQS=0',
             '-DSQLITE_DEFAULT_MEMSTATUS=0', '-c', 'vendor/sqlite/sqlite3.c', '-o', sqlite,
         ], cwd=ROOT, check=True)
+        miniz = []
+        for name in ['miniz', 'miniz_tdef', 'miniz_tinfl', 'miniz_zip']:
+            obj = str(pathlib.Path(temporary) / (name + '.o'))
+            subprocess.run(zig + common + ['-Wno-unused-function', '-c', 'vendor/miniz/' + name + '.c', '-o', obj], cwd=ROOT, check=True)
+            miniz.append(obj)
         subprocess.run(zig + common + [
-            '-s', '-municode', '-Wl,--subsystem,windows', 'src/main.c', sqlite,
+            '-s', '-municode', '-Wl,--subsystem,windows', 'src/main.c', sqlite, *miniz,
             '-o', str(output), '-lws2_32', '-lshell32', '-luser32', '-lbcrypt',
         ], cwd=ROOT, check=True)
     print('Built: ' + str(output))

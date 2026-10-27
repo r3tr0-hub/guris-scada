@@ -1,6 +1,6 @@
 # Работа с Guris SCADA
 
-Текущая исходная версия: 0.1.24. Разрабатывается рабочая SCADA для Windows x64; отдельную домашнюю редакцию не поддерживаем.
+Текущая исходная версия: 0.1.25. Разрабатывается рабочая SCADA для Windows x64; отдельную домашнюю редакцию не поддерживаем.
 
 ## Архитектура и точки входа
 
@@ -25,12 +25,14 @@
 
 ## Проверки и выпуск
 
-- `sh build_linux_test.sh` — Linux backend, 170 Python-тестов и 7 C-наборов; требуется OpenSSL development package.
+- `sh build_linux_test.sh` — Linux backend, Python-тесты и 8 C-наборов; требуется OpenSSL development package.
 - `npm ci --prefix tests`, `npm test --prefix tests` — JSDOM/CSS.
 - После сборки backend: `python3 tests/run_browser.py test_release24_browser.cjs`. Установите браузер Playwright; при необходимости задайте `SCADA_BROWSER` абсолютным путём к Chromium.
 - `py tools/build_windows.py`, `py tools/build_release.py` — Windows x64 и пакет с обновлённой диагностикой.
 - Тестовые ADS peers работают на loopback. Реальная запись в станок не является частью обычной проверки кода.
 - Версия задана в коде и UI; файл `VERSION` используется упаковкой. При смене версии обновляйте все эти места согласованно и добавляйте описание изменений.
 - Отличайте локальные автоматические проверки, сборку Windows и фактическую приёмку на станке. Не утверждайте последнее без проверки пользователем.
+
+Диагностика 0.1.25: `diagnostic_queue.h`, `diagnostics.h`, `diagnostic_export.h`. Снимки только из кэша; нельзя добавлять ADS-запросы ради отчёта. SQL/ZIP не выполняются в ADS-потоке. Политика причин простоев v1 сохранена. Инструкция: `docs/DIAGNOSTICS_0_1_25_RU.md`.
 
 Разработчик: Авсаркисов Д.А., wizzigun@gmail.com.
