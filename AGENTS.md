@@ -35,4 +35,6 @@
 
 Диагностика 0.1.25: `diagnostic_queue.h`, `diagnostics.h`, `diagnostic_export.h`. Снимки только из кэша; нельзя добавлять ADS-запросы ради отчёта. SQL/ZIP не выполняются в ADS-потоке. Политика причин простоев v1 сохранена. Инструкция: `docs/DIAGNOSTICS_0_1_25_RU.md`.
 
+Упаковка после исправления 28.10.2026: пакет по умолчанию — Update без runtime `connection.json`; никогда не подменять им рабочую конфигурацию. `--connection-config` копирует явно выбранный файл без изменений; `--offline-template` — отдельный явно помеченный OfflineSetup. `tests/test_release_connection.py` проверяет упаковку и запуск без принудительного `--ip`.
+
 Разработчик: Авсаркисов Д.А., wizzigun@gmail.com.
