@@ -26,7 +26,7 @@ static sqlite3_stmt *production_query(const char *format,...){
 static sqlite3_int64 production_scalar(const char *sql){sqlite3_stmt *s=production_query("%s",sql);sqlite3_int64 n=0;if(s&&sqlite3_step(s)==SQLITE_ROW)n=sqlite3_column_int64(s,0);sqlite3_finalize(s);return n;}
 static const char *production_text(sqlite3_stmt *s,int i){const unsigned char *v=sqlite3_column_text(s,i);return v?(const char*)v:"";}
 static void production_active(void){sqlite3_stmt *s=production_query("SELECT id FROM jobs WHERE status='active' LIMIT 1");production.active[0]=0;if(s&&sqlite3_step(s)==SQLITE_ROW)copy_s(production.active,sizeof(production.active),production_text(s,0));sqlite3_finalize(s);}
-static int production_event(const char *kind,uint64_t at,const char *payload){return production_sql("INSERT INTO events(at,kind,payload) VALUES(%lld,%Q,json(%Q))",(sqlite3_int64)at,kind,payload);}
+static int production_event(const char *kind,uint64_t at,const char *payload){diagnostic_event_at(kind,at,now_ms(),payload);return production_sql("INSERT INTO events(at,kind,payload) VALUES(%lld,%Q,json(%Q))",(sqlite3_int64)at,kind,payload);}
 static void production_note(const char *kind,uint64_t at,const char *job,int before,int after){
  char text[400];Buffer b;binit(&b,text,sizeof(text));bf(&b,"{\"jobId\":");bj(&b,job);bf(&b,",\"before\":%d,\"after\":%d}",before,after);if(!b.failed)production_event(kind,at,text);
 }
@@ -63,6 +63,7 @@ static void production_reason_apply(const ProductionSample *s){
 static void production_reason_settle(const ProductionSample *s){
  if(!production.cause.episode||production.cause.settled)return;
  unsigned mask=production.cause.evidence;production.cause.settled=1;
+ char decision[300];snprintf(decision,sizeof(decision),"{\"policy\":1,\"firstIntervalId\":%lld,\"evidenceMask\":%u,\"decision\":\"%s\",\"elapsedMs\":%llu}",production.cause.first,mask,!mask?"no_material_evidence":(mask&PROD_LINER_MASK)&&(mask&PROD_ROLL_MASK)?"competing_materials":"material_reason",(unsigned long long)(s->mono-production.cause.start));diagnostic_event_at("reason.decision",s->wall,s->mono,decision);
  /* Two competing material causes remain unassigned; there is no priority. */
  production.cause.reason=(mask&PROD_LINER_MASK)&&!(mask&PROD_ROLL_MASK)?1:(mask&PROD_ROLL_MASK)&&!(mask&PROD_LINER_MASK)?2:0;
  production_reason_apply(s);
@@ -76,7 +77,7 @@ static void production_reason_sample(const ProductionSample *s,int kind,uint64_t
   production.cause.previous=s->cause_mask;production.cause.baseline=1;
  }else{production.cause.baseline=0;memset(production.cause.rises,0,sizeof(production.cause.rises));}
  if(kind==1){
-  if(production.cause.episode){production_reason_settle(s);production.cause.episode=0;production.cause.first=0;production.cause.reason=0;memset(production.cause.rises,0,sizeof(production.cause.rises));}
+  if(production.cause.episode){char close[240];snprintf(close,sizeof(close),"{\"policy\":1,\"firstIntervalId\":%lld,\"trigger\":\"first_work_state\",\"state\":%d,\"automatic\":%d}",production.cause.first,s->code,s->automatic);diagnostic_event_at("reason.closed",s->wall,s->mono,close);production_reason_settle(s);production.cause.episode=0;production.cause.first=0;production.cause.reason=0;memset(production.cause.rises,0,sizeof(production.cause.rises));}
   return;
  }
  if(!continuous||kind==0)return;

@@ -273,8 +273,9 @@
              </div>
              <div class="sc-settings-card"><h3>Система</h3><p data-system-summary="">Локальный режим · Windows</p>
               <button class="sc-action" type="button" data-open-connect="">Подключение к ПЛК</button>
-              <button class="sc-action" type="button" data-download-report="">Сохранить диагностику</button>
+              <button class="sc-action" type="button" data-download-report="">Снимок состояния · JSON</button>
               <button class="sc-action" type="button" data-open-history="">Журнал изменений</button>
+              <div class="sc-diagnostic-exports"><strong>Диагностический пакет</strong><p data-diagnostic-status="" role="status" aria-live="polite">Проверка записи диагностики…</p><div><button class="sc-action" type="button" data-diagnostic-export="12">Последние 12 часов</button><button class="sc-action" type="button" data-diagnostic-export="24">Последние 24 часа</button></div><small>Запись идёт постоянно, пока работает SCADA. Отправляйте ZIP целиком.</small></div>
              </div>
             </div>
             <div class="sc-settings-account"><span><strong>Профиль инженера</strong><small>Локальный вход · сессия до 8 часов</small></span><button class="sc-action" type="button" data-open-password="">Изменить пароль</button><button class="sc-action" type="button" data-switch-operator="">Вернуться к оператору</button></div>
@@ -290,7 +291,7 @@
             </div><div class="sc-calendar"><div class="sc-calendar-head"><h3 data-calendar-month=""></h3><span data-calendar-year=""></span></div><div class="sc-calendar-weekdays"><span>ПН</span><span>ВТ</span><span>СР</span><span>ЧТ</span><span>ПТ</span><span>СБ</span><span>ВС</span></div><div class="sc-calendar-days" data-calendar-days=""></div><p class="sc-calendar-caption">Текущий месяц · сегодня выделено</p></div></div>
           <footer class="sc-clock-footer" data-clock-footer="">          <button class="sc-action sc-clock-manuals" type="button" data-page="manuals" data-nav-response="" title="Мануалы"><svg class="sc-nav-icon sc-manuals-icon" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5C9 3 5 3 2 4v15c3-1 7-1 10 1 3-2 7-2 10-1V4c-3-1-7-1-10 1v15"/><path d="M5 7h4M5 10h4M15 7h4M15 10h4"/><path class="sc-book-page sc-book-page-one" d="M12 5c3-2 6-2 8-1v13c-3 0-6 1-8 3Z"/><path class="sc-book-page sc-book-page-two" d="M12 5c3-2 5-2 7-1v13c-3 0-5 1-7 3Z"/></svg><span>Мануалы</span></button><button type="button" class="sc-exit sc-clock-exit" data-exit=""><i data-lucide="power" aria-hidden="true"></i><span>Выйти из SCADA</span></button></footer></section><section class="sc-about-page" data-page-content="about" hidden="">
  <div class="sc-section-head"><h3>О ПРОГРАММЕ SCADA</h3><button class="sc-text-button" type="button" data-page="home">← Главная</button></div>
- <div class="sc-about-heading"><div><h3>Guris SCADA <span data-about-version="">0.1.24</span></h3><p>Локальный интерфейс оператора для пакетоделательной линии Guris.</p></div><span class="sc-about-badge">ADS · Windows x64</span></div>
+ <div class="sc-about-heading"><div><h3>Guris SCADA <span data-about-version="">0.1.25</span></h3><p>Локальный интерфейс оператора для пакетоделательной линии Guris.</p></div><span class="sc-about-badge">ADS · Windows x64</span></div>
  <div class="sc-about-stack"><span><strong>Интерфейс</strong>HTML5 · CSS · JavaScript · SVG / Canvas</span><span><strong>Приложение</strong>C11 · локальный HTTP · ADS / TCP · SQLite</span><span><strong>Окно</strong>Microsoft Edge · режим киоска</span></div>
  <svg class="sc-about-diagram" viewBox="0 0 820 170" role="img" aria-label="Интерфейс общается с локальным процессом SCADA по HTTP. SCADA обменивается данными с ПЛК по ADS и сохраняет локальные настройки и журналы.">
  <defs><marker id="about-arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0L7 3.5L0 7" fill="currentColor"></path></marker></defs>
@@ -598,5 +599,5 @@
   window.addEventListener('unhandledrejection',function(event){reportError(event.reason&&event.reason.message||event.reason);});
 })();</script><script src="/i18n.js"></script><script src="/mechanisms.js"></script>
 
-<script src="/vendor/marked-17.0.5.umd.js"></script><script src="/manuals.js"></script><script src="/production.js"></script><script src="/io.js"></script><script src="/functionality.js"></script><script src="/app.js"></script>
+<script src="/vendor/marked-17.0.5.umd.js"></script><script src="/manuals.js"></script><script src="/production.js"></script><script src="/io.js"></script><script src="/functionality.js"></script><script src="/app.js"></script><script src="/diagnostics.js"></script>
 </body></html>

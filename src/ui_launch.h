@@ -14,7 +14,7 @@ static const wchar_t *native_text(const char *source){
  if(dictionary){char encoded[2400];Buffer b;binit(&b,encoded,sizeof(encoded));bj(&b,source);const char *at=dictionary;while(!b.failed&&(at=strstr(at,encoded))){const char *value=skipspace(at+strlen(encoded));if(*value==':'&&jstring(skipspace(value+1),translated,sizeof(translated)))break;at++;}}
  wchar_t *result=output[slot++%8];if(!MultiByteToWideChar(CP_UTF8,0,translated,-1,result,2400))result[0]=0;return result;
 }
-static wchar_t ui_title[]=L"Guris SCADA · 0.1.24";
+static wchar_t ui_title[]=L"Guris SCADA · 0.1.25";
 static FILE *startup_file;
 static char startup_path[2400];
 static uint64_t launched_at;
@@ -32,7 +32,7 @@ static void startup_open(void){
  snprintf(rel,sizeof(rel),"logs/SCADA_startup_%s_%lu.log",stamp,(unsigned long)GetCurrentProcessId());path_join(startup_path,rel);startup_file=file_open(startup_path,"wb");
  if(!startup_file){wchar_t temp[2000];char utf8[2200];if(GetTempPathW(2000,temp)&&WideCharToMultiByte(CP_UTF8,0,temp,-1,utf8,sizeof(utf8),NULL,NULL)){snprintf(startup_path,sizeof(startup_path),"%sSCADA_startup_%s_%lu.log",utf8,stamp,(unsigned long)GetCurrentProcessId());startup_file=file_open(startup_path,"wb");}}
  if(startup_file)fwrite("\xEF\xBB\xBF",1,3,startup_file);
- startup_log("Guris SCADA 0.1.24 engineering catalog update; PID=%lu",(unsigned long)GetCurrentProcessId());startup_log("Base directory: %s",app.base);
+ startup_log("Guris SCADA 0.1.25 diagnostic recorder; PID=%lu",(unsigned long)GetCurrentProcessId());startup_log("Base directory: %s",app.base);
 }
 static int launch_argument(void){
  int count=0,mode=UI_APP;LPWSTR *args=CommandLineToArgvW(GetCommandLineW(),&count);
@@ -89,7 +89,7 @@ static void launch_ui_mode(int mode,int fresh_attempt){
  wchar_t url[512],base[2400],edge[2400],profile[2400],command[9000],debug[2400];
  if(!MultiByteToWideChar(CP_UTF8,0,app.url,-1,url,512)||!MultiByteToWideChar(CP_UTF8,0,app.base,-1,base,2400)){startup_log("UI path conversion failed");return;}
  startup_log("Open interface: mode=%s; local HTTP port=%u",mode==UI_COMPAT?"Edge kiosk compatibility (GPU disabled)":mode==UI_BROWSER?"default browser (diagnostic)":"Edge kiosk",app.http_port);
- begin_tracking(mode);
+ lock(&app.mutex);app.diag_ui_mode=mode;unlock(&app.mutex);begin_tracking(mode);
  if(mode!=UI_BROWSER&&find_edge(edge)&&profile_directory(profile,mode)){
   log_wide("Edge executable: ",edge);
   swprintf(debug,2400,L"%ls\\logs\\Edge_startup_%lu.log",base,(unsigned long)GetCurrentProcessId());

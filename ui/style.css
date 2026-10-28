@@ -1240,3 +1240,5 @@ html, body { margin:0; width:100%; height:100%; overflow:hidden; background:#061
 #guris-scada-demo .sc-engineering-hex-input {background:var(--sc-bg);color:var(--sc-text);border:1px solid var(--sc-line);border-radius:6px;min-height:55px;font:28px monospace;letter-spacing:.12em;text-align:center;user-select:text;}
 #guris-scada-demo .sc-engineering-hex-keys {display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
 #guris-scada-demo .sc-engineering-hex-keys button {min-height:43px;}
+
+.sc-diagnostic-exports{margin-top:12px;padding-top:12px;border-top:1px solid var(--sc-border,#53616c);font-size:13px}.sc-diagnostic-exports p{font-size:12px;overflow-wrap:anywhere;margin:8px 0}.sc-diagnostic-exports>div{display:flex;gap:8px;flex-wrap:wrap}.sc-diagnostic-exports small{display:block;margin-top:8px;line-height:1.4}.sc-diagnostic-exports [data-warning="true"]{color:#e4a34e}.sc-settings-page{overflow-y:auto}

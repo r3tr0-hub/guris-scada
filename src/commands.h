@@ -80,7 +80,7 @@ static int enqueue_command_common(int ci,const char *id,unsigned epoch,char *rea
  if(logical_field>=0&&(!app.fields[logical_field].quality||now_ms()-app.fields[logical_field].observed>1500)){unlock(&app.mutex);copy_s(reason,cap,"Нет свежего показания счётчика");return 409;}
  Transaction tx;memset(&tx,0,sizeof(tx));tx.command=ci+1;tx.field=logical_field>=0?logical_field:d->field;tx.reset=logical_field>=0;tx.requested=logical_field>=0?0:d->mode==CMD_TOGGLE?1-app.fields[d->field].value:1;tx.before=app.fields[tx.field].value;if(baseline)memcpy(tx.expected,baseline,defs[tx.field].bytes);tx.epoch=epoch;copy_s(tx.id,65,id);copy_s(tx.actor,32,engineer?"local-engineer":"local-operator");copy_s(tx.status,24,"queued");
  if(photo){tx.command_explicit=1;tx.requested=desired_value;tx.expected[0]=baseline?baseline[0]:app.fields[d->field].raw[0];}
- app.tx=tx;app.queue=1;app.busy=1;app.command.command=ci+1;app.command.desired=1;app.command.asserted=0;app.command.deadline=now_ms()+700;copy_s(app.command.id,65,id);unlock(&app.mutex);copy_s(reason,cap,"Команда поставлена в очередь");return 202;
+ app.tx=tx;app.queue=1;app.busy=1;diagnostic_transaction_event(&tx,"transaction.queued");app.command.command=ci+1;app.command.desired=1;app.command.asserted=0;app.command.deadline=now_ms()+700;copy_s(app.command.id,65,id);unlock(&app.mutex);copy_s(reason,cap,"Команда поставлена в очередь");return 202;
 }
 static int enqueue_command(Pair *p,int n,char *reason,size_t cap,int engineer){
  const char *key=pair_get(p,n,"key"),*id=pair_get(p,n,"id"),*action=pair_get(p,n,"action");double epoch;int ci=command_index(key);
@@ -137,7 +137,7 @@ static void process_command(Ads *c,Meta *m,unsigned char version,Transaction tx)
   if(!saved){transaction_finish(&tx,"cancelled",desired?"Не удалось сохранить задание снятия команды":"Нажатие уже отпущено");return;}
  }
  if(!version_current(c,version)){lock(&app.mutex);app.command.desired=0;unlock(&app.mutex);transaction_finish(&tx,"rejected","Описание ПЛК изменилось до отправки команды");return;}
- tx.sent=1;lock(&app.mutex);app.tx.sent=1;copy_s(app.tx.status,24,"verifying");unlock(&app.mutex);
+ tx.sent=1;diagnostic_transaction_event(&tx,"transaction.sent");lock(&app.mutex);app.tx.sent=1;copy_s(app.tx.status,24,"verifying");unlock(&app.mutex);
  int rc=ads_write_field(c,&fresh,&value,1,1);
  if(rc!=1){lock(&app.mutex);app.command.desired=0;unlock(&app.mutex);transaction_finish(&tx,rc==0?"uncertain":"rejected",rc==0?"Ответ на команду потерян. Повтора нет; ожидается снятие сигнала":"ПЛК отклонил команду");if(!rc)offline("Нет связи во время команды");return;}
  if(d->mode==CMD_HOLD){lock(&app.mutex);app.command.asserted=1;copy_s(app.command.message,256,"Ручной ход: удерживайте кнопку");unlock(&app.mutex);return;}

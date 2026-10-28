@@ -20,6 +20,8 @@ static void http_response(Socket s,int status,const char *mime,const unsigned ch
  uint64_t deadline=now_ms()+3500;if(n>0&&(size_t)n<sizeof(h)&&io_bytes(s,(unsigned char*)h,(size_t)n,1,deadline)&&bytes)io_bytes(s,(unsigned char*)body,bytes,1,deadline);
 }
 static void http_message(Socket s,int status,const char *message){char body[700];Buffer b;binit(&b,body,sizeof(body));bf(&b,"{\"message\":");bj(&b,message);bf(&b,"}");http_response(s,status,"application/json; charset=utf-8",(unsigned char*)body,b.used);}
+static unsigned char *read_file(const char*,size_t*);
+#include "diagnostic_export.h"
 static unsigned char *read_file(const char *rel,size_t *size){char path[2400];path_join(path,rel);FILE *f=file_open(path,"rb");if(!f)return NULL;if(fseek(f,0,SEEK_END)||ftell(f)<0){fclose(f);return NULL;}long n=ftell(f);rewind(f);if(n>2000000){fclose(f);return NULL;}unsigned char *data=malloc((size_t)n+1);if(!data){fclose(f);return NULL;}if(fread(data,1,(size_t)n,f)!=(size_t)n){free(data);fclose(f);return NULL;}fclose(f);data[n]=0;*size=(size_t)n;return data;}
 static unsigned char *expand_boot(const unsigned char *text,size_t size,size_t *outsize){
  const char *at=strstr((const char*)text,"@@SCADA_TOKEN@@");if(!at)return NULL;size_t off=(size_t)(at-(const char*)text),tag=strlen("@@SCADA_TOKEN@@"),n=size-tag+strlen(app.token);
@@ -54,6 +56,11 @@ static void http_client(Socket s){
  if(api&&(header_value(headers,"X-SCADA-Token",token,sizeof(token))!=1||strcmp(token,app.token))){http_message(s,403,"Недействительная сессия интерфейса");return;}
  int engineer=request_engineer(headers);
  if(!strcmp(method,"GET")){
+  if(!strcmp(route,"/api/diagnostics/status")||!strncmp(route,"/api/diagnostics/chunk?",23)){
+   if(!engineer){http_message(s,403,"Требуется вход инженера");return;}
+   if(!strncmp(route,"/api/diagnostics/chunk?",23)){diagnostic_chunk_http(s,route);return;}
+   char data[2400];size_t n=diagnostic_status_json(data,sizeof(data));http_response(s,200,"application/json; charset=utf-8",(unsigned char*)data,n);return;
+  }
   if(!strncmp(route,"/api/production",15)){
    int shift=!strcmp(route,"/api/production/shift")||!strncmp(route,"/api/production/shift?",22);
    if(!engineer&&strcmp(route,"/api/production")&&!shift&&strncmp(route,"/api/production/job/",20)){http_message(s,403,"Детализация производства доступна инженеру");return;}
@@ -74,7 +81,7 @@ static void http_client(Socket s){
   if(!strncmp(route,"/manual-media/",14)){manual_photo_http(s,route+14);return;}
   if(!strcmp(route,"/api/io")){char data[20000];size_t size=io_json(data,sizeof(data));if(!size){http_message(s,503,"Не удалось сформировать диагностику");return;}http_response(s,200,"application/json; charset=utf-8",(unsigned char*)data,size);return;}
   if(!strcmp(route,"/api/state")){size_t cap=65536u+F_COUNT*1024u;char *data=malloc(cap);size_t size=data?state_json(data,cap,engineer):0;if(!size){free(data);http_message(s,503,"Не удалось сформировать состояние");return;}http_response(s,200,"application/json; charset=utf-8",(unsigned char*)data,size);free(data);return;}
-  if(!strcmp(route,"/api/report")){size_t cap=65536u+F_COUNT*1024u;char *data=malloc(cap);size_t size=data?state_json(data,cap,engineer):0;if(!size){free(data);http_message(s,503,"Не удалось сформировать отчёт");return;}http_response(s,200,"application/json; charset=utf-8",(unsigned char*)data,size);free(data);return;}
+  if(!strcmp(route,"/api/report")){size_t cap=65536u+F_COUNT*1024u;char *data=malloc(cap);size_t size=data?diagnostic_report_json(data,cap,engineer):0;if(!size){free(data);http_message(s,503,"Не удалось сформировать отчёт");return;}http_response(s,200,"application/json; charset=utf-8",(unsigned char*)data,size);free(data);return;}
   const char *rel=NULL,*mime=NULL;int boot=0;char want[150];snprintf(want,sizeof(want),"/?k=%s",app.token);
   if(!strcmp(route,want)){rel="ui/index.html";mime="text/html; charset=utf-8";boot=1;}
   else if(!strcmp(route,"/engineering.json")){rel="ui/engineering.json";mime="application/json; charset=utf-8";}
@@ -82,6 +89,7 @@ static void http_client(Socket s){
   else if(!strcmp(route,"/functionality.json")){rel="ui/functionality.json";mime="application/json; charset=utf-8";}
   else if(!strcmp(route,"/functionality.js")){rel="ui/functionality.js";mime="text/javascript; charset=utf-8";}
   else if(!strcmp(route,"/alarms.json")){rel="ui/alarms.json";mime="application/json; charset=utf-8";}
+  else if(!strcmp(route,"/diagnostics.js")){rel="ui/diagnostics.js";mime="text/javascript; charset=utf-8";}
   else if(!strcmp(route,"/app.js")){rel="ui/app.js";mime="text/javascript; charset=utf-8";}
   else if(!strcmp(route,"/production.js")){rel="ui/production.js";mime="text/javascript; charset=utf-8";}
   else if(!strcmp(route,"/production.css")){rel="ui/production.css";mime="text/css; charset=utf-8";}
@@ -120,8 +128,12 @@ static void http_client(Socket s){
  }
  else if(!strcmp(route,"/api/ui-error")){
   if(count!=1||!pair_get(pairs,count,"message")||pairs[0].number){copy_s(reason,sizeof(reason),"Нужно текстовое сообщение");status=400;}
-  else {lock(&app.mutex);app.ui_error_count++;copy_s(app.ui_error,sizeof(app.ui_error),pair_get(pairs,count,"message"));unlock(&app.mutex);copy_s(reason,sizeof(reason),"Ошибка интерфейса записана");status=200;}
+  else {lock(&app.mutex);app.ui_error_count++;diagnostic_clean_text(app.ui_error,sizeof(app.ui_error),pair_get(pairs,count,"message"));char error_json[1200];Buffer eb;binit(&eb,error_json,sizeof(error_json));bf(&eb,"{\"count\":%u,\"message\":",app.ui_error_count);bj(&eb,app.ui_error);bf(&eb,"}");unlock(&app.mutex);if(!eb.failed)diagnostic_event("ui.error",error_json);copy_s(reason,sizeof(reason),"Ошибка интерфейса записана");status=200;}
  }
+ else if(!strcmp(route,"/api/diagnostics/client")){
+  const char *agent=pair_get(pairs,count,"userAgent");if(!engineer){status=403;copy_s(reason,sizeof(reason),"Требуется вход инженера");}else if(count!=1||!agent||pairs[0].number||strlen(agent)>=sizeof(app.diag_user_agent)){status=422;copy_s(reason,sizeof(reason),"Некорректные сведения интерфейса");}else{lock(&app.mutex);diagnostic_clean_text(app.diag_user_agent,sizeof(app.diag_user_agent),agent);unlock(&app.mutex);status=200;copy_s(reason,sizeof(reason),"Сведения интерфейса сохранены");}
+ }
+ else if(!strcmp(route,"/api/diagnostics/export")){if(!engineer){copy_s(reason,sizeof(reason),"Требуется вход инженера");status=403;}else status=diagnostic_export_request(pairs,count,reason,sizeof(reason));}
  else if(!strcmp(route,"/api/production/action")){if(!engineer){copy_s(reason,sizeof(reason),"Детализация производства доступна инженеру");status=403;}else status=production_action(pairs,count,reason,sizeof(reason));}
  else if(!strcmp(route,"/api/engineering-view"))status=engineering_select(pairs,count,reason,sizeof(reason),engineer);
  else if(!strcmp(route,"/api/io-view"))status=io_select(pairs,count,reason,sizeof(reason));

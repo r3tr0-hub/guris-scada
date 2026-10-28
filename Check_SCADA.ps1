@@ -87,7 +87,7 @@ function Get-SystemObjects([string]$ClassName, [string]$Filter = '') {
 }
 
 try {
-    Write-Report 'INFO' 'Guris SCADA 0.1.24 — диагностика запуска, версия проверки 1.19'
+    Write-Report 'INFO' 'Guris SCADA 0.1.25 — диагностика запуска, версия проверки 1.25'
     Write-Report 'INFO' ('Время: ' + (Get-Date -Format 'yyyy-MM-dd HH:mm:ss zzz'))
     Write-Report 'INFO' ('Компьютер: ' + $env:COMPUTERNAME)
     Write-Report 'INFO' ('Папка SCADA: ' + $AppDir)
@@ -162,7 +162,7 @@ try {
         try {
             $hash = Get-Sha256 $path
             if ($hash -eq $expectedFiles[$relative]) { Write-Report 'OK' ($relative + ' — SHA256 совпадает с исходной сборкой.') }
-            else { Write-Report 'WARN' ($relative + ' — отличается от версии 0.1.24; SHA256=' + $hash) }
+            else { Write-Report 'WARN' ($relative + ' — отличается от версии 0.1.25; SHA256=' + $hash) }
         } catch { Write-Report 'FAIL' ($relative + ' — не удалось прочитать: ' + $_.Exception.Message) }
     }
     $exePath = Join-Path $AppDir 'GurisSCADA_0_1.exe'
