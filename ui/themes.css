@@ -1,224 +1,39 @@
-/* Theme controls are shared. Dark remains the unmodified default palette.
-   Classic follows the source HMI:blue header, cyan workspace, grey panels,
-   white setpoints, violet actual values and navy engineering buttons. */
-#guris-scada-demo .sc-theme-card {
-  display:flex; align-items:center; justify-content:space-between; gap:16px;
-  padding:12px 16px; border:1px solid var(--sc-line); border-radius:8px;
-  background:var(--sc-panel); flex-shrink:0;
+/* Semantic surface roles. Geometry belongs to style.css/mockup.css. */
+#guris-scada-demo .sc-app {color-scheme:var(--sc-scheme,dark);
+ --sc-disabled-text:var(--sc-muted); --sc-divider:var(--sc-line); --sc-focus:var(--sc-cyan);
+ --sc-button:var(--sc-panel-top); --sc-button-text:var(--sc-text);
+ --sc-selected:var(--sc-primary-bg,var(--sc-cyan)); --sc-selected-text:var(--sc-primary-text,var(--sc-field-ink));
+ --sc-unknown-bg:var(--sc-panel-top); --sc-unknown-text:var(--sc-text);
 }
-#guris-scada-demo .sc-theme-heading h3 { font-size:16px; font-weight:500; }
-#guris-scada-demo .sc-theme-heading p { margin-top:5px; font-size:11px; color:var(--sc-muted); }
-#guris-scada-demo .sc-theme-choices { display:flex; gap:8px; flex:0 0 auto; }
-#guris-scada-demo .sc-theme-choice {
-  display:flex; align-items:center; justify-content:flex-start; gap:9px;
-  min-height:62px; min-width:174px; padding:8px 10px;
-  border:1px solid var(--sc-line); border-radius:6px;
-  background:var(--sc-bg); color:var(--sc-text); font-size:13px;
+#guris-scada-demo .sc-topbar {
+ --sc-text:var(--sc-header-text); --sc-muted:var(--sc-header-muted); --sc-cyan:var(--sc-header-cyan); --sc-line:var(--sc-header-line);
+ --sc-panel:var(--sc-header-panel); background:var(--sc-header); color:var(--sc-text);
 }
-#guris-scada-demo .sc-theme-choice[aria-pressed="true"] { border-color:var(--sc-cyan); box-shadow:inset 0 0 0 1px var(--sc-cyan); }
-#guris-scada-demo .sc-theme-choice:enabled:hover { border-color:var(--sc-cyan); }
-#guris-scada-demo .sc-theme-choice:focus-visible { outline:2px solid var(--sc-cyan); outline-offset:2px; }
-#guris-scada-demo .sc-theme-choice:disabled { opacity:.6; }
-#guris-scada-demo .sc-theme-check { margin-left:auto; color:var(--sc-cyan); visibility:hidden; font-size:18px; }
-#guris-scada-demo .sc-theme-choice[aria-pressed="true"] .sc-theme-check { visibility:visible; }
-#guris-scada-demo .sc-theme-sample {
-  position:relative; display:grid; grid-template-columns:1fr 1fr; gap:3px;
-  width:46px; height:34px; padding:12px 4px 4px; border:1px solid var(--sc-field-muted);
-  border-radius:3px; background:var(--sc-bg); flex-shrink:0;
+#guris-scada-demo .sc-sidebar {
+ --sc-text:var(--sc-component-text); --sc-muted:var(--sc-component-muted); --sc-cyan:var(--sc-component-cyan);
+ --sc-line:var(--sc-component-line); --sc-panel:var(--sc-component-panel); --sc-panel-top:var(--sc-component-panel-top);
+ background:var(--sc-component-panel); color:var(--sc-text);
 }
-#guris-scada-demo .sc-theme-sample i:first-child { position:absolute; top:0; left:0; right:0; height:8px; background:var(--sc-panel-top); border-bottom:1px solid var(--sc-line); }
-#guris-scada-demo .sc-theme-sample i:not(:first-child) { background:var(--sc-field-top); border:1px solid var(--sc-off-border); }
-#guris-scada-demo .sc-theme-sample[data-sample="classic"] { background:var(--sc-cyan); border-color:var(--sc-field-muted); }
-#guris-scada-demo .sc-theme-sample[data-sample="classic"] i:first-child { background:var(--sc-header); border-color:var(--sc-field); }
-#guris-scada-demo .sc-theme-sample[data-sample="classic"] i:nth-child(2) { background:var(--sc-text); }
-#guris-scada-demo .sc-theme-sample[data-sample="classic"] i:last-child { background:var(--sc-field); }
-#guris-scada-demo .sc-settings-page > .sc-settings-columns,
-#guris-scada-demo .sc-settings-page > .sc-settings-account { flex-shrink:0; }
+#guris-scada-demo .sc-app .sc-action {background:var(--sc-button);color:var(--sc-button-text)}
+#guris-scada-demo .sc-app .sc-action:enabled:hover {background:var(--sc-panel);border-color:var(--sc-focus)}
+#guris-scada-demo .sc-app .sc-action-primary,
+#guris-scada-demo .sc-app .sc-action-primary:enabled:hover {background:var(--sc-selected);color:var(--sc-selected-text)}
+#guris-scada-demo .sc-app .sc-action.sc-performance-actual {background:var(--sc-reading-bg);color:var(--sc-reading-text)}
+#guris-scada-demo .sc-app :focus-visible {outline:2px solid var(--sc-focus);outline-offset:2px}
+#guris-scada-demo .sc-app button:disabled {cursor:default}
+/* Unknown values retain readable labels. Disabled permission is independent of quality. */
+#guris-scada-demo .sc-app .sc-field[data-quality="bad"] {background:var(--sc-field);color:var(--sc-field-ink);border-color:var(--sc-line)}
+#guris-scada-demo .sc-app .sc-field[data-quality="bad"] :is(.sc-value,.sc-field-label,.sc-unit) {color:var(--sc-field-ink)}
+#guris-scada-demo .sc-app :is(.sc-mode-switch,.sc-welding-switch)[data-unknown="true"] {background:var(--sc-unknown-bg);color:var(--sc-unknown-text);border-color:var(--sc-line);box-shadow:none}
+#guris-scada-demo .sc-app :is(.sc-timing-panel,.sc-actuator-row)[data-unknown="true"] {background:var(--sc-panel);border-color:var(--sc-line)}
+#guris-scada-demo .sc-app :is(.sc-timing-panel,.sc-actuator-row)[data-unknown="true"] :is(.sc-timing-title,.sc-actuator-title) {color:var(--sc-text)}
+#guris-scada-demo .sc-app :is(.sc-timing-panel,.sc-actuator-row)[data-unknown="true"] :is(.sc-timing-title span,.sc-actuator-source) {color:var(--sc-muted)}
+#guris-scada-demo .sc-app .sc-node-tile[data-equipment="unknown"] {opacity:1;color:var(--sc-text);border-style:dashed}
+#guris-scada-demo .sc-app :is(.sc-node-setting,.sc-heat-set,.sc-time-field):disabled {opacity:1}
+#guris-scada-demo .sc-app .sc-node-setting:disabled .sc-edit-hint {visibility:hidden}
+#guris-scada-demo .sc-app .sc-time-field:disabled {background:var(--sc-field);color:var(--sc-field-ink);border-color:var(--sc-line)}
+#guris-scada-demo .sc-app .sc-time-field:disabled :is(.sc-value,.sc-field-label,.sc-unit) {color:var(--sc-field-ink)}
 
-html[data-palette="light"], html[data-palette="light"] body { background:var(--sc-header); color-scheme:light; }
-html[data-palette="light"] #scada-startup-notice { background:var(--sc-off-field) !important; color:var(--sc-bg) !important; border-color:var(--sc-header) !important; }
-
-
-/* The original HMI's cobalt header and grey navigation remain distinct
-   from the light working panels. Scoped variables keep every label legible. */
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-topbar {
-  --sc-text:var(--sc-header-text); --sc-muted:var(--sc-header-muted); --sc-cyan:var(--sc-header-cyan); --sc-line:var(--sc-header-line); --sc-panel:var(--sc-header-panel);
-  background:linear-gradient(var(--sc-header),var(--sc-header)); color:var(--sc-text);
-  border:1px solid var(--sc-muted); border-radius:3px; padding:0 9px; gap:8px;
+#guris-scada-demo .sc-app :is(.sc-mode-switch,.sc-welding-switch)[aria-checked="true"]:not([data-unknown="true"]) {
+ background:color-mix(in srgb,var(--sc-green) 15%,var(--sc-panel));color:var(--sc-green);border-color:var(--sc-green);
 }
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-title h2 { font-size:19px; }
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-title-brand { padding-right:10px; }
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-title-brand img { width:132px; height:26px; }
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-user-card { width:228px; border-radius:3px; border-top:0; border-bottom:0; }
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-subtitle[data-pending="true"] { color:var(--sc-amber); }
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-sidebar {
-  --sc-text:var(--sc-component-text); --sc-muted:var(--sc-component-muted); --sc-cyan:var(--sc-component-cyan); --sc-line:var(--sc-component-line);
-  --sc-panel:var(--sc-component-panel); --sc-panel-top:var(--sc-component-panel-top);
-  background:linear-gradient(var(--sc-field-muted),var(--sc-field-muted)); border-color:var(--sc-muted); color:var(--sc-text);
-}
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-nav-button { background:linear-gradient(var(--sc-field-muted),var(--sc-field-muted)); border-radius:4px; color:var(--sc-text); box-shadow:inset 1px 1px var(--sc-field); }
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-nav-button[aria-current="page"] { background:linear-gradient(var(--sc-field-muted),var(--sc-header)); border-color:var(--sc-text); box-shadow:inset 3px 0 var(--sc-muted); }
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-nav-button:enabled:hover { background:var(--sc-line); }
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-language-button { background:var(--sc-off-field); }
-
-/* HMI values:white editable setpoints, violet actual readings. */
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-field,
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-heat-set,
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-node-setting { border-color:var(--sc-field-muted); border-radius:3px; box-shadow:inset 1px 1px var(--sc-text); }
-html[data-palette="light"] #guris-scada-demo .sc-app button.sc-field:enabled:active { background:var(--sc-field-top); }
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-linear { background:var(--sc-field); }
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-heat-actual,
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-derived-value { background:var(--sc-field); color:var(--sc-bg); border-color:var(--sc-field-muted); }
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-heat-actual > span:first-child { color:var(--sc-panel-top); }
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-heat-actual .sc-node-number { color:var(--sc-bg); }
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-counter { border-color:var(--sc-field-muted); border-radius:3px; }
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-counter-value { color:var(--sc-bg); }
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-counter-readout { background:var(--sc-field); border:1px solid var(--sc-off-border); padding:3px 5px; margin-top:4px; }
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-pack-track,
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-offset-track,
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-shift-track { background:var(--sc-muted); }
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-field[data-quality="bad"] { background:var(--sc-muted); color:var(--sc-line); border-color:var(--sc-off-border); box-shadow:none; }
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-field[data-quality="bad"] .sc-value,
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-field[data-quality="bad"] .sc-field-label,
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-field[data-quality="bad"] .sc-unit { color:var(--sc-line); }
-html[data-palette="light"] #guris-scada-demo .sc-app [data-pending="true"].sc-field,
-html[data-palette="light"] #guris-scada-demo .sc-app [data-pending="true"].sc-mode-switch,
-html[data-palette="light"] #guris-scada-demo .sc-app [data-pending="true"].sc-welding-switch { border-color:var(--sc-off-ink); box-shadow:inset 0 0 0 2px var(--sc-off-ink); }
-
-/* Explicit state fills avoid interpreting a disabled, stale or pending
-   control as an active one when switching palettes. */
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-state { --sc-state-fill:var(--sc-state-state-fill); --sc-state-color:var(--sc-green); border-color:var(--sc-field-muted); background:var(--sc-state-fill); }
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-state[data-tone="neutral"] { --sc-state-fill:var(--sc-state-neutral-state-fill); --sc-state-color:var(--sc-muted); border-color:var(--sc-field-muted); }
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-state[data-tone="warning"] { --sc-state-fill:var(--sc-state-warning-state-fill); --sc-state-color:var(--sc-amber); border-color:var(--sc-off-muted); }
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-state[data-tone="danger"] { --sc-state-fill:var(--sc-state-danger-state-fill); --sc-state-color:var(--sc-red); border-color:var(--sc-off-border); }
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-option-state { background:var(--sc-field); border-color:var(--sc-field-muted); }
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-option-row[aria-checked="false"] .sc-option-state { background:var(--sc-field); border-color:var(--sc-off-border); }
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-cleaning-panel[data-active="true"] { border-color:var(--sc-line); box-shadow:inset 3px 0 var(--sc-line); }
-html[data-palette="light"] #guris-scada-demo .sc-app[data-disconnected="true"] .sc-counter-value { color:var(--sc-muted); }
-
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-node-tile { border-radius:3px; border-color:var(--sc-field-muted); box-shadow:inset 1px 1px var(--sc-text); }
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-node-tile:enabled:active,
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-axis-button:enabled:active,
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-edge-jog:enabled:active { background:var(--sc-muted); }
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-menu-tile { background:linear-gradient(var(--sc-field-top),var(--sc-off-field)); }
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-engineering-tile { background:linear-gradient(var(--sc-field-ink),var(--sc-bg)); color:var(--sc-text); border-color:var(--sc-text); border-radius:2px; box-shadow:inset 1px 1px var(--sc-green); }
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-engineering-tile:enabled:hover { background:var(--sc-header); }
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-engineering-simulation { background:var(--sc-off-field); }
-
-/* Dialogs and both on-screen keyboards use light grey framing and white keys. */
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-overlay { background:color-mix(in srgb, var(--sc-cyan) 20%, transparent); }
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-numpad,
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-extra-dialog,
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-operator-dialog,
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-photo-caution { background:var(--sc-off-field); border-color:var(--sc-line); border-radius:4px; box-shadow:0 10px 35px var(--sc-shadow); }
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-extra-dialog input,
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-key { background:var(--sc-text); color:var(--sc-bg); border-color:var(--sc-field-muted); border-radius:3px; }
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-key:enabled:hover { background:var(--sc-field-top); }
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-key:enabled:active { background:var(--sc-muted); }
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-action { background:var(--sc-field); color:var(--sc-bg); border-color:var(--sc-field-muted); border-radius:3px; }
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-action:enabled:hover,
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-offset-button:enabled:hover,
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-photo-help-button:enabled:hover { background:var(--sc-field); }
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-action-primary { background:var(--sc-header); border-color:var(--sc-field-ink); color:var(--sc-text); }
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-action-primary:enabled:hover { background:var(--sc-header); }
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-action:disabled { background:var(--sc-off-field); color:var(--sc-field-muted); border-color:var(--sc-off-border); }
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-profile-choices button[aria-pressed="true"],
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-language-choice[aria-pressed="true"] { background:var(--sc-field); box-shadow:inset 0 0 0 1px var(--sc-header); }
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-theme-choice { background:var(--sc-field-top); }
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-theme-choice[aria-pressed="true"] { background:var(--sc-field); }
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-toast { background:var(--sc-text); border-color:var(--sc-field-muted); box-shadow:0 5px 20px color-mix(in srgb, var(--sc-cyan) 20%, transparent); }
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-toast[data-tone="success"] { border-color:var(--sc-green); }
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-toast[data-tone="warning"] { border-color:var(--sc-amber); }
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-toast[data-tone="danger"] { border-color:var(--sc-red); }
-
-/* Clock, calendar and About share the HMI panel palette. */
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-clock-page { background:linear-gradient(135deg,var(--sc-field),var(--sc-muted)); border-color:var(--sc-field-muted); border-radius:4px; }
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-clock-wallpaper { color:var(--sc-header); }
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-shift-card,
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-calendar { background:color-mix(in srgb, var(--sc-cyan) 20%, transparent); border-color:var(--sc-off-border); border-radius:4px; }
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-clock-eyebrow,
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-clock-source,
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-calendar-weekdays,
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-calendar-caption { color:var(--sc-line); }
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-calendar-day[data-weekend="true"] { color:var(--sc-off-muted); }
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-calendar-day[aria-current="date"] { background:var(--sc-header); color:var(--sc-text); box-shadow:0 0 0 1px var(--sc-header); }
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-calendar-caption { border-color:var(--sc-muted); }
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-clock-exit { background:var(--sc-off-title); border-color:var(--sc-off-border); color:var(--sc-off-ink); }
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-exit-overlay { background:color-mix(in srgb, var(--sc-cyan) 20%, transparent); }
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-about-stack > span,
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-about-author { background:var(--sc-off-field); }
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-welding-icon { --sc-weld-ink:var(--sc-weld-weld-ink); --sc-weld-needle:var(--sc-weld-weld-needle); }
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-welding-icon[data-tone="lower"] { --sc-weld-needle:var(--sc-weld-lower-weld-needle); }
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-welding-icon[data-tone="higher"] { --sc-weld-needle:var(--sc-weld-higher-weld-needle); }
-
-/* 0.1.16:diagnostics pages, sidebar and roller control geometry. */
-#guris-scada-demo .sc-app .sc-navigation { grid-template-rows:repeat(5,minmax(0,1fr)) minmax(22px,.7fr) minmax(0,1fr); }
-#guris-scada-demo .sc-app .sc-navigation > [data-page="alarms"] { grid-row:7; }
-#guris-scada-demo .sc-app .sc-nav-button[data-alarm-active="true"] > svg { color:var(--sc-red); animation:sc-alarm-warning 1.2s steps(2,end) infinite; }
-@keyframes sc-alarm-warning { 0%,100% { opacity:1; } 50% { opacity:.25; } }
-#guris-scada-demo .sc-app .sc-takeoff-content { grid-template-rows:22px 112px 88px 76px minmax(100px,1fr); align-content:stretch; }
-#guris-scada-demo .sc-app .sc-takeoff-content > .sc-position-box { padding:10px 12px; min-height:0; }
-#guris-scada-demo .sc-app .sc-takeoff-content > .sc-toggle-setting { padding:8px 12px; min-width:0; }
-#guris-scada-demo .sc-app .sc-takeoff-content .sc-process-figure { overflow:hidden; }
-#guris-scada-demo .sc-app .sc-takeoff-content .sc-process-figure canvas { width:min(100%,640px); height:100%; min-height:0; }
-#guris-scada-demo .sc-app .sc-eject-content { grid-template-rows:22px 52px 100px 76px 76px minmax(105px,1fr); align-content:stretch; }
-#guris-scada-demo .sc-app .sc-eject-setting-row { display:grid; grid-template-columns:minmax(0,1fr) 64px 180px 64px; gap:10px; align-items:center; min-width:0; padding:7px 12px; }
-#guris-scada-demo .sc-app .sc-eject-setting-row > * { min-width:0; }
-#guris-scada-demo .sc-app .sc-eject-setting-row .sc-node-setting { justify-content:flex-end; min-height:60px; height:60px; padding:6px 10px; }
-#guris-scada-demo .sc-app .sc-eject-setting-row .sc-axis-button { width:64px; height:60px; min-height:60px; }
-#guris-scada-demo .sc-app .sc-eject-setting-row .sc-node-label { white-space:normal; }
-#guris-scada-demo .sc-app .sc-eject-setting-row .sc-node-detail { white-space:normal; font-size:11px; }
-#guris-scada-demo .sc-app .sc-eject-figure { overflow:hidden; }
-#guris-scada-demo .sc-app .sc-jog-placeholder { padding:24px; border:1px solid var(--sc-line); border-radius:10px; background:var(--sc-panel); align-self:start; }
-#guris-scada-demo .sc-app .sc-jog-placeholder p { margin:10px 0 0; color:var(--sc-muted); }
-#guris-scada-demo .sc-app .sc-diagnostics-page { display:grid; height:100%; min-height:0; gap:10px; }
-#guris-scada-demo .sc-app .sc-alarms-page { grid-template-rows:auto auto minmax(0,1fr) 52px; }
-#guris-scada-demo .sc-app .sc-io-page { grid-template-rows:42px auto 38px 20px minmax(0,1fr) 40px; gap:8px; }
-#guris-scada-demo .sc-app .sc-diagnostics-head { display:flex; align-items:center; justify-content:space-between; gap:12px; min-width:0; }
-#guris-scada-demo .sc-app .sc-diagnostics-head h3 { font-size:18px; font-weight:500; margin:0; }
-#guris-scada-demo .sc-app .sc-diagnostics-head .sc-action { min-height:40px; display:flex; align-items:center; gap:8px; padding:8px 12px; }
-#guris-scada-demo .sc-app .sc-diagnostics-status { margin:0; color:var(--sc-muted); font-size:12px; min-height:16px; }
-#guris-scada-demo .sc-app .sc-alarms-page .sc-alarm-list { min-height:0; height:100%; max-height:none; margin:0; align-content:start; overflow:auto; padding:2px 8px 2px 0; overscroll-behavior:contain; }
-#guris-scada-demo .sc-app .sc-alarm-record { background:var(--sc-panel); }
-#guris-scada-demo .sc-app .sc-alarm-record > span { color:var(--sc-red); font-size:12px; }
-#guris-scada-demo .sc-app .sc-alarm-record > small { color:var(--sc-muted); }
-#guris-scada-demo .sc-app .sc-diagnostics-actions { display:flex; gap:8px; }
-#guris-scada-demo .sc-app .sc-diagnostics-actions > .sc-action { min-width:160px; }
-#guris-scada-demo .sc-app .sc-alarm-scroll-tools { display:flex; gap:8px; margin-left:auto; }
-#guris-scada-demo .sc-app .sc-alarm-scroll-tools .sc-action { width:52px; }
-#guris-scada-demo .sc-app .sc-io-tabs { display:grid; grid-template-columns:repeat(9,minmax(0,1fr)); gap:5px; min-height:40px; }
-#guris-scada-demo .sc-app .sc-io-tab { min-width:0; padding:6px 3px; font-size:12px; border:1px solid var(--sc-line); border-radius:6px; background:var(--sc-panel); color:var(--sc-text); }
-#guris-scada-demo .sc-app .sc-io-tab[aria-pressed="true"] { color:var(--sc-cyan); border-color:var(--sc-cyan); background:var(--sc-panel-top); }
-#guris-scada-demo .sc-app .sc-io-filters { display:flex; gap:8px; min-width:0; align-items:stretch; }
-#guris-scada-demo .sc-app .sc-io-filters input, #guris-scada-demo .sc-app .sc-io-filters select { min-width:0; border:1px solid var(--sc-line); border-radius:6px; padding:6px 10px; background:var(--sc-panel); color:var(--sc-text); font:inherit; }
-#guris-scada-demo .sc-app .sc-io-filters input { flex:1; user-select:text; }
-#guris-scada-demo .sc-app .sc-io-filters input::placeholder { color:var(--sc-muted); }
-#guris-scada-demo .sc-app .sc-io-readonly { color:var(--sc-muted); align-self:center; font-size:12px; }
-#guris-scada-demo .sc-app .sc-io-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); grid-auto-rows:minmax(64px,auto); gap:7px; overflow:auto; min-height:0; padding-right:7px; align-content:start; overscroll-behavior:contain; }
-#guris-scada-demo .sc-app .sc-io-card { display:grid; grid-template-columns:12px minmax(0,1fr) auto; align-items:center; gap:10px; min-width:0; border:1px solid var(--sc-line); background:var(--sc-panel); padding:9px 10px; border-radius:7px; }
-#guris-scada-demo .sc-app .sc-io-card strong { display:block; font-size:13px; font-weight:500; overflow-wrap:anywhere; }
-#guris-scada-demo .sc-app .sc-io-card small { display:block; color:var(--sc-muted); font-size:10px; overflow-wrap:anywhere; margin-top:4px; }
-#guris-scada-demo .sc-app .sc-io-card output { font-variant-numeric:tabular-nums; min-width:20px; text-align:right; font-size:19px; color:var(--sc-muted); }
-#guris-scada-demo .sc-app .sc-io-dot { width:10px; height:10px; border-radius:50%; background:var(--sc-off-border); }
-#guris-scada-demo .sc-app .sc-io-card[data-level="high"] .sc-io-dot { background:var(--sc-green); box-shadow:0 0 6px color-mix(in srgb, var(--sc-cyan) 20%, transparent); }
-#guris-scada-demo .sc-app .sc-io-card[data-level="low"] .sc-io-dot { background:var(--sc-red); }
-#guris-scada-demo .sc-app .sc-io-card[data-level="value"] .sc-io-dot { background:var(--sc-cyan); }
-#guris-scada-demo .sc-app .sc-io-card:not([data-level="unknown"]) output { color:var(--sc-text); }
-#guris-scada-demo .sc-app .sc-io-pagination { display:flex; align-items:center; justify-content:space-between; gap:12px; font-size:12px; color:var(--sc-muted); }
-#guris-scada-demo .sc-app .sc-io-pagination button { min-width:110px; }
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-io-tab, html[data-palette="light"] #guris-scada-demo .sc-app .sc-io-filters input, html[data-palette="light"] #guris-scada-demo .sc-app .sc-io-filters select { background:var(--sc-text); color:var(--sc-field-ink); }
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-io-tab[aria-pressed="true"] { color:var(--sc-text); background:var(--sc-header); }
-html[data-palette="light"] #guris-scada-demo .sc-app .sc-nav-button[data-alarm-active="true"] > svg { color:var(--sc-off-muted); }
-
-#guris-scada-demo .sc-app .sc-eject-setting-row .sc-node-switch { width:64px; min-width:0; padding:5px; }
-
-#guris-scada-demo .sc-app{color-scheme:var(--sc-scheme,dark)}
-#guris-scada-demo .sc-topbar{background:var(--sc-header,var(--sc-panel-top))}
-#guris-scada-demo .sc-node-setting,#guris-scada-demo .sc-functionality-row,#guris-scada-demo .sc-theme-card{border-radius:var(--sc-radius,6px)}
-#guris-scada-demo .sc-app .sc-mode-switch[aria-checked="true"],#guris-scada-demo .sc-app .sc-edge-status[data-on="true"]{color:var(--sc-green);border-color:var(--sc-green)}
-#guris-scada-demo .sc-app .sc-mode-switch[aria-checked="true"]{background:color-mix(in srgb,var(--sc-green) 15%,var(--sc-panel))}
-#guris-scada-demo .sc-app .sc-io-card[data-level="high"] .sc-io-dot{background:var(--sc-green)}
-#guris-scada-demo .sc-app .sc-io-card[data-level="low"] .sc-io-dot{background:var(--sc-red)}
-#guris-scada-demo .sc-app .sc-action.sc-performance-actual{background:var(--sc-reading-bg,var(--sc-field));color:var(--sc-reading-text,var(--sc-field-ink))}
-#guris-scada-demo .sc-app .sc-action{color:var(--sc-action-text,var(--sc-text))}
-#guris-scada-demo .sc-app .sc-action-primary{color:var(--sc-primary-text,var(--sc-field-ink));background:var(--sc-primary-bg,var(--sc-cyan))}

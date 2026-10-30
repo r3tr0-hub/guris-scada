@@ -49,7 +49,7 @@ function create(root,{api,t,I18n,getState,display,editable,requestWrite,requestC
  function render(){
   if(!engineer()){hide();hex=null;hexOverlay.hidden=true;stopBeat();if(currentPage===pageKey)navigate('menu');return;}if(currentPage!==pageKey&&overlay.hidden)return;
   for(const p of parameters){const binding=rows.get(p.key);if(!binding)continue;const {row,control}=binding,v=read(p);row.dataset.unknown=String(v===null);row.dataset.enabled=String(v===1);row.dataset.safetyBypass=String(p.symbol.endsWith('bEmniyetKapilarPasif')&&v===1);
-   control.disabled=p.command?!canCommand(p):!canEdit(p);control.dataset.pending=String(getState().busy&&getState().operation?.key===p.key);if(p.command)control.textContent=t('Выполнить');else if(p.type==='BOOL'){control.setAttribute('aria-checked',String(v===1));control.textContent=stateText(v);}else control.textContent=format(p,v);
+   control.disabled=p.command?!canCommand(p):!canEdit(p);control.dataset.unknown=String(v===null);control.dataset.pending=String(getState().busy&&getState().operation?.key===p.key);if(p.command)control.textContent=t('Выполнить');else if(p.type==='BOOL'){control.setAttribute('aria-checked',String(v===1));control.textContent=stateText(v);}else control.textContent=format(p,v);
   }
   if(selection){const p=parameters.find(p=>p.key===selection.key),f=getState().fields[selection.key];apply.disabled=getState().epoch!==selection.epoch||(selection.command?!canCommand(p):!canEdit(p)||f?.raw!==selection.raw);}
  }

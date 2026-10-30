@@ -49,11 +49,14 @@
   "--sc-component-muted": "#e9edfb",
   "--sc-component-cyan": "#e5f6ff",
   "--sc-component-line": "#b6c3da",
-  "--sc-component-panel": "#535d78",
-  "--sc-component-panel-top": "#7d88a2",
+  "--sc-component-panel": "#374b5d",
+  "--sc-component-panel-top": "#465e73",
   "--sc-reading-bg": "#c2bdff",
   "--sc-reading-text": "#091c31",
   "--sc-action-text": "#091c31",
   "--sc-primary-bg": "#00345f",
-  "--sc-primary-text": "#ffffff"
+  "--sc-primary-text": "#ffffff",
+  "--sc-engineering-bg": "#004780",
+  "--sc-engineering-top": "#125c95",
+  "--sc-engineering-text": "#ffffff"
 }

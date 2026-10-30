@@ -35,6 +35,33 @@
       --sc-off-panel-border: #684953;
       --sc-off-title: #e6c7cf;
       --sc-off-label: #cdb2bd;
+      --sc-radius: 6px;
+      --sc-header: #1b3b51;
+      --sc-shadow: #0008;
+      --sc-state-state-fill: #103d34;
+      --sc-state-neutral-state-fill: #20394c;
+      --sc-state-warning-state-fill: #493b24;
+      --sc-state-danger-state-fill: #4a2831;
+      --sc-weld-weld-ink: #3e5a6f;
+      --sc-weld-weld-needle: #75828c;
+      --sc-weld-lower-weld-needle: #b16e74;
+      --sc-weld-higher-weld-needle: #558c79;
+      --sc-header-text: #edf6ff;
+      --sc-header-muted: #b0c9db;
+      --sc-header-cyan: #44d0ed;
+      --sc-header-line: #30536c;
+      --sc-header-panel: #132d40;
+      --sc-component-text: #edf6ff;
+      --sc-component-muted: #b0c9db;
+      --sc-component-cyan: #44d0ed;
+      --sc-component-line: #30536c;
+      --sc-component-panel: #132d40;
+      --sc-component-panel-top: #1b3b51;
+      --sc-reading-bg: #f1dc64;
+      --sc-reading-text: #122e44;
+      --sc-action-text: #edf6ff;
+      --sc-primary-bg: #44d0ed;
+      --sc-primary-text: #122e44;
       color-scheme:dark;
       position:relative;
       width:100%;
@@ -69,7 +96,7 @@
       font-size:12px; font-weight:500;
       transition:background-color 150ms, border-color 150ms;
     }
-    #guris-scada-demo .sc-nav-button svg { width:23px; height:23px; }
+    #guris-scada-demo .sc-nav-button svg { width:19px; height:19px; flex-shrink:0; }
     #guris-scada-demo .sc-nav-button:hover { border-color:var(--sc-cyan); }
     #guris-scada-demo .sc-nav-button[aria-current="page"] {
       color:var(--sc-text); border-color:var(--sc-cyan);
@@ -90,8 +117,8 @@
     #guris-scada-demo .sc-title-brand img { display:block; width:156px; height:30px; object-fit:cover; object-position:center; }
     #guris-scada-demo .sc-subtitle { margin-top:4px; color:var(--sc-muted); font-size:11px; }
     #guris-scada-demo .sc-user-card {
-      display:grid; grid-template-columns:minmax(0, 1fr) 84px; gap:9px;
-      width:242px; height:52px; padding:5px 10px;
+      display:grid; grid-template-columns:minmax(0, 1fr) max-content; gap:9px;
+      width:max-content; min-width:242px; height:52px; padding:5px 10px;
       border:1px solid var(--sc-line); border-radius:6px; background:var(--sc-panel);
       flex:0 0 auto;
     }
@@ -173,15 +200,15 @@
     #guris-scada-demo .sc-welding-group { position:relative; min-height:0; }
     #guris-scada-demo .sc-field-welding { height:100%; }
     #guris-scada-demo .sc-field-welding .sc-readout { padding-right:112px; }
-    #guris-scada-demo .sc-field-welding:disabled {
+    #guris-scada-demo .sc-field-welding:disabled:not([data-quality="bad"]) {
       --sc-field-ink: var(--sc-off-ink); --sc-field-muted: var(--sc-off-muted);
       background:var(--sc-off-field); border-color:var(--sc-off-border); color:var(--sc-off-ink); cursor:not-allowed;
     }
-    #guris-scada-demo .sc-field-welding:disabled .sc-value { color:var(--sc-off-ink); }
+    #guris-scada-demo .sc-field-welding:disabled:not([data-quality="bad"]) .sc-value { color:var(--sc-off-ink); }
     #guris-scada-demo .sc-welding-switch {
       position:absolute; right:13px; top:50%; transform:translateY(-50%); width:96px; z-index:1;
       display:flex; align-items:center; justify-content:center; gap:7px; min-height:48px; padding:6px;
-      border:1px solid var(--sc-field-muted); border-radius:4px; background:var(--sc-muted); color:var(--sc-panel-top);
+      border:1px solid var(--sc-field-muted); border-radius:4px; background:var(--sc-field); color:var(--sc-field-ink);
       font-size:13px; font-weight:500; transition:background-color 150ms, border-color 150ms;
     }
     #guris-scada-demo .sc-welding-switch svg { width:19px; height:19px; flex:0 0 auto; }
@@ -204,7 +231,7 @@
     #guris-scada-demo .sc-linear {
       display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:4px 8px;
       width:100%; margin-top:-1px; padding:2px 8px;
-      background:var(--sc-muted); border-radius:3px; color:var(--sc-field-muted);
+      background:var(--sc-field-top); border-radius:3px; color:var(--sc-field-muted);
       font-size:12px; line-height:1.25;
     }
     #guris-scada-demo .sc-linear-value { color:var(--sc-field-ink); font-weight:500; font-variant-numeric:tabular-nums; white-space:nowrap; }
@@ -329,7 +356,7 @@
     #guris-scada-demo .sc-edge-jog { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; min-height:60px; padding:6px; border:1px solid var(--sc-line); border-radius:5px; color:var(--sc-text); background:var(--sc-panel-top); font-size:11px; }
     #guris-scada-demo .sc-edge-jog > svg { width:24px; height:24px; color:var(--sc-cyan); }
     #guris-scada-demo .sc-edge-jog:active { background:var(--sc-line); }
-    #guris-scada-demo .sc-edge-jog:disabled { color:var(--sc-muted); border-color:var(--sc-line); background:var(--sc-panel); opacity:0.5; }
+    #guris-scada-demo .sc-edge-jog:disabled { color:var(--sc-muted); border-color:var(--sc-line); background:var(--sc-panel); opacity:1; }
     #guris-scada-demo .sc-edge-jog:disabled > svg { color:var(--sc-muted); }
     #guris-scada-demo .sc-edge-status { display:inline-flex; align-items:center; justify-content:flex-end; gap:8px; width:74px; height:44px; flex:0 0 auto; border:0; border-radius:0; background:transparent; color:var(--sc-green); font-size:12px; font-weight:500; }
     #guris-scada-demo .sc-signal-dot { display:inline-block; width:8px; height:8px; border-radius:50%; background:currentColor; flex:0 0 8px; }
@@ -354,7 +381,7 @@
     #guris-scada-demo .sc-heat-name > svg { width:24px; height:24px; flex:0 0 auto; color:var(--sc-cyan); }
     #guris-scada-demo .sc-heat-set { display:flex; align-items:center; justify-content:space-between; gap:10px; width:100%; height:68px; padding:8px 12px; border:1px solid var(--sc-muted); border-radius:5px; text-align:left; color:var(--sc-field-ink); background:linear-gradient(145deg, var(--sc-field-top), var(--sc-field)); }
     #guris-scada-demo .sc-heat-set > span:first-child { font-size:12px; }
-    #guris-scada-demo .sc-heat-row[data-enabled="false"] .sc-heat-set { color:var(--sc-off-ink); border-color:var(--sc-off-border); background:var(--sc-off-field); }
+    #guris-scada-demo .sc-heat-row[data-enabled="false"]:not([data-unknown="true"]) .sc-heat-set { color:var(--sc-off-ink); border-color:var(--sc-off-border); background:var(--sc-off-field); }
     #guris-scada-demo .sc-heat-set:disabled,
     #guris-scada-demo .sc-actuator-field:disabled { cursor:not-allowed; }
     #guris-scada-demo .sc-heat-set:disabled .sc-node-unit { color:var(--sc-off-muted); }
@@ -387,7 +414,7 @@
     #guris-scada-demo .sc-glue-test { display:flex; align-items:center; justify-content:center; gap:8px; width:230px; min-height:50px; padding:9px 12px; border:1px solid var(--sc-off-border); border-radius:5px; color:var(--sc-text); background:var(--sc-panel-top); font-size:15px; font-weight:500; touch-action:none; user-select:none; }
     #guris-scada-demo .sc-glue-test > svg { width:21px; height:21px; }
     #guris-scada-demo .sc-glue-test[aria-pressed="true"] { color:var(--sc-panel); background:var(--sc-muted); border-color:var(--sc-green); box-shadow:0 0 0 2px color-mix(in srgb, var(--sc-cyan) 20%, transparent); }
-    #guris-scada-demo .sc-glue-test:disabled { background:var(--sc-off-panel); border-color:var(--sc-off-panel-border); color:var(--sc-off-label); }
+    #guris-scada-demo .sc-glue-test:disabled { background:var(--sc-panel); border-color:var(--sc-line); color:var(--sc-muted); }
     #guris-scada-demo .sc-glue-test-state { font-size:14px; color:var(--sc-muted); }
     #guris-scada-demo .sc-glue-test-bar[data-pressed="true"] .sc-glue-test-state { color:var(--sc-green); }
     #guris-scada-demo .sc-seam-content { display:grid; grid-template-rows:22px 88px 324px; gap:10px; align-content:start; }
@@ -407,7 +434,7 @@
     #guris-scada-demo .sc-seam-heat .sc-heat-set,
     #guris-scada-demo .sc-seam-heat .sc-heat-actual { height:60px; padding:8px; gap:6px; }
     #guris-scada-demo .sc-seam-heat .sc-node-number { font-size:27px; }
-    #guris-scada-demo .sc-seam-heat[data-enabled="false"] .sc-heat-set { color:var(--sc-off-ink); border-color:var(--sc-off-border); background:var(--sc-off-field); }
+    #guris-scada-demo .sc-seam-heat[data-enabled="false"]:not([data-unknown="true"]) .sc-heat-set { color:var(--sc-off-ink); border-color:var(--sc-off-border); background:var(--sc-off-field); }
 
     #guris-scada-demo .sc-eject-content { display:grid; grid-template-rows:22px 52px 86px 76px 98px 128px; gap:10px; align-content:start; }
     #guris-scada-demo .sc-position-box { display:grid; grid-template-columns:64px minmax(0, 1fr) 64px; align-items:center; gap:12px; padding:10px 12px; border:1px solid var(--sc-line); border-radius:6px; background:var(--sc-panel); }
@@ -417,10 +444,10 @@
     #guris-scada-demo .sc-axis-button { display:flex; align-items:center; justify-content:center; flex-direction:column; gap:5px; width:64px; min-height:60px; padding:6px; border:1px solid var(--sc-line); border-radius:5px; background:var(--sc-panel-top); color:var(--sc-cyan); font-size:11px; }
     #guris-scada-demo .sc-axis-button > svg { width:27px; height:27px; }
     #guris-scada-demo .sc-axis-button:active { background:var(--sc-line); }
-    #guris-scada-demo .sc-axis-button:disabled { background:var(--sc-panel); color:var(--sc-muted); opacity:0.5; }
+    #guris-scada-demo .sc-axis-button:disabled { background:var(--sc-panel); color:var(--sc-muted); opacity:1; }
     #guris-scada-demo .sc-toggle-setting { display:grid; grid-template-columns:minmax(0, 1fr) 74px 176px; align-items:center; gap:12px; padding:8px 12px; border:1px solid var(--sc-line); border-radius:5px; background:var(--sc-panel); }
     #guris-scada-demo .sc-config-number { justify-content:flex-end; min-height:56px; padding:7px 10px; }
-    #guris-scada-demo .sc-node-setting:disabled { background:var(--sc-off-field); border-color:var(--sc-off-border); color:var(--sc-off-ink); }
+    #guris-scada-demo .sc-node-setting:disabled { background:var(--sc-field); border-color:var(--sc-line); color:var(--sc-field-ink); }
     #guris-scada-demo .sc-nudge-row { display:grid; grid-template-columns:64px minmax(0, 1fr) 64px; align-items:center; gap:12px; padding:9px 12px; border:1px solid var(--sc-line); border-radius:6px; background:var(--sc-panel); }
     #guris-scada-demo .sc-nudge-row .sc-node-setting { min-height:76px; }
     #guris-scada-demo .sc-process-figure { margin:0; padding:8px; min-height:0; display:grid; grid-template-rows:minmax(0, 1fr) auto; justify-items:center; gap:4px; border:1px solid var(--sc-line); border-radius:6px; background:var(--sc-panel); }
@@ -490,17 +517,17 @@
     #guris-scada-demo .sc-actuator-edit { display:flex; color:var(--sc-field-muted); }
     #guris-scada-demo .sc-actuator-edit svg { width:16px; height:16px; }
     #guris-scada-demo .sc-actuator-switch { width:86px; min-height:72px; }
-    #guris-scada-demo .sc-actuator-row[data-enabled="false"] .sc-actuator-field {
+    #guris-scada-demo .sc-actuator-row[data-enabled="false"]:not([data-unknown="true"]) .sc-actuator-field {
       background:var(--sc-off-panel); border-color:var(--sc-off-panel-border); color:var(--sc-off-title);
     }
-    #guris-scada-demo .sc-actuator-row[data-enabled="false"] .sc-actuator-field:hover { border-color:var(--sc-off-border); }
-    #guris-scada-demo .sc-actuator-row[data-enabled="false"] .sc-actuator-source,
-    #guris-scada-demo .sc-actuator-row[data-enabled="false"] .sc-actuator-symbol { color:var(--sc-off-label); }
-    #guris-scada-demo .sc-actuator-row[data-enabled="false"] .sc-actuator-duration {
+    #guris-scada-demo .sc-actuator-row[data-enabled="false"]:not([data-unknown="true"]) .sc-actuator-field:hover { border-color:var(--sc-off-border); }
+    #guris-scada-demo .sc-actuator-row[data-enabled="false"]:not([data-unknown="true"]) .sc-actuator-source,
+    #guris-scada-demo .sc-actuator-row[data-enabled="false"]:not([data-unknown="true"]) .sc-actuator-symbol { color:var(--sc-off-label); }
+    #guris-scada-demo .sc-actuator-row[data-enabled="false"]:not([data-unknown="true"]) .sc-actuator-duration {
       background:var(--sc-off-field); color:var(--sc-off-ink);
     }
-    #guris-scada-demo .sc-actuator-row[data-enabled="false"] .sc-actuator-unit,
-    #guris-scada-demo .sc-actuator-row[data-enabled="false"] .sc-actuator-edit { color:var(--sc-off-muted); }
+    #guris-scada-demo .sc-actuator-row[data-enabled="false"]:not([data-unknown="true"]) .sc-actuator-unit,
+    #guris-scada-demo .sc-actuator-row[data-enabled="false"]:not([data-unknown="true"]) .sc-actuator-edit { color:var(--sc-off-muted); }
     #guris-scada-demo .sc-belt {
       height:100%; display:grid; grid-template-rows:22px 100px 100px 44px 94px 72px; gap:6px; align-content:start;
     }
@@ -508,15 +535,15 @@
       display:grid; grid-template-columns:232px minmax(0, 1fr); align-items:stretch; gap:10px;
       padding:7px 10px; border:1px solid var(--sc-line); border-radius:6px; background:var(--sc-panel);
     }
-    #guris-scada-demo .sc-timing-panel[data-enabled="false"] { background:var(--sc-off-panel); border-color:var(--sc-off-panel-border); }
-    #guris-scada-demo .sc-timing-panel[data-enabled="false"] .sc-timing-title { color:var(--sc-off-title); }
-    #guris-scada-demo .sc-timing-panel[data-enabled="false"] .sc-timing-title span { color:var(--sc-off-label); }
+    #guris-scada-demo .sc-timing-panel[data-enabled="false"]:not([data-unknown="true"]) { background:var(--sc-off-panel); border-color:var(--sc-off-panel-border); }
+    #guris-scada-demo .sc-timing-panel[data-enabled="false"]:not([data-unknown="true"]) .sc-timing-title { color:var(--sc-off-title); }
+    #guris-scada-demo .sc-timing-panel[data-enabled="false"]:not([data-unknown="true"]) .sc-timing-title span { color:var(--sc-off-label); }
     #guris-scada-demo .sc-timing-mode { display:flex; align-items:center; justify-content:space-between; gap:10px; }
     #guris-scada-demo .sc-timing-title { font-size:15px; line-height:1.25; font-weight:500; }
     #guris-scada-demo .sc-timing-title span { display:block; font-size:11px; font-weight:400; line-height:1.35; color:var(--sc-muted); margin-top:4px; }
     #guris-scada-demo .sc-mode-switch {
       min-width:72px; min-height:48px; display:flex; align-items:center; justify-content:center; gap:6px;
-      padding:7px; border:1px solid var(--sc-field-muted); border-radius:5px; background:var(--sc-muted); color:var(--sc-panel-top);
+      padding:7px; border:1px solid var(--sc-field-muted); border-radius:5px; background:var(--sc-field); color:var(--sc-field-ink);
       font-size:12px; font-weight:500; flex:0 0 auto;
     }
     #guris-scada-demo .sc-mode-switch svg { width:17px; height:17px; flex:0 0 auto; }
@@ -531,8 +558,7 @@
     #guris-scada-demo .sc-time-field .sc-value { font-size:28px; }
     #guris-scada-demo .sc-time-field .sc-unit { font-size:12px; }
     #guris-scada-demo .sc-time-field:disabled {
-      --sc-field-ink: var(--sc-off-ink); --sc-field-muted: var(--sc-off-muted);
-      background:var(--sc-off-field); color:var(--sc-off-ink); border-color:var(--sc-off-border); cursor:not-allowed;
+      background:var(--sc-field); color:var(--sc-field-ink); border-color:var(--sc-line); cursor:not-allowed;
     }
     #guris-scada-demo .sc-time-field:disabled .sc-value { color:var(--sc-off-ink); }
     #guris-scada-demo .sc-time-field:disabled .sc-field-label,
@@ -550,7 +576,7 @@
     #guris-scada-demo .sc-cleaning-panel .sc-value { font-size:30px; }
     #guris-scada-demo .sc-cleaning-actions { display:flex;gap:6px;flex:0 0 auto; }
     #guris-scada-demo .sc-cleaning-actions .sc-action { min-height:44px;padding:7px 10px;font-size:12px;white-space:nowrap; }
-    #guris-scada-demo .sc-cleaning-actions .sc-action:disabled { opacity:.45;cursor:not-allowed; }
+    #guris-scada-demo .sc-cleaning-actions .sc-action:disabled { opacity:1;color:var(--sc-muted);background:var(--sc-panel);border-style:dashed;cursor:not-allowed; }
     #guris-scada-demo .sc-offset-panel {
       display:grid; grid-template-columns:minmax(180px, 1fr) minmax(0, 1.25fr); align-items:center; gap:12px;
       padding:8px 12px; border:1px solid var(--sc-line); border-radius:6px; background:var(--sc-panel);
@@ -616,10 +642,10 @@
     #guris-scada-demo .sc-photo-title { display:block; font-size:15px; line-height:1.25; font-weight:500; }
     #guris-scada-demo .sc-photo-detail { display:block; margin-top:4px; color:var(--sc-muted); font-size:11px; line-height:1.35; }
     #guris-scada-demo .sc-photo-switch { width:86px; height:52px; }
-    #guris-scada-demo .sc-photo-activation[data-enabled="false"] { background:var(--sc-off-panel); border-color:var(--sc-off-panel-border); }
-    #guris-scada-demo .sc-photo-activation[data-enabled="false"] .sc-photo-title { color:var(--sc-off-title); }
-    #guris-scada-demo .sc-photo-activation[data-enabled="false"] .sc-photo-detail,
-    #guris-scada-demo .sc-photo-activation[data-enabled="false"] .sc-photo-label > svg { color:var(--sc-off-label); }
+    #guris-scada-demo .sc-photo-activation[data-enabled="false"]:not([data-unknown="true"]) { background:var(--sc-off-panel); border-color:var(--sc-off-panel-border); }
+    #guris-scada-demo .sc-photo-activation[data-enabled="false"]:not([data-unknown="true"]) .sc-photo-title { color:var(--sc-off-title); }
+    #guris-scada-demo .sc-photo-activation[data-enabled="false"]:not([data-unknown="true"]) .sc-photo-detail,
+    #guris-scada-demo .sc-photo-activation[data-enabled="false"]:not([data-unknown="true"]) .sc-photo-label > svg { color:var(--sc-off-label); }
     #guris-scada-demo .sc-photo-encoder {
       display:grid; grid-template-columns:minmax(0, 1fr) auto 158px; align-items:center; gap:16px;
       padding:12px; border:1px solid var(--sc-line); border-radius:6px; background:var(--sc-panel);
@@ -716,8 +742,8 @@
       display:flex; align-items:center; justify-content:center;
       transition:background-color 100ms, transform 100ms;
     }
-    #guris-scada-demo .sc-key:hover { background:var(--sc-line); }
-    #guris-scada-demo .sc-key:active { background:var(--sc-line); transform:translateY(1px); }
+    #guris-scada-demo .sc-key:enabled:hover { background:var(--sc-panel); }
+    #guris-scada-demo .sc-key:enabled:active { background:var(--sc-panel); transform:translateY(1px); }
     #guris-scada-demo .sc-key:disabled { opacity:.35; cursor:not-allowed; }
     #guris-scada-demo .sc-key svg { width:24px; height:24px; }
     #guris-scada-demo .sc-key-tools { display:grid; grid-template-columns:1fr 1fr; gap:7px; margin-top:7px; }
@@ -925,8 +951,8 @@ html, body { margin:0; width:100%; height:100%; overflow:hidden; background:var(
 #guris-scada-demo .sc-shell { grid-template-rows:minmax(0,1fr); }
 #guris-scada-demo .sc-sidebar { min-height:0; }
 #guris-scada-demo .sc-navigation { display:grid; grid-template-rows:repeat(6,minmax(0,1fr)); flex:1; min-height:0; }
-#guris-scada-demo .sc-app .sc-nav-button { min-height:0; padding:6px 3px; gap:4px; font-size:12px; line-height:1.2; }
-#guris-scada-demo .sc-nav-button > span { display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2; overflow:hidden; }
+#guris-scada-demo .sc-app .sc-nav-button { min-height:0; padding:3px; gap:3px; font-size:12px; line-height:1.2; }
+#guris-scada-demo .sc-nav-button > span { max-width:100%; overflow-wrap:anywhere; display:block; font-size:11.5px; line-height:1.05; }
 #guris-scada-demo .sc-title-brand { border-top:0; border-bottom:0; border-left:0; background:transparent; color:inherit; padding-left:0; }
 #guris-scada-demo .sc-title-brand:hover { filter:brightness(1.14); }
 #guris-scada-demo .sc-indicator[data-tone="warning"] .sc-indicator-text { color:var(--sc-amber); }
@@ -1020,8 +1046,8 @@ html, body { margin:0; width:100%; height:100%; overflow:hidden; background:var(
 #guris-scada-demo .sc-about-author a { color:var(--sc-cyan); font-size:14px; }
 #guris-scada-demo .sc-engineering-page { display:flex; flex-direction:column; gap:10px; height:100%; min-height:0; padding:10px 0 0; }
 #guris-scada-demo .sc-engineering-grid { flex:1; min-height:0; display:grid; grid-template-columns:repeat(4,minmax(0,1fr)) minmax(110px,.85fr); grid-template-rows:repeat(9,minmax(0,1fr)); gap:5px; padding-bottom:3px; }
-#guris-scada-demo .sc-engineering-tile { min-width:0; min-height:0; padding:2px 6px; border:1px solid var(--sc-field-muted); border-radius:3px; background:linear-gradient(var(--sc-panel),var(--sc-bg)); color:var(--sc-text); font-size:14px; line-height:1.15; font-weight:600; text-align:center; }
-#guris-scada-demo .sc-engineering-tile:hover { background:var(--sc-panel-top); border-color:var(--sc-cyan); }
+#guris-scada-demo .sc-engineering-tile { min-width:0; min-height:0; padding:2px 6px; border:1px solid var(--sc-field-muted); border-radius:3px; background:linear-gradient(var(--sc-engineering-top,var(--sc-panel)),var(--sc-engineering-bg,var(--sc-bg))); color:var(--sc-engineering-text,var(--sc-text)); font-size:14px; line-height:1.15; font-weight:600; text-align:center; }
+#guris-scada-demo .sc-engineering-tile:enabled:hover { background:var(--sc-engineering-top,var(--sc-panel-top)); border-color:var(--sc-cyan); }
 #guris-scada-demo .sc-engineering-simulation { min-width:0; padding:3px 5px; display:flex; align-items:center; justify-content:space-between; gap:5px; background:var(--sc-muted); border:1px solid var(--sc-field-muted); border-radius:3px; color:var(--sc-panel-top); font-size:12px; }
 #guris-scada-demo .sc-engineering-simulation span { width:22px; height:26px; background:var(--sc-off-border); border:1px solid var(--sc-off-ink); flex-shrink:0; }
 #guris-scada-demo .sc-engineering-factory { font-size:16px; }
@@ -1121,7 +1147,7 @@ html, body { margin:0; width:100%; height:100%; overflow:hidden; background:var(
 #guris-scada-demo .sc-app .sc-node-menu {grid-template-rows:22px minmax(0,1fr);gap:10px;}
 #guris-scada-demo .sc-app .sc-node-menu .sc-node-grid {width:100%;grid-template-columns:repeat(5,minmax(0,1fr));grid-auto-rows:92px;gap:10px;min-height:0;overflow:auto;align-content:start;}
 #guris-scada-demo .sc-app .sc-node-menu .sc-node-tile {width:100%;min-width:0;}
-#guris-scada-demo .sc-app .sc-node-menu .sc-node-tile:disabled {opacity:.48;cursor:default;}
+#guris-scada-demo .sc-app .sc-node-menu .sc-node-tile:disabled {opacity:1;cursor:default;}
 #guris-scada-demo .sc-app .sc-node-menu .sc-node-tile:disabled:hover {border-color:var(--sc-line);background:var(--sc-panel);}
 #guris-scada-demo .sc-app .sc-node-menu .sc-node-tile[data-equipment="unknown"] * {animation-play-state:paused!important;}
 #guris-scada-demo .sc-clock-wallpaper[hidden] {display:none!important;}
@@ -1213,10 +1239,10 @@ html, body { margin:0; width:100%; height:100%; overflow:hidden; background:var(
 #guris-scada-demo .sc-performance-cell {display:flex;flex-direction:column;align-items:stretch;gap:4px;min-width:62px;}
 #guris-scada-demo .sc-performance-caption {border:0;background:transparent;padding:0;text-align:center;font:inherit;font-size:10px;line-height:1.2;color:var(--sc-muted);}
 #guris-scada-demo button.sc-performance-caption {cursor:help;}
-#guris-scada-demo .sc-app [data-page-content="performance"] button.sc-performance-set[data-engineering-control] {background:var(--sc-text);border-color:var(--sc-muted);color:var(--sc-panel-top);min-width:62px;min-height:34px;font-size:15px;}
-#guris-scada-demo .sc-app .sc-performance-set:disabled {opacity:.55;}
-#guris-scada-demo .sc-app [data-page-content="performance"] button.sc-performance-actual[data-engineering-control]:disabled {background:var(--sc-amber);border-color:var(--sc-off-border);color:var(--sc-off-panel);opacity:1;min-width:62px;min-height:34px;font-size:15px;cursor:default;}
-#guris-scada-demo .sc-app [data-page-content="performance"] .sc-performance-cell[data-unknown="true"] button.sc-performance-actual[data-engineering-control]:disabled {background:var(--sc-off-switch);border-color:var(--sc-off-border);color:var(--sc-off-panel-border);}
+#guris-scada-demo .sc-app [data-page-content="performance"] button.sc-performance-set[data-engineering-control] {background:var(--sc-field);border-color:var(--sc-line);color:var(--sc-field-ink);min-width:62px;min-height:34px;font-size:15px;}
+#guris-scada-demo .sc-app .sc-performance-set:disabled {opacity:1;border-style:dashed;}
+#guris-scada-demo .sc-app [data-page-content="performance"] button.sc-performance-actual[data-engineering-control]:disabled {background:var(--sc-reading-bg);border-color:var(--sc-line);color:var(--sc-reading-text);opacity:1;min-width:62px;min-height:34px;font-size:15px;cursor:default;}
+#guris-scada-demo .sc-app [data-page-content="performance"] .sc-performance-cell[data-unknown="true"] button.sc-performance-actual[data-engineering-control]:disabled {background:var(--sc-panel-top);border-color:var(--sc-line);color:var(--sc-muted);}
 #guris-scada-demo .sc-app .sc-edge-content {display:flex;flex-direction:column;gap:8px;min-height:0;}
 #guris-scada-demo .sc-app .sc-edge-sensitivity {display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:64px;flex-shrink:0;padding:8px 14px;border:1px solid var(--sc-line);border-radius:6px;background:var(--sc-panel);}
 #guris-scada-demo .sc-edge-sensitivity-label {display:grid;gap:3px;min-width:0;}
@@ -1224,13 +1250,13 @@ html, body { margin:0; width:100%; height:100%; overflow:hidden; background:var(
 #guris-scada-demo .sc-edge-sensitivity-label .sc-node-detail {font-size:11px;}
 #guris-scada-demo .sc-edge-sensitivity-label small {font-size:10px;color:var(--sc-muted);}
 #guris-scada-demo .sc-edge-sensitivity>button {min-width:100px;min-height:42px;flex-shrink:0;font-size:22px;}
-#guris-scada-demo .sc-app .sc-edge-list {flex:1;min-height:0;grid-template-rows:repeat(3,minmax(110px,1fr));overflow-y:auto;touch-action:pan-y;}
-#guris-scada-demo .sc-app .sc-edge-row {min-height:110px;padding:9px 14px;}
+#guris-scada-demo .sc-app .sc-edge-list {flex:1;min-height:0;grid-auto-rows:max-content;grid-template-rows:none;align-content:start;overflow-y:auto;touch-action:pan-y;}
+#guris-scada-demo .sc-app .sc-edge-row {min-height:154px;padding:9px 14px;grid-template-rows:auto minmax(88px,auto);gap:8px 18px;align-content:start;}
 
 /* Engineer references and live readings use the same white/yellow layout in every section. */
-#guris-scada-demo .sc-app [data-page-content="engineering"] button.sc-performance-set[data-engineering-control] {background:var(--sc-text);border-color:var(--sc-muted);color:var(--sc-panel-top);min-width:92px;min-height:42px;font-size:17px;}
-#guris-scada-demo .sc-app [data-page-content="engineering"] button.sc-performance-actual[data-engineering-control]:disabled {background:var(--sc-amber);border-color:var(--sc-off-border);color:var(--sc-off-panel);opacity:1;min-width:92px;min-height:42px;font-size:17px;cursor:default;}
-#guris-scada-demo .sc-app [data-page-content="engineering"] .sc-performance-cell[data-unknown="true"] button.sc-performance-actual[data-engineering-control]:disabled {background:var(--sc-off-switch);border-color:var(--sc-off-border);color:var(--sc-off-panel-border);}
+#guris-scada-demo .sc-app [data-page-content="engineering"] button.sc-performance-set[data-engineering-control] {background:var(--sc-field);border-color:var(--sc-line);color:var(--sc-field-ink);min-width:92px;min-height:42px;font-size:17px;}
+#guris-scada-demo .sc-app [data-page-content="engineering"] button.sc-performance-actual[data-engineering-control]:disabled {background:var(--sc-reading-bg);border-color:var(--sc-line);color:var(--sc-reading-text);opacity:1;min-width:92px;min-height:42px;font-size:17px;cursor:default;}
+#guris-scada-demo .sc-app [data-page-content="engineering"] .sc-performance-cell[data-unknown="true"] button.sc-performance-actual[data-engineering-control]:disabled {background:var(--sc-panel-top);border-color:var(--sc-line);color:var(--sc-muted);}
 #guris-scada-demo .sc-app [data-page-content="engineering"] .sc-functionality-grid {display:flex;flex-direction:column;gap:7px;touch-action:pan-y;overscroll-behavior:contain;}
 #guris-scada-demo .sc-app [data-page-content="engineering"] .sc-functionality-row {min-height:68px;flex-shrink:0;gap:20px;}
 #guris-scada-demo .sc-app .sc-engineering-group {margin:14px 0 2px;padding:8px 4px;border-bottom:1px solid var(--sc-line);font-size:15px;color:var(--sc-muted);}
@@ -1253,7 +1279,7 @@ html, body { margin:0; width:100%; height:100%; overflow:hidden; background:var(
 #guris-scada-demo .sc-heat-output meter{width:100%;height:12px;accent-color:var(--sc-amber)}
 #guris-scada-demo .sc-heat-content{overflow-y:auto;touch-action:pan-y;min-height:0}
 #guris-scada-demo .sc-app .sc-unwinder-setting [data-unwinder-toggle]{height:66px;min-height:66px;min-width:160px;width:auto}
-#guris-scada-demo .sc-edge-physical{display:flex;flex-wrap:wrap;gap:10px;padding:12px;border:1px solid var(--sc-line);color:var(--sc-muted);font-size:12px}
+#guris-scada-demo .sc-edge-physical{flex-shrink:0;display:flex;flex-wrap:wrap;gap:10px;padding:12px;border:1px solid var(--sc-line);color:var(--sc-muted);font-size:12px}
 #guris-scada-demo .sc-edge-physical strong{flex-basis:100%}
 #guris-scada-demo .sc-knife-content{grid-template-rows:22px auto}
 #guris-scada-demo .sc-knife-icon{color:var(--sc-cyan)}
@@ -1267,3 +1293,183 @@ html, body { margin:0; width:100%; height:100%; overflow:hidden; background:var(
 #guris-scada-demo .sc-app .sc-heat-list>.sc-heat-row{height:85.8px;min-height:85.8px;grid-template-rows:50px 14px;gap:5px 10px;padding:7px 9px}
 #guris-scada-demo .sc-app .sc-heat-list .sc-heat-output{line-height:14px}
 #guris-scada-demo .sc-app .sc-heat-content{overflow-y:auto;touch-action:pan-y;min-height:0}
+
+/* Shared theme picker and diagnostic component layout (all palettes). */
+
+#guris-scada-demo .sc-theme-card {
+  display:flex; align-items:center; justify-content:space-between; gap:16px;
+  padding:12px 16px; border:1px solid var(--sc-line); border-radius:8px;
+  background:var(--sc-panel); flex-shrink:0;
+}
+#guris-scada-demo .sc-theme-heading h3 { font-size:16px; font-weight:500; }
+#guris-scada-demo .sc-theme-heading p { margin-top:5px; font-size:11px; color:var(--sc-muted); }
+#guris-scada-demo .sc-theme-choices { display:flex; gap:8px; flex:0 0 auto; }
+#guris-scada-demo .sc-theme-choice {
+  display:flex; align-items:center; justify-content:flex-start; gap:9px;
+  min-height:62px; min-width:174px; padding:8px 10px;
+  border:1px solid var(--sc-line); border-radius:6px;
+  background:var(--sc-bg); color:var(--sc-text); font-size:13px;
+}
+#guris-scada-demo .sc-theme-choice[aria-pressed="true"] { border-color:var(--sc-cyan); box-shadow:inset 0 0 0 1px var(--sc-cyan); }
+#guris-scada-demo .sc-theme-choice:enabled:hover { border-color:var(--sc-cyan); }
+#guris-scada-demo .sc-theme-choice:focus-visible { outline:2px solid var(--sc-cyan); outline-offset:2px; }
+#guris-scada-demo .sc-theme-choice:disabled { opacity:.6; }
+#guris-scada-demo .sc-theme-check { margin-left:auto; color:var(--sc-cyan); visibility:hidden; font-size:18px; }
+#guris-scada-demo .sc-theme-choice[aria-pressed="true"] .sc-theme-check { visibility:visible; }
+#guris-scada-demo .sc-theme-sample {
+  position:relative; display:grid; grid-template-columns:1fr 1fr; gap:3px;
+  width:46px; height:34px; padding:12px 4px 4px; border:1px solid var(--sc-field-muted);
+  border-radius:3px; background:var(--sc-bg); flex-shrink:0;
+}
+#guris-scada-demo .sc-theme-sample i:first-child { position:absolute; top:0; left:0; right:0; height:8px; background:var(--sc-panel-top); border-bottom:1px solid var(--sc-line); }
+#guris-scada-demo .sc-theme-sample i:not(:first-child) { background:var(--sc-field-top); border:1px solid var(--sc-off-border); }
+#guris-scada-demo .sc-theme-sample[data-sample="classic"] { background:var(--sc-cyan); border-color:var(--sc-field-muted); }
+#guris-scada-demo .sc-theme-sample[data-sample="classic"] i:first-child { background:var(--sc-header); border-color:var(--sc-field); }
+#guris-scada-demo .sc-theme-sample[data-sample="classic"] i:nth-child(2) { background:var(--sc-text); }
+#guris-scada-demo .sc-theme-sample[data-sample="classic"] i:last-child { background:var(--sc-field); }
+#guris-scada-demo .sc-settings-page > .sc-settings-columns,
+#guris-scada-demo .sc-settings-page > .sc-settings-account { flex-shrink:0; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#guris-scada-demo .sc-app .sc-navigation { grid-template-rows:repeat(7,minmax(0,1fr)); }
+#guris-scada-demo .sc-app .sc-navigation > [data-page="alarms"] { grid-row:7; }
+#guris-scada-demo .sc-app .sc-nav-button[data-alarm-active="true"] > svg { color:var(--sc-red); animation:sc-alarm-warning 1.2s steps(2,end) infinite; }
+@keyframes sc-alarm-warning { 0%,100% { opacity:1; } 50% { opacity:.25; } }
+#guris-scada-demo .sc-app .sc-takeoff-content { grid-template-rows:22px 112px 88px 76px minmax(100px,1fr); align-content:stretch; }
+#guris-scada-demo .sc-app .sc-takeoff-content > .sc-position-box { padding:10px 12px; min-height:0; }
+#guris-scada-demo .sc-app .sc-takeoff-content > .sc-toggle-setting { padding:8px 12px; min-width:0; }
+#guris-scada-demo .sc-app .sc-takeoff-content .sc-process-figure { overflow:hidden; }
+#guris-scada-demo .sc-app .sc-takeoff-content .sc-process-figure canvas { width:min(100%,640px); height:100%; min-height:0; }
+#guris-scada-demo .sc-app .sc-eject-content { grid-template-rows:22px 52px 100px 76px 76px minmax(105px,1fr); align-content:stretch; }
+#guris-scada-demo .sc-app .sc-eject-setting-row { display:grid; grid-template-columns:minmax(0,1fr) 64px 180px 64px; gap:10px; align-items:center; min-width:0; padding:7px 12px; }
+#guris-scada-demo .sc-app .sc-eject-setting-row > * { min-width:0; }
+#guris-scada-demo .sc-app .sc-eject-setting-row .sc-node-setting { justify-content:flex-end; min-height:60px; height:60px; padding:6px 10px; }
+#guris-scada-demo .sc-app .sc-eject-setting-row .sc-axis-button { width:64px; height:60px; min-height:60px; }
+#guris-scada-demo .sc-app .sc-eject-setting-row .sc-node-label { white-space:normal; }
+#guris-scada-demo .sc-app .sc-eject-setting-row .sc-node-detail { white-space:normal; font-size:11px; }
+#guris-scada-demo .sc-app .sc-eject-figure { overflow:hidden; }
+#guris-scada-demo .sc-app .sc-jog-placeholder { padding:24px; border:1px solid var(--sc-line); border-radius:10px; background:var(--sc-panel); align-self:start; }
+#guris-scada-demo .sc-app .sc-jog-placeholder p { margin:10px 0 0; color:var(--sc-muted); }
+#guris-scada-demo .sc-app .sc-diagnostics-page { display:grid; height:100%; min-height:0; gap:10px; }
+#guris-scada-demo .sc-app .sc-alarms-page { grid-template-rows:auto auto minmax(0,1fr) 52px; }
+#guris-scada-demo .sc-app .sc-io-page { grid-template-rows:42px auto 38px 20px minmax(0,1fr) 40px; gap:8px; }
+#guris-scada-demo .sc-app .sc-diagnostics-head { display:flex; align-items:center; justify-content:space-between; gap:12px; min-width:0; }
+#guris-scada-demo .sc-app .sc-diagnostics-head h3 { font-size:18px; font-weight:500; margin:0; }
+#guris-scada-demo .sc-app .sc-diagnostics-head .sc-action { min-height:40px; display:flex; align-items:center; gap:8px; padding:8px 12px; }
+#guris-scada-demo .sc-app .sc-diagnostics-status { margin:0; color:var(--sc-muted); font-size:12px; min-height:16px; }
+#guris-scada-demo .sc-app .sc-alarms-page .sc-alarm-list { min-height:0; height:100%; max-height:none; margin:0; align-content:start; overflow:auto; padding:2px 8px 2px 0; overscroll-behavior:contain; }
+#guris-scada-demo .sc-app .sc-alarm-record { background:var(--sc-panel); }
+#guris-scada-demo .sc-app .sc-alarm-record > span { color:var(--sc-red); font-size:12px; }
+#guris-scada-demo .sc-app .sc-alarm-record > small { color:var(--sc-muted); }
+#guris-scada-demo .sc-app .sc-diagnostics-actions { display:flex; gap:8px; }
+#guris-scada-demo .sc-app .sc-diagnostics-actions > .sc-action { min-width:160px; }
+#guris-scada-demo .sc-app .sc-alarm-scroll-tools { display:flex; gap:8px; margin-left:auto; }
+#guris-scada-demo .sc-app .sc-alarm-scroll-tools .sc-action { width:52px; }
+#guris-scada-demo .sc-app .sc-io-tabs { display:grid; grid-template-columns:repeat(9,minmax(0,1fr)); gap:5px; min-height:40px; }
+#guris-scada-demo .sc-app .sc-io-tab { min-width:0; padding:6px 3px; font-size:12px; border:1px solid var(--sc-line); border-radius:6px; background:var(--sc-panel); color:var(--sc-text); }
+#guris-scada-demo .sc-app .sc-io-tab[aria-pressed="true"] { color:var(--sc-cyan); border-color:var(--sc-cyan); background:var(--sc-panel-top); }
+#guris-scada-demo .sc-app .sc-io-filters { display:flex; gap:8px; min-width:0; align-items:stretch; }
+#guris-scada-demo .sc-app .sc-io-filters input, #guris-scada-demo .sc-app .sc-io-filters select { min-width:0; border:1px solid var(--sc-line); border-radius:6px; padding:6px 10px; background:var(--sc-panel); color:var(--sc-text); font:inherit; }
+#guris-scada-demo .sc-app .sc-io-filters input { flex:1; user-select:text; }
+#guris-scada-demo .sc-app .sc-io-filters input::placeholder { color:var(--sc-muted); }
+#guris-scada-demo .sc-app .sc-io-readonly { color:var(--sc-muted); align-self:center; font-size:12px; }
+#guris-scada-demo .sc-app .sc-io-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); grid-auto-rows:minmax(64px,auto); gap:7px; overflow:auto; min-height:0; padding-right:7px; align-content:start; overscroll-behavior:contain; }
+#guris-scada-demo .sc-app .sc-io-card { display:grid; grid-template-columns:12px minmax(0,1fr) auto; align-items:center; gap:10px; min-width:0; border:1px solid var(--sc-line); background:var(--sc-panel); padding:9px 10px; border-radius:7px; }
+#guris-scada-demo .sc-app .sc-io-card strong { display:block; font-size:13px; font-weight:500; overflow-wrap:anywhere; }
+#guris-scada-demo .sc-app .sc-io-card small { display:block; color:var(--sc-muted); font-size:10px; overflow-wrap:anywhere; margin-top:4px; }
+#guris-scada-demo .sc-app .sc-io-card output { font-variant-numeric:tabular-nums; min-width:20px; text-align:right; font-size:19px; color:var(--sc-muted); }
+#guris-scada-demo .sc-app .sc-io-dot { width:10px; height:10px; border-radius:50%; background:transparent; border:1px solid var(--sc-muted); }
+#guris-scada-demo .sc-app .sc-io-card[data-level="high"] .sc-io-dot { background:var(--sc-green); box-shadow:0 0 6px color-mix(in srgb, var(--sc-cyan) 20%, transparent); }
+#guris-scada-demo .sc-app .sc-io-card[data-level="low"] .sc-io-dot { background:var(--sc-red); }
+#guris-scada-demo .sc-app .sc-io-card[data-level="value"] .sc-io-dot { background:var(--sc-cyan); }
+#guris-scada-demo .sc-app .sc-io-card:not([data-level="unknown"]) output { color:var(--sc-text); }
+#guris-scada-demo .sc-app .sc-io-pagination { display:flex; align-items:center; justify-content:space-between; gap:12px; font-size:12px; color:var(--sc-muted); }
+#guris-scada-demo .sc-app .sc-io-pagination button { min-width:110px; }
+
+
+
+
+#guris-scada-demo .sc-app .sc-eject-setting-row .sc-node-switch { width:64px; min-width:0; padding:5px; }

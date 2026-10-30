@@ -53,7 +53,7 @@ window.SCADA_MECHANISMS = (() => {
           width,
           height,
           kind: canvas.dataset.mechanism || 'takeoff',
-          visible: !canvas.closest('[hidden],[data-equipment="unknown"]')
+          visible: !canvas.closest('[hidden]')
         };
       }).filter(x => x.context);
       let rollerPlaying = false,
@@ -1106,7 +1106,7 @@ window.SCADA_MECHANISMS = (() => {
         model.scenario = running ? 'running' : 'stopped';
         let changed = false;
         for (const item of rollerCanvases) {
-          const visible = !item.canvas.closest('[hidden],[data-equipment="unknown"]');
+          const visible = !item.canvas.closest('[hidden]');
           if (visible !== item.visible) {
             changed = true;
             item.visible = visible;

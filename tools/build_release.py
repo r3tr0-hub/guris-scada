@@ -158,7 +158,7 @@ def main():
         }[mode]
         readme = (
             '# Guris SCADA ' + version + '\n\n'
-            'Сбор диагностики: [docs/UPDATE_0_1_26_RU.md](docs/UPDATE_0_1_26_RU.md).\n'
+            'Текущий выпуск: [docs/UPDATE_0_1_27_RU.md](docs/UPDATE_0_1_27_RU.md).\n'
             'Инструкция: [docs/OPERATIONS_RU.md](docs/OPERATIONS_RU.md).\n\n'
             'Распакуйте архив целиком на локальный диск. Запуск: Start_Compatibility.cmd.\n'
             + connection_note +

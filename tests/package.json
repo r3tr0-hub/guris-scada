@@ -2,7 +2,7 @@
   "name": "guris-scada-tests",
   "private": true,
   "scripts": {
-    "test": "node test_ui.cjs"
+    "test": "node test_ui.cjs && node test_theme_contract.cjs"
   },
   "devDependencies": {
     "jsdom": "26.1.0",

@@ -1,4 +1,4 @@
-/* Guris SCADA 0.1.26. The PLC is the only source of displayed setting values. */
+/* Guris SCADA 0.1.27. The PLC is the only source of displayed setting values. */
 (async () => {
   'use strict';
 
@@ -26,7 +26,9 @@
     const pkg=themePackages.get(id)||themePackages.get('dark');
     document.documentElement.dataset.theme=pkg?.id||'dark';
     document.documentElement.dataset.palette=pkg?.scheme||'dark';
+    document.documentElement.style.setProperty('--sc-bg',pkg?.['--sc-bg']||'#091b29');
     const app=$('.sc-app');
+    app.style.setProperty('--sc-scheme',pkg?.scheme||'dark');
     for(const key of themeProperties)app.style.removeProperty(key);themeProperties.clear();
     if(pkg)for(const [key,value] of Object.entries(pkg))if(/^--sc-[a-z0-9-]+$/.test(key)&&typeof value==='string'){app.style.setProperty(key,value);themeProperties.add(key);}
     mechanisms?.refreshPalette();refreshPhotoColors();
@@ -133,13 +135,13 @@
     tension: t("Натяжение"),
     air: t("Воздушные трубки"),
     feedangles: t("Углы подачи"),
-    knife: t("Нож и контрнож"),
+    knife: t("Нож"),
     unwinder: t("Размотчик"),
     ballerina: t("Баллерины"),
     options: t("Опции")
   };
   let mechanisms = null;
-  const menuSlots = {edge:[1,1],temperature:[1,2],glue:[1,3],longitudinal:[2,2],eject:[3,1],liner:[3,2],takeoff:[3,4],tension:[4,2],scada:[4,5],options:[5,5]};
+  const menuSlots = {edge:[1,1],temperature:[1,2],glue:[1,3],longitudinal:[2,2],eject:[3,1],liner:[3,2],takeoff:[3,4],knife:[2,3],tension:[4,2],scada:[4,5],options:[5,5]};
   function layoutMenu() {
     const grid=$('.sc-node-grid'),footer=$('.sc-node-menu-footer');
     if(footer){grid.append(...footer.children);footer.remove();}
@@ -162,7 +164,7 @@
   function renderMenuEquipment() {
     for(const key of ['edge','temperature','glue','longitudinal','eject','liner','takeoff','tension']){
       const button=$(`.sc-node-grid [data-open-node="${key}"]`),present=menuPresence(key);
-      button.hidden=present===0;button.disabled=present===null;button.dataset.equipment=present===null?'unknown':present?'present':'absent';
+      button.hidden=present===0;button.disabled=false;button.dataset.equipment=present===null?'unknown':present?'present':'absent';
       button.setAttribute('aria-label',present===null?t('{0} · комплектация недоступна',[nodeTitles[key]]):nodeTitles[key]);
       if(present===0&&page===key)setPage('menu');
     }
@@ -311,7 +313,7 @@
   }
   function setPage(next) {
     stopHeld();
-    if(Object.hasOwn(menuSlots,next)&&!['scada','options'].includes(next)&&menuPresence(next)!==1)return;
+    if(Object.hasOwn(menuSlots,next)&&!['scada','options'].includes(next)&&menuPresence(next)===0)return;
     if (!['home', 'belt', 'menu', 'scada', 'clock', 'about', 'alarms', 'io', 'manuals', 'production', 'jobs'].includes(next) && !nodeTitles[next] || ['scada','options','functionality','performance','engineering'].includes(next) && !isEngineer()) return;
     page = next;
     refreshOperatorScope();
@@ -377,16 +379,19 @@
       const e = $(sel),
         v = display(key);
       e.setAttribute('aria-checked', String(v === 1));
+      e.dataset.unknown=String(v===null);
       e.disabled = !editable(key);
       e.dataset.pending = String(pending?.key === key || state.busy && state.operation?.key === key);
       e.querySelector(text).textContent = v === null ? '—' : v === 1 ? t("ВКЛ") : t("ВЫКЛ");
       const panel = key === 'weldingEnabled' ? $('[data-welding-card]') : $(`[data-timing-panel="${key}"]`);
       panel.dataset.enabled = String(v === 1);
+      panel.dataset.unknown=String(v===null);
     });
     const offset = display('offsetDisplay'),
       step = display('offsetStep'),
       stored = display('offset');
     $('[data-offset-value]').textContent = offset === null ? '—' : `${offset > 0 ? '+' : ''}${format(offset, 3)}`;
+    $('[data-offset-marker]').hidden=offset===null;
     $('[data-offset-marker]').style.left = `${offset === null ? 50 : Math.max(0, Math.min(100, (offset + .8) / 1.6 * 100))}%`;
     $$('[data-offset]').forEach(e => {
       const next = stored === null ? NaN : Number((stored + Number(e.dataset.offset) * step).toFixed(6));
@@ -779,7 +784,7 @@
       }
     });
     $$('[data-actuator-row]').forEach(e=>{const value=display(e.dataset.actuatorRow);e.dataset.enabled=String(value===1);e.dataset.unknown=String(value===null);});
-    $$('[data-photo-activation-panel]').forEach(e=>e.dataset.enabled=String(display('photoEnabled')===1));
+    $$('[data-photo-activation-panel]').forEach(e=>{const value=display('photoEnabled');e.dataset.enabled=String(value===1);e.dataset.unknown=String(value===null);});
     $$('[data-nudge]').forEach(e => {
       const key=e.dataset.nudge, value=display(key), [min,max]=bounds(key), next=value+Number(e.dataset.step);
       e.disabled=!editable(key)||value===null||next<min||next>max;
@@ -802,10 +807,11 @@
     }
     const seamOn = display('seamEnabled') === 1;
     $('[data-seam-module]').dataset.enabled = String(seamOn);
+    $('[data-seam-module]').dataset.unknown=String(display('seamEnabled')===null);
     $('[data-seam-heat]').hidden = !seamOn;
     const tension=display('tensionSet');
     $$('[data-tension-shape]').forEach(e => e.textContent=tension===null?t("Схема узла"):tension===0?t("Плёнка прямая"):tension>0?t("Провисание плёнки"):t("Натяжение плёнки"));
-    $$('[data-tension-marker]').forEach(e=>e.style.left=`${tension===null?50:Math.max(0,Math.min(100,(tension+25)*2))}%`);
+    $$('[data-tension-marker]').forEach(e=>{e.hidden=tension===null;e.style.left=`${tension===null?50:Math.max(0,Math.min(100,(tension+25)*2))}%`;});
     renderCommands();renderAlarms();renderUnwinder();
   }
   function nudge(key,step) {
@@ -885,7 +891,7 @@
     icon.dataset.playing = String(valid && fresh('machineState') && field('machineState').value === 4 && speed > 0 && motionEnabled());
     icon.dataset.limiter = valid ? Math.abs(knife - web) < .005 ? 'both' : knife > web ? 'knife' : 'film' : 'unknown';
     icon.style.setProperty('--sc-speed-period', `${(2.6 - 2 * Math.min(1, load)).toFixed(3)}s`);
-    icon.style.setProperty('--sc-speed-color', load > 1 ? '#a34d35' : load >= .85 ? '#906e19' : '#23627e');
+    icon.style.setProperty('--sc-speed-color', load > 1 ? 'var(--sc-red)' : load >= .85 ? 'var(--sc-amber)' : 'var(--sc-cyan)');
     $('[data-speed-knife]').style.strokeDasharray = `${Math.max(0, Math.min(100, knife * 100))} 100`;
     $('[data-speed-film]').style.strokeDasharray = `${Math.max(0, Math.min(100, web * 100))} 100`;
     $('[data-speed-needle]').style.transform = `rotate(${-125 + Math.min(1, load) * 250}deg)`;
@@ -1013,8 +1019,8 @@
       e.querySelector('.sc-option-state').textContent = on ? t("ВКЛ") : t("ВЫКЛ");
       e.disabled = !engineer || optionBusy;
     });
-    $('[data-system-summary]').textContent = t("SCADA {0} · локальный режим", [state.version || '0.1.26']);
-    $('[data-about-version]').textContent=state.version||'0.1.26';
+    $('[data-system-summary]').textContent = t("SCADA {0} · локальный режим", [state.version || '0.1.27']);
+    $('[data-about-version]').textContent=state.version||'0.1.27';
     $('[data-exit]').hidden=state.options?.exitButton===false;
     $$('[data-exit]').forEach(b=>b.disabled=exitRequested);
     const font=['system','tahoma','arial','verdana'].includes(state.options?.font)?state.options.font:'system';

@@ -39,7 +39,7 @@ const [url,token,control,out]=process.argv.slice(2);
   }
   let downloads=0;page.on('download',()=>downloads++);
   await page.locator('[data-download-report]').click();await page.waitForFunction(()=>document.querySelector('[data-report-saved-path]').textContent.includes('reports/'));
-  const snapshotPath=await page.locator('[data-report-saved-path]').innerText();assert(fs.existsSync(snapshotPath));assert.equal(JSON.parse(fs.readFileSync(snapshotPath,'utf8')).version,'0.1.26');
+  const snapshotPath=await page.locator('[data-report-saved-path]').innerText();assert(fs.existsSync(snapshotPath));assert.equal(JSON.parse(fs.readFileSync(snapshotPath,'utf8')).version,fs.readFileSync(path.resolve(__dirname,'../VERSION'),'utf8').trim());
   await page.locator('.sc-nav-button[data-page="production"]').click();await page.locator('[data-prod-export]').click();await page.waitForFunction(()=>[...document.querySelectorAll('[data-prod-saved-file]')].some(e=>!e.hidden&&e.textContent.includes('reports/')));
   const productionPath=(await page.locator('[data-prod-saved-file]:visible').innerText()).replace(/^.*?: /,'');assert(fs.existsSync(productionPath));assert.equal(JSON.parse(fs.readFileSync(productionPath,'utf8')).schemaVersion,1);assert.equal(downloads,0);
   // Definitive rejected input is reported inline by the editor; no positive popup.
