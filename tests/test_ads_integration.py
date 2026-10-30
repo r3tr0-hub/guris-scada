@@ -8,7 +8,7 @@ rows=all_rows[:256]
 def pack_value(typ,value):
     if typ=='HEX12':return (format(int(value),'012X').encode()+b'\0')
     return struct.pack('<'+FORMATS[typ],value)
-INITIAL={'edgeSensitivity':.5,'width':249,'batch':100,'welding':125,'weldingEnabled':1,'speedSet':190,'productionQty':1000000,'current':21,'groups':3,'total':321,'machineState':5,'beltTimed':1,'beltTime1':350,'beltTime2':1200,'beltTime3':900,'conveyorContinuous':0,'conveyorTime1':50,'conveyorTime2':75,'beltStep':3,'waitingQty':5,'offset':.575,'beltIdleSpeed':20,'offsetDisplay':-.575,'offsetStep':.025,'speedLimit':265,'waitingLimit':30,'automatic':0}
+INITIAL={'edgeSensitivity':.5,'width':249,'batch':100,'welding':125,'weldingEnabled':1,'speedSet':190,'productionQty':1000000,'current':21,'groups':3,'total':321,'machineState':5,'beltTimed':1,'beltTime1':350,'beltTime2':1200,'beltTime3':900,'conveyorContinuous':0,'conveyorTime1':50,'conveyorTime2':75,'beltStep':3,'waitingQty':5,'offset':.575,'beltIdleSpeed':10,'offsetDisplay':-.575,'offsetStep':.025,'speedLimit':265,'waitingLimit':30,'automatic':0}
 
 for _i,(_sp,_pv) in enumerate([(440,439.5),(100,25.4),(1,26.3),(1,24.3),(125,28.5)],1):
     INITIAL['heat%dSet'%_i]=_sp;INITIAL['heat%dActual'%_i]=_pv
@@ -242,11 +242,12 @@ class Backend(unittest.TestCase):
         self.assertFalse(self.mock.writes);self.assertTrue(self.state()['cleaning']['available'])
         self.assertEqual(self.request('POST','/api/cleaning-add',{})[0],400)
         self.mock.set('machineState',13);self.await_state(lambda s:s['fields']['machineState']['value']==13)
+        self.mock.set('beltIdleSpeed',9);self.await_state(lambda s:s['fields']['beltIdleSpeed']['value']==9)
         status,_,body=self.write('beltIdleSpeed',10);self.assertEqual(status,202)
         self.assertEqual(self.terminal(body)['status'],'confirmed');self.assertEqual(self.mock.writes,[('beltIdleSpeed',struct.pack('<f',10))])
     def test_all_plant_fields_resolve_and_report_their_metadata(self):
         state=self.state()
-        self.assertEqual(state['version'],'0.1.25')
+        self.assertEqual(state['version'],(ROOT/'VERSION').read_text().strip())
         self.assertEqual(len(state['fields']),len(rows))
         self.assertTrue(all(field['quality'] for field in state['fields'].values()))
         for key,field in state['fields'].items():
@@ -355,6 +356,8 @@ class Backend(unittest.TestCase):
         assignments=[('width',250),('welding',126),('productionQty',1000001),('beltTime2',1250),('beltTime3',950),('conveyorContinuous',1),('conveyorTime1',60),('conveyorTime2',80),('beltStep',4),('waitingQty',6),('beltIdleSpeed',10),('beltTimed',0)]
         for key,value in assignments:
             self.mock.set('machineState',13 if key=='beltIdleSpeed' else 5);self.await_state(lambda s:s['fields']['machineState']['value']==(13 if key=='beltIdleSpeed' else 5))
+            if key=='beltIdleSpeed':
+                self.mock.set(key,9);self.await_state(lambda s:s['fields'][key]['value']==9)
             status,_,body=self.write(key,value);self.assertEqual(status,202,(key,status));self.assertEqual(self.terminal(body)['status'],'confirmed',key)
         self.assertEqual(len(self.mock.writes),len(assignments))
         status,_,_=self.write('beltTime1',450);self.assertEqual(status,409)

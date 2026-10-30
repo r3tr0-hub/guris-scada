@@ -33,20 +33,20 @@ class Diagnostics(unittest.TestCase):
   status,data=self.request('GET','/api/diagnostics/status');self.assertEqual(status,200);return data
  def package(self,hours=24):
   self.assertEqual(self.request('POST','/api/diagnostics/export',{'hours':hours})[0],202)
-  job=self.wait(lambda:(j if (j:=self.status()['export'])['state'] in [2,3] else None),20);self.assertEqual(job['state'],2,job)
+  job=self.wait(lambda:(j if (j:=self.status()['export'])['state'] in [2,3] else None),20);self.assertEqual(job['state'],2,job);self.assertTrue(pathlib.Path(job['savedPath']).is_file());self.assertEqual(pathlib.Path(job['savedPath']).parent,self.base/'reports')
   data=bytearray()
   while len(data)<job['size']:
    status,chunk=self.request('GET',f"/api/diagnostics/chunk?id={job['id']}&offset={len(data)}");self.assertEqual(status,200);self.assertTrue(chunk);data.extend(chunk)
-  self.assertEqual(len(data),job['size']);z=zipfile.ZipFile(io.BytesIO(data));self.assertIsNone(z.testzip());return z
+  self.assertEqual(len(data),job['size']);z=zipfile.ZipFile(io.BytesIO(data));self.assertIsNone(z.testzip());coverage=json.loads(z.read('coverage.json'));self.assertIn('continuousSegments',coverage);self.assertGreater(coverage['samplesInRequestedPeriod'],0);self.assertEqual(pathlib.Path(job['savedPath']).read_bytes(),bytes(data));return z
  def rows(self):
   with sqlite3.connect(self.base/'local/diagnostics.sqlite') as db:return db.execute('SELECT count(*) FROM samples').fetchone()[0]
  def test_snapshot_has_time_session_coverage_and_age_without_extra_writes(self):
-  before=list(self.mock.writes);status,d=self.request('GET','/api/report');self.assertEqual(status,200);self.assertEqual(d['reportSchemaVersion'],2);self.assertEqual(d['version'],'0.1.25');self.assertEqual(d['coverage']['knownFields'],714);self.assertFalse(d['coverage']['extraReadsForReport']);self.assertGreater(d['generatedAtUtcMs'],0);self.assertEqual(len(d['sessionId']),32);self.assertIn('ageMs',d['fields']['total']);self.assertEqual(self.mock.writes,before)
+  before=list(self.mock.writes);status,d=self.request('GET','/api/report');self.assertEqual(status,200);self.assertEqual(d['reportSchemaVersion'],2);self.assertEqual(d['version'],(ROOT/'VERSION').read_text().strip());self.assertGreaterEqual(d['coverage']['knownFields'],714);self.assertFalse(d['coverage']['extraReadsForReport']);self.assertGreater(d['generatedAtUtcMs'],0);self.assertEqual(len(d['sessionId']),32);self.assertIn('ageMs',d['fields']['total']);self.assertEqual(self.mock.writes,before)
  def test_export_requires_engineer_and_valid_period(self):
   self.assertEqual(self.request('GET','/api/diagnostics/status')[0],403);self.assertEqual(self.request('POST','/api/diagnostics/export',{'hours':24})[0],403);self.login()
   for body in [{'hours':0},{'hours':48},{'hours':'24'},{'hours':12,'other':1},{}]:self.assertEqual(self.request('POST','/api/diagnostics/export',body)[0],422)
  def test_zip_contains_consistent_trace_catalog_and_no_credentials(self):
-  self.login();self.wait(lambda:self.rows()>5);before=list(self.mock.writes);z=self.package();m=json.loads(z.read('manifest.json'));self.assertEqual(m['requestedHours'],24);self.assertFalse(m['reasonPolicyChanged']);self.assertFalse(m['recordingStartedBeforeRequestedPeriod']);self.assertFalse(m['extraAdsReads']);self.assertIn('field_catalog.csv',z.namelist());self.assertIn('production_intervals.csv',z.namelist());self.assertIn('audit_current_session.csv',z.namelist());self.assertIn('events.jsonl',z.namelist());trace=list(csv.DictReader(io.StringIO(z.read('trace.csv').decode()),delimiter=';'));self.assertEqual(len(trace),m['counts']['samples']);self.assertEqual(len({r['seq'] for r in trace}),len(trace));self.assertTrue(all(int(r['seq'])<=m['snapshotBoundaries']['diagnosticSampleSequence'] for r in trace));self.assertEqual(self.mock.writes,before)
+  self.login();self.wait(lambda:self.rows()>5);before=list(self.mock.writes);z=self.package();m=json.loads(z.read('manifest.json'));self.assertEqual(m['requestedHours'],24);self.assertTrue(m['reasonPolicyChanged']);self.assertEqual(m['reasonPolicy'],2);self.assertFalse(m['recordingStartedBeforeRequestedPeriod']);self.assertFalse(m['extraAdsReads']);self.assertIn('field_catalog.csv',z.namelist());self.assertIn('production_intervals.csv',z.namelist());self.assertIn('audit_current_session.csv',z.namelist());self.assertIn('events.jsonl',z.namelist());trace=list(csv.DictReader(io.StringIO(z.read('trace.csv').decode()),delimiter=';'));self.assertEqual(len(trace),m['counts']['samples']);self.assertEqual(len({r['seq'] for r in trace}),len(trace));self.assertTrue(all(int(r['seq'])<=m['snapshotBoundaries']['diagnosticSampleSequence'] for r in trace));self.assertEqual(self.mock.writes,before)
   for name in z.namelist():
    payload=z.read(name);self.assertNotIn(self.token.encode(),payload);self.assertNotIn(b'827491',payload);self.assertNotIn(b'accounts.json',name.encode())
  def test_external_control_and_guard_are_observed_without_inventing_actor(self):
@@ -69,11 +69,11 @@ class Diagnostics(unittest.TestCase):
   self.wait(lambda:self.status()['recorder']['dropped']>0);self.assertTrue(self.request('GET','/api/state')[1]['connected']);self.mock.set('total',444);self.wait(lambda:self.request('GET','/api/state')[1]['fields']['total']['value']==444)
   with sqlite3.connect(self.base/'local/diagnostics.sqlite') as db:db.execute('DROP TRIGGER synthetic_failure')
   self.wait(lambda:not self.status()['recorder']['storageError']);self.assertGreater(self.status()['recorder']['dropped'],0)
- def test_short_restart_policy_is_recorded_as_policy_one(self):
+ def test_short_restart_does_not_close_material_policy_v2(self):
   self.login();self.mock.set('machineState',4);self.mock.set('automatic',1);time.sleep(.6)
   with self.mock.lock:struct.pack_into('<hh',self.mock.alarms,27*49,10,27);self.mock.alarms[27*49+48]=1
   self.mock.set('machineState',2);time.sleep(2.8);self.mock.set('machineState',4);time.sleep(.6)
-  z=self.package();events=[json.loads(line) for line in z.read('events.jsonl').splitlines()];closed=[e for e in events if e['kind']=='reason.closed'];self.assertTrue(closed);self.assertEqual(closed[-1]['payload']['trigger'],'first_work_state');self.assertTrue(any(e['kind']=='reason.decision' for e in events))
+  z=self.package();events=[json.loads(line) for line in z.read('events.jsonl').splitlines()];closed=[e for e in events if e['kind']=='reason.closed'];self.assertFalse(closed);self.assertTrue(any(e['kind']=='reason.v2.phase' for e in events))
 
  def test_context_has_cached_parameters_and_all_three_counters(self):
   self.login();self.mock.set('current',17);self.mock.set('groups',23);self.wait(lambda:self.rows()>8)
@@ -99,3 +99,50 @@ class Diagnostics(unittest.TestCase):
   with sqlite3.connect(self.base/'local/diagnostics.sqlite') as db:db.execute('PRAGMA user_version=99')
   self.cookie='';self.start()
   report=self.request('GET','/api/report')[1];self.assertTrue(report['recorder']['storageError']);self.assertFalse(report['recorder']['running']);self.assertTrue(report['connected']);self.mock.set('total',112233);self.wait(lambda:self.request('GET','/api/state')[1]['fields']['total']['value']==112233)
+
+ def test_saved_exports_use_designated_folder_unique_names_and_no_overwrite(self):
+  self.assertEqual(self.request('POST','/api/report/save',{})[0],403)
+  self.login()
+  paths=[]
+  for _ in range(2):
+   code,result=self.request('POST','/api/report/save',{});self.assertEqual(code,200)
+   path=pathlib.Path(result['path']);self.assertEqual(path.parent,self.base/'reports');self.assertTrue(path.is_file());self.assertNotIn(self.token,path.read_text());paths.append(path)
+  self.assertNotEqual(paths[0],paths[1]);before=paths[0].read_bytes()
+  code,result=self.request('POST','/api/production/save',{'schemaVersion':1,'events':[],'kind':'history'})
+  self.assertEqual(code,200);self.assertEqual(json.loads(pathlib.Path(result['path']).read_text())['events'],[])
+  self.assertEqual(paths[0].read_bytes(),before)
+  self.assertEqual(self.request('POST','/api/production/save',{'schemaVersion':99})[0],422)
+  self.assertEqual(self.request('GET','/reports/../../connection.json')[0],404)
+  self.package(12);first=self.status()['export'];saved=pathlib.Path(first['savedPath']);raw=saved.read_bytes()
+  self.package(24);second=self.status()['export'];self.assertNotEqual(first['savedPath'],second['savedPath']);self.assertEqual(saved.read_bytes(),raw)
+
+ def test_existing_recorder_schema_one_migrates_without_losing_samples(self):
+  self.wait(lambda:self.rows()>5);self.stop()
+  with sqlite3.connect(self.base/'local/diagnostics.sqlite') as db:
+   original=db.execute('SELECT count(*) FROM samples').fetchone()[0]
+   for column in ['idle_speed','idle_speed_age','idle_speed_good']:db.execute('ALTER TABLE samples DROP COLUMN '+column)
+   db.execute('PRAGMA user_version=1')
+  self.cookie='';self.start();self.wait(lambda:self.rows()>original)
+  with sqlite3.connect(self.base/'local/diagnostics.sqlite') as db:
+   self.assertEqual(db.execute('PRAGMA user_version').fetchone()[0],2)
+   self.assertTrue({'idle_speed','idle_speed_age','idle_speed_good'}.issubset({r[1] for r in db.execute('PRAGMA table_info(samples)')}))
+
+ def test_large_production_export_streams_without_browser_download_or_two_mib_limit(self):
+  self.assertEqual(self.request('POST','/api/production/save-begin',{})[0],403);self.login()
+  empty=json.dumps({'schemaVersion':1,'payload':''}).encode();target=3*1048576+1
+  data=json.dumps({'schemaVersion':1,'payload':'x'*(target-len(empty))}).encode();self.assertEqual(len(data),target)
+  status,upload=self.request('POST','/api/production/save-begin',{});self.assertEqual(status,200)
+  headers={'X-SCADA-Token':self.token,'Cookie':self.cookie,'Content-Type':'application/octet-stream'}
+  result=None
+  for offset in range(0,len(data),1048576):
+   part=data[offset:offset+1048576];final=int(offset+len(part)==len(data));conn=http.client.HTTPConnection('127.0.0.1',self.port,timeout=10)
+   conn.request('POST',f"/api/production/save-chunk?id={upload['id']}&offset={offset}&final={final}",part,headers);response=conn.getresponse();body=response.read();self.assertEqual(response.status,200,body);result=json.loads(body);conn.close()
+  path=pathlib.Path(result['path']);self.assertEqual(path.parent,self.base/'reports');self.assertEqual(path.read_bytes(),data)
+  self.assertTrue(self.request('GET','/api/state')[1]['connected']);self.assertEqual(self.mock.writes,[])
+
+ def test_material_episode_export_intersects_requested_context_only(self):
+  self.login();now=int(time.time()*1000)
+  with sqlite3.connect(self.base/'local/production.sqlite') as db:
+   for identity,start,end in [(90001,now-30*86400000,now-29*86400000),(90002,now+86400000,now+2*86400000),(90003,now-3600000,now)]:
+    db.execute("INSERT INTO material_episodes(id,start,end,phase,confidence,reason,evidence,plc,first_interval) VALUES(?,?,?,'closed','candidate','roll_change','[27]','synthetic-loopback',0)",(identity,start,end))
+  package=self.package(12);rows=list(csv.DictReader(io.StringIO(package.read('material_episodes.csv').decode()),delimiter=';'));identities={int(row['id']) for row in rows};self.assertIn(90003,identities);self.assertNotIn(90001,identities);self.assertNotIn(90002,identities)

@@ -11,7 +11,7 @@ typedef struct {
  /* Diagnostic-only observations; never consumed by the production policy. */
  unsigned diag_flags,diag_symbol,diag_poll_ms,diag_cycles,diag_ui_errors;
  unsigned diag_ages[9];int diag_current,diag_groups;int diag_control,diag_sensor,diag_guard,diag_clean_active,diag_clean_pending;
- uint64_t diag_deadline,diag_clean_deadline;double diag_speed,diag_length;
+ uint64_t diag_deadline,diag_clean_deadline;double diag_speed,diag_length,diag_idle;unsigned diag_idle_age;int diag_idle_good;
 } ProductionSample;
 #include "diagnostic_queue.h"
 static struct {Mutex mutex;int initialized,overflow;unsigned head,count;ProductionSample items[PROD_QUEUE_CAP];} production_queue;
@@ -37,6 +37,8 @@ static void production_capture(void){
  s.diag_flags|=(app.connected?128u:0u)|(s.alarm_good?256u:0u)|(active_alarms>PROD_ALARMS?512u:0u);
  s.diag_control=(int)dc->value;s.diag_sensor=(int)ds->value;s.diag_guard=app.unwinder.mode;s.diag_deadline=app.unwinder.deadline;
  s.diag_clean_active=app.cleaning.active;s.diag_clean_pending=app.cleaning.pending;s.diag_clean_deadline=app.cleaning.deadline;
+ Reading *idle=&app.fields[F_IDLE];uint64_t idle_age=s.mono>=idle->observed?s.mono-idle->observed:UINT32_MAX;
+ s.diag_idle=idle->value;s.diag_idle_age=(unsigned)(idle_age>UINT32_MAX?UINT32_MAX:idle_age);s.diag_idle_good=app.connected&&app.ads_status==5&&idle->quality&&idle_age<=1500&&isfinite(idle->value);
  s.diag_current=(int)cur->value;s.diag_groups=(int)groups->value;s.diag_speed=sp->value;s.diag_length=film->value;s.diag_symbol=app.symbol_version;s.diag_poll_ms=(unsigned)app.poll_duration;s.diag_cycles=app.poll_cycles;s.diag_ui_errors=app.ui_error_count;
  unlock(&app.mutex);
  diagnostic_capture(&s);

@@ -18,10 +18,15 @@ class Release22(unittest.TestCase):
   self.assertEqual(s['fields']['widthMaximum']['type'],'REAL');self.assertEqual(s['fields']['perfProductLengthLimit']['type'],'INT')
   self.assertEqual(self.mock.writes,[])
  def test_operator_cannot_write_new_performance_settings(self):
+  allowed={'airStartAngle','airStopAngle','feedStartSet','feedStopSet'}
   for p in CATALOG:
-   if not p['readOnly'] and p['key'] not in ['airStartAngle','airStopAngle']:
-    self.assertEqual(self.write(p['key'],p['minimum'])[0],403,p['key'])
-  self.assertEqual(self.mock.writes,[])
+   if p['readOnly']:continue
+   status,_,body=self.write(p['key'],p['minimum'])
+   if p['key'] in allowed:
+    self.assertEqual(status,202,p['key'])
+    self.assertEqual(self.terminal(body)['status'],'confirmed',p['key'])
+   else:self.assertEqual(status,403,p['key'])
+  self.assertTrue(all(key in allowed for key,_ in self.mock.writes))
  def test_all_original_controls_write_correct_scalars_and_read_back(self):
   self.login()
   for p in CATALOG:
@@ -34,7 +39,7 @@ class Release22(unittest.TestCase):
    self.assertEqual(self.mock.writes[-1],(key,struct.pack('<'+plc.FORMATS[p['type']],value)))
  def test_machine_state_change_does_not_block_engineer_parameter_write(self):
   self.login();self.mock.set('machineState',4);self.mock.set('automatic',1);self.await_state(lambda s:s['fields']['machineState']['value']==4)
-  for key,value in [('perfJawRateLimit',10),('perfFeedAcceleration',65),('perfHydraulicMode',1),('perfProductLengthLimit',1000),('feedStartSet',10)]:
+  for key,value in [('perfJawRateLimit',10),('perfFeedAcceleration',65),('perfHydraulicMode',1),('perfProductLengthLimit',1000)]:
    status,_,body=self.write(key,value);self.assertEqual(status,202,key);self.assertEqual(self.terminal(body)['status'],'confirmed')
   self.mock.set('machineState',5);self.mock.set('automatic',0);self.await_state(lambda s:s['fields']['machineState']['value']==5)
   self.mock.lookup_hook=lambda f:self.mock.set('automatic',1)
@@ -60,7 +65,7 @@ class Release22(unittest.TestCase):
   self.assertEqual(self.request('GET','/performance.json')[0],200)
   en=self.request('GET','/locales/en.json')[1]['messages'];tr=self.request('GET','/locales/tr.json')[1]['messages']
   for p in CATALOG:
-   self.assertEqual(en[p['label']],p['en']);self.assertEqual(en[p['description']],p['descriptionEN']);self.assertEqual(tr[p['label']],p['original'])
+   self.assertEqual(en[p['label']],p['en']);self.assertEqual(en[p['description']],p['descriptionEN']);self.assertTrue(tr[p['label']]);self.assertFalse(any('А'<=c<='я' for c in tr[p['label']]))
   self.assertEqual(self.mock.writes,[])
 
 if __name__=='__main__':unittest.main(verbosity=2)

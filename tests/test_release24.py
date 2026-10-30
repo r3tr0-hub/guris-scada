@@ -24,8 +24,8 @@ class Release24(unittest.TestCase):
   s=self.activate(CATALOG[0]);self.assertGreater(len(s['fields']),256)
   self.select('');s=self.state();self.assertEqual(len(s['fields']),256);self.assertEqual(self.mock.writes,[])
  def test_all_sections_and_scalars_match_native_metadata_without_aliases(self):
-  self.assertEqual(len(CATALOG),30);self.assertEqual(len(plc.all_rows),714)
-  self.assertEqual(len({q[1].upper() for q in plc.all_rows}),714)
+  self.assertEqual(len(CATALOG),30);self.assertEqual(len(plc.all_rows),727)
+  self.assertEqual(len({q[1].upper() for q in plc.all_rows}),727)
   self.login()
   for section in CATALOG:
    s=self.activate(section)

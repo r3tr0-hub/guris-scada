@@ -171,6 +171,10 @@ class ReleasePackaging(unittest.TestCase):
         root.mkdir(parents=True)
         original = json.dumps(LIVE, indent=4).encode()
         (root / 'connection.json').write_bytes(original)
+        (root / 'manuals/01-photo-guide').mkdir(parents=True)
+        (root / 'manuals/01-photo-guide/index.md').write_text('working manual')
+        (root / 'local').mkdir()
+        (root / 'local/preserve.txt').write_text('working history')
         with zipfile.ZipFile(archive) as z:
             self.assertNotIn('GurisSCADA_0_1/connection.json', z.namelist())
             self.assertIn('GurisSCADA_0_1/connection.example.json', z.namelist())
@@ -179,6 +183,8 @@ class ReleasePackaging(unittest.TestCase):
             self.assertFalse(metadata['connection_file_included'])
             z.extractall(installed)
         self.assertEqual((root / 'connection.json').read_bytes(), original)
+        self.assertEqual((root / 'manuals/01-photo-guide/index.md').read_text(),'working manual')
+        self.assertEqual((root / 'local/preserve.txt').read_text(),'working history')
 
     def test_configured_package_preserves_selected_working_bytes(self):
         original = (json.dumps(LIVE, indent=3) + '\n').encode()

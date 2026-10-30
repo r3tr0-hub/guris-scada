@@ -21,6 +21,9 @@ window.SCADA_PRODUCTION = (() => {
   const tools=page.querySelector('.sc-prod-tools');page.querySelector('.sc-prod-head').append(tools);oldTabs.remove();
   page.querySelector('[data-prod-history]').hidden=false;
   const $=s=>page.querySelector(s)||jobsPage.querySelector(s), $$=s=>[...page.querySelectorAll(s),...jobsPage.querySelectorAll(s)];
+  for(const host of [page,jobsPage]){const result=node('p','sc-prod-caption');result.dataset.prodSavedFile='';result.setAttribute('role','status');result.hidden=true;host.querySelector('.sc-prod-head').after(result);}
+  const policyCaption=node('p','sc-prod-caption',t('Лента показывает сообщения HMI; выпуск и обслуживание материала учитываются отдельно.'));page.querySelector('[data-prod-history]').prepend(policyCaption);
+  function savedFile(path){const output=(currentPage==='jobs'?jobsPage:page).querySelector('[data-prod-saved-file]');output.textContent=t('Файл сохранён')+': '+path;output.hidden=false;}
   let currentPage='home',tab='history',snapshot=null,selected='',section='product',detail=null,detailSerial=0,jobKey='',bodyKey='',queueKey='',historyKey='',historyOffset=0,historyTotal=0,historySerial=0;
   let timer=0,busy=false,actionBusy=false,disposed=false,historyDirty=false,modalAction=null,restoreFocus=null;
   const engineer=()=>getState()?.auth?.role==='engineer';
@@ -36,6 +39,7 @@ window.SCADA_PRODUCTION = (() => {
   const time=v=>new Date(v).toLocaleTimeString(I18n.locale,{hour:'2-digit',minute:'2-digit',second:'2-digit'});
   const status=s=>t({queued:'В очереди',active:'Выполняется',paused:'Учёт приостановлен',done:'Завершено'}[s]||s);
   const state=k=>t({work:'Работа',stop:'Остановка',manual:'Ручной / референс',unknown:'Нет данных'}[k]||'Нет данных');
+  const reasonLabel=v=>v.reasonPolicy===2?(v.reasonConfidence==='uncertain'||v.reasonConfidence==='competing'?t('Неопределённая материальная причина')+(v.reason?' · '+t(v.reason):''):v.reason?t('Предположение по сигналам ПЛК')+' · '+t(v.reason):t('Материальная причина уточняется')):v.reason?t(v.reason):t(v.state==='stop'?'Причина не указана':'Открыть детализацию');
   const inputs=j=>j?.document?.spec?.inputs||{};
   const format=j=>{const s=inputs(j);return `${number(s.A)}×${number(s.B)}+${number(s.C)} · ${number(s.t)} ${t('мкм')}`;};
   function error(message=''){for(const e of $$('[data-prod-error],[data-prod-job-error]')){e.hidden=!message;e.textContent=message;}}
@@ -220,7 +224,7 @@ window.SCADA_PRODUCTION = (() => {
    const rows=[...historyRows.values()].sort((a,b)=>b.id-a.id),list=$('[data-prod-interval-list]'),rowKey=JSON.stringify(rows);
    if(rowKey!==historyKey||force){
     historyKey=rowKey;const scroll=list.scrollTop;list.replaceChildren();
-    for(const v of rows){const b=button('','prodInterval',v.id,'sc-prod-interval');b.dataset.prodState=v.state;const st=node('span','',state(v.state));if(v.open)st.append(node('small','',t('Текущий период')));const times=node('span','',`${time(v.start)} — ${time(v.end)}`);times.append(node('small','',new Date(v.start).toLocaleDateString(I18n.locale)));const desc=node('span','',v.reason?t(v.reason):t(v.state==='stop'?'Причина не указана':'Открыть детализацию'));if(v.reasonSource==='automatic')desc.append(node('small','',t('Определено автоматически')));const j=snapshot.jobs.find(j=>j.id===v.jobId);if(j)desc.append(node('small','',j.number));b.append(st,times,node('strong','',duration(v.durationMs)),desc);list.append(b);}
+    for(const v of rows){const b=button('','prodInterval',v.id,'sc-prod-interval');b.dataset.prodState=v.state;const st=node('span','',state(v.state));if(v.open)st.append(node('small','',t('Текущий период')));const times=node('span','',`${time(v.start)} — ${time(v.end)}`);times.append(node('small','',new Date(v.start).toLocaleDateString(I18n.locale)));const desc=node('span','',reasonLabel(v));if(v.reasonSource==='automatic')desc.append(node('small','',t('Определено автоматически')));const j=snapshot.jobs.find(j=>j.id===v.jobId);if(j)desc.append(node('small','',j.number));b.append(st,times,node('strong','',duration(v.durationMs)),desc);list.append(b);}
     if(!rows.length)list.append(empty('За этот период записей нет','История появляется по мере работы SCADA.'));list.scrollTop=scroll;
    }
    $('[data-prod-history-caption]').textContent=t('Лента увеличивается кнопками + / − и прокручивается пальцем. Автоматические причины — предположение по авариям ПЛК.');
@@ -250,7 +254,7 @@ window.SCADA_PRODUCTION = (() => {
   function showDialog(title){restoreFocus=document.activeElement;dialogTitle.textContent=t(title);dialogBody.replaceChildren();dialogTools.replaceChildren();overlay.hidden=false;dialogClose.focus();}
   function closeDialog(){++detailSerial;overlay.hidden=true;modalAction=null;if(restoreFocus?.isConnected)restoreFocus.focus();}
   async function intervalDetail(id){
-   if(!engineer())return;const serial=++detailSerial;try{const v=await api('/api/production/interval/'+id);if(serial!==detailSerial||!engineer()||currentPage!=='production')return;showDialog('Период работы линии');kv(dialogBody,'Состояние',state(v.state));kv(dialogBody,'Начало',date(v.start));kv(dialogBody,'Окончание',`${date(v.end)}${v.open?' · '+t('Текущий период'):''}`);kv(dialogBody,'Длительность',duration(v.durationMs));const job=snapshot?.jobs.find(j=>j.id===v.jobId);kv(dialogBody,'Задание',job?.number||t('Без задания'));kv(dialogBody,'Причина',v.reason?t(v.reason):t('Причина не указана'));if(v.reasonSource==='automatic'){kv(dialogBody,'Определено автоматически',t('Предположение по сигналу ПЛК · до следующего запуска'));kv(dialogBody,'Сигналы причины',(v.reasonAlarms||[]).join(', '));}kv(dialogBody,'Комментарий',v.comment||'—');if(v.author)kv(dialogBody,'Указал',`${v.author} · ${date(v.updatedAt)}`);
+   if(!engineer())return;const serial=++detailSerial;try{const v=await api('/api/production/interval/'+id);if(serial!==detailSerial||!engineer()||currentPage!=='production')return;showDialog('Период работы линии');kv(dialogBody,'Состояние',state(v.state));kv(dialogBody,'Начало',date(v.start));kv(dialogBody,'Окончание',`${date(v.end)}${v.open?' · '+t('Текущий период'):''}`);kv(dialogBody,'Длительность',duration(v.durationMs));const job=snapshot?.jobs.find(j=>j.id===v.jobId);kv(dialogBody,'Задание',job?.number||t('Без задания'));kv(dialogBody,'Причина',reasonLabel(v));kv(dialogBody,'Версия политики',v.reasonPolicy||'—');if(v.reasonPolicy===2){kv(dialogBody,'Фаза обслуживания',t(({service:'Обслуживание материала',starting:'Пуск-кандидат',closed:'Пуск подтверждён',interrupted:'Граница неопределённости'})[v.materialPhase]||'Нет данных'));kv(dialogBody,'Уверенность',t(v.reasonConfidence==='inferred'?'Вычисленное предположение':'Причина требует проверки'));if(v.candidateStart)kv(dialogBody,'Предварительное начало пуска',date(v.candidateStart));if(v.confirmedStart)kv(dialogBody,'Начало подтверждённого пуска',date(v.confirmedStart));}kv(dialogBody,'Выпуск по счётчику',number(v.observedProducts??0));kv(dialogBody,'Наблюдений роста счётчика',number(v.counterIncrements??0));kv(dialogBody,'Сбросов счётчика',number(v.counterResets??0));if(v.reasonSource==='automatic'){kv(dialogBody,'Определено автоматически',t('Историческая политика v1 · до первого сообщения о работе'));kv(dialogBody,'Сигналы причины',(v.reasonAlarms||[]).join(', '));}kv(dialogBody,'Комментарий',v.comment||'—');if(v.author)kv(dialogBody,'Указал',`${v.author} · ${date(v.updatedAt)}`);
     const names={1:'ЗАДАНИЕ ВЫПОЛНЕНО',2:'АВАРИЙНАЯ ОСТАНОВКА',3:'НОЖ НЕ В РЕФЕРЕНСЕ',4:'АВТОМАТИЧЕСКАЯ РАБОТА',5:'МАШИНА ГОТОВА',6:'РУЧНОЕ ПЕРЕМЕЩЕНИЕ',7:'РАБОТА СИСТЕМЫ',8:'ЗАДАНИЕ ДОСТИГНУТО',9:'МАШИНА ГОТОВА',10:'КОНТРОЛЬ БЕЗОПАСНОСТИ',11:'РАЗБЛОКИРОВКА БЕЗОПАСНОСТИ',12:'ПОИСК РЕФЕРЕНСА',13:'МАШИНА НЕ ГОТОВА'};
     kv(dialogBody,'Состояние ПЛК',`${v.code} · ${t(names[v.code]||'Нет данных')}`);for(const id of v.alarms){const a=getAlarm(id);kv(dialogBody,'Сопутствующая авария',`${id} · ${a?.[({ru:'RUS',en:'ENG',tr:'TUR'}[I18n.language]||'RUS')]||a?.ENG||t('Неизвестная авария')}`);}dialogBody.append(node('p','sc-prod-caption',t('Причины и комментарии вводятся с отдельного ПК после подключения сервера.')));
    }catch(e){error(e.message);}
@@ -258,6 +262,15 @@ window.SCADA_PRODUCTION = (() => {
   function confirmAction(action){if(!engineer())return;const j=snapshot?.jobs.find(j=>j.id===selected);if(!j||actionBusy)return;showDialog(action==='start'?'Начать учёт задания?':action==='pause'?'Приостановить учёт задания?':'Завершить задание?');modalAction={id:j.id,action,operationId:crypto.randomUUID()};dialogBody.append(node('p','',`${j.number} · ${format(j)}`),node('p','',`${t('План')}: ${number(j.plan)} · ${t('Выпущено')}: ${number(j.produced)}`),node('p','sc-prod-caption',t('Это действие меняет учёт задания. Линия продолжает работать в своём режиме.')));if(action==='finish'&&j.produced<j.plan)dialogBody.append(node('p','sc-prod-uncertain',t('План ещё не выполнен. Задание будет закрыто с текущим выпуском.')));dialogTools.append(button('Отмена','prodClose',''),button('Подтвердить','prodConfirm',''));}
   async function applyAction(){if(!engineer()||!modalAction||actionBusy)return;const operation=modalAction;actionBusy=true;error();for(const b of dialogTools.querySelectorAll('button'))b.disabled=true;drawHeader();try{await api('/api/production/action',operation);closeDialog();await refresh(true);}catch(e){error(e.message);dialogBody.append(node('p','sc-prod-uncertain',e.message));}finally{actionBusy=false;for(const b of dialogTools.querySelectorAll('button'))b.disabled=false;drawHeader();}}
   async function importFile(file){if(!engineer()||!file)return;actionBusy=true;updateRole();error();try{if(file.size>131072)throw Error(t('Файл задания должен быть не больше 128 КБ.'));const payload=JSON.parse(await file.text());await api('/api/production/import',payload);selected=payload.id;detail=null;bodyKey='';tab='jobs';showTab('jobs');await refresh(true);await openJob(selected);}catch(e){error(e instanceof SyntaxError?t('Не удалось прочитать JSON задания.'):e.message);}finally{actionBusy=false;$('[data-prod-file]').value='';updateRole();drawHeader();}}
+  async function saveProductionDocument(document){
+   const bytes=new TextEncoder().encode(JSON.stringify(document));
+   const upload=await api('/api/production/save-begin',{});let result;
+   for(let offset=0;offset<bytes.length;offset+=1048576){
+    const end=Math.min(bytes.length,offset+1048576),response=await fetch(`/api/production/save-chunk?id=${encodeURIComponent(upload.id)}&offset=${offset}&final=${end===bytes.length?1:0}`,{method:'POST',headers:{'X-SCADA-Token':window.SCADA_BOOT.token,'Content-Type':'application/octet-stream'},body:bytes.subarray(offset,end)});
+    result=await response.json();if(!response.ok)throw Error(result.message||t('Не удалось сохранить отчёт'));
+   }
+   return result;
+  }
   async function exportHistory(){
    if(!engineer()||actionBusy)return;actionBusy=true;error();$('[data-prod-export]').disabled=true;
    try{
@@ -269,12 +282,12 @@ window.SCADA_PRODUCTION = (() => {
     const jobs=[];for(const id of ids)jobs.push(await api('/api/production/job/'+encodeURIComponent(id)));
     if(!engineer())return;
     const payload={schemaVersion:1,machineId:snapshot.machineId,exportedAt:new Date().toISOString(),period:r,events,intervals:history,jobs};
-    const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=node('a');a.href=url;a.download='SCADA_Production_'+new Date().toISOString().slice(0,10)+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+    const saved=await saveProductionDocument(payload);savedFile(saved.path);
    }catch(e){error(e.message);}finally{actionBusy=false;$('[data-prod-export]').disabled=false;}
   }
   async function exportJobDocument(){
    if(!engineer()||!selected||actionBusy)return;actionBusy=true;
-   try{const job=await api('/api/production/job/'+encodeURIComponent(selected));if(!engineer()||currentPage!=='jobs')return;const blob=new Blob([JSON.stringify(job.document,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=node('a');a.href=url;a.download='SCADA_Job_'+job.id+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}catch(e){error(e.message);}finally{actionBusy=false;}
+   try{const job=await api('/api/production/job/'+encodeURIComponent(selected));if(!engineer()||currentPage!=='jobs')return;const saved=await saveProductionDocument(job.document);savedFile(saved.path);}catch(e){error(e.message);}finally{actionBusy=false;}
   }
   function schedule(){clearTimeout(timer);if(!disposed&&(['production','jobs','home'].includes(currentPage)))timer=setTimeout(()=>refresh(),1000);}
   async function refresh(force=false){

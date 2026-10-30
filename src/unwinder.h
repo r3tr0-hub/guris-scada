@@ -57,15 +57,15 @@ static void unwinder_transaction_done(const Transaction *tx){
 }
 static void unwinder_service(void){
  lock(&app.mutex);UnwinderGuard *u=&app.unwinder;uint64_t now=now_ms();
- if(u->mode==UNWINDER_TEMP&&(now>=u->deadline||atomic_load(&app.quitting))){u->mode=UNWINDER_RESTORE;u->retry=0;app.command.desired=0;unwinder_journal();copy_s(u->message,256,"Время отключения истекло. Включаем контроль…");}
+ if(u->mode==UNWINDER_TEMP&&(now>=u->deadline||atomic_load(&app.quitting))){u->mode=UNWINDER_RESTORE;u->retry=0;app.command.desired=0;unwinder_journal();copy_s(u->message,256,atomic_load(&app.quitting)?"Выход из SCADA. Включаем контроль…":"Время отключения истекло. Включаем контроль…");}
  if(!unwinder_available(now)){if(u->mode==UNWINDER_RESTORE&&!u->storage_error)copy_s(u->message,256,"Включение контроля ожидает связи и свежих данных ПЛК");unlock(&app.mutex);return;}
  if(u->mode!=UNWINDER_NORMAL&&!unwinder_target()){copy_s(u->message,256,"Режим размотчика ожидает исходное подключение к ПЛК");unlock(&app.mutex);return;}
  if(app.busy||app.command.owned||app.cleaning.restoring){unlock(&app.mutex);return;}
  double value=app.fields[F_UNWINDER_STOP].value;
- if(value==1){u->initialized=1;if((u->mode!=UNWINDER_NORMAL||u->storage_error)&&now>=u->retry){unwinder_normal();if(u->storage_error)u->retry=now+1000;}unlock(&app.mutex);return;}
+ if(value==1){u->initialized=1;if((u->mode!=UNWINDER_NORMAL||u->storage_error)&&now>=u->retry){int early=u->mode==UNWINDER_TEMP&&now<u->deadline;unwinder_normal();if(early&&!u->storage_error)copy_s(u->message,256,"Наблюдается досрочное включение контроля; источник изменения неизвестен");if(u->storage_error)u->retry=now+1000;}unlock(&app.mutex);return;}
  if(u->mode==UNWINDER_NORMAL){
   unwinder_bind_target();u->mode=u->initialized?UNWINDER_TEMP:UNWINDER_RESTORE;u->initialized=1;u->started_wall=unwinder_wall_ms();u->until_wall=u->mode==UNWINDER_TEMP?u->started_wall+300000:0;u->deadline=u->mode==UNWINDER_TEMP?now+300000:0;
-  if(!unwinder_journal()){u->mode=UNWINDER_RESTORE;u->storage_error=1;}copy_s(u->message,256,u->mode==UNWINDER_TEMP?"Отключение на HMI обнаружено · возврат через 5 минут":"Возвращаем нормальный контроль после запуска");
+  if(!unwinder_journal()){u->mode=UNWINDER_RESTORE;u->storage_error=1;}copy_s(u->message,256,u->mode==UNWINDER_TEMP?"Наблюдается внешнее отключение · возврат через 5 минут; источник неизвестен":"Возвращаем нормальный контроль после запуска");
  }
  if(u->mode==UNWINDER_RESTORE&&now>=u->retry){char id[65];snprintf(id,65,"unwinder-%u-%llu",++u->serial,(unsigned long long)now);unwinder_queue(id,2,0);u->retry=now+1000;}
  unlock(&app.mutex);

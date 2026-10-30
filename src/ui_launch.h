@@ -2,6 +2,7 @@
 #define GURIS_UI_LAUNCH_H
 /* Windows UI lifecycle only. PLC polling and transaction rules are unchanged. */
 #include "ui_launch_config.h"
+#include "edge_policy.h"
 static HWND tray_window,ui_window;
 static HANDLE worker_thread,http_thread,one_instance,edge_process,edge_job;
 static wchar_t ui_session_tag[17],ui_session_profiles[2][2400];
@@ -14,7 +15,7 @@ static const wchar_t *native_text(const char *source){
  if(dictionary){char encoded[2400];Buffer b;binit(&b,encoded,sizeof(encoded));bj(&b,source);const char *at=dictionary;while(!b.failed&&(at=strstr(at,encoded))){const char *value=skipspace(at+strlen(encoded));if(*value==':'&&jstring(skipspace(value+1),translated,sizeof(translated)))break;at++;}}
  wchar_t *result=output[slot++%8];if(!MultiByteToWideChar(CP_UTF8,0,translated,-1,result,2400))result[0]=0;return result;
 }
-static wchar_t ui_title[]=L"Guris SCADA · 0.1.25";
+static wchar_t ui_title[]=L"Guris SCADA · 0.1.26";
 static FILE *startup_file;
 static char startup_path[2400];
 static uint64_t launched_at;
@@ -32,7 +33,7 @@ static void startup_open(void){
  snprintf(rel,sizeof(rel),"logs/SCADA_startup_%s_%lu.log",stamp,(unsigned long)GetCurrentProcessId());path_join(startup_path,rel);startup_file=file_open(startup_path,"wb");
  if(!startup_file){wchar_t temp[2000];char utf8[2200];if(GetTempPathW(2000,temp)&&WideCharToMultiByte(CP_UTF8,0,temp,-1,utf8,sizeof(utf8),NULL,NULL)){snprintf(startup_path,sizeof(startup_path),"%sSCADA_startup_%s_%lu.log",utf8,stamp,(unsigned long)GetCurrentProcessId());startup_file=file_open(startup_path,"wb");}}
  if(startup_file)fwrite("\xEF\xBB\xBF",1,3,startup_file);
- startup_log("Guris SCADA 0.1.25 diagnostic recorder; PID=%lu",(unsigned long)GetCurrentProcessId());startup_log("Base directory: %s",app.base);
+ startup_log("Guris SCADA 0.1.26 diagnostic recorder; PID=%lu",(unsigned long)GetCurrentProcessId());startup_log("Base directory: %s",app.base);
 }
 static int launch_argument(void){
  int count=0,mode=UI_APP;LPWSTR *args=CommandLineToArgvW(GetCommandLineW(),&count);
@@ -83,6 +84,7 @@ static void begin_tracking(int mode){
  lock(&app.mutex);app.ui_kiosk=ui_is_kiosk(mode);ready_before=app.ui_ready_count;document_before=app.ui_document_count;error_before=app.ui_error_count;unlock(&app.mutex);
 }
 static void launch_ui_mode(int mode,int fresh_attempt){
+ diagnostic_event("ui.open_requested",mode==UI_BROWSER?"{\"mode\":\"browser\"}":"{\"mode\":\"kiosk\"}");
  if(fresh_attempt&&mode==launch_mode&&ui_window&&IsWindow(ui_window)){ShowWindow(ui_window,SW_RESTORE);SetForegroundWindow(ui_window);return;}
  if(fresh_attempt)compat_attempted=mode!=UI_APP;
  if(edge_process){CloseHandle(edge_process);edge_process=NULL;}
@@ -90,6 +92,7 @@ static void launch_ui_mode(int mode,int fresh_attempt){
  if(!MultiByteToWideChar(CP_UTF8,0,app.url,-1,url,512)||!MultiByteToWideChar(CP_UTF8,0,app.base,-1,base,2400)){startup_log("UI path conversion failed");return;}
  startup_log("Open interface: mode=%s; local HTTP port=%u",mode==UI_COMPAT?"Edge kiosk compatibility (GPU disabled)":mode==UI_BROWSER?"default browser (diagnostic)":"Edge kiosk",app.http_port);
  lock(&app.mutex);app.diag_ui_mode=mode;unlock(&app.mutex);begin_tracking(mode);
+ if(mode!=UI_BROWSER){int policy=edge_policy_apply();atomic_store(&diagnostic_edge_policy,policy);char event[100];snprintf(event,sizeof(event),"{\"status\":%d,\"requiresBrowserRestart\":true}",policy);diagnostic_event("ui.edge_kiosk_policy",event);startup_log("KioskSwipeGesturesEnabled status=%d (1 applied HKCU, 2 existing disabled, 3 managed/conflicting or unreadable, 4 write failed)",policy);}
  if(mode!=UI_BROWSER&&find_edge(edge)&&profile_directory(profile,mode)){
   log_wide("Edge executable: ",edge);
   swprintf(debug,2400,L"%ls\\logs\\Edge_startup_%lu.log",base,(unsigned long)GetCurrentProcessId());
@@ -128,7 +131,8 @@ static void close_scada_ui(void){
  }
 }
 static void monitor_ui(void){
- if(ui_window&&!IsWindow(ui_window)){ui_window=NULL;startup_log("Interface window closed; backend remains in tray until explicit Exit");}
+ if(atomic_load(&app.quitting)){launch_pending=0;return;}
+ if(ui_window&&!IsWindow(ui_window)){ui_window=NULL;launch_pending=0;diagnostic_event("ui.window_closed","{\"backendContinues\":true}");startup_log("Interface window closed; backend remains in tray until explicit Exit");}
  if(!launch_pending)return;
  unsigned ready,document,errors;char error[256];lock(&app.mutex);ready=app.ui_ready_count;document=app.ui_document_count;errors=app.ui_error_count;copy_s(error,sizeof(error),app.ui_error);unlock(&app.mutex);
  if(document>document_before&&!document_logged){document_logged=1;startup_log("Authenticated HTML document served");}

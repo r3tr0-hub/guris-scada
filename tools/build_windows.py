@@ -46,7 +46,7 @@ def main():
             miniz.append(obj)
         subprocess.run(zig + common + [
             '-s', '-municode', '-Wl,--subsystem,windows', 'src/main.c', sqlite, *miniz,
-            '-o', str(output), '-lws2_32', '-lshell32', '-luser32', '-lbcrypt',
+            '-o', str(output), '-lws2_32', '-lshell32', '-luser32', '-lbcrypt', '-ladvapi32',
         ], cwd=ROOT, check=True)
     print('Built: ' + str(output))
 

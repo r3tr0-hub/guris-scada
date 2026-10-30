@@ -25,13 +25,14 @@ typedef struct {
  uint64_t poll_duration,poll_max_duration;unsigned poll_cycles,poll_full_cycles;int poll_sum;
  AlarmSnapshot alarms;CommandLease command;IoView io;
  unsigned char engineering_selected[F_COUNT];uint64_t engineering_until;int engineering_section;
+ unsigned char operator_selected[F_COUNT];uint64_t operator_until;
  Reading fields[F_COUNT];Transaction tx,history[32];unsigned history_n;
  unsigned ui_ready_count,ui_document_count,ui_error_count;char ui_error[256];int ui_kiosk,diag_ui_mode;char diag_user_agent[512];
  FILE *log;
 } App;
 static App app;
 /* Caller holds app.mutex. The core remains on its original schedule. */
-static int engineering_requested(int i,uint64_t now){return i<F_ENGINEERING_FIRST||(app.engineering_until>now&&app.engineering_selected[i])||(app.busy&&app.tx.field==i);}
+static int engineering_requested(int i,uint64_t now){return i<F_ENGINEERING_FIRST||(app.engineering_until>now&&app.engineering_selected[i])||(app.operator_until>now&&app.operator_selected[i])||(app.busy&&app.tx.field==i);}
 static int engineering_select(Pair *p,int n,char *reason,size_t cap,int engineer){
  const char *id=pair_get(p,n,"section");if(n!=1||!id||p[0].number){copy_s(reason,cap,"Нужен идентификатор раздела");return 400;}
  if(!engineer){copy_s(reason,cap,"Требуется вход инженера");return 403;}
@@ -42,6 +43,20 @@ static int engineering_select(Pair *p,int n,char *reason,size_t cap,int engineer
  for(int i=F_ENGINEERING_FIRST;i<F_COUNT;i++)if(wanted[i]&&(!app.engineering_selected[i]||app.engineering_until<=now_ms()))app.fields[i].quality=0;
  memcpy(app.engineering_selected,wanted,sizeof(wanted));app.engineering_until=selected<0?0:now_ms()+5000;app.engineering_section=selected+1;
  unlock(&app.mutex);copy_s(reason,cap,"Раздел выбран");return 200;
+}
+
+/* An explicit five-second allowlist lease: no arbitrary names or catalog access. */
+static int operator_select(Pair *p,int n,char *reason,size_t cap){
+ const char *scope=pair_get(p,n,"scope");if(n!=1||!scope||p[0].number){copy_s(reason,cap,"Нужен разрешённый раздел оператора");return 400;}
+ unsigned char wanted[F_COUNT]={0};
+ if(!strcmp(scope,"unwinder"))wanted[F_ENG_0074]=1;
+ else if(!strcmp(scope,"temperature")){for(int i=F_HEAT_OUTPUT_1;i<=F_HEAT_OUTPUT_8;i++)wanted[i]=1;}
+ else if(!strcmp(scope,"edge")){for(int i=F_EDGE_INPUT_0;i<=F_EDGE_INPUT_4;i++)wanted[i]=1;}
+ else if(*scope){copy_s(reason,cap,"Раздел не разрешён операторской подпиской");return 403;}
+ lock(&app.mutex);uint64_t now=now_ms();
+ for(int i=F_ENGINEERING_FIRST;i<F_COUNT;i++)if(wanted[i]&&(!app.operator_selected[i]||app.operator_until<=now))app.fields[i].quality=0;
+ memcpy(app.operator_selected,wanted,sizeof(wanted));app.operator_until=*scope?now+5000:0;
+ unlock(&app.mutex);copy_s(reason,cap,"Подписка обновлена");return 200;
 }
 
 static FILE *file_open(const char *path,const char *mode){
@@ -319,6 +334,7 @@ static int enqueue_transaction(Pair *pairs,int count,char *reason,size_t cap,int
  if(i==F_IDLE&&app.cleaning.pending){unlock(&app.mutex);copy_s(reason,cap,"Используйте кнопку «Вернуть 10», чтобы завершить таймер");return 409;}
  if(i==F_IDLE&&!engineer&&!cleaning_can_boost(now_ms())){unlock(&app.mutex);copy_s(reason,cap,"Холостая скорость доступна только в состоянии «Машина не готова» при выключенном автоматическом режиме");return 409;}
  Reading *r=&app.fields[i];int gate=defs[i].gate;
+ if(i>=F_ENGINEERING_FIRST&&!engineer&&!(field_operator_extra(i)&&app.operator_until>now_ms()&&app.operator_selected[i])){unlock(&app.mutex);copy_s(reason,cap,"Откройте разрешённую страницу и дождитесь свежей подписки");return 409;}
  if(!app.connected||app.ads_status!=5||app.epoch!=t.epoch||!r->quality||now_ms()-r->observed>1500){unlock(&app.mutex);copy_s(reason,cap,"Нет свежих данных ПЛК. Запись не отправлена");return 409;}
  if(reset&&(!engineering_ready(now_ms())||!r->meta.valid||(r->meta.flags&32u))){unlock(&app.mutex);copy_s(reason,cap,"Остановите станок и дождитесь готовности перед обнулением");return 409;}
  if(field_stopped(i)&&!engineering_ready(now_ms())){unlock(&app.mutex);copy_s(reason,cap,"Остановите станок перед инженерной настройкой");return 409;}
@@ -336,8 +352,8 @@ static int enqueue_counter_reset(Pair *pairs,int count,char *reason,size_t cap,i
 static void tx_json(Buffer *b,const Transaction *t){bf(b,"{\"id\":");bj(b,t->id);bf(b,",\"key\":");bj(b,t->field>=0&&t->field<F_COUNT?defs[t->field].key:"");bf(b,",\"kind\":");bj(b,t->reset?"counter_reset":t->cleaning==1?"cleaning_boost":t->cleaning==2?"cleaning_normal":t->command?"command":"setting");bf(b,",\"status\":");bj(b,t->status);bf(b,",\"message\":");bj(b,t->message);bf(b,",\"before\":%.17g,\"requested\":%.17g,\"sent\":%s,\"epoch\":%u,\"actual\":",t->before,t->requested,t->sent?"true":"false",t->epoch);if(t->has_actual)bf(b,"%.17g",t->actual);else bf(b,"null");bf(b,",\"utc\":");bj(b,t->utc);bf(b,",\"actor\":");bj(b,t->actor);bf(b,"}");}
 static size_t state_json(char *out,size_t cap,int engineer){
  Buffer b;binit(&b,out,cap);lock(&app.mutex);uint64_t now=now_ms();
- bf(&b,"{\"version\":\"0.1.25\",\"connected\":%s,\"epoch\":%u,\"adsState\":%d,\"symbolVersion\":%u,\"busy\":%s,\"message\":",app.connected?"true":"false",app.epoch,app.ads_status,app.symbol_version,app.busy?"true":"false");bj(&b,app.message);bf(&b,",\"ip\":");bj(&b,app.ip);bf(&b,",\"netId\":");bj(&b,app.netid);bf(&b,",\"port\":%u,\"language\":",app.ads_port);bj(&b,app.language);bf(&b,",\"fields\":{");
- for(int i=0,emitted=0;i<F_COUNT;i++){if(i>=F_ENGINEERING_FIRST&&(!engineer||!engineering_requested(i,now)))continue;if(emitted++)bf(&b,",");bj(&b,defs[i].key);bf(&b,":{");Reading *r=&app.fields[i];int identity=binding_ready(i,now),range=range_ready(i,now);double min,max;field_bounds(i,range?app.fields[F_WORK_LENGTH].value:0,&min,&max);int fresh=app.connected&&r->quality&&now-r->observed<=1500&&identity;char hex[33];raw_hex(r->raw,defs[i].bytes,hex);bf(&b,"\"quality\":%s,\"value\":",fresh?"true":"false");if(fresh)bf(&b,"%.17g",r->value);else bf(&b,"null");bf(&b,",\"raw\":");bj(&b,hex);bf(&b,",\"writable\":%s,\"min\":%.9g,\"max\":%.9g,\"integer\":%s,\"type\":",(i!=F_UNWINDER_STOP&&(i!=F_UNWINDER_SENSOR||app.unwinder.mode==UNWINDER_NORMAL)&&defs[i].writable&&r->meta.valid&&!(r->meta.flags&32u)&&identity&&range&&(i!=F_PHOTO_OFFSET_TENTHS||photo_offset_ready(now))&&(!field_engineer(i)||engineer)&&(!field_stopped(i)||engineering_ready(now)))?"true":"false",min,max,defs[i].integer?"true":"false");bj(&b,type_name(defs[i].type));bf(&b,",\"unit\":");bj(&b,i==F_WIDTH&&app.fields[F_CFG_INCH_MODE].quality&&now-app.fields[F_CFG_INCH_MODE].observed<=1500&&app.fields[F_CFG_INCH_MODE].value==1?"дюйм":defs[i].unit);bf(&b,",\"label\":");bj(&b,defs[i].label);bf(&b,",\"error\":%u,\"symbol\":",r->error);bj(&b,defs[i].symbol);
+ bf(&b,"{\"version\":\"0.1.26\",\"connected\":%s,\"epoch\":%u,\"adsState\":%d,\"symbolVersion\":%u,\"busy\":%s,\"message\":",app.connected?"true":"false",app.epoch,app.ads_status,app.symbol_version,app.busy?"true":"false");bj(&b,app.message);bf(&b,",\"ip\":");bj(&b,app.ip);bf(&b,",\"netId\":");bj(&b,app.netid);bf(&b,",\"port\":%u,\"language\":",app.ads_port);bj(&b,app.language);bf(&b,",\"fields\":{");
+ for(int i=0,emitted=0;i<F_COUNT;i++){if(i>=F_ENGINEERING_FIRST&&(!engineering_requested(i,now)||(!engineer&&!(field_operator_extra(i)&&app.operator_until>now&&app.operator_selected[i]))))continue;if(emitted++)bf(&b,",");bj(&b,defs[i].key);bf(&b,":{");Reading *r=&app.fields[i];int identity=binding_ready(i,now),range=range_ready(i,now);double min,max;field_bounds(i,range?app.fields[F_WORK_LENGTH].value:0,&min,&max);int fresh=app.connected&&r->quality&&now-r->observed<=1500&&identity&&engineering_requested(i,now);char hex[33];raw_hex(r->raw,defs[i].bytes,hex);bf(&b,"\"quality\":%s,\"value\":",fresh?"true":"false");if(fresh)bf(&b,"%.17g",r->value);else bf(&b,"null");bf(&b,",\"raw\":");bj(&b,hex);bf(&b,",\"writable\":%s,\"min\":%.9g,\"max\":%.9g,\"integer\":%s,\"type\":",(i!=F_UNWINDER_STOP&&(i!=F_UNWINDER_SENSOR||app.unwinder.mode==UNWINDER_NORMAL)&&defs[i].writable&&r->meta.valid&&!(r->meta.flags&32u)&&identity&&range&&(i!=F_PHOTO_OFFSET_TENTHS||photo_offset_ready(now))&&(!field_engineer(i)||engineer)&&(!field_stopped(i)||engineering_ready(now)))?"true":"false",min,max,defs[i].integer?"true":"false");bj(&b,type_name(defs[i].type));bf(&b,",\"unit\":");bj(&b,i==F_WIDTH&&app.fields[F_CFG_INCH_MODE].quality&&now-app.fields[F_CFG_INCH_MODE].observed<=1500&&app.fields[F_CFG_INCH_MODE].value==1?"дюйм":defs[i].unit);bf(&b,",\"label\":");bj(&b,defs[i].label);bf(&b,",\"error\":%u,\"symbol\":",r->error);bj(&b,defs[i].symbol);
   bf(&b,",\"observedMonoMs\":%llu,\"ageMs\":%llu",(unsigned long long)r->observed,(unsigned long long)(now>=r->observed?now-r->observed:0));bf(&b,",\"bindingReady\":%s,\"rangeReady\":%s,\"sourceIndex\":%d,\"gate\":",identity?"true":"false",range?"true":"false",field_virtual(i)?r->source_index:field_source_index(&defs[i]));if(defs[i].gate>=0)bj(&b,defs[defs[i].gate].key);else bf(&b,"null");
   bf(&b,",\"resettable\":%s",(reset_counter(i)&&command_available(command_index(counter_command_key(i)),now,engineer))?"true":"false");
   bf(&b,",\"metadata\":{\"resolved\":%s,\"status\":",r->meta.valid?"true":"false");bj(&b,metadata_status(&r->meta));

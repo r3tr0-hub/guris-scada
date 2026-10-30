@@ -12,11 +12,12 @@ const [url,token,control,out]=process.argv.slice(2);
   await page.goto(url);await page.waitForFunction(()=>!document.querySelector('[data-edit="width"]').disabled);
   assert.equal((await api('/api/auth/setup',{password:'221025'})).status,200);await page.waitForFunction(()=>document.querySelector('[data-operator-name]').textContent==='Инженер');await open();
   await page.waitForFunction(()=>document.querySelector('[data-diagnostic-status]').textContent.includes('Диагностика записывается'));
-  const exports=[];
+  const exports=[];let previousJobId="";
   for(const hours of [12,24]){
    const button=page.locator(`[data-diagnostic-export="${hours}"]`),box=await button.boundingBox();assert(box.x>=0&&box.x+box.width<=1025&&box.y>=0&&box.y+box.height<=601);
-   const downloaded=page.waitForEvent('download',{timeout:30000});await button.click();const download=await downloaded;assert.equal(await download.failure(),null);const saved=path.join(out,download.suggestedFilename());await download.saveAs(saved);
-   const result=JSON.parse(cp.execFileSync('python3',[path.resolve(__dirname,'../tools/analyze_diagnostics.py'),saved],{encoding:'utf8',maxBuffer:2*1024*1024}));assert.equal(result.zipCrcValid,true);assert.equal(result.requestedHours,hours);assert.equal(result.appVersion,'0.1.25');assert(result.observationCounts.samples>0);exports.push({hours,size:fs.statSync(saved).size});
+   let unexpectedDownload=false;page.once('download',()=>unexpectedDownload=true);await button.click();let job;for(let n=0;n<300;n++){job=(await api('/api/diagnostics/status')).data.export;if(job.id!==previousJobId&&job.hours===hours&&(job.state===2||job.state===3))break;await page.waitForTimeout(100);}assert.equal(job.state,2,job.message);assert.equal(job.hours,hours);assert.notEqual(job.id,previousJobId);previousJobId=job.id;assert(job.savedPath);assert.equal(unexpectedDownload,false);const saved=job.savedPath;assert(fs.existsSync(saved));
+
+   const result=JSON.parse(cp.execFileSync('python3',[path.resolve(__dirname,'../tools/analyze_diagnostics.py'),saved],{encoding:'utf8',maxBuffer:2*1024*1024}));assert.equal(result.zipCrcValid,true);assert.equal(result.requestedHours,hours);assert.equal(result.appVersion,fs.readFileSync(path.resolve(__dirname,'../VERSION'),'utf8').trim());assert(result.observationCounts.samples>0);exports.push({hours,size:fs.statSync(saved).size});
    await page.waitForFunction(()=>!document.querySelector('[data-diagnostic-export="12"]').disabled);
    if(hours===12){const opts=(await api('/api/state')).data.options;await api('/api/options',{...opts,snow:Number(opts.snow),animations:Number(opts.animations),wallpaper:Number(opts.wallpaper),exitButton:Number(opts.exitButton),theme:'classic'});await page.waitForFunction(()=>document.documentElement.dataset.theme==='classic');}
    await page.screenshot({path:path.join(out,'diagnostics-'+hours+'h.png')});

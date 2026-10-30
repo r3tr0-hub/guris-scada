@@ -81,4 +81,36 @@ class Themes(unittest.TestCase):
         self.assertEqual(s['options'],dict(snow=False,animations=False,wallpaper=False,exitButton=False,theme='dark',font='system'))
         self.assertEqual(s['language'],'en');self.assertEqual(self.mock.writes,[])
 
+    def test_data_only_package_added_at_runtime_and_persisted(self):
+        self.engineer()
+        folder=pathlib.Path(self.tmp.name)/'ui/themes'
+        package=json.loads((folder/'forest.json').read_text(encoding='utf-8'))
+        package.update(id='test-third',nameRu='Тест',nameEn='Test',nameTr='Deneme')
+        (folder/'test-third.json').write_text(json.dumps(package,ensure_ascii=False),encoding='utf-8')
+        status,data=self.request('GET','/api/themes')
+        self.assertEqual(status,200)
+        self.assertIn('test-third',[entry['id'] for entry in data['themes']])
+        self.assertEqual(self.options(theme='test-third',font='tahoma')[0],200)
+        self.restart()
+        self.assertEqual(self.state()['options']['theme'],'test-third')
+        self.assertEqual(self.state()['options']['font'],'tahoma')
+        (folder/'test-third.json').unlink()
+        self.request('GET','/api/themes')
+        self.assertEqual(self.state()['options']['theme'],'dark')
+        self.assertEqual(self.mock.writes,[])
+
+    def test_invalid_and_executable_theme_packages_are_not_listed(self):
+        folder=pathlib.Path(self.tmp.name)/'ui/themes'
+        package=json.loads((folder/'forest.json').read_text(encoding='utf-8'))
+        for suffix,value in [('url','url(https://example.invalid/a)'),('script','expression(alert(1))'),('style','red;display:none')]:
+            value_package=dict(package,id='bad-'+suffix,**{'--sc-bg':value})
+            (folder/('bad-'+suffix+'.json')).write_text(json.dumps(value_package,ensure_ascii=False),encoding='utf-8')
+        (folder/'broken.json').write_text('{not json',encoding='utf-8')
+        status,data=self.request('GET','/api/themes')
+        self.assertEqual(status,200)
+        ids=[entry['id'] for entry in data['themes']]
+        self.assertFalse(any(entry.startswith('bad-') for entry in ids))
+        self.assertNotIn('broken',ids)
+        self.assertEqual(self.mock.writes,[])
+
 if __name__=='__main__':unittest.main(verbosity=2)

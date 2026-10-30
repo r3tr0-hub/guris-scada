@@ -7,10 +7,11 @@ typedef struct {
  union {ProductionSample sample;struct {char kind[48],json[DIAG_EVENT_BYTES];} event;} data;
 } DiagnosticItem;
 static struct {
- Mutex mutex;int initialized,failed,running;unsigned head,count;uint64_t dropped,accepted,written,last_write,storage_errors,last_error_at;
+ Mutex mutex;int initialized,failed,running;unsigned head,count;uint64_t dropped,accepted,written,last_write,storage_errors,last_error_at,history_first,history_last;
  char error[256],last_error[256],session[33],path[2400];DiagnosticItem items[DIAG_QUEUE_CAP];
 } diagnostics;
 static atomic_int diagnostic_stopping;
+static atomic_int diagnostic_edge_policy;
 static void diagnostic_enqueue(const DiagnosticItem *item){
  if(!diagnostics.initialized)return;
  lock(&diagnostics.mutex);
@@ -33,7 +34,7 @@ static void diagnostic_capture(const ProductionSample *sample){
 static void diagnostic_health_json(Buffer *b){
  if(!diagnostics.initialized){bf(b,"{\"enabled\":false}");return;}
  lock(&diagnostics.mutex);
- bf(b,"{\"enabled\":true,\"running\":%s,\"storageError\":%s,\"queued\":%u,\"accepted\":%llu,\"written\":%llu,\"dropped\":%llu,\"lastWriteUtcMs\":%llu,\"sessionId\":",diagnostics.running?"true":"false",diagnostics.failed?"true":"false",diagnostics.count,(unsigned long long)diagnostics.accepted,(unsigned long long)diagnostics.written,(unsigned long long)diagnostics.dropped,(unsigned long long)diagnostics.last_write);bj(b,diagnostics.session);bf(b,",\"message\":");bj(b,diagnostics.error);bf(b,",\"storageFailures\":%llu,\"lastErrorUtcMs\":%llu,\"lastError\":",(unsigned long long)diagnostics.storage_errors,(unsigned long long)diagnostics.last_error_at);bj(b,diagnostics.last_error);bf(b,",\"retentionHours\":72,\"maxSamples\":1200000,\"maxDatabaseMiB\":512}");
+ bf(b,"{\"enabled\":true,\"running\":%s,\"storageError\":%s,\"queued\":%u,\"accepted\":%llu,\"written\":%llu,\"dropped\":%llu,\"lastWriteUtcMs\":%llu,\"sessionId\":",diagnostics.running?"true":"false",diagnostics.failed?"true":"false",diagnostics.count,(unsigned long long)diagnostics.accepted,(unsigned long long)diagnostics.written,(unsigned long long)diagnostics.dropped,(unsigned long long)diagnostics.last_write);bj(b,diagnostics.session);bf(b,",\"message\":");bj(b,diagnostics.error);bf(b,",\"storageFailures\":%llu,\"lastErrorUtcMs\":%llu,\"lastError\":",(unsigned long long)diagnostics.storage_errors,(unsigned long long)diagnostics.last_error_at);bj(b,diagnostics.last_error);bf(b,",\"retentionHours\":72,\"maxSamples\":1200000,\"maxDatabaseMiB\":512,\"historyAvailableFromUtcMs\":%llu,\"historyAvailableToUtcMs\":%llu,\"continuousHistoryGuaranteed\":false}",(unsigned long long)diagnostics.history_first,(unsigned long long)diagnostics.history_last);
  unlock(&diagnostics.mutex);
 }
 #endif

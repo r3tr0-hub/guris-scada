@@ -109,13 +109,14 @@ def main():
             shutil.copytree(ROOT / folder, stage / folder,
                             ignore=shutil.ignore_patterns('__pycache__', 'node_modules', '*.tmp'))
         # Only bundled example manuals are shipped; a machine's own guides stay local.
-        (stage / 'manuals').mkdir()
+        manuals_destination = stage / ('manual-examples' if mode == 'update' else 'manuals')
+        manuals_destination.mkdir()
         for entry in ('README_RU.md', '01-photo-guide', '02-add-manual'):
             source = ROOT / 'manuals' / entry
             if source.is_dir():
-                shutil.copytree(source, stage / 'manuals' / entry)
+                shutil.copytree(source, manuals_destination / entry)
             elif source.is_file():
-                shutil.copy2(source, stage / 'manuals' / entry)
+                shutil.copy2(source, manuals_destination / entry)
             else:
                 raise FileNotFoundError('Missing bundled manual: ' + str(source))
         for name in ('Start_Compatibility.cmd', 'Start_Browser.cmd', 'Run_SCADA_Check.cmd', 'LICENSE_LUCIDE.txt', 'LICENSE_MINIZ.txt'):
@@ -157,10 +158,11 @@ def main():
         }[mode]
         readme = (
             '# Guris SCADA ' + version + '\n\n'
-            'Сбор диагностики: [docs/DIAGNOSTICS_0_1_25_RU.md](docs/DIAGNOSTICS_0_1_25_RU.md).\n'
+            'Сбор диагностики: [docs/UPDATE_0_1_26_RU.md](docs/UPDATE_0_1_26_RU.md).\n'
             'Инструкция: [docs/OPERATIONS_RU.md](docs/OPERATIONS_RU.md).\n\n'
             'Распакуйте архив целиком на локальный диск. Запуск: Start_Compatibility.cmd.\n'
             + connection_note +
+            'Примеры мануалов Update лежат отдельно в manual-examples; рабочие manuals не заменяются.\n'
             'Перед обновлением полностью завершите прежнюю SCADA. Перенесите весь local и собственные manuals до запуска.\n'
         )
         (stage / 'README_RU.md').write_text(readme, encoding='utf-8')

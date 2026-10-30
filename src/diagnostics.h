@@ -30,28 +30,36 @@ static int diagnostic_store_sample(const ProductionSample *s){
   if(s->alarm_good!=p->alarm_good||s->alarm_count!=p->alarm_count||memcmp(s->alarms,p->alarms,sizeof(s->alarms)))diagnostic_transition("alarms.changed",s);
   if(s->diag_control!=p->diag_control||s->diag_sensor!=p->diag_sensor||((s->diag_flags^p->diag_flags)&24u))diagnostic_transition("unwinder.control_observed",s);
   if(s->diag_guard!=p->diag_guard||s->diag_deadline!=p->diag_deadline)diagnostic_transition("unwinder.guard_changed",s);
+  if(s->diag_idle_good!=p->diag_idle_good||(s->diag_idle_good&&s->diag_idle!=p->diag_idle)){char idle[240];snprintf(idle,sizeof(idle),"{\"value\":%.17g,\"quality\":%s,\"ageMs\":%u,\"origin\":\"cached_observation\"}",isfinite(s->diag_idle)?s->diag_idle:0,s->diag_idle_good?"true":"false",s->diag_idle_age);diagnostic_store_event("cleaning.idle_speed_observed",s->wall,s->mono,idle);}
   if(s->diag_clean_active!=p->diag_clean_active||s->diag_clean_pending!=p->diag_clean_pending||s->diag_clean_deadline!=p->diag_clean_deadline)diagnostic_transition("cleaning.changed",s);
  }
  diagnostic_previous=*s;diagnostic_have_previous=1;
  char alarms[400];production_alarm_json(s,alarms);sqlite3_stmt *st=diagnostic_insert;sqlite3_reset(st);sqlite3_clear_bindings(st);int n=1;
 #define DI(v) sqlite3_bind_int64(st,n++,(sqlite3_int64)(v))
- sqlite3_bind_text(st,n++,diagnostics.session,-1,SQLITE_STATIC);DI(s->wall);DI(s->mono);DI(s->epoch);DI(s->serial);DI(s->code);DI(s->automatic);DI(s->total);DI(s->total_observed);DI(s->good);DI(s->total_good);DI(s->alarm_good);sqlite3_bind_text(st,n++,alarms,-1,SQLITE_TRANSIENT);DI(s->cause_mask);DI(s->diag_flags);DI(s->diag_control);DI(s->diag_sensor);DI(s->diag_guard);DI(s->diag_deadline);DI(s->diag_clean_active);DI(s->diag_clean_pending);DI(s->diag_clean_deadline);sqlite3_bind_double(st,n++,isfinite(s->diag_speed)?s->diag_speed:0);sqlite3_bind_double(st,n++,isfinite(s->diag_length)?s->diag_length:0);for(unsigned i=0;i<9;i++)DI(s->diag_ages[i]);DI(s->diag_current);DI(s->diag_groups);DI(s->diag_symbol);DI(s->diag_poll_ms);DI(s->diag_cycles);DI(s->diag_ui_errors);sqlite3_bind_text(st,n++,s->plc,-1,SQLITE_TRANSIENT);
+ sqlite3_bind_text(st,n++,diagnostics.session,-1,SQLITE_STATIC);DI(s->wall);DI(s->mono);DI(s->epoch);DI(s->serial);DI(s->code);DI(s->automatic);DI(s->total);DI(s->total_observed);DI(s->good);DI(s->total_good);DI(s->alarm_good);sqlite3_bind_text(st,n++,alarms,-1,SQLITE_TRANSIENT);DI(s->cause_mask);DI(s->diag_flags);DI(s->diag_control);DI(s->diag_sensor);DI(s->diag_guard);DI(s->diag_deadline);DI(s->diag_clean_active);DI(s->diag_clean_pending);DI(s->diag_clean_deadline);sqlite3_bind_double(st,n++,isfinite(s->diag_speed)?s->diag_speed:0);sqlite3_bind_double(st,n++,isfinite(s->diag_length)?s->diag_length:0);for(unsigned i=0;i<9;i++)DI(s->diag_ages[i]);DI(s->diag_current);DI(s->diag_groups);DI(s->diag_symbol);DI(s->diag_poll_ms);DI(s->diag_cycles);DI(s->diag_ui_errors);sqlite3_bind_text(st,n++,s->plc,-1,SQLITE_TRANSIENT);sqlite3_bind_double(st,n++,isfinite(s->diag_idle)?s->diag_idle:0);DI(s->diag_idle_age);DI(s->diag_idle_good);
 #undef DI
  int ok=sqlite3_step(st)==SQLITE_DONE;if(!ok)diagnostic_failed(sqlite3_errmsg(diagnostic_db));return ok;
 }
+static void diagnostic_history_window(void);
 static void diagnostic_init(void){
  atomic_init(&diagnostic_stopping,0);memset(&diagnostics,0,sizeof(diagnostics));mutex_init(&diagnostics.mutex);unsigned char id[16];if(!random_bytes(id,sizeof(id)))return;bytes_hex(id,sizeof(id),diagnostics.session);path_join(diagnostics.path,"local/diagnostics.sqlite");diagnostics.initialized=1;
  if(sqlite3_open_v2(diagnostics.path,&diagnostic_db,SQLITE_OPEN_READWRITE|SQLITE_OPEN_CREATE|SQLITE_OPEN_FULLMUTEX,NULL)!=SQLITE_OK){diagnostic_failed("Не удалось открыть журнал диагностики");return;}
  sqlite3_busy_timeout(diagnostic_db,100);
- if(diagnostic_scalar(diagnostic_db,"PRAGMA user_version")>1){diagnostic_failed("Журнал диагностики создан более новой версией");return;}
+ if(diagnostic_scalar(diagnostic_db,"PRAGMA user_version")>2){diagnostic_failed("Журнал диагностики создан более новой версией");return;}
  if(!diagnostic_sql("PRAGMA journal_mode=WAL;PRAGMA synchronous=FULL;PRAGMA max_page_count=131072;PRAGMA journal_size_limit=8388608;"
  "CREATE TABLE IF NOT EXISTS sessions(id TEXT PRIMARY KEY,started INTEGER NOT NULL,version TEXT NOT NULL,machine TEXT NOT NULL,ended INTEGER,dropped INTEGER NOT NULL DEFAULT 0,storage_errors INTEGER NOT NULL DEFAULT 0,source_build TEXT NOT NULL,utc_offset_minutes INTEGER NOT NULL);"
  "CREATE TABLE IF NOT EXISTS events(seq INTEGER PRIMARY KEY AUTOINCREMENT,session TEXT NOT NULL,at INTEGER NOT NULL,mono INTEGER NOT NULL,kind TEXT NOT NULL,payload TEXT NOT NULL CHECK(json_valid(payload)));CREATE INDEX IF NOT EXISTS events_at ON events(at);"
- "CREATE TABLE IF NOT EXISTS samples(seq INTEGER PRIMARY KEY AUTOINCREMENT,session TEXT NOT NULL,at INTEGER NOT NULL,mono INTEGER NOT NULL,epoch INTEGER,serial INTEGER,state INTEGER,automatic INTEGER,total INTEGER,total_observed INTEGER,good INTEGER,total_good INTEGER,alarms_good INTEGER,alarms TEXT,cause_mask INTEGER,quality_mask INTEGER,control INTEGER,sensor_configured INTEGER,guard INTEGER,deadline INTEGER,cleaning_active INTEGER,cleaning_pending INTEGER,cleaning_deadline INTEGER,speed_set REAL,working_length REAL,state_age INTEGER,automatic_age INTEGER,total_age INTEGER,control_age INTEGER,sensor_age INTEGER,speed_age INTEGER,length_age INTEGER,current_age INTEGER,groups_age INTEGER,current_count INTEGER,groups_count INTEGER,symbol_version INTEGER,poll_ms INTEGER,poll_cycle INTEGER,ui_errors INTEGER,plc TEXT);CREATE INDEX IF NOT EXISTS samples_at ON samples(at);CREATE TABLE IF NOT EXISTS contexts(seq INTEGER PRIMARY KEY AUTOINCREMENT,session TEXT NOT NULL,at INTEGER NOT NULL,mono INTEGER NOT NULL,payload TEXT NOT NULL CHECK(json_valid(payload)));CREATE INDEX IF NOT EXISTS contexts_at ON contexts(at);PRAGMA user_version=1;"))return;
- const char *insert="INSERT INTO samples(session,at,mono,epoch,serial,state,automatic,total,total_observed,good,total_good,alarms_good,alarms,cause_mask,quality_mask,control,sensor_configured,guard,deadline,cleaning_active,cleaning_pending,cleaning_deadline,speed_set,working_length,state_age,automatic_age,total_age,control_age,sensor_age,speed_age,length_age,current_age,groups_age,current_count,groups_count,symbol_version,poll_ms,poll_cycle,ui_errors,plc) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+ "CREATE TABLE IF NOT EXISTS samples(seq INTEGER PRIMARY KEY AUTOINCREMENT,session TEXT NOT NULL,at INTEGER NOT NULL,mono INTEGER NOT NULL,epoch INTEGER,serial INTEGER,state INTEGER,automatic INTEGER,total INTEGER,total_observed INTEGER,good INTEGER,total_good INTEGER,alarms_good INTEGER,alarms TEXT,cause_mask INTEGER,quality_mask INTEGER,control INTEGER,sensor_configured INTEGER,guard INTEGER,deadline INTEGER,cleaning_active INTEGER,cleaning_pending INTEGER,cleaning_deadline INTEGER,speed_set REAL,working_length REAL,state_age INTEGER,automatic_age INTEGER,total_age INTEGER,control_age INTEGER,sensor_age INTEGER,speed_age INTEGER,length_age INTEGER,current_age INTEGER,groups_age INTEGER,current_count INTEGER,groups_count INTEGER,symbol_version INTEGER,poll_ms INTEGER,poll_cycle INTEGER,ui_errors INTEGER,plc TEXT,idle_speed REAL,idle_speed_age INTEGER,idle_speed_good INTEGER);CREATE INDEX IF NOT EXISTS samples_at ON samples(at);CREATE TABLE IF NOT EXISTS contexts(seq INTEGER PRIMARY KEY AUTOINCREMENT,session TEXT NOT NULL,at INTEGER NOT NULL,mono INTEGER NOT NULL,payload TEXT NOT NULL CHECK(json_valid(payload)));CREATE INDEX IF NOT EXISTS contexts_at ON contexts(at);PRAGMA user_version=1;"))return;
+ if(!diagnostic_scalar(diagnostic_db,"SELECT count(*) FROM pragma_table_info('samples') WHERE name='idle_speed'")){if(!diagnostic_sql("ALTER TABLE samples ADD COLUMN idle_speed REAL;ALTER TABLE samples ADD COLUMN idle_speed_age INTEGER;ALTER TABLE samples ADD COLUMN idle_speed_good INTEGER;"))return;}
+ if(!diagnostic_sql("PRAGMA user_version=2"))return;
+ const char *insert="INSERT INTO samples(session,at,mono,epoch,serial,state,automatic,total,total_observed,good,total_good,alarms_good,alarms,cause_mask,quality_mask,control,sensor_configured,guard,deadline,cleaning_active,cleaning_pending,cleaning_deadline,speed_set,working_length,state_age,automatic_age,total_age,control_age,sensor_age,speed_age,length_age,current_age,groups_age,current_count,groups_count,symbol_version,poll_ms,poll_cycle,ui_errors,plc,idle_speed,idle_speed_age,idle_speed_good) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
  if(sqlite3_prepare_v2(diagnostic_db,insert,-1,&diagnostic_insert,NULL)!=SQLITE_OK){diagnostic_failed(sqlite3_errmsg(diagnostic_db));return;}
- diagnostic_sqlf("INSERT INTO sessions(id,started,version,machine,source_build,utc_offset_minutes) VALUES(%Q,%lld,'0.1.25',%Q,%Q,%d)",diagnostics.session,(sqlite3_int64)wall_ms(),production.machine,SCADA_BUILD_ID,local_utc_offset_minutes());
- diagnostic_event("process.started","{\"version\":\"0.1.25\",\"reasonPolicy\":1}");
+ diagnostic_sqlf("INSERT INTO sessions(id,started,version,machine,source_build,utc_offset_minutes) VALUES(%Q,%lld,'0.1.26',%Q,%Q,%d)",diagnostics.session,(sqlite3_int64)wall_ms(),production.machine,SCADA_BUILD_ID,local_utc_offset_minutes());
+ diagnostic_history_window();
+ diagnostic_event("process.started","{\"version\":\"0.1.26\",\"reasonPolicy\":2}");
+}
+static void diagnostic_history_window(void){
+ sqlite3_int64 first=diagnostic_scalar(diagnostic_db,"SELECT coalesce(min(at),0) FROM samples"),last=diagnostic_scalar(diagnostic_db,"SELECT coalesce(max(at),0) FROM samples");lock(&diagnostics.mutex);diagnostics.history_first=(uint64_t)first;diagnostics.history_last=(uint64_t)last;unlock(&diagnostics.mutex);
 }
 static void diagnostic_prune(void){
  uint64_t cutoff=wall_ms()>UINT64_C(259200000)?wall_ms()-UINT64_C(259200000):0;
@@ -60,7 +68,7 @@ static void diagnostic_prune(void){
  diagnostic_sqlf("DELETE FROM contexts WHERE at<%lld",(sqlite3_int64)cutoff);
  sqlite3_int64 count=diagnostic_scalar(diagnostic_db,"SELECT count(*) FROM samples");if(count>DIAG_MAX_SAMPLES)diagnostic_sqlf("DELETE FROM samples WHERE seq IN (SELECT seq FROM samples ORDER BY seq LIMIT %lld)",count-DIAG_MAX_SAMPLES);
  diagnostic_sqlf("DELETE FROM events WHERE seq IN (SELECT seq FROM events WHERE at<%lld ORDER BY seq LIMIT 20000)",(sqlite3_int64)cutoff);
- diagnostic_sql("DELETE FROM events WHERE seq IN (SELECT seq FROM events ORDER BY seq DESC LIMIT -1 OFFSET 200000)");
+ diagnostic_sql("DELETE FROM events WHERE seq IN (SELECT seq FROM events ORDER BY seq DESC LIMIT -1 OFFSET 200000)");diagnostic_history_window();
 }
 static void diagnostic_context(void){
  size_t capacity=262144;char *text=malloc(capacity);if(!text){diagnostic_failed("Недостаточно памяти для снимка контекста");return;}
@@ -70,7 +78,7 @@ static void diagnostic_context(void){
   Reading *r=&app.fields[i];if(i>=F_ENGINEERING_FIRST&&!r->observed)continue;
   uint64_t age=mono>=r->observed?mono-r->observed:UINT32_MAX;int fresh=app.connected&&app.ads_status==5&&r->quality&&age<=1500&&binding_ready(i,mono);
   if(emitted++){bf(&b,",");}bj(&b,defs[i].key);bf(&b,":{\"value\":");if(fresh)bf(&b,"%.17g",r->value);else bf(&b,"null");
-  char raw[33];raw_hex(r->raw,defs[i].bytes,raw);bf(&b,",\"quality\":%s,\"ageMs\":%llu,\"error\":%u,\"raw\":",fresh?"true":"false",(unsigned long long)age,r->error);bj(&b,raw);bf(&b,"}");
+  char raw[33];raw_hex(r->raw,defs[i].bytes,raw);bf(&b,",\"quality\":%s,\"ageMs\":%llu,\"error\":%u,\"raw\":",fresh?"true":"false",(unsigned long long)age,r->error);bj(&b,raw);bf(&b,",\"status\":");bj(&b,i>=F_ENGINEERING_FIRST&&!engineering_requested(i,mono)?"subscription_expired":r->error?"ads_error":fresh?"fresh":"unavailable");bf(&b,"}");
  }
  bf(&b,"},\"ioViewActive\":%s,\"io\":[",mono<app.io.lease?"true":"false");
  for(unsigned i=0;i<app.io.count;i++){IoValue *v=&app.io.values[i];int fresh=mono<app.io.lease&&app.connected&&v->quality&&mono-v->observed<=1500;if(i)bf(&b,",");bf(&b,"{\"id\":%d,\"quality\":%s,\"value\":",app.io.ids[i],fresh?"true":"false");if(fresh)bf(&b,"%.17g",v->value);else bf(&b,"null");bf(&b,",\"error\":%u}",v->error);}
@@ -79,7 +87,7 @@ static void diagnostic_context(void){
 }
 /* Never persist UI tokens, session hashes or long numeric input from an exception. */
 static void diagnostic_clean_text(char *out,size_t cap,const char *in){
- size_t used=0;while(*in&&used+1<cap){const char *start=in;while((*in>='0'&&*in<='9')||(*in>='a'&&*in<='z')||(*in>='A'&&*in<='Z'))in++;size_t n=(size_t)(in-start);int numeric=n>=6,hex=n>=32;for(size_t i=0;i<n;i++){if(start[i]<'0'||start[i]>'9')numeric=0;if(!((start[i]>='0'&&start[i]<='9')||(start[i]>='a'&&start[i]<='f')||(start[i]>='A'&&start[i]<='F')))hex=0;}
+ size_t used=0;while(*in&&used+1<cap){if(*in=='?'||*in=='#'){while(*in&&*in!=' '&&*in!='\n'&&*in!='\r'&&*in!='"')in++;const char *redacted="[query_redacted]";size_t take=strlen(redacted);if(take>cap-used-1)take=cap-used-1;memcpy(out+used,redacted,take);used+=take;continue;}const char *start=in;while((*in>='0'&&*in<='9')||(*in>='a'&&*in<='z')||(*in>='A'&&*in<='Z'))in++;size_t n=(size_t)(in-start);int numeric=n>=6,hex=n>=32;for(size_t i=0;i<n;i++){if(start[i]<'0'||start[i]>'9')numeric=0;if(!((start[i]>='0'&&start[i]<='9')||(start[i]>='a'&&start[i]<='f')||(start[i]>='A'&&start[i]<='F')))hex=0;}
   if(n){const char *part=numeric||hex?"[redacted]":start;size_t take=numeric||hex?10:n;if(take>cap-used-1)take=cap-used-1;memcpy(out+used,part,take);used+=take;}else out[used++]=*in++;
  }out[used]=0;
 }
@@ -97,7 +105,7 @@ static void diagnostic_run(void){
    if(ok){ok=diagnostic_sql("COMMIT");}
    int disk_limit_hit=diagnostic_last_sql_error==SQLITE_FULL;
    if(!ok){sqlite3_exec(diagnostic_db,"ROLLBACK",NULL,NULL,NULL);diagnostic_have_previous=0;}
-   lock(&diagnostics.mutex);if(ok){diagnostics.written+=count;diagnostics.last_write=wall_ms();diagnostics.failed=0;diagnostics.error[0]=0;}else diagnostics.dropped+=count;unlock(&diagnostics.mutex);
+   lock(&diagnostics.mutex);if(ok){diagnostics.written+=count;diagnostics.last_write=wall_ms();for(unsigned k=0;k<count;k++)if(!batch[k].type){uint64_t at=batch[k].data.sample.wall;if(!diagnostics.history_first||at<diagnostics.history_first)diagnostics.history_first=at;if(at>diagnostics.history_last)diagnostics.history_last=at;}diagnostics.failed=0;diagnostics.error[0]=0;}else diagnostics.dropped+=count;unlock(&diagnostics.mutex);
    if(!ok){if(disk_limit_hit){diagnostic_sql("DELETE FROM samples WHERE seq IN (SELECT seq FROM samples ORDER BY seq LIMIT 20000)");diagnostic_sql("DELETE FROM contexts WHERE seq IN (SELECT seq FROM contexts ORDER BY seq LIMIT 100)");}pause_ms(100);}
   }
   if(now_ms()>=diagnostic_next_context){diagnostic_context();diagnostic_next_context=now_ms()+30000;}
@@ -121,6 +129,6 @@ static size_t diagnostic_report_json(char *out,size_t cap,int engineer){
  size_t size=state_json(out,cap,engineer);if(!size||out[size-1]!='}')return 0;Buffer b;binit(&b,out+size-1,cap-size+1);char stamp[40];utc_stamp(stamp);
  bf(&b,",\"reportSchemaVersion\":2,\"generatedAt\":");bj(&b,stamp);bf(&b,",\"sourceBuild\":");bj(&b,SCADA_BUILD_ID);bf(&b,",\"generatedAtUtcMs\":%llu,\"capturedMonoMs\":%llu,\"machineId\":",(unsigned long long)wall_ms(),(unsigned long long)now_ms());bj(&b,production.machine);bf(&b,",\"sessionId\":");bj(&b,diagnostics.session);
  bf(&b,",\"utcOffsetMinutes\":%d",local_utc_offset_minutes());
- bf(&b,",\"coverage\":{\"knownFields\":%d,\"coreFields\":%d,\"extraReadsForReport\":false},\"system\":",F_COUNT,F_ENGINEERING_FIRST);diagnostic_system_json(&b);bf(&b,",\"recorder\":");diagnostic_health_json(&b);bf(&b,",\"reasonPolicy\":1,\"ui\":{");lock(&app.mutex);bf(&b,"\"kiosk\":%s,\"launchMode\":%d,\"readyCount\":%u,\"errorCount\":%u",app.ui_kiosk?"true":"false",app.diag_ui_mode,app.ui_ready_count,app.ui_error_count);bf(&b,",\"auditWriteError\":%s,\"userAgent\":",atomic_load(&app.diag_audit_error)?"true":"false");bj(&b,app.diag_user_agent);unlock(&app.mutex);bf(&b,"}}");return b.failed?0:size-1+b.used;
+ bf(&b,",\"coverage\":{\"knownFields\":%d,\"coreFields\":%d,\"extraReadsForReport\":false},\"system\":",F_COUNT,F_ENGINEERING_FIRST);diagnostic_system_json(&b);bf(&b,",\"recorder\":");diagnostic_health_json(&b);bf(&b,",\"reasonPolicy\":2,\"ui\":{");lock(&app.mutex);bf(&b,"\"kiosk\":%s,\"launchMode\":%d,\"readyCount\":%u,\"errorCount\":%u",app.ui_kiosk?"true":"false",app.diag_ui_mode,app.ui_ready_count,app.ui_error_count);bf(&b,",\"edgeKioskSwipePolicyStatus\":%d",atomic_load(&diagnostic_edge_policy));bf(&b,",\"auditWriteError\":%s,\"userAgent\":",atomic_load(&app.diag_audit_error)?"true":"false");bj(&b,app.diag_user_agent);unlock(&app.mutex);bf(&b,"}}");return b.failed?0:size-1+b.used;
 }
 #endif

@@ -21,6 +21,16 @@ int main(void){
  clock_ms=until;fresh_inputs();cleaning_service();assert(!app.cleaning.active&&app.cleaning.restoring&&app.queue);assert(app.tx.cleaning==2&&app.tx.requested==10);confirmed(10);assert(!app.cleaning.pending);
  char file[2600];snprintf(file,sizeof(file),"%s/local/cleaning.json",dir);FILE *f=fopen(file,"rb");assert(f);char buf[80];assert(fgets(buf,sizeof(buf),f));fclose(f);assert(strstr(buf,"\"pending\":0"));
  assert(add("click-0005")==202);confirmed(45);char message[200];assert(cleaning_cancel(NULL,0,message,sizeof(message))==202);fresh_inputs();cleaning_service();assert(app.tx.requested==10);confirmed(10);
+ /* External high settings and startup high settings are journalled before
+    return; repeated observations cannot create parallel transactions. */
+ clock_ms+=1000;fresh_inputs();value(F_IDLE,50);cleaning_service();assert(app.cleaning.pending&&app.cleaning.restoring&&app.tx.cleaning==2&&app.tx.before==50);unsigned serial=app.cleaning.serial;
+ cleaning_service();assert(app.cleaning.serial==serial);confirmed(10);assert(!app.cleaning.pending);
+ /* An unknown ACK is reconciled against a fresh read, without another write. */
+ clock_ms+=1000;fresh_inputs();value(F_IDLE,50);cleaning_service();Transaction uncertain=app.tx;transaction_finish(&uncertain,"uncertain","lost ACK");clock_ms+=1000;fresh_inputs();value(F_IDLE,10);serial=app.cleaning.serial;cleaning_service();assert(!app.cleaning.pending&&!app.busy&&app.cleaning.serial==serial);
+ /* A pending return never follows a new PLC connection. */
+ clock_ms+=1000;fresh_inputs();value(F_IDLE,50);cleaning_service();assert(app.cleaning.pending);app.busy=app.queue=0;copy_s(app.ip,64,"127.0.0.2");serial=app.cleaning.serial;cleaning_service();assert(!app.queue&&app.cleaning.pending&&app.cleaning.serial==serial);copy_s(app.ip,64,"127.0.0.1");value(F_IDLE,10);cleaning_service();assert(!app.cleaning.pending);
+ /* A stale elevated cache alone must not cause a write. */
+ value(F_IDLE,50);clock_ms+=1501;cleaning_service();assert(!app.cleaning.pending&&!app.queue);value(F_IDLE,10);fresh_inputs();
  /* Expired sessions cannot retain engineering permissions. */
  memset(app.auth.session,'a',64);app.auth.session[64]=0;app.auth.expires=clock_ms+10;assert(auth_engineer(app.auth.session));clock_ms+=10;assert(!auth_engineer(app.auth.session));
  unsigned char raw[8];assert(!encode_value(&defs[F_IDLE],45,raw));assert(encode_value(&defs[F_IDLE],10,raw));

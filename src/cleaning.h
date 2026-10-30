@@ -8,6 +8,13 @@ static int cleaning_live_ready(Ads *c,Meta *metas){
 }
 static int cleaning_can_boost(uint64_t now){Reading *s=&app.fields[F_STATE],*a=&app.fields[F_AUTO],*r=&app.fields[F_IDLE];return app.connected&&app.ads_status==5&&r->quality&&s->quality&&a->quality&&now-r->observed<=1500&&now-s->observed<=1500&&now-a->observed<=1500&&r->meta.valid&&!(r->meta.flags&32u)&&s->value==13&&a->value==0;}
 static int cleaning_journal_start(void){char data[500];Buffer b;binit(&b,data,sizeof(data));bf(&b,"{\"pending\":1,\"ip\":");bj(&b,app.ip);bf(&b,",\"netId\":");bj(&b,app.netid);bf(&b,",\"port\":%u}\n",app.ads_port);return !b.failed&&local_save("cleaning.json",data);}
+/* Caller holds app.mutex; these events contain no PLC I/O. */
+static void cleaning_event(const char *cause){char text[700];Buffer b;binit(&b,text,sizeof(text));bf(&b,"{\"cause\":");bj(&b,cause);bf(&b,",\"active\":%s,\"pending\":%s,\"restoring\":%s,\"deadlineMonoMs\":%llu,\"epoch\":%u}",app.cleaning.active?"true":"false",app.cleaning.pending?"true":"false",app.cleaning.restoring?"true":"false",(unsigned long long)app.cleaning.deadline,app.epoch);if(!b.failed)diagnostic_event("cleaning.transition",text);}
+static int cleaning_cached_ready(uint64_t now){Reading *r=&app.fields[F_IDLE];return app.connected&&app.ads_status==5&&r->quality&&now>=r->observed&&now-r->observed<=1500&&r->meta.valid&&!(r->meta.flags&32u)&&binding_ready(F_IDLE,now);}
+static void cleaning_clear_observed(void){
+ if(local_save("cleaning.json","{\"pending\":0}\n")){app.cleaning.pending=app.cleaning.active=app.cleaning.restoring=app.cleaning.storage_error=0;app.cleaning.deadline=0;copy_s(app.cleaning.message,256,"Свежим чтением подтверждена скорость 10; задание завершено");cleaning_event("normal_observed");}
+ else {app.cleaning.storage_error=1;app.cleaning.retry=now_ms()+1000;copy_s(app.cleaning.message,256,"Скорость 10 наблюдается, но журнал возврата не сохранён");}
+}
 static void cleaning_transaction_done(const Transaction *tx){
  if(!tx->cleaning)return;
  lock(&app.mutex);
@@ -16,7 +23,7 @@ static void cleaning_transaction_done(const Transaction *tx){
   if(local_save("cleaning.json","{\"pending\":0}\n")){app.cleaning.pending=0;app.cleaning.active=0;app.cleaning.restoring=0;app.cleaning.storage_error=0;copy_s(app.cleaning.message,256,"Скорость 10 подтверждена ПЛК");}
   else {app.cleaning.storage_error=1;copy_s(app.cleaning.message,256,"Скорость 10 подтверждена, но журнал не сохранён. Ускорение заблокировано");}
  }else copy_s(app.cleaning.message,256,"Возврат 10 не подтверждён. Повторим после свежего чтения ПЛК");
- app.cleaning.retry=now_ms()+1000;unlock(&app.mutex);
+ cleaning_event(!strcmp(tx->status,"confirmed")?"readback_confirmed":"transaction_unconfirmed");app.cleaning.retry=now_ms()+1000;unlock(&app.mutex);
 }
 static int cleaning_add(Pair *p,int n,char *reason,size_t cap,int engineer){
  const char *id=pair_get(p,n,"id"),*expected=pair_get(p,n,"expected");double ep;unsigned char baseline[8]={0};
@@ -35,18 +42,34 @@ static int cleaning_add(Pair *p,int n,char *reason,size_t cap,int engineer){
  }
  uint64_t next=app.cleaning.deadline>now?app.cleaning.deadline:now;next+=60000;app.cleaning.deadline=next>now+180000?now+180000:next;
  if(app.cleaning.ids_n>=64){memmove(app.cleaning.ids,app.cleaning.ids+1,63*sizeof(app.cleaning.ids[0]));app.cleaning.ids_n=63;}copy_s(app.cleaning.ids[app.cleaning.ids_n++],65,id);
- copy_s(app.cleaning.message,256,"Ускорение 45 · каждое нажатие +60 секунд, не более 180");unlock(&app.mutex);copy_s(reason,cap,"Добавлено до 60 секунд; остаток ограничен 180 секундами");return 202;
+ cleaning_event("button_deadline_extended");copy_s(app.cleaning.message,256,"Ускорение 45 · каждое нажатие +60 секунд, не более 180");unlock(&app.mutex);copy_s(reason,cap,"Добавлено до 60 секунд; остаток ограничен 180 секундами");return 202;
 }
-static int cleaning_cancel(Pair *p,int n,char *reason,size_t cap){(void)p;if(n){copy_s(reason,cap,"Нужен пустой объект");return 400;}lock(&app.mutex);if(app.cleaning.pending&&!app.cleaning.ip[0]&&app.cleaning.storage_error){unlock(&app.mutex);copy_s(reason,cap,"Журнал ускорения повреждён. Проверьте уставку на HMI и восстановите журнал");return 409;}if(!app.cleaning.pending){unlock(&app.mutex);copy_s(reason,cap,"Ускорение не активно");return 200;}app.cleaning.active=0;app.cleaning.restoring=1;app.cleaning.deadline=0;app.cleaning.retry=0;copy_s(app.cleaning.message,256,"Возвращаем скорость 10…");unlock(&app.mutex);copy_s(reason,cap,"Запрошен возврат скорости 10");return 202;}
+static int cleaning_cancel(Pair *p,int n,char *reason,size_t cap){(void)p;if(n){copy_s(reason,cap,"Нужен пустой объект");return 400;}lock(&app.mutex);if(app.cleaning.pending&&!app.cleaning.ip[0]&&app.cleaning.storage_error){unlock(&app.mutex);copy_s(reason,cap,"Журнал ускорения повреждён. Проверьте уставку на HMI и восстановите журнал");return 409;}if(!app.cleaning.pending){unlock(&app.mutex);copy_s(reason,cap,"Ускорение не активно");return 200;}app.cleaning.active=0;app.cleaning.restoring=1;app.cleaning.deadline=0;app.cleaning.retry=0;cleaning_event("cancel_requested");copy_s(app.cleaning.message,256,"Возвращаем скорость 10…");unlock(&app.mutex);copy_s(reason,cap,"Запрошен возврат скорости 10");return 202;}
 static void request_quit(void){atomic_store(&app.quitting,1);}
 static void cleaning_service(void){
  lock(&app.mutex);uint64_t now=now_ms();
  if(atomic_load(&app.quitting)&&!app.quit_started)app.quit_started=now;
+ Reading *idle=&app.fields[F_IDLE];
+ /* Discover an unowned elevated setting only from the already polled cache.
+    A queued/owned 45 is covered by pending+active and cannot enter this branch. */
+ if(!app.cleaning.pending&&!app.busy&&now>=app.cleaning.retry&&cleaning_cached_ready(now)&&idle->value>10){
+  if(cleaning_journal_start()){
+   app.cleaning.pending=app.cleaning.restoring=1;app.cleaning.active=0;app.cleaning.storage_error=0;app.cleaning.deadline=0;
+   copy_s(app.cleaning.ip,64,app.ip);copy_s(app.cleaning.netid,64,app.netid);app.cleaning.port=app.ads_port;
+   copy_s(app.cleaning.message,256,"Обнаружена повышенная холостая уставка вне таймера. Возвращаем 10");cleaning_event("external_elevation_observed");
+  }else {app.cleaning.storage_error=1;app.cleaning.retry=now+1000;copy_s(app.cleaning.message,256,"Повышенная уставка обнаружена; журнал возврата не сохранён. Запись не отправлена");}
+ }
  if(app.cleaning.pending){
-  Reading *idle=&app.fields[F_IDLE];
-  if(app.cleaning.active&&(now>=app.cleaning.deadline||atomic_load(&app.quitting)||!app.connected||!cleaning_can_boost(now)||(!app.busy&&idle->value!=45))){app.cleaning.active=0;app.cleaning.restoring=1;copy_s(app.cleaning.message,256,app.connected?"Возвращаем скорость 10…":"Нет связи. Возврат 10 ожидает подключения к ПЛК");}
-  if(app.cleaning.restoring&&!app.busy&&now>=app.cleaning.retry&&app.connected&&app.ads_status==5&&idle->quality&&now-idle->observed<=1500&&idle->meta.valid&&!(idle->meta.flags&32u)&&cleaning_target()){
-   Transaction tx;memset(&tx,0,sizeof(tx));snprintf(tx.id,65,"normal-%u-%llu",++app.cleaning.serial,(unsigned long long)now);copy_s(tx.status,24,"queued");tx.field=F_IDLE;tx.cleaning=2;copy_s(tx.actor,32,"scada-timer");tx.requested=10;tx.before=idle->value;tx.epoch=app.epoch;memcpy(tx.expected,idle->raw,4);encode_value(&defs[F_IDLE],10,tx.wanted);app.tx=tx;app.busy=1;app.queue=1;
+  if(app.cleaning.active&&(now>=app.cleaning.deadline||atomic_load(&app.quitting)||!app.connected||!cleaning_can_boost(now)||(!app.busy&&idle->value!=45))){
+   const char *cause=atomic_load(&app.quitting)?"shutdown":now>=app.cleaning.deadline?"deadline":"conditions_changed";
+   app.cleaning.active=0;app.cleaning.restoring=1;cleaning_event(cause);
+   copy_s(app.cleaning.message,256,!app.connected?"Нет связи. Возврат 10 ожидает исходного ПЛК":!strcmp(cause,"deadline")?"Срок ускорения истёк. Возвращаем 10":!strcmp(cause,"shutdown")?"Выход из SCADA. Возвращаем 10":"Условия ускорения изменились. Возвращаем 10");
+  }
+  if(app.cleaning.restoring&&!app.busy&&now>=app.cleaning.retry&&cleaning_cached_ready(now)&&cleaning_target()){
+   if(idle->value==10)cleaning_clear_observed();
+   else if(idle->observed>=app.cleaning.retry){
+    Transaction tx;memset(&tx,0,sizeof(tx));snprintf(tx.id,65,"normal-%u-%llu",++app.cleaning.serial,(unsigned long long)now);copy_s(tx.status,24,"queued");tx.field=F_IDLE;tx.cleaning=2;copy_s(tx.actor,32,"scada-timer");tx.requested=10;tx.before=idle->value;tx.epoch=app.epoch;memcpy(tx.expected,idle->raw,4);encode_value(&defs[F_IDLE],10,tx.wanted);app.tx=tx;app.busy=1;app.queue=1;diagnostic_transaction_event(&tx,"transaction.queued");
+   }
   }
   if(app.cleaning.restoring&&!cleaning_target()&&app.cleaning.ip[0])copy_s(app.cleaning.message,256,"Возврат 10 ожидает исходное подключение к ПЛК. Обратитесь к инженеру");
  }

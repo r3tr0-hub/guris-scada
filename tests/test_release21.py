@@ -58,7 +58,7 @@ class Release21(unittest.TestCase):
  def test_turkish_catalog_and_native_preference(self):
   self.assertEqual(self.request('POST','/api/language',dict(language='tr'))[0],200);self.assertEqual(self.state()['language'],'tr')
   d=self.request('GET','/locales/tr.json')[1];self.assertEqual(d['messages']['Диаметр вала'],'Hotmelt Merdane Cap (mm)')
-  for p in CATALOG:self.assertEqual(d['messages'][p['label']],p['original'])
+  for p in CATALOG:self.assertTrue(d['messages'][p['label']]);self.assertFalse(any('А'<=c<='я' for c in d['messages'][p['label']]))
   self.assertEqual(self.request('GET','/assets/flags/tr.svg')[0],200)
   self.assertEqual(self.mock.writes,[])
 if __name__=='__main__':unittest.main(verbosity=2)

@@ -22,6 +22,7 @@ static void http_response(Socket s,int status,const char *mime,const unsigned ch
 static void http_message(Socket s,int status,const char *message){char body[700];Buffer b;binit(&b,body,sizeof(body));bf(&b,"{\"message\":");bj(&b,message);bf(&b,"}");http_response(s,status,"application/json; charset=utf-8",(unsigned char*)body,b.used);}
 static unsigned char *read_file(const char*,size_t*);
 #include "diagnostic_export.h"
+#include "saved_reports.h"
 static unsigned char *read_file(const char *rel,size_t *size){char path[2400];path_join(path,rel);FILE *f=file_open(path,"rb");if(!f)return NULL;if(fseek(f,0,SEEK_END)||ftell(f)<0){fclose(f);return NULL;}long n=ftell(f);rewind(f);if(n>2000000){fclose(f);return NULL;}unsigned char *data=malloc((size_t)n+1);if(!data){fclose(f);return NULL;}if(fread(data,1,(size_t)n,f)!=(size_t)n){free(data);fclose(f);return NULL;}fclose(f);data[n]=0;*size=(size_t)n;return data;}
 static unsigned char *expand_boot(const unsigned char *text,size_t size,size_t *outsize){
  const char *at=strstr((const char*)text,"@@SCADA_TOKEN@@");if(!at)return NULL;size_t off=(size_t)(at-(const char*)text),tag=strlen("@@SCADA_TOKEN@@"),n=size-tag+strlen(app.token);
@@ -44,7 +45,7 @@ static int connect_config(Pair *p,int n,char *reason,size_t cap){
 #include "manuals.h"
 static void http_client(Socket s){
  http_cookie[0]=0;
- unsigned char buffer[139265];size_t used=0;char *end=NULL;uint64_t deadline=now_ms()+2000;
+ static unsigned char buffer[2105345];size_t used=0;char *end=NULL;uint64_t deadline=now_ms()+2000;
  while(used<8192&&!end){if(wait_io(s,0,300)<=0){if(now_ms()>=deadline)return;continue;}int n=recv(s,(char*)buffer+used,(int)(8192-used),0);if(n<=0)return;used+=(size_t)n;buffer[used]=0;end=strstr((char*)buffer,"\r\n\r\n");}
  if(!end){http_message(s,400,"Запрос слишком большой");return;}size_t header_length=(size_t)(end-(char*)buffer)+4;
  char method[16],route[2048],proto[20],extra;if(sscanf((char*)buffer,"%15s %2047s %19s%c",method,route,proto,&extra)!=4||extra!='\r'||strcmp(proto,"HTTP/1.1")){http_message(s,400,"Некорректный HTTP-запрос");return;}
@@ -56,10 +57,11 @@ static void http_client(Socket s){
  if(api&&(header_value(headers,"X-SCADA-Token",token,sizeof(token))!=1||strcmp(token,app.token))){http_message(s,403,"Недействительная сессия интерфейса");return;}
  int engineer=request_engineer(headers);
  if(!strcmp(method,"GET")){
+  if(!strcmp(route,"/api/themes")){char *data=malloc(1048576);if(!data){http_message(s,503,"Недостаточно памяти");return;}Buffer b;binit(&b,data,1048576);theme_packages_json(&b);if(b.failed)http_message(s,503,"Список тем слишком велик");else http_response(s,200,"application/json; charset=utf-8",(unsigned char*)data,b.used);free(data);return;}
   if(!strcmp(route,"/api/diagnostics/status")||!strncmp(route,"/api/diagnostics/chunk?",23)){
    if(!engineer){http_message(s,403,"Требуется вход инженера");return;}
    if(!strncmp(route,"/api/diagnostics/chunk?",23)){diagnostic_chunk_http(s,route);return;}
-   char data[2400];size_t n=diagnostic_status_json(data,sizeof(data));http_response(s,200,"application/json; charset=utf-8",(unsigned char*)data,n);return;
+   char data[8192];size_t n=diagnostic_status_json(data,sizeof(data));http_response(s,200,"application/json; charset=utf-8",(unsigned char*)data,n);return;
   }
   if(!strncmp(route,"/api/production",15)){
    int shift=!strcmp(route,"/api/production/shift")||!strncmp(route,"/api/production/shift?",22);
@@ -115,17 +117,20 @@ static void http_client(Socket s){
  }
  if(strcmp(method,"POST")||!api){http_message(s,403,"Метод не разрешён");return;}
  if(header_value(headers,"Transfer-Encoding",transfer,sizeof(transfer))!=0||header_value(headers,"Content-Length",cl,sizeof(cl))!=1){http_message(s,400,"Нужна явная длина JSON-запроса");return;}
- double length_d;if(!number_parse(cl,&length_d)||length_d<2||length_d>(!strcmp(route,"/api/production/import")?131072:2048)||floor(length_d)!=length_d){http_message(s,400,"Некорректная длина запроса");return;}size_t length=(size_t)length_d;
+ double length_d;if(!number_parse(cl,&length_d)||length_d<(!strncmp(route,"/api/production/save-chunk?",27)?1:2)||length_d>((!strcmp(route,"/api/production/save")||!strncmp(route,"/api/production/save-chunk?",27))?2097152:!strcmp(route,"/api/production/import")?131072:2048)||floor(length_d)!=length_d){http_message(s,400,"Некорректная длина запроса");return;}size_t length=(size_t)length_d;
  if(header_length+length>=sizeof(buffer)){http_message(s,400,"Запрос слишком большой");return;}
  while(used<header_length+length){if(now_ms()>=deadline||wait_io(s,0,300)<=0){if(now_ms()>=deadline)return;continue;}int n=recv(s,(char*)buffer+used,(int)(header_length+length-used),0);if(n<=0)return;used+=(size_t)n;}buffer[header_length+length]=0;
  if(memchr(buffer+header_length,0,length)){http_message(s,400,"Нулевые байты в JSON не разрешены");return;}
  if(!strcmp(route,"/api/production/import")){char reason[300];int status=production_import((char*)buffer+header_length,engineer,reason,sizeof(reason));http_message(s,status,reason);return;}
+ if(!strncmp(route,"/api/production/save-chunk?",27)){saved_upload_chunk(s,route,(char*)buffer+header_length,length,engineer);return;}
+ if(!strcmp(route,"/api/production/save")){saved_production_http(s,(char*)buffer+header_length,engineer);return;}
  Pair pairs[8];int count=json_pairs((char*)buffer+header_length,pairs,8);if(count<0){http_message(s,400,"Нужен корректный JSON-запрос");return;}
  char reason[300]={0};int status=400;
  if(!strcmp(route,"/api/ui-ready")){
   if(count!=0){copy_s(reason,sizeof(reason),"Нужен пустой объект");status=400;}
-  else {lock(&app.mutex);app.ui_ready_count++;unlock(&app.mutex);copy_s(reason,sizeof(reason),"Интерфейс загружен");status=200;}
+  else {lock(&app.mutex);app.ui_ready_count++;unsigned ready_count=app.ui_ready_count;unlock(&app.mutex);char ready_json[100];snprintf(ready_json,sizeof(ready_json),"{\"readyCount\":%u}",ready_count);diagnostic_event("ui.ready",ready_json);copy_s(reason,sizeof(reason),"Интерфейс загружен");status=200;}
  }
+ else if(!strcmp(route,"/api/ui-lifecycle")){const char *kind=pair_get(pairs,count,"kind");if(count!=1||!kind||(strcmp(kind,"hidden")&&strcmp(kind,"visible")&&strcmp(kind,"pagehide")&&strcmp(kind,"reload")&&strcmp(kind,"navigation_blocked"))){status=422;copy_s(reason,sizeof(reason),"Некорректное событие интерфейса");}else {char event[100];snprintf(event,sizeof(event),"{\"kind\":\"%s\"}",kind);diagnostic_event("ui.lifecycle",event);status=200;copy_s(reason,sizeof(reason),"Событие записано");}}
  else if(!strcmp(route,"/api/ui-error")){
   if(count!=1||!pair_get(pairs,count,"message")||pairs[0].number){copy_s(reason,sizeof(reason),"Нужно текстовое сообщение");status=400;}
   else {lock(&app.mutex);app.ui_error_count++;diagnostic_clean_text(app.ui_error,sizeof(app.ui_error),pair_get(pairs,count,"message"));char error_json[1200];Buffer eb;binit(&eb,error_json,sizeof(error_json));bf(&eb,"{\"count\":%u,\"message\":",app.ui_error_count);bj(&eb,app.ui_error);bf(&eb,"}");unlock(&app.mutex);if(!eb.failed)diagnostic_event("ui.error",error_json);copy_s(reason,sizeof(reason),"Ошибка интерфейса записана");status=200;}
@@ -135,6 +140,9 @@ static void http_client(Socket s){
  }
  else if(!strcmp(route,"/api/diagnostics/export")){if(!engineer){copy_s(reason,sizeof(reason),"Требуется вход инженера");status=403;}else status=diagnostic_export_request(pairs,count,reason,sizeof(reason));}
  else if(!strcmp(route,"/api/production/action")){if(!engineer){copy_s(reason,sizeof(reason),"Детализация производства доступна инженеру");status=403;}else status=production_action(pairs,count,reason,sizeof(reason));}
+ else if(!strcmp(route,"/api/production/save-begin")&&count==0){saved_upload_begin(s,engineer);return;}
+ else if(!strcmp(route,"/api/report/save")&&count==0){saved_snapshot_http(s,engineer);return;}
+ else if(!strcmp(route,"/api/operator-view"))status=operator_select(pairs,count,reason,sizeof(reason));
  else if(!strcmp(route,"/api/engineering-view"))status=engineering_select(pairs,count,reason,sizeof(reason),engineer);
  else if(!strcmp(route,"/api/io-view"))status=io_select(pairs,count,reason,sizeof(reason));
  else if(!strcmp(route,"/api/command"))status=enqueue_command(pairs,count,reason,sizeof(reason),engineer);
@@ -168,5 +176,5 @@ static int http_open(void){
  if(getsockname(listener,(struct sockaddr*)&a,&n))return 0;
  app.http_port=ntohs(a.sin_port);snprintf(app.url,sizeof(app.url),"http://127.0.0.1:%u/?k=%s",app.http_port,app.token);return 1;
 }
-static void http_run(void){while(!atomic_load(&app.stop)){if(wait_io(listener,0,200)<=0)continue;Socket s=accept(listener,NULL,NULL);if(s==BAD_SOCKET)continue;set_nonblocking(s);http_client(s);sock_close(s);}if(listener!=BAD_SOCKET){sock_close(listener);listener=BAD_SOCKET;}}
+static void http_run(void){while(!atomic_load(&app.stop)){if(wait_io(listener,0,200)<=0)continue;Socket s=accept(listener,NULL,NULL);if(s==BAD_SOCKET)continue;set_nonblocking(s);http_client(s);sock_close(s);}if(listener!=BAD_SOCKET){sock_close(listener);listener=BAD_SOCKET;}saved_upload_discard();}
 #endif

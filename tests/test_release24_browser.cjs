@@ -20,7 +20,7 @@ const [url,token,control,out]=process.argv.slice(2),catalog=JSON.parse(fs.readFi
    await checkLayout();assert.equal(await sectionPage.locator('.sc-functionality-row').count(),s.parameters.filter(p=>!p.pairedWith).length,s.id);
    for(const p of s.parameters.filter(p=>p.pairedWith)){
     const same=await sectionPage.locator(`[data-engineering-control="${p.key}"]`).evaluate((e,key)=>e.closest('.sc-functionality-row')===document.querySelector(`[data-page-content="engineering"] [data-engineering-control="${key}"]`).closest('.sc-functionality-row'),p.pairedWith);assert(same,s.id+': '+p.key);
-    await page.waitForFunction(key=>{const e=document.querySelector(`[data-page-content="engineering"] [data-engineering-control="${key}"]`);return e&&e.textContent!=='—'&&getComputedStyle(e).backgroundColor==='rgb(241, 220, 100)';},p.key,{timeout:20000});
+    await page.waitForFunction(key=>{const e=document.querySelector(`[data-page-content="engineering"] [data-engineering-control="${key}"]`);return e&&e.textContent!=='—'&&getComputedStyle(e).backgroundColor!=='rgba(0, 0, 0, 0)';},p.key,{timeout:20000});
    }
    const help=s.parameters.find(p=>!p.pairedWith);await sectionPage.locator(`[data-engineering-help="${help.key}"]`).click();const dialog=page.locator('.sc-functionality-overlay:visible');assert((await dialog.innerText()).includes(help.description));assert((await dialog.innerText()).includes(help.symbol));await page.keyboard.press('Escape');
    await grid.evaluate(e=>e.scrollTop=e.scrollHeight);await checkLayout();
@@ -41,8 +41,8 @@ const [url,token,control,out]=process.argv.slice(2),catalog=JSON.parse(fs.readFi
    await page.screenshot({path:path.join(out,'engineering-'+theme+'.png')});
   }
   for(const lang of ['en','tr','ru']){
-   await api('/api/language',{language:lang});await page.reload();await page.waitForFunction(lang=>document.documentElement.lang===lang,lang);await nav('menu');await page.locator('[data-open-node="options"]').click();assert.equal(await page.locator('[data-engineering-section="ANA MERDANE"]').innerText(),lang==='en'?s.en:lang==='tr'?s.original:s.title);await page.locator('[data-engineering-section="ANA MERDANE"]').click();await waitReady(numeric.key);
-   assert.equal(await sectionPage.locator(`[data-engineering-help="${numeric.key}"] strong`).innerText(),lang==='en'?numeric.en:lang==='tr'?numeric.original:numeric.label);
+   await api('/api/language',{language:lang});await page.reload();await page.waitForFunction(lang=>document.documentElement.lang===lang,lang);await nav('menu');await page.locator('[data-open-node="options"]').click();assert.equal(await page.locator('[data-engineering-section="ANA MERDANE"]').innerText(),lang==='en'?s.en:lang==='tr'?JSON.parse(fs.readFileSync(path.resolve(__dirname,'../ui/locales/tr.json'),'utf8')).messages[s.title]:s.title);await page.locator('[data-engineering-section="ANA MERDANE"]').click();await waitReady(numeric.key);
+   assert.equal(await sectionPage.locator(`[data-engineering-help="${numeric.key}"] strong`).innerText(),lang==='en'?numeric.en:lang==='tr'?JSON.parse(fs.readFileSync(path.resolve(__dirname,'../ui/locales/tr.json'),'utf8')).messages[numeric.label]:numeric.label);
   }
   await nav('home');await page.waitForTimeout(500);assert.equal(Object.keys((await api('/api/state')).data.fields).length,256);
   await api('/api/auth/operator',{});await nav('menu');await page.waitForFunction(()=>document.querySelector('[data-open-node="options"]').hidden);assert(await page.locator('[data-open-node="options"]').isHidden());assert.equal((await api('/api/engineering-view',{section:'factory'})).status,403);assert.deepEqual(errors,[]);

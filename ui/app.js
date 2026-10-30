@@ -1,4 +1,4 @@
-/* Guris SCADA 0.1.25. The PLC is the only source of displayed setting values. */
+/* Guris SCADA 0.1.26. The PLC is the only source of displayed setting values. */
 (async () => {
   'use strict';
 
@@ -20,6 +20,41 @@
   const $$ = selector => Array.from(root.querySelectorAll(selector));
   const token = window.SCADA_BOOT.token;
   if (window.SCADA_BOOT.kiosk) document.title = `Guris SCADA [GurisSCADA:${location.port}]`;
+
+  const themePackages=new Map([['dark',{id:'dark',scheme:'dark'}],['classic',{id:'classic',scheme:'light'}]]), themeProperties=new Set();
+  function applyThemePackage(id){
+    const pkg=themePackages.get(id)||themePackages.get('dark');
+    document.documentElement.dataset.theme=pkg?.id||'dark';
+    document.documentElement.dataset.palette=pkg?.scheme||'dark';
+    const app=$('.sc-app');
+    for(const key of themeProperties)app.style.removeProperty(key);themeProperties.clear();
+    if(pkg)for(const [key,value] of Object.entries(pkg))if(/^--sc-[a-z0-9-]+$/.test(key)&&typeof value==='string'){app.style.setProperty(key,value);themeProperties.add(key);}
+    mechanisms?.refreshPalette();refreshPhotoColors();
+  }
+  async function refreshThemePackages(){
+    try{const result=await api('/api/themes');if(!Array.isArray(result.themes))return;
+      themePackages.clear();for(const pkg of result.themes)if(/^[a-z][a-z0-9-]{0,39}$/.test(pkg.id))themePackages.set(pkg.id,pkg);
+      const choices=$('.sc-theme-choices');if(choices){choices.replaceChildren();for(const pkg of themePackages.values()){
+        const button=document.createElement('button');button.type='button';button.className='sc-theme-choice';button.dataset.themeChoice=pkg.id;
+        const sample=document.createElement('span');sample.className='sc-theme-sample';sample.style.background=pkg['--sc-bg']||'';sample.style.color=pkg['--sc-text']||'';sample.textContent='Aa';sample.setAttribute('aria-hidden','true');
+        const name=document.createElement('span');name.textContent=pkg[I18n.language==='tr'?'nameTr':I18n.language==='en'?'nameEn':'nameRu']||pkg.id;
+        button.title=pkg.description||'';button.append(sample,name);choices.append(button);
+      }}applyThemePackage(state.options?.theme||document.documentElement.dataset.theme);renderLocal();
+    }catch{/* Built-in CSS remains readable if the registry is temporarily unavailable. */}
+  }
+  let operatorScope='';
+  function refreshOperatorScope(){if(!online)return;const scope=['unwinder','temperature','edge'].includes(page)?page:'';if(!scope&&!operatorScope)return;operatorScope=scope;api('/api/operator-view',{scope}).catch(()=>{});}
+  setInterval(()=>{if(!document.hidden&&['unwinder','temperature','edge'].includes(page))refreshOperatorScope();},1000);
+  function lifecycle(kind){api('/api/ui-lifecycle',{kind}).catch(()=>{});}
+  document.addEventListener('visibilitychange',()=>lifecycle(document.hidden?'hidden':'visible'));
+  window.addEventListener('pagehide',()=>lifecycle('pagehide'));
+  window.addEventListener('pageshow',e=>{if(e.persisted)lifecycle('visible');});
+  try{if(performance.getEntriesByType('navigation')[0]?.type==='reload')lifecycle('reload');}catch{}
+  document.addEventListener('dragover',e=>e.preventDefault());
+  document.addEventListener('drop',e=>{e.preventDefault();lifecycle('navigation_blocked');});
+  document.addEventListener('contextmenu',e=>e.preventDefault());
+  document.addEventListener('click',e=>{const a=e.target.closest('a[href]');if(!a)return;const u=new URL(a.href,location.href);const sameDocument=u.origin===location.origin&&u.pathname===location.pathname&&u.search===location.search;const assignedExport=u.origin===location.origin&&/^\/api\/(diagnostic-file|report-file|production-export)/.test(u.pathname);if(!sameDocument&&!assignedExport){e.preventDefault();lifecycle('navigation_blocked');}},true);
+  document.addEventListener('keydown',e=>{if(e.altKey&&['ArrowLeft','ArrowRight','Home'].includes(e.key)||e.ctrlKey&&['l','o','n','t','w'].includes(e.key.toLowerCase())||e.key==='BrowserBack'||e.key==='BrowserForward'){e.preventDefault();lifecycle('navigation_blocked');}});
   const gates = {
     welding: 'weldingEnabled',
     beltTime1: 'beltTimed',
@@ -214,12 +249,16 @@
     return Boolean(counterLabels[key] && ready() && fresh(key) && field(key).resettable && (allowBusy || !pending && !state.busy));
   }
   function toast(message, tone = 'neutral') {
+    if (!['danger','warning'].includes(tone)) return;
     const t = $('[data-toast]');
+    if (!t.hidden && t.dataset.tone === tone && t.textContent === I18n.text(message)) return;
+    clearTimeout(toast.leaveTimer);
+    t.classList.remove('sc-toast-leaving');
     t.textContent = I18n.text(message);
     t.dataset.tone = tone;
     t.hidden = false;
     clearTimeout(toast.timer);
-    toast.timer = setTimeout(() => t.hidden = true, tone === 'danger' || tone === 'warning' ? 9000 : 5000);
+    toast.timer = setTimeout(() => {t.classList.add('sc-toast-leaving');toast.leaveTimer=setTimeout(()=>{t.hidden=true;},200);}, 3000);
   }
   async function api(path, body) {
     const abort = new AbortController(),
@@ -254,7 +293,7 @@
   function stopNavigationAnimations() {
     for (const [button,timer] of navigationTimers) {
       clearTimeout(timer);
-      delete button.dataset.navAnimating;
+      delete button.dataset.navAnimating;delete button.dataset.pressMotion;
     }
     navigationTimers.clear();
   }
@@ -264,8 +303,9 @@
     // Restart a short CSS response on repeated clicks; navigation itself is immediate.
     void button.offsetWidth;
     button.dataset.navAnimating = 'true';
+    button.dataset.pressMotion='true';
     navigationTimers.set(button,setTimeout(() => {
-      delete button.dataset.navAnimating;
+      delete button.dataset.navAnimating;delete button.dataset.pressMotion;
       navigationTimers.delete(button);
     },2200));
   }
@@ -274,6 +314,8 @@
     if(Object.hasOwn(menuSlots,next)&&!['scada','options'].includes(next)&&menuPresence(next)!==1)return;
     if (!['home', 'belt', 'menu', 'scada', 'clock', 'about', 'alarms', 'io', 'manuals', 'production', 'jobs'].includes(next) && !nodeTitles[next] || ['scada','options','functionality','performance','engineering'].includes(next) && !isEngineer()) return;
     page = next;
+    refreshOperatorScope();
+    if(page==='scada')refreshThemePackages();
     $('.sc-main').dataset.home = String(page === 'home');
     const content = page === 'ballerina' ? 'settings' : page;
     $$('[data-page-content]').forEach(e => e.hidden = e.dataset.pageContent !== content);
@@ -409,6 +451,9 @@
     renderWeldingIcon();
     renderNodes();
     renderPhotoHelp();
+    $$('[data-heat-output]').forEach(e=>{const value=display(e.dataset.heatOutput),valid=Number.isFinite(value);e.dataset.unknown=String(!valid);e.querySelector('output').textContent=valid?format(value,1)+' %':'—';e.querySelector('meter').value=valid?Math.max(0,Math.min(100,value)):0;e.querySelector('meter').hidden=!valid;});
+    $$('[data-edge-physical-mode]').forEach(e=>{const v=display(e.dataset.edgePhysicalMode);e.textContent=v===null?t('Нет данных'):t(v===1?'Авто':'Ручной');e.dataset.unknown=String(v===null);});
+    $$('[data-edge-input]').forEach(e=>{const value=display(e.dataset.edgeInput);e.textContent=value===null?t('Нет данных'):String(value);});
     updateMechanisms();
     $('[data-open-language]').disabled = Boolean(pending || state.busy);
   }
@@ -712,21 +757,9 @@
     });
   }
   async function downloadReport() {
-    try {
-      const report = await api('/api/report'),
-        blob = new Blob([JSON.stringify(report, null, 2)], {
-          type: 'application/json'
-        }),
-        url = URL.createObjectURL(blob),
-        a = document.createElement('a');
-      a.href = url;
-      a.download = `GurisSCADA_report_${new Date().toISOString().replace(/[:.]/g, '-')}.json`;
-      a.click();
-      setTimeout(() => URL.revokeObjectURL(url), 1000);
-      toast(t("Отчёт сохранён в загрузки браузера."));
-    } catch (e) {
-      toast(e.message, 'danger');
-    }
+    const status=$('[data-report-saved-path]');
+    try { const report=await api('/api/report/save',{}); if(status)status.textContent=report.path||report.savedPath||report.message||''; }
+    catch(e){if(status)status.textContent=I18n.text(e.message);toast(e.message,'danger');}
   }
   function renderNodes() {
     $$('[data-node-reading]').forEach(e => {
@@ -948,9 +981,9 @@
   function renderLocal() {
     const engineer = isEngineer();
     const savedTheme = state.options?.theme || document.documentElement.dataset.theme;
-    const theme = savedTheme === 'classic' ? 'classic' : 'dark';
+    const theme = themePackages.has(savedTheme) ? savedTheme : 'dark';
     if (document.documentElement.dataset.theme !== theme) {
-      document.documentElement.dataset.theme = theme;
+      applyThemePackage(theme);
       mechanisms?.refreshPalette();
     }
     $$('[data-theme-choice]').forEach(e => {
@@ -980,8 +1013,8 @@
       e.querySelector('.sc-option-state').textContent = on ? t("ВКЛ") : t("ВЫКЛ");
       e.disabled = !engineer || optionBusy;
     });
-    $('[data-system-summary]').textContent = t("SCADA {0} · локальный режим", [state.version || '0.1.25']);
-    $('[data-about-version]').textContent=state.version||'0.1.25';
+    $('[data-system-summary]').textContent = t("SCADA {0} · локальный режим", [state.version || '0.1.26']);
+    $('[data-about-version]').textContent=state.version||'0.1.26';
     $('[data-exit]').hidden=state.options?.exitButton===false;
     $$('[data-exit]').forEach(b=>b.disabled=exitRequested);
     const font=['system','tahoma','arial','verdana'].includes(state.options?.font)?state.options.font:'system';
@@ -1111,14 +1144,14 @@
   }
   async function changeOption(key, value) {
     if (!isEngineer() || optionBusy) return;
-    if (key === 'theme' && (!['dark','classic'].includes(value) || value === state.options?.theme)) return;
+    if (key === 'theme' && (!themePackages.has(value) || value === state.options?.theme)) return;
     if (key === 'font' && (!['system','tahoma','arial','verdana'].includes(value) || value === state.options?.font)) return;
     const options = {
       snow: state.options?.snow !== false ? 1 : 0,
       animations: motionEnabled() ? 1 : 0,
       wallpaper: state.options?.wallpaper !== false ? 1 : 0,
       exitButton: state.options?.exitButton !== false ? 1 : 0,
-      theme: state.options?.theme === 'classic' ? 'classic' : 'dark',
+      theme: themePackages.has(state.options?.theme) ? state.options.theme : 'dark',
       font: ['system','tahoma','arial','verdana'].includes(state.options?.font)?state.options.font:'system'
     };
     options[key] = ['theme','font'].includes(key) ? value : 1 - options[key];
@@ -1754,6 +1787,7 @@
   productionBrowser=window.SCADA_PRODUCTION?.create(root,{api,t,I18n,token,navigate:setPage,getState:()=>state,getAlarm:id=>alarmMessages[String(id)]});
   manualBrowser=window.SCADA_MANUALS?.create(root,{api,t,I18n,token});
   ioMonitor=window.SCADA_IO?.create(root,{api,getState:()=>state,isOnline:()=>online,t,I18n});
+  refreshThemePackages();
   setPage('home');
   resize();
   clock();

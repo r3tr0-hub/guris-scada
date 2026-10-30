@@ -14,7 +14,7 @@ function create(root,{api,t,I18n,getState,display,editable,requestWrite,requestC
  const body=node('div','sc-functionality-description'),footer=node('div','sc-dialog-actions'),apply=node('button','sc-action sc-functionality-apply',t('Подтвердить изменение'));apply.type='button';apply.hidden=true;footer.append(apply);dialog.append(dialogHead,body,footer);overlay.append(dialog);root.querySelector('.sc-app').append(overlay);
  let parameters=[],rows=new Map(),currentPage='home',selection=null,restoreFocus=null,disposed=false,sections=[],section=null,wantedSection=null,heartbeat=null;
  const engineer=()=>getState()?.auth?.role==='engineer';
- const parameterName=p=>I18n.language==='tr'?p.original:t(p.label);
+ const parameterName=p=>t(p.label);
  const read=p=>p.sources?display(p.sources[String(display(p.selector))]):display(p.key);
  const canEdit=p=>Boolean(p&&engineer()&&!p.readOnly&&!p.command&&editable(p.key));
  const canCommand=p=>engineer()&&Boolean(getState()?.connected&&getState()?.commands?.[p.command]?.available&&!getState().busy&&!getState().quitting);
@@ -75,9 +75,9 @@ function create(root,{api,t,I18n,getState,display,editable,requestWrite,requestC
    grid.append(row);
   }grid.scrollTop=0;render();
  }
- function openSection(id){wantedSection=id;const next=sections.find(s=>s.id===id||s.original===id);if(!next)return;section=next;parameters=section.parameters;title.textContent=I18n.language==='tr'?section.original:I18n.language==='en'?section.en:t(section.title);build();if(currentPage===pageKey)startBeat();}
+ function openSection(id){wantedSection=id;const next=sections.find(s=>s.id===id||s.original===id);if(!next)return;section=next;parameters=section.parameters;title.textContent=I18n.language==='en'?section.en:t(section.title);build();if(currentPage===pageKey)startBeat();}
  fetch(catalogURL,{cache:'no-store'}).then(r=>{if(!r.ok)throw Error('catalog');return r.json();}).then(catalog=>{
-  if(disposed)return;if(catalog.sections){sections=catalog.sections;for(const s of sections){const button=[...root.querySelectorAll('[data-engineering-section]')].find(b=>b.dataset.engineeringSection===s.original);if(button){button.replaceChildren(document.createTextNode(I18n.language==='tr'?s.original:I18n.language==='en'?s.en:t(s.title)));button.title=s.original;}}if(wantedSection)openSection(wantedSection);}else{parameters=catalog.parameters;build();}
+  if(disposed)return;if(catalog.sections){sections=catalog.sections;for(const s of sections){const button=[...root.querySelectorAll('[data-engineering-section]')].find(b=>b.dataset.engineeringSection===s.original);if(button){button.replaceChildren(document.createTextNode(I18n.language==='en'?s.en:t(s.title)));button.title=s.original;}}if(wantedSection)openSection(wantedSection);}else{parameters=catalog.parameters;build();}
  }).catch(()=>{if(!disposed)grid.append(node('p','sc-node-detail',t('Не удалось загрузить описание параметров.')));});
  return{render,openSection,setPage(next){const prev=currentPage;currentPage=next;if(next!==pageKey){hide();hex=null;hexOverlay.hidden=true;stopBeat();if(prev===pageKey&&pageKey==='engineering'&&engineer())api?.('/api/engineering-view',{section:''}).catch(()=>{});}else{if(pageKey==='engineering')startBeat();render();}},dispose(){disposed=true;stopBeat();hide();overlay.remove();hexOverlay.remove();}};
 }

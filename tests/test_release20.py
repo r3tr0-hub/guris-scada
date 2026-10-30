@@ -21,7 +21,7 @@ class Release20(unittest.TestCase):
    row=db.execute('SELECT max(seq) FROM intervals').fetchone()[0];db.execute("INSERT INTO notes VALUES(?, 'Старая причина', 'Старый комментарий', 'server', 1, 1)",(row,));db.execute('DROP TABLE stop_causes');db.execute('PRAGMA user_version=1');old=db.execute('SELECT count(*) FROM intervals').fetchone()[0]
   self.start_host();self.login()
   with sqlite3.connect(p) as db:
-   self.assertEqual(db.execute('PRAGMA user_version').fetchone()[0],2);self.assertGreaterEqual(db.execute('SELECT count(*) FROM intervals').fetchone()[0],old);self.assertEqual(db.execute('SELECT count(*) FROM notes').fetchone()[0],1);self.assertEqual(db.execute('SELECT count(*) FROM stop_causes').fetchone()[0],0)
+   self.assertEqual(db.execute('PRAGMA user_version').fetchone()[0],3);self.assertGreaterEqual(db.execute('SELECT count(*) FROM intervals').fetchone()[0],old);self.assertEqual(db.execute('SELECT count(*) FROM notes').fetchone()[0],1);self.assertEqual(db.execute('SELECT count(*) FROM stop_causes').fetchone()[0],0)
   status,v=self.request('GET','/api/production/interval/'+str(row));self.assertEqual(status,200);self.assertEqual(v['reason'],'Старая причина');self.assertEqual(v['comment'],'Старый комментарий');self.assertEqual(v['reasonSource'],'manual');self.assertEqual(self.mock.writes,[])
  def test_operator_shift_summary_has_no_detail_or_query_escape(self):
   time.sleep(.6);status,data=self.request('GET','/api/production/shift');self.assertEqual(status,200)
@@ -67,7 +67,7 @@ class Release20(unittest.TestCase):
   now=int(time.time()*1000);status,h=self.request('GET',f'/api/production/history?from={now-60000}&to={now+1000}');self.assertEqual(status,200)
   rows=[v for v in h['intervals'] if v['reasonCode']=='liner_change'];self.assertGreaterEqual(len(rows),2)
   for v in rows:
-   self.assertEqual(v['reason'],'Замена лайнера');self.assertEqual(v['reasonSource'],'automatic');self.assertEqual(v['reasonAlarms'],[14]);self.assertEqual(self.request('GET','/api/production/interval/'+str(v['id']))[1]['reasonCode'],'liner_change')
+   self.assertEqual(v['reason'],'Замена лайнера');self.assertEqual(v['reasonSource'],'inferred');self.assertEqual(v['reasonPolicy'],2);self.assertIn(v['reasonConfidence'],['inferred','candidate']);self.assertEqual(v['reasonAlarms'],[14]);self.assertEqual(self.request('GET','/api/production/interval/'+str(v['id']))[1]['reasonCode'],'liner_change')
   self.assertEqual(self.mock.writes,[])
 
 if __name__=='__main__':unittest.main(verbosity=2)

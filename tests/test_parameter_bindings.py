@@ -37,6 +37,12 @@ class Bindings(unittest.TestCase):
                     gate=entry['gate'];self.mock.set(gate,1);self.await_state(lambda s:s['fields'][gate]['value']==1)
                 if key=='ejectSpeed':
                     self.mock.set('ejectSpeedEnabled',1);self.await_state(lambda s:s['fields']['ejectSpeedEnabled']['value']==1)
+                if key=='beltIdleSpeed':
+                    # Normal is the only generic writable value. A synthetic
+                    # below-normal cache forces a real typed write of 10;
+                    # elevated settings are covered by the automatic-return tests.
+                    self.mock.set(key,9)
+                    self.await_state(lambda s:s['fields'][key]['value']==9)
                 s=self.state();f=s['fields'][key];self.assertTrue(f['bindingReady']);self.assertTrue(f['rangeReady'])
                 value=1-int(f['value']) if f['type']=='BOOL' else min(f['max'],max(f['min'],int(f['value'])+1))
                 if value==f['value'] and f['type']!='BOOL':value=max(f['min'],value-1)

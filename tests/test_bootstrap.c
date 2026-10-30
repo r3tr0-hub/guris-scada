@@ -2,6 +2,7 @@
 #include "../src/http.h"
 #include <assert.h>
 int main(void){
+ assert(getcwd(app.base,sizeof(app.base)));theme_packages_refresh();
  mutex_init(&app.mutex);copy_s(app.token,sizeof(app.token),"test-token-not-a-real-session");
  const char *html="<html data-theme=\"@@SCADA_THEME@@\"><script nonce=\"@@SCADA_NONCE@@\">window.SCADA_BOOT={token:\"@@SCADA_TOKEN@@\",kiosk:@@SCADA_KIOSK@@};</script>";
  for(int theme=0;theme<2;theme++)for(int mode=0;mode<2;mode++){

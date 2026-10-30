@@ -13,7 +13,15 @@ class Complete(unittest.TestCase):
  def test_all_visible_field_keys_are_bound(self):
   source=(plc.ROOT/'ui/index.html').read_text();keys=set(re.findall(r'data-(?:edit|value|node-reading|node-toggle)="([^"]+)"',source))-{'linear'}
   s=self.await_state(lambda s:all(v['quality'] for v in s['fields'].values()))
-  self.assertEqual(keys-set(s['fields']),set());self.assertNotIn('data-unbound',source)
+  self.assertEqual(keys-set(s['fields']),{'eng0074'});self.assertNotIn('data-unbound',source)
+  self.assertEqual(len(s['fields']),len(plc.rows))
+  self.assertEqual(self.request('POST','/api/operator-view',{'scope':'unwinder'})[0],200)
+  s=self.await_state(lambda s:s['fields'].get('eng0074',{}).get('quality'))
+  self.assertEqual(keys-set(s['fields']),set())
+  f=s['fields']['eng0074'];self.assertEqual(f['symbol'],'.stKaliciData.Salma[4].rBalerinSetPos');self.assertEqual(f['type'],'REAL');self.assertTrue(f['writable'])
+  self.assertEqual(len(s['fields']),len(plc.rows)+1)
+  self.assertEqual(self.request('POST','/api/operator-view',{'scope':''})[0],200)
+  s=self.state();self.assertNotIn('eng0074',s['fields'])
   self.assertEqual(s['fields']['glueMeanLength']['symbol'],'HotmeltUnite1.lrHesaplananUrunBoy')
   self.assertEqual(len(s['fields']),len(plc.rows));self.assertEqual(self.mock.writes,[])
  def test_dancer_reference_changes_and_invalid_index_are_not_hardcoded(self):
@@ -37,7 +45,7 @@ class Complete(unittest.TestCase):
    before=self.state()['fields'][key]['value'];status,_,body=self.write(key,1-int(before));self.assertEqual(status,202);self.assertEqual(self.terminal(body)['status'],'confirmed');self.assertEqual(self.mock.writes[-1][0],key)
   self.mock.set('unwinderSensorPresent',0);self.await_state(lambda s:not s['fields']['unwinderAutoStop']['bindingReady']);self.assertEqual(self.write('unwinderAutoStop',1)[0],400)
  def test_knife_fields_and_apply_require_engineer_in_any_machine_state(self):
-  self.assertEqual(self.write('jawOffset',1)[0],403);self.assertEqual(self.command('knifeSave')[0],403)
+  self.assertEqual(self.write('jawServoGearQuantity',1)[0],403);self.assertEqual(self.command('knifeSave')[0],403)
   self.assertEqual(self.request('POST','/api/auth/setup',{'password':'246810'})[0],200)
   values={'feedStartSet':12,'feedStopSet':250,'jawOffset':1,'jawServoGearQuantity':20,'jawGearQuantity':30,'jawWeldingAngleWindow':5,'jawJogSpeed':80,'moonstepAccCoefficient':2,'moonstepDecCoefficient':3,'ceneHizAdimi':4,'sistemBaslangicHizi':50,'ceneMaksIvme':20,'ceneMaksHiz':3000,'ceneTrafoManRef':25}
   for key,value in values.items():

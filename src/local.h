@@ -48,8 +48,7 @@ static int local_save(const char *name,const char *data){
 static int local_read(const char *name,char *out,size_t cap){char rel[180],path[2400];snprintf(rel,sizeof(rel),"local/%s",name);path_join(path,rel);errno=0;FILE *f=file_open(path,"rb");if(!f)return errno==ENOENT?0:-1;size_t n=fread(out,1,cap-1,f);int ok=!ferror(f)&&feof(f);out[n]=0;fclose(f);return ok?1:-1;}
 static void account_event(const char *event){char path[2400];path_join(path,"logs/accounts.csv");FILE *f=file_open(path,"ab");if(f){char utc[40];utc_stamp(utc);fprintf(f,"%s;%s\r\n",utc,event);fclose(f);}}
 static int language_code_ok(const char *s){if(!s||strlen(s)<2||strlen(s)>18)return 0;for(const char *p=s;*p;p++)if(!((*p>='a'&&*p<='z')||(*p>='A'&&*p<='Z')||(*p>='0'&&*p<='9')||*p=='-'||*p=='_'))return 0;return 1;}
-static const char *display_theme_code(int theme){return theme==THEME_CLASSIC?"classic":"dark";}
-static int display_theme_parse(const char *code){return !code?-1:!strcmp(code,"dark")?THEME_DARK:!strcmp(code,"classic")?THEME_CLASSIC:-1;}
+#include "theme_packages.h"
 static const char *display_font_code(int font){return font==FONT_TAHOMA?"tahoma":font==FONT_ARIAL?"arial":font==FONT_VERDANA?"verdana":"system";}
 static int display_font_parse(const char *code){return !code?-1:!strcmp(code,"system")?FONT_SYSTEM:!strcmp(code,"tahoma")?FONT_TAHOMA:!strcmp(code,"arial")?FONT_ARIAL:!strcmp(code,"verdana")?FONT_VERDANA:-1;}
 static int save_display_options(LocalOptions o,const char *language){char data[340];snprintf(data,sizeof(data),"{\"snow\":%d,\"animations\":%d,\"wallpaper\":%d,\"exitButton\":%d,\"theme\":\"%s\",\"font\":\"%s\",\"language\":\"%s\"}\n",o.snow,o.animations,o.wallpaper,o.exit_button,display_theme_code(o.theme),display_font_code(o.font),language);return local_save("scada_options.json",data);}

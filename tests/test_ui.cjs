@@ -16,11 +16,12 @@ rows.forEach(r=>latest.fields[r[1]]={quality:false,value:values[r[1]],raw:'',lab
 for(const k of Object.keys(latest.fields))latest.fields[k].raw=raw(k,values[k]??0);
 for(const k of ['groups','total'])latest.fields[k].resettable=true;
 w.SCADA_BOOT={token:'test'};w.crypto.randomUUID=()=>`test-uuid-${++counter}`;
-const pollDelays=[],realTimeout=w.setTimeout.bind(w);w.setTimeout=(cb,ms,...args)=>{if(cb.name==='poll'){pollDelays.push(ms);return realTimeout(cb,12,...args);}return realTimeout(cb,ms,...args);};
+const notificationDelays=[],pollDelays=[],realTimeout=w.setTimeout.bind(w);w.setTimeout=(cb,ms,...args)=>{if(ms===3000)notificationDelays.push(ms);if(cb.name==='poll'){pollDelays.push(ms);return realTimeout(cb,12,...args);}return realTimeout(cb,ms,...args);};
 w.fetch=async (url,opt)=>{
   if(url==='/api/ui-error'){uiErrors.push(JSON.parse(opt.body));return {ok:true,json:async()=>({message:'logged'})};}
   if(url==='/api/ui-ready'){uiReadyPosts++;return {ok:true,json:async()=>({message:'ready'})};}
   if(url==='/api/state'||url==='/api/report')return {ok:true,json:async()=>JSON.parse(JSON.stringify(latest))};
+  if(url==='/api/operator-view')return {ok:true,json:async()=>({})};
   const body=JSON.parse(opt.body);posts.push({url,body});
   if(url==='/api/write'||url==='/api/counter-reset'){
     if(url==='/api/counter-reset')body.value=0;
@@ -51,7 +52,7 @@ async function run(){
  click('[data-edit="speedSet"]');type('195');assert.equal($('#guris-scada-entry').value,'195');assert.equal($('[data-value="speedSet"]').textContent,'190');
  click('[data-apply-number]');await refresh();assert.equal(posts.length,1);assert.equal(posts[0].body.value,'195');assert.equal($('[data-value="speedSet"]').textContent,'190');assert($('[data-apply-number]').disabled);assert($('[data-edit="width"]').disabled);
  assert(!$('[data-number-overlay]').hidden);assert.equal($('[data-apply-number-text]').textContent,'Записываем…');assert(pollDelays.includes(50));
- finish();await refresh();assert.equal($('[data-value="speedSet"]').textContent,'195');assert.equal($('[data-entry-error]').textContent,'ПЛК подтвердил значение');assert($('[data-number-overlay]').hidden);assert.equal($('[data-toast]').textContent,'ПЛК подтвердил значение');assert(pollDelays.includes(100));
+ finish();await refresh();assert.equal($('[data-value="speedSet"]').textContent,'195');assert.equal($('[data-entry-error]').textContent,'ПЛК подтвердил значение');assert($('[data-number-overlay]').hidden);assert.equal($('[data-toast]').hidden,true);assert(pollDelays.includes(100));
  click('[data-toggle-welding]');await refresh();assert.equal($('[data-welding-toggle-text]').textContent,'ВКЛ');finish();await refresh();assert.equal($('[data-welding-toggle-text]').textContent,'ВЫКЛ');assert($('[data-edit="welding"]').disabled);
  click('[data-edit="speedSet"]');type('266');click('[data-apply-number]');await refresh();assert.equal(posts.length,2);assert.match($('[data-entry-error]').textContent,/265/);click('[data-cancel-number]');
  click('[data-edit="speedSet"]');type('196');latest.fields.speedSet.value=191;latest.fields.speedSet.raw=raw('speedSet',191);await refresh();assert($('[data-apply-number]').disabled);click('[data-apply-number]');assert.equal(posts.length,2);click('[data-cancel-number]');
@@ -72,6 +73,7 @@ async function run(){
  const ast=csstree.parse(css);assert(ast.children.size>0);assert(css.includes('width:1024px; height:600px'));assert(!css.includes('@media (max-width:'));assert.equal($$('[data-page-content]').length,31);assert.equal($$('[data-lucide]').length,0);assert(!html.includes('@@EXTRA_UI@@'));
  assert.equal($$('script[src^="https:"],link[href^="https:"],img[src^="https:"]').length,0);
  w.dispatchEvent(new w.ErrorEvent('error',{message:'Тестовая ошибка\n'+'界'.repeat(100)}));await delay(5);assert.equal(uiErrors.length,1);assert.equal($('#scada-startup-notice').hidden,false);assert(Buffer.byteLength(uiErrors[0].message,'utf8')<160);assert(!uiErrors[0].message.includes('\n'));
+ assert(notificationDelays.includes(3000));assert(css.includes('transition:opacity 200ms'));assert.equal($$('[data-alarm-scroll]').length,0);assert.equal($$('[data-page-content="knife"] [data-edit]').length,1);assert.equal($$('[data-heat-output]').length,6);
  console.log('PASS: offline data, menu and node layout, gates, numpad, pending readback, conflict, ranges, offset, uncertainty, history and CSS.');
 }
 run().then(()=>{dom.window.close();}).catch(e=>{dom.window.close();console.error(e);process.exitCode=1;});
