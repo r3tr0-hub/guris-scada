@@ -13,7 +13,7 @@ const [url,token,control,out]=process.argv.slice(2);
   await page.goto(url);await page.waitForFunction(()=>!document.querySelector('[data-edit="width"]').disabled);
   assert.equal(await page.locator('[data-alarm-scroll]').count(),0);
   await node('knife');await page.waitForFunction(()=>!document.querySelector('[data-edit="jawOffset"]').disabled);
-  assert.equal(await page.locator('[data-page-content="knife"] [data-edit]').count(),1);
+  assert.equal(await page.locator('[data-page-content="knife"] [data-edit]').count(),4);
   await page.locator('[data-edit="jawOffset"]').click();await page.locator('[data-key="clear"]').click();await page.locator('[data-key="1"]').click();await page.locator('[data-apply-number]').click();await page.waitForFunction(()=>document.querySelector('[data-number-overlay]').hidden);
   assert.equal(await page.locator('[data-toast]').isVisible(),false,'confirmed write has no positive toast');
   await node('unwinder');await page.waitForFunction(()=>!document.querySelector('[data-edit="eng0074"]').disabled);

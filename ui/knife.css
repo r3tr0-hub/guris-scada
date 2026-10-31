@@ -1,0 +1,15 @@
+/* Operator layout: the palette only supplies semantic colors. */
+#guris-scada-demo .sc-operator-knife-page {display:flex;flex-direction:column;gap:8px;min-height:0;}
+#guris-scada-demo .sc-operator-knife-page>.sc-section-head {flex-shrink:0;}
+#guris-scada-demo .sc-operator-knife-list {display:grid;grid-auto-rows:max-content;align-content:start;gap:10px;min-height:0;overflow-y:auto;touch-action:pan-y;padding:1px 5px 5px 1px;}
+#guris-scada-demo .sc-operator-knife-row {display:grid;grid-template-columns:minmax(0,1fr) 190px;align-items:center;gap:18px;padding:12px 14px;min-height:84px;border:1px solid var(--sc-line);border-radius:6px;background:var(--sc-panel);}
+#guris-scada-demo .sc-operator-knife-row>.sc-functionality-label {align-self:stretch;}
+#guris-scada-demo .sc-operator-knife-row .sc-functionality-label strong {font-size:16px;}
+#guris-scada-demo .sc-operator-knife-row .sc-functionality-label small {font-size:11px;}
+#guris-scada-demo .sc-operator-knife-row>.sc-node-setting {min-height:56px;justify-content:flex-end;}
+#guris-scada-demo .sc-operator-knife-offset {grid-template-columns:minmax(0,1fr) minmax(320px,1.1fr);}
+#guris-scada-demo .sc-operator-knife-pair {display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start;}
+#guris-scada-demo .sc-operator-knife-pair>div>.sc-node-detail {min-height:24px;margin:0 0 5px;}
+#guris-scada-demo .sc-operator-knife-pair .sc-node-setting {min-height:56px;justify-content:flex-end;}
+#guris-scada-demo .sc-operator-knife-unconfirmed {display:flex;flex-direction:column;justify-content:center;gap:4px;min-height:56px;padding:6px 10px;border:1px solid var(--sc-line);border-radius:5px;color:var(--sc-muted);background:var(--sc-panel-top);}
+#guris-scada-demo .sc-operator-knife-unconfirmed small {font-size:10px;line-height:1.3;}

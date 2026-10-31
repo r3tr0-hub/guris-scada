@@ -1,0 +1,525 @@
+{
+  "schema": 1,
+  "version": "0.1.28",
+  "sourceBootSha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6",
+  "sourceTpySha256": "511cdb20d64a206d3745ee60db708d2527c4b765e0cd6e8c0b014a20ac14653a",
+  "operatorWritable": [
+    "jawOffset",
+    "jawWeldingAngleWindow",
+    "moonstepAccCoefficient",
+    "moonstepDecCoefficient"
+  ],
+  "operatorKnifeLeaseRequired": [
+    "jawWeldingAngleWindow",
+    "moonstepAccCoefficient",
+    "moonstepDecCoefficient"
+  ],
+  "actualSynchronizationOffset": {
+    "binding": null,
+    "status": "unconfirmed",
+    "reason": "Exact VISU_CENE adjacent readout is MAIN.LrActCeneAci (actual angle). It is not evidence of actual synchronization offset."
+  },
+  "fields": [
+    {
+      "key": "jawOffset",
+      "symbol": ".stKaliciData.rCeneSenkronOfset",
+      "type": "REAL",
+      "sourceBytes": 4,
+      "min": -15.0,
+      "max": 15.0,
+      "integer": false,
+      "scale": 1.0,
+      "numericEvidence": [
+        {
+          "page": "VISU_CENE",
+          "rect": [
+            435,
+            70,
+            527,
+            99
+          ],
+          "expression": "stKaliciData.rCeneSenkronOfset",
+          "symbol": ".stKaliciData.rCeneSenkronOfset",
+          "type": "REAL",
+          "relativeBits": 0,
+          "minimum": "-15",
+          "maximum": "15",
+          "limitDependencies": {},
+          "visibleInModelMode": "press",
+          "rawABI": {
+            "nIsString_TPY": 6,
+            "nType_TPY": 1
+          },
+          "proof": {
+            "function": "__VISU_CENE_INPUTCODE",
+            "fileOffset": 1374364,
+            "fileOffsetHex": "0x14f89c",
+            "source": "TCPLC_P_1.wbp",
+            "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+          },
+          "structureOnlyPath": false,
+          "bindingKind": "scalar",
+          "indexDependencies": [],
+          "captionCandidates": [
+            {
+              "text": "Ofset",
+              "textKey": null,
+              "rect": [
+                370,
+                70,
+                531,
+                101
+              ],
+              "basis": "nearby/same-row caption candidate",
+              "proof": {
+                "function": "__VISU_CENE_CYCLECODE",
+                "fileOffset": 1371333,
+                "fileOffsetHex": "0x14ecc5",
+                "source": "TCPLC_P_1.wbp",
+                "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+              }
+            },
+            {
+              "text": "Jaw actuel angle",
+              "textKey": "Calib.77",
+              "rect": [
+                4,
+                67,
+                635,
+                104
+              ],
+              "basis": "nearby/same-row caption candidate",
+              "proof": {
+                "function": "__VISU_CENE_CYCLECODE",
+                "fileOffset": 1365170,
+                "fileOffsetHex": "0x14d4b2",
+                "source": "TCPLC_P_1.wbp",
+                "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+              }
+            }
+          ]
+        }
+      ],
+      "readingEvidence": [
+        {
+          "page": "VISU_CENE",
+          "rect": [
+            435,
+            70,
+            527,
+            99
+          ],
+          "symbol": ".stKaliciData.rCeneSenkronOfset",
+          "type": "REAL",
+          "format": "%.f",
+          "dependencies": [
+            ".stKaliciData.rCeneSenkronOfset"
+          ],
+          "readProof": {
+            "function": "__VISU_CENE_CYCLECODE",
+            "fileOffset": 1371495,
+            "fileOffsetHex": "0x14ed67",
+            "source": "TCPLC_P_1.wbp",
+            "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+          },
+          "drawProof": {
+            "function": "__VISU_CENE_CYCLECODE",
+            "fileOffset": 1371636,
+            "fileOffsetHex": "0x14edf4",
+            "source": "TCPLC_P_1.wbp",
+            "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+          },
+          "structureOnlyPath": false
+        }
+      ],
+      "typeEvidence": {
+        "type": "REAL",
+        "bits": 32,
+        "bindingKind": "scalar",
+        "indexDependencies": []
+      }
+    },
+    {
+      "key": "jawWeldingAngleWindow",
+      "symbol": ".stKaliciData.sRecipeData.rBicakSenkronAralik",
+      "type": "REAL",
+      "sourceBytes": 4,
+      "min": 0.0,
+      "max": 40.0,
+      "integer": false,
+      "scale": 1.0,
+      "numericEvidence": [
+        {
+          "page": "VISU_CENE",
+          "rect": [
+            541,
+            185,
+            630,
+            214
+          ],
+          "expression": "stKaliciData.sRecipeData.rBicakSenkronAralik",
+          "symbol": ".stKaliciData.sRecipeData.rBicakSenkronAralik",
+          "type": "REAL",
+          "relativeBits": 0,
+          "minimum": "0",
+          "maximum": "40",
+          "limitDependencies": {},
+          "visibleInModelMode": "press",
+          "rawABI": {
+            "nIsString_TPY": 6,
+            "nType_TPY": 1
+          },
+          "proof": {
+            "function": "__VISU_CENE_INPUTCODE",
+            "fileOffset": 1379155,
+            "fileOffsetHex": "0x150b53",
+            "source": "TCPLC_P_1.wbp",
+            "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+          },
+          "structureOnlyPath": false,
+          "bindingKind": "scalar",
+          "indexDependencies": [],
+          "captionCandidates": [
+            {
+              "text": "Jaw welding angle window",
+              "textKey": "Calib.61",
+              "rect": [
+                4,
+                182,
+                635,
+                217
+              ],
+              "basis": "nearby/same-row caption candidate",
+              "proof": {
+                "function": "__VISU_CENE_CYCLECODE",
+                "fileOffset": 1366346,
+                "fileOffsetHex": "0x14d94a",
+                "source": "TCPLC_P_1.wbp",
+                "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+              }
+            }
+          ]
+        }
+      ],
+      "readingEvidence": [
+        {
+          "page": "VISU_CENE",
+          "rect": [
+            541,
+            185,
+            630,
+            214
+          ],
+          "symbol": ".stKaliciData.sRecipeData.rBicakSenkronAralik",
+          "type": "REAL",
+          "format": "%.f",
+          "dependencies": [
+            ".stKaliciData.sRecipeData.rBicakSenkronAralik"
+          ],
+          "readProof": {
+            "function": "__VISU_CENE_CYCLECODE",
+            "fileOffset": 1366508,
+            "fileOffsetHex": "0x14d9ec",
+            "source": "TCPLC_P_1.wbp",
+            "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+          },
+          "drawProof": {
+            "function": "__VISU_CENE_CYCLECODE",
+            "fileOffset": 1366649,
+            "fileOffsetHex": "0x14da79",
+            "source": "TCPLC_P_1.wbp",
+            "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+          },
+          "structureOnlyPath": false
+        }
+      ],
+      "typeEvidence": {
+        "type": "REAL",
+        "bits": 32,
+        "bindingKind": "scalar",
+        "indexDependencies": []
+      }
+    },
+    {
+      "key": "moonstepAccCoefficient",
+      "symbol": ".stKaliciData.sRecipeData.rCeneKaynakHizAcc",
+      "type": "REAL",
+      "sourceBytes": 4,
+      "min": 1.0,
+      "max": 20.0,
+      "integer": false,
+      "scale": 1.0,
+      "numericEvidence": [
+        {
+          "page": "VISU_CENE",
+          "rect": [
+            541,
+            261,
+            630,
+            290
+          ],
+          "expression": "stKaliciData.sRecipeData.rCeneKaynakHizAcc",
+          "symbol": ".stKaliciData.sRecipeData.rCeneKaynakHizAcc",
+          "type": "REAL",
+          "relativeBits": 0,
+          "minimum": "1",
+          "maximum": "20",
+          "limitDependencies": {},
+          "visibleInModelMode": "press",
+          "rawABI": {
+            "nIsString_TPY": 6,
+            "nType_TPY": 1
+          },
+          "proof": {
+            "function": "__VISU_CENE_INPUTCODE",
+            "fileOffset": 1376616,
+            "fileOffsetHex": "0x150168",
+            "source": "TCPLC_P_1.wbp",
+            "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+          },
+          "structureOnlyPath": false,
+          "bindingKind": "scalar",
+          "indexDependencies": [],
+          "captionCandidates": [
+            {
+              "text": "Moonstep Acc Cofficient",
+              "textKey": "Calib.88",
+              "rect": [
+                4,
+                258,
+                635,
+                293
+              ],
+              "basis": "nearby/same-row caption candidate",
+              "proof": {
+                "function": "__VISU_CENE_CYCLECODE",
+                "fileOffset": 1368189,
+                "fileOffsetHex": "0x14e07d",
+                "source": "TCPLC_P_1.wbp",
+                "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+              }
+            }
+          ]
+        }
+      ],
+      "readingEvidence": [
+        {
+          "page": "VISU_CENE",
+          "rect": [
+            541,
+            261,
+            630,
+            290
+          ],
+          "symbol": ".stKaliciData.sRecipeData.rCeneKaynakHizAcc",
+          "type": "REAL",
+          "format": "%.f",
+          "dependencies": [
+            ".stKaliciData.sRecipeData.rCeneKaynakHizAcc"
+          ],
+          "readProof": {
+            "function": "__VISU_CENE_CYCLECODE",
+            "fileOffset": 1369630,
+            "fileOffsetHex": "0x14e61e",
+            "source": "TCPLC_P_1.wbp",
+            "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+          },
+          "drawProof": {
+            "function": "__VISU_CENE_CYCLECODE",
+            "fileOffset": 1369771,
+            "fileOffsetHex": "0x14e6ab",
+            "source": "TCPLC_P_1.wbp",
+            "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+          },
+          "structureOnlyPath": false
+        }
+      ],
+      "typeEvidence": {
+        "type": "REAL",
+        "bits": 32,
+        "bindingKind": "scalar",
+        "indexDependencies": []
+      }
+    },
+    {
+      "key": "moonstepDecCoefficient",
+      "symbol": ".stKaliciData.sRecipeData.rCeneKaynakHizDec",
+      "type": "REAL",
+      "sourceBytes": 4,
+      "min": 1.0,
+      "max": 20.0,
+      "integer": false,
+      "scale": 1.0,
+      "numericEvidence": [
+        {
+          "page": "VISU_CENE",
+          "rect": [
+            540,
+            299,
+            630,
+            328
+          ],
+          "expression": "stKaliciData.sRecipeData.rCeneKaynakHizDec",
+          "symbol": ".stKaliciData.sRecipeData.rCeneKaynakHizDec",
+          "type": "REAL",
+          "relativeBits": 0,
+          "minimum": "1",
+          "maximum": "20",
+          "limitDependencies": {},
+          "visibleInModelMode": "press",
+          "rawABI": {
+            "nIsString_TPY": 6,
+            "nType_TPY": 1
+          },
+          "proof": {
+            "function": "__VISU_CENE_INPUTCODE",
+            "fileOffset": 1376095,
+            "fileOffsetHex": "0x14ff5f",
+            "source": "TCPLC_P_1.wbp",
+            "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+          },
+          "structureOnlyPath": false,
+          "bindingKind": "scalar",
+          "indexDependencies": [],
+          "captionCandidates": [
+            {
+              "text": "Moonstep Dec Cofficient",
+              "textKey": "Calib.89",
+              "rect": [
+                4,
+                296,
+                635,
+                332
+              ],
+              "basis": "nearby/same-row caption candidate",
+              "proof": {
+                "function": "__VISU_CENE_CYCLECODE",
+                "fileOffset": 1368440,
+                "fileOffsetHex": "0x14e178",
+                "source": "TCPLC_P_1.wbp",
+                "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+              }
+            }
+          ]
+        }
+      ],
+      "readingEvidence": [
+        {
+          "page": "VISU_CENE",
+          "rect": [
+            540,
+            299,
+            630,
+            328
+          ],
+          "symbol": ".stKaliciData.sRecipeData.rCeneKaynakHizDec",
+          "type": "REAL",
+          "format": "%.f",
+          "dependencies": [
+            ".stKaliciData.sRecipeData.rCeneKaynakHizDec"
+          ],
+          "readProof": {
+            "function": "__VISU_CENE_CYCLECODE",
+            "fileOffset": 1369873,
+            "fileOffsetHex": "0x14e711",
+            "source": "TCPLC_P_1.wbp",
+            "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+          },
+          "drawProof": {
+            "function": "__VISU_CENE_CYCLECODE",
+            "fileOffset": 1370014,
+            "fileOffsetHex": "0x14e79e",
+            "source": "TCPLC_P_1.wbp",
+            "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+          },
+          "structureOnlyPath": false
+        }
+      ],
+      "typeEvidence": {
+        "type": "REAL",
+        "bits": 32,
+        "bindingKind": "scalar",
+        "indexDependencies": []
+      }
+    },
+    {
+      "key": "jawActualAngle",
+      "symbol": "MAIN.LrActCeneAci",
+      "type": "LREAL",
+      "sourceBytes": 8,
+      "min": 0.0,
+      "max": 0.0,
+      "integer": false,
+      "scale": 1.0,
+      "numericEvidence": [],
+      "readingEvidence": [
+        {
+          "page": "VISU_CENE",
+          "rect": [
+            535,
+            71,
+            630,
+            102
+          ],
+          "symbol": "MAIN.LrActCeneAci",
+          "type": "LREAL",
+          "format": "%.1f",
+          "dependencies": [
+            "MAIN.LrActCeneAci"
+          ],
+          "readProof": {
+            "function": "__VISU_CENE_CYCLECODE",
+            "fileOffset": 1365306,
+            "fileOffsetHex": "0x14d53a",
+            "source": "TCPLC_P_1.wbp",
+            "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+          },
+          "drawProof": {
+            "function": "__VISU_CENE_CYCLECODE",
+            "fileOffset": 1365447,
+            "fileOffsetHex": "0x14d5c7",
+            "source": "TCPLC_P_1.wbp",
+            "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+          },
+          "structureOnlyPath": false
+        },
+        {
+          "page": "VISU_DELIKDELME2",
+          "rect": [
+            5,
+            435,
+            86,
+            476
+          ],
+          "symbol": "MAIN.LrActCeneAci",
+          "type": "LREAL",
+          "format": "%.1f",
+          "dependencies": [
+            "MAIN.LrActCeneAci"
+          ],
+          "readProof": {
+            "function": "__VISU_DELIKDELME2_CYCLECODE",
+            "fileOffset": 1486910,
+            "fileOffsetHex": "0x16b03e",
+            "source": "TCPLC_P_1.wbp",
+            "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+          },
+          "drawProof": {
+            "function": "__VISU_DELIKDELME2_CYCLECODE",
+            "fileOffset": 1487044,
+            "fileOffsetHex": "0x16b0c4",
+            "source": "TCPLC_P_1.wbp",
+            "sha256": "60b2972ba194922a8abf3a2ef96d744e04dbab79bc1076b3fae93fe062bcddd6"
+          },
+          "structureOnlyPath": false
+        }
+      ],
+      "typeEvidence": {
+        "type": "LREAL",
+        "bits": 64,
+        "bindingKind": "scalar",
+        "indexDependencies": []
+      }
+    }
+  ]
+}

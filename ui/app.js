@@ -1,4 +1,4 @@
-/* Guris SCADA 0.1.27. The PLC is the only source of displayed setting values. */
+/* Guris SCADA 0.1.28. The PLC is the only source of displayed setting values. */
 (async () => {
   'use strict';
 
@@ -45,8 +45,8 @@
     }catch{/* Built-in CSS remains readable if the registry is temporarily unavailable. */}
   }
   let operatorScope='';
-  function refreshOperatorScope(){if(!online)return;const scope=['unwinder','temperature','edge'].includes(page)?page:'';if(!scope&&!operatorScope)return;operatorScope=scope;api('/api/operator-view',{scope}).catch(()=>{});}
-  setInterval(()=>{if(!document.hidden&&['unwinder','temperature','edge'].includes(page))refreshOperatorScope();},1000);
+  function refreshOperatorScope(){if(!online)return;const scope=['unwinder','temperature','edge','knife'].includes(page)?page:'';if(!scope&&!operatorScope)return;operatorScope=scope;api('/api/operator-view',{scope}).catch(()=>{});}
+  setInterval(()=>{if(!document.hidden&&['unwinder','temperature','edge','knife'].includes(page))refreshOperatorScope();},1000);
   function lifecycle(kind){api('/api/ui-lifecycle',{kind}).catch(()=>{});}
   document.addEventListener('visibilitychange',()=>lifecycle(document.hidden?'hidden':'visible'));
   window.addEventListener('pagehide',()=>lifecycle('pagehide'));
@@ -65,7 +65,7 @@
     conveyorTime1: 'conveyorContinuous',
     conveyorTime2: 'conveyorContinuous'
   };
-  const terminals = new Set(['confirmed', 'different', 'not_applied', 'rejected', 'conflict', 'uncertain', 'cancelled']);
+  const terminals = new Set(['confirmed', 'different', 'not_applied', 'rejected', 'conflict', 'uncertain', 'partial', 'cancelled']);
   const labels = {
     confirmed: t("Подтверждено"),
     different: t("Другое значение"),
@@ -106,7 +106,7 @@
     lastFeedback = '',
     stopped = false,
     pollTimer;
-  let ioMonitor = null, manualBrowser = null, productionBrowser = null, functionalityBrowser = null, performanceBrowser = null, engineeringBrowser = null;
+  let ioMonitor = null, manualBrowser = null, productionBrowser = null, functionalityBrowser = null, performanceBrowser = null, engineeringBrowser = null, knifeBrowser = null;
   const photoHelp = {active:false,step:0,operation:null,message:'',epoch:0,elapsed:0,frame:null,lastFrame:null,disposed:false};
   let authRole = 'operator',
     authBusy = false,
@@ -141,7 +141,7 @@
     options: t("Опции")
   };
   let mechanisms = null;
-  const menuSlots = {edge:[1,1],temperature:[1,2],glue:[1,3],longitudinal:[2,2],eject:[3,1],liner:[3,2],takeoff:[3,4],knife:[2,3],tension:[4,2],scada:[4,5],options:[5,5]};
+  const menuSlots = {edge:[1,1],temperature:[1,2],glue:[1,3],longitudinal:[2,2],eject:[3,1],liner:[3,2],takeoff:[3,4],unwinder:[5,4],knife:[2,3],tension:[4,2],scada:[4,5],options:[5,5]};
   function layoutMenu() {
     const grid=$('.sc-node-grid'),footer=$('.sc-node-menu-footer');
     if(footer){grid.append(...footer.children);footer.remove();}
@@ -343,6 +343,7 @@
     ioMonitor?.setActive(page === 'io');
     manualBrowser?.setActive(page === 'manuals');
     productionBrowser?.setPage(page);
+    knifeBrowser?.setPage(page);
     functionalityBrowser?.setPage(page);
     performanceBrowser?.setPage(page);
     engineeringBrowser?.setPage(page);
@@ -353,6 +354,7 @@
   function render() {
     ioMonitor?.update();
     productionBrowser?.updateRole();
+    knifeBrowser?.render();
     functionalityBrowser?.render();
     performanceBrowser?.render();
     engineeringBrowser?.render();
@@ -375,24 +377,20 @@
       e.title = t("Обнуление счётчика");
     });
     renderCleaning();
-    [['weldingEnabled', '[data-toggle-welding]', '[data-welding-toggle-text]'], ['beltTimed', '[data-toggle="beltTimed"]', '[data-toggle-text]'], ['conveyorContinuous', '[data-toggle="conveyorContinuous"]', '[data-toggle-text]']].forEach(([key, sel, text]) => {
-      const e = $(sel),
-        v = display(key);
-      e.setAttribute('aria-checked', String(v === 1));
-      e.dataset.unknown=String(v===null);
-      e.disabled = !editable(key);
-      e.dataset.pending = String(pending?.key === key || state.busy && state.operation?.key === key);
-      e.querySelector(text).textContent = v === null ? '—' : v === 1 ? t("ВКЛ") : t("ВЫКЛ");
-      const panel = key === 'weldingEnabled' ? $('[data-welding-card]') : $(`[data-timing-panel="${key}"]`);
-      panel.dataset.enabled = String(v === 1);
-      panel.dataset.unknown=String(v===null);
-    });
+    const weldingSwitch=$('[data-toggle-welding]'),weldingValue=display('weldingEnabled');
+    weldingSwitch.setAttribute('aria-checked',String(weldingValue===1));weldingSwitch.dataset.unknown=String(weldingValue===null);
+    weldingSwitch.disabled=!editable('weldingEnabled');weldingSwitch.dataset.pending=String(pending?.key==='weldingEnabled'||state.busy&&state.operation?.key==='weldingEnabled');
+    weldingSwitch.querySelector('[data-welding-toggle-text]').textContent=weldingValue===null?'—':t(weldingValue===1?'ВКЛ':'ВЫКЛ');
+    $('[data-welding-card]').dataset.enabled=String(weldingValue===1);$('[data-welding-card]').dataset.unknown=String(weldingValue===null);
+    renderConveyor();
     const offset = display('offsetDisplay'),
       step = display('offsetStep'),
       stored = display('offset');
     $('[data-offset-value]').textContent = offset === null ? '—' : `${offset > 0 ? '+' : ''}${format(offset, 3)}`;
-    $('[data-offset-marker]').hidden=offset===null;
-    $('[data-offset-marker]').style.left = `${offset === null ? 50 : Math.max(0, Math.min(100, (offset + .8) / 1.6 * 100))}%`;
+    const offsetFill=$('[data-offset-fill]');offsetFill.hidden=offset===null||offset===0;
+    offsetFill.dataset.sign=offset<0?'negative':'positive';
+    offsetFill.style.left=`${offset<0?50-Math.min(.8,Math.abs(offset))/.8*50:50}%`;
+    offsetFill.style.width=`${offset===null?0:Math.min(.8,Math.abs(offset))/.8*50}%`;
     $$('[data-offset]').forEach(e => {
       const next = stored === null ? NaN : Number((stored + Number(e.dataset.offset) * step).toFixed(6));
       e.disabled = !editable('offset') || !fresh('offsetDisplay') || !fresh('offsetStep') || !(step > 0) || next < -.800001 || next > .800001;
@@ -462,11 +460,13 @@
     updateMechanisms();
     $('[data-open-language]').disabled = Boolean(pending || state.busy);
   }
+  let conveyorFeedback='';
   function finishOperation(tx) {
     if (!pending || tx.id !== pending.id || !terminals.has(tx.status)) return;
     seen.add(tx.id);
     const confirmed = tx.status === 'confirmed',
       tone = confirmed ? 'success' : tx.status === 'uncertain' ? 'warning' : 'danger';
+    if(pending.kind==='conveyor_mode')conveyorFeedback=confirmed?'':I18n.text(tx.message);
     pending = null;
     completePhotoHelpOperation(tx);
     lastFeedback = confirmed ? t("ПЛК подтвердил значение") : tx.message;
@@ -898,6 +898,28 @@
     $('[data-speed-load]').textContent = valid ? `${Math.round(load * 100)}%` : '—';
     $('[data-edit="speedSet"]').title = valid ? t("Расчётная загрузка по заданию: {0}%. Нож: {1} / 250 уд/мин. Плёнка: ≈ {2} / 60 м/мин. Ближе предел: {3}.", [Math.round(load * 100), format(speed), format(film, 2), icon.dataset.limiter === 'both' ? t("оба") : icon.dataset.limiter === 'knife' ? t("нож") : t("плёнка")]) : t("Нет свежих данных для расчёта загрузки");
   }
+  function conveyorMode(){
+    const timed=display('beltTimed'),continuous=display('conveyorContinuous');
+    return timed===null||continuous===null?'unknown':timed===1&&continuous===1?'conflict':timed===1?'timed':continuous===1?'continuous':'off';
+  }
+  function renderConveyor(){
+    const working=pending?.kind==='conveyor_mode'||state.busy&&state.operation?.kind==='conveyor_mode';
+    const mode=working?'pending':conveyorMode(),panel=$('[data-conveyor-panel]');panel.dataset.mode=mode;
+    const available=ready()&&(state.conveyor?state.conveyor.available:editable('beltTimed',true)&&editable('conveyorContinuous',true));
+    $$('[data-conveyor-mode]').forEach(e=>{e.setAttribute('aria-pressed',String(e.dataset.conveyorMode===mode));e.disabled=!available||Boolean(pending||state.busy)||e.dataset.conveyorMode===mode||mode==='conflict'&&e.dataset.conveyorMode!=='off';});
+    $$('[data-conveyor-fields]').forEach(e=>e.hidden=e.dataset.conveyorFields!==mode);
+    const message=working?t('Переключение: ожидаем подтверждения обоих сигналов ПЛК…'):mode==='unknown'?t('Режим неизвестен: нет свежих данных'):mode==='conflict'?t('Ошибка режима: одновременно включены «По времени» и «Постоянно»'):conveyorFeedback||t(mode==='off'?'Работа конвейера отключена':mode==='timed'?'Подтверждён режим «По времени»':'Подтверждён режим «Постоянно»');
+    $('[data-conveyor-status]').textContent=message;$('[data-conveyor-status]').dataset.tone=mode==='conflict'||conveyorFeedback?'warning':'neutral';
+  }
+  async function switchConveyor(mode){
+    const button=$(`[data-conveyor-mode="${mode}"]`);if(!button||button.disabled)return;
+    const id=crypto.randomUUID(),epoch=state.epoch;
+    const body={id,mode,epoch,expectedTimed:field('beltTimed').raw,expectedContinuous:field('conveyorContinuous').raw};
+    pending={id,kind:'conveyor_mode',epoch,created:Date.now()};conveyorFeedback='';render();
+    try{await api('/api/conveyor-mode',body);}
+    catch(e){if(e.definitive){finishOperation({id,status:e.status===409?'conflict':'rejected',message:e.message});render();}
+      else{conveyorFeedback=t('Ответ не получен. Проверяем результат операции; повторной отправки нет.');renderConveyor();}}
+  }
   function renderCleaning() {
     const c = state.cleaning || {},
       inProgress = Boolean(c.active || c.pendingRestore),
@@ -906,7 +928,7 @@
       allowed = ready() && st === 13 && automatic === 0;
     $('[data-cleaning-add]').disabled = !(allowed && c.available && fresh('beltIdleSpeed') && field('beltIdleSpeed').writable && (!state.busy || state.operation?.kind === 'cleaning_boost') && !pending && (!c.pendingRestore || c.active));
     $('[data-normal-belt]').disabled = !(allowed && (inProgress || editable('beltIdleSpeed') && display('beltIdleSpeed') !== 10));
-    $('[data-cleaning-status]').textContent = !online ? t("Нет связи с SCADA") : c.active ? t("Ускорение · {0} с / 180 с", [Math.ceil(c.remainingMs / 1000)]) : c.pendingRestore ? c.message || t("Ожидаем возврата 10") : !allowed ? t("Доступно только в состоянии «Машина не готова»") : c.message || t("Обычная 10 · ускоренная 45");
+    $('[data-cleaning-status]').textContent = !online ? t("Нет связи с SCADA") : c.active ? t("Ускорение · {0} с / 180 с", [Math.ceil(c.remainingMs / 1000)]) : c.pendingRestore ? c.message || t("Ожидаем возврата 10") : !allowed ? t("Доступно только в открытом состоянии машины") : c.message || t("Обычная 10 · ускоренная 45");
     $('[data-cleaning-status]').textContent=I18n.text($('[data-cleaning-status]').textContent);
     $('.sc-cleaning-panel').dataset.active = String(Boolean(c.active));
     $('[data-cleaning-add]').textContent = c.active ? t("Ещё +60 с") : t("Ускорить · +60 с");
@@ -1019,8 +1041,8 @@
       e.querySelector('.sc-option-state').textContent = on ? t("ВКЛ") : t("ВЫКЛ");
       e.disabled = !engineer || optionBusy;
     });
-    $('[data-system-summary]').textContent = t("SCADA {0} · локальный режим", [state.version || '0.1.27']);
-    $('[data-about-version]').textContent=state.version||'0.1.27';
+    $('[data-system-summary]').textContent = t("SCADA {0} · локальный режим", [state.version || '0.1.28']);
+    $('[data-about-version]').textContent=state.version||'0.1.28';
     $('[data-exit]').hidden=state.options?.exitButton===false;
     $$('[data-exit]').forEach(b=>b.disabled=exitRequested);
     const font=['system','tahoma','arial','verdana'].includes(state.options?.font)?state.options.font:'system';
@@ -1685,6 +1707,7 @@
     if(b.hasAttribute('data-hold-command'))return;
     if(b.hasAttribute('data-command'))return runCommand(b.dataset.command);
     if(b.hasAttribute('data-confirm-alarm-clear')){$('[data-command-confirm]').hidden=true;return runCommand('alarmClear',null,null,true);}
+    if(b.hasAttribute('data-conveyor-mode'))return switchConveyor(b.dataset.conveyorMode);
     if(b.hasAttribute('data-photo-help'))return startPhotoHelp();
     if(b.hasAttribute('data-photo-help-next'))return advancePhotoHelp();
     if(b.hasAttribute('data-photo-help-cancel'))return closePhotoHelp();
@@ -1786,13 +1809,14 @@
   $('[data-fullscreen]').hidden = window.SCADA_BOOT.kiosk === true;
   $('.sc-sidebar-foot').hidden = window.SCADA_BOOT.kiosk === true;
   mechanisms = window.SCADA_MECHANISMS?.create(root);
-  window.addEventListener('beforeunload', () => {mechanisms?.dispose();functionalityBrowser?.dispose();performanceBrowser?.dispose();engineeringBrowser?.dispose();});
+  window.addEventListener('beforeunload', () => {mechanisms?.dispose();functionalityBrowser?.dispose();performanceBrowser?.dispose();engineeringBrowser?.dispose();knifeBrowser?.dispose();});
   functionalityBrowser = window.SCADA_FUNCTIONALITY?.create(root,{api,t,I18n,getState:()=>state,display,editable,requestWrite,navigate:setPage,openNumber});
   performanceBrowser = window.SCADA_FUNCTIONALITY?.create(root,{t,I18n,getState:()=>state,display,editable,requestWrite,navigate:setPage,openNumber,pageKey:'performance',catalogURL:'/performance.json',titleText:'Производительность'});
   engineeringBrowser = window.SCADA_FUNCTIONALITY?.create(root,{api,t,I18n,getState:()=>state,display,editable,requestWrite,requestCommand:key=>runCommand(key),navigate:setPage,openNumber,pageKey:'engineering',catalogURL:'/engineering.json',titleText:'Инженерные параметры'});
   productionBrowser=window.SCADA_PRODUCTION?.create(root,{api,t,I18n,token,navigate:setPage,getState:()=>state,getAlarm:id=>alarmMessages[String(id)]});
   manualBrowser=window.SCADA_MANUALS?.create(root,{api,t,I18n,token});
   ioMonitor=window.SCADA_IO?.create(root,{api,getState:()=>state,isOnline:()=>online,t,I18n});
+  knifeBrowser=window.SCADA_KNIFE?.create(root,{t,I18n,getState:()=>state,display});
   refreshThemePackages();
   setPage('home');
   resize();

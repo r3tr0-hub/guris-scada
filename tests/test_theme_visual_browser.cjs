@@ -34,22 +34,22 @@ const [url,token,control,out]=process.argv.slice(2);
   const pages=['home','belt','menu','actuators','photomark','production','jobs','alarms','io','edge','temperature','glue','longitudinal','eject','liner','takeoff','tension','air','feedangles','knife','unwinder','scada','options','functionality','performance','clock','about','manuals'];
   // Every reachable page, same data, live palette switch, unchanged geometry.
   for(const key of pages){
-   await go(key);if(key==='scada')await page.waitForTimeout(1300);await theme('dark');const dark=await geometry();await shot('data-dark-'+key);
-   await theme('classic');assert.deepEqual(await geometry(),dark,'theme changed geometry on '+key);await shot('data-classic-'+key);
+   await go(key);if(key==='scada'){const fixed=(await api('/api/diagnostics/status')).data;await page.route('**/api/diagnostics/status',r=>r.fulfill({json:fixed}));await page.waitForTimeout(1300);}await theme('dark');const dark=await geometry();await shot('data-dark-'+key);
+   await theme('classic');assert.deepEqual(await geometry(),dark,'theme changed geometry on '+key);await shot('data-classic-'+key);await theme('forest');assert.deepEqual(await geometry(),dark,'Pack theme changed geometry '+key);await shot('data-forest-'+key);
    if(key==='edge')assert((await edgeBounds()).every(Boolean),'edge children escape cards');
   }
   // All 30 generated engineering sections.
   await go('options');const sections=await page.locator('[data-engineering-section]').evaluateAll(es=>es.map(e=>e.dataset.engineeringSection));
-  for(const name of ['dark','classic'])for(const section of sections){await theme(name);await go('options');await page.locator('[data-engineering-section]').filter({hasText:''}).evaluateAll((es,key)=>es.find(e=>e.dataset.engineeringSection===key).click(),section);await page.waitForTimeout(100);await shot(name+'-engineering-'+sections.indexOf(section));}
+  for(const name of ['dark','classic','forest'])for(const section of sections){await theme(name);await go('options');await page.locator('[data-engineering-section]').filter({hasText:''}).evaluateAll((es,key)=>es.find(e=>e.dataset.engineeringSection===key).click(),section);await page.waitForTimeout(100);await shot(name+'-engineering-'+sections.indexOf(section));}
   // Numeric keyboard and operator/auth, connection, language, help dialogs.
-  for(const name of ['dark','classic']){
+  for(const name of ['dark','classic','forest']){
    await theme(name);await go('home');await page.locator('[data-edit="width"]').click();await shot(name+'-number');await page.locator('[data-cancel-number]').click();
    await go('scada');await page.locator('[data-open-connect]').click();await shot(name+'-connection');await page.locator('[data-connect-overlay] [data-close-overlay]').click();
    await page.locator('[data-open-language]').click();await shot(name+'-language');await page.locator('[data-language-overlay] [data-close-overlay]').click();
    await go('photomark');await page.locator('[data-photo-help]').click();await shot(name+'-photo-help');await page.locator('[data-photo-help-cancel]').click();
   }
   // Additional dialog shells use inert DOM fixtures; never press confirmation.
-  for(const name of ['dark','classic']){
+  for(const name of ['dark','classic','forest']){
    await theme(name);await go('home');
    const overlays=await page.locator('.sc-overlay').evaluateAll(es=>es.map((e,i)=>({i,kind:[...e.attributes].find(a=>a.name.endsWith('-overlay'))?.name||e.className})));
    for(const o of overlays){
@@ -61,19 +61,19 @@ const [url,token,control,out]=process.argv.slice(2);
   }
   await set({__connection:false});await page.waitForTimeout(2000);
   await page.setViewportSize({width:1920,height:1080});
-  for(const name of ['dark','classic']){
+  for(const name of ['dark','classic','forest']){
    await theme(name);
    for(const key of pages){await go(key);await shot('offline-'+name+'-'+key);}
-   await go('belt');assert(await page.locator('[data-offset-marker]').isHidden(),'unknown offset has no marker');
+   await go('belt');assert(await page.locator('[data-offset-fill]').isHidden(),'unknown offset has no marker');
    await go('menu');assert.equal(await page.locator('.sc-node-grid [data-open-node="knife"]').count(),1);
    assert.equal(await page.locator('[data-open-node="knife"]').getAttribute('data-menu-cell'),'2:3');
    const painted=await page.locator('.sc-node-grid canvas').evaluateAll(es=>es.map(e=>[e.dataset.mechanism,e.getContext('2d').getImageData(0,0,e.width,e.height).data.some((v,i)=>i%4===3&&v>0)]));assert(painted.every(x=>x[1]),JSON.stringify(painted));
   }
   // Persisted theme survives reload. Both roles and selected larger typeface at both viewports.
-  await page.reload();await page.waitForFunction(()=>document.documentElement.dataset.theme==='classic');
+  await page.reload();await page.waitForFunction(()=>document.documentElement.dataset.theme==='forest');
   for(const size of [{width:1024,height:600},{width:1920,height:1080}]){
    await page.setViewportSize(size);
-   for(const name of ['dark','classic']){
+   for(const name of ['dark','classic','forest']){
     assert.equal((await api('/api/auth/login',{password:'271026'})).status,200);await page.waitForTimeout(200);await theme(name);
     for(const role of ['engineer','operator']){
      if(role==='operator')assert.equal((await api('/api/auth/operator',{})).status,200);
@@ -87,7 +87,7 @@ const [url,token,control,out]=process.argv.slice(2);
   // QA-only +20% glyph stress, no production setting or machine operation.
   await page.setViewportSize({width:1024,height:600});
   assert.equal((await api('/api/auth/login',{password:'271026'})).status,200);await page.waitForTimeout(200);
-  for(const name of ['dark','classic']){
+  for(const name of ['dark','classic','forest']){
    await theme(name);
    await page.evaluate(()=>{
     window.__fontStress=[...document.querySelectorAll('.sc-app *')].filter(e=>[...e.childNodes].some(n=>n.nodeType===3&&n.textContent.trim())).map(e=>[e,e.style.fontSize,parseFloat(getComputedStyle(e).fontSize)]);

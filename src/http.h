@@ -101,12 +101,16 @@ static void http_client(Socket s){
   else if(!strcmp(route,"/io.js")){rel="ui/io.js";mime="text/javascript; charset=utf-8";}
   else if(!strcmp(route,"/io_catalog.json")){rel="ui/io_catalog.json";mime="application/json; charset=utf-8";}
   else if(!strcmp(route,"/style.css")){rel="ui/style.css";mime="text/css; charset=utf-8";}
+  else if(!strcmp(route,"/conveyor.css")){rel="ui/conveyor.css";mime="text/css; charset=utf-8";}
+  else if(!strcmp(route,"/knife.css")){rel="ui/knife.css";mime="text/css; charset=utf-8";}
+  else if(!strcmp(route,"/knife.js")){rel="ui/knife.js";mime="text/javascript; charset=utf-8";}
   else if(!strcmp(route,"/themes.css")){rel="ui/themes.css";mime="text/css; charset=utf-8";}
   else if(!strcmp(route,"/mockup.css")){rel="ui/mockup.css";mime="text/css; charset=utf-8";}
   else if(!strcmp(route,"/mechanisms.js")){rel="ui/mechanisms.js";mime="text/javascript; charset=utf-8";}
   else if(!strcmp(route,"/i18n.js")){rel="ui/i18n.js";mime="text/javascript; charset=utf-8";}
   else if(!strncmp(route,"/locales/",9)){const char *name=route+9;size_t len=strlen(name);char code[20];if(len>5&&len<24&&!strcmp(name+len-5,".json")){memcpy(code,name,len-5);code[len-5]=0;if(language_code_ok(code)){snprintf(want,sizeof(want),"ui/locales/%s.json",code);rel=want;mime="application/json; charset=utf-8";}}}
   else if(!strncmp(route,"/assets/flags/",14)){const char *name=route+14;size_t len=strlen(name);char code[20];if(len>4&&len<23&&!strcmp(name+len-4,".svg")){memcpy(code,name,len-4);code[len-4]=0;if(language_code_ok(code)){snprintf(want,sizeof(want),"ui/assets/flags/%s.svg",code);rel=want;mime="image/svg+xml";}}}
+  else if(!strcmp(route,"/assets/pack-innovation.png")){rel="ui/assets/pack-innovation.png";mime="image/png";}
   else if(!strcmp(route,"/assets/brand.png")){rel="ui/assets/brand.png";mime="image/png";}
   else if(!strcmp(route,"/favicon.svg")){rel="ui/favicon.svg";mime="image/svg+xml";}
   if(!rel){http_message(s,404,"Страница не найдена");return;}
@@ -146,6 +150,7 @@ static void http_client(Socket s){
  else if(!strcmp(route,"/api/engineering-view"))status=engineering_select(pairs,count,reason,sizeof(reason),engineer);
  else if(!strcmp(route,"/api/io-view"))status=io_select(pairs,count,reason,sizeof(reason));
  else if(!strcmp(route,"/api/command"))status=enqueue_command(pairs,count,reason,sizeof(reason),engineer);
+ else if(!strcmp(route,"/api/conveyor-mode"))status=enqueue_conveyor(pairs,count,reason,sizeof(reason),engineer);
  else if(!strcmp(route,"/api/write"))status=enqueue_write(pairs,count,reason,sizeof(reason),engineer);
  else if(!strcmp(route,"/api/counter-reset"))status=enqueue_counter_reset(pairs,count,reason,sizeof(reason),engineer);
  else if(!strcmp(route,"/api/unwinder"))status=unwinder_request(pairs,count,reason,sizeof(reason),engineer);

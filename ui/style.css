@@ -85,7 +85,8 @@
       border-right:1px solid var(--sc-line);
       background:linear-gradient(160deg, var(--sc-panel-top), var(--sc-bg));
     }
-    #guris-scada-demo .sc-brand { padding:0 3px; font-size:13px; font-weight:500; letter-spacing:.04em; }
+    #guris-scada-demo .sc-brand { height:30px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+    #guris-scada-demo .sc-brand img { display:block; width:84px; height:28px; object-fit:contain; }
     #guris-scada-demo .sc-brand span { display:block; color:var(--sc-cyan); font-size:11px; margin-top:2px; }
     #guris-scada-demo .sc-navigation { display:flex; flex-direction:column; gap:7px; }
     #guris-scada-demo .sc-nav-button {
@@ -529,7 +530,7 @@
     #guris-scada-demo .sc-actuator-row[data-enabled="false"]:not([data-unknown="true"]) .sc-actuator-unit,
     #guris-scada-demo .sc-actuator-row[data-enabled="false"]:not([data-unknown="true"]) .sc-actuator-edit { color:var(--sc-off-muted); }
     #guris-scada-demo .sc-belt {
-      height:100%; display:grid; grid-template-rows:22px 100px 100px 44px 94px 72px; gap:6px; align-content:start;
+      height:100%; display:flex; flex-direction:column; gap:8px; overflow-y:auto; min-height:0; touch-action:pan-y;
     }
     #guris-scada-demo .sc-timing-panel {
       display:grid; grid-template-columns:232px minmax(0, 1fr); align-items:stretch; gap:10px;
@@ -1066,7 +1067,8 @@ html, body { margin:0; width:100%; height:100%; overflow:hidden; background:var(
 #guris-scada-demo .sc-exit-overlay { z-index:120; background:var(--sc-shadow); }
 
 /* 0.1.15:touch target sizes and clear grouping in both themes. */
-#guris-scada-demo .sc-app .sc-belt { grid-template-rows:22px 100px 100px 66px 94px 72px; }
+#guris-scada-demo .sc-app .sc-belt { display:flex;flex-direction:column;gap:8px;overflow-y:auto;min-height:0;touch-action:pan-y; }
+#guris-scada-demo .sc-belt > * { flex-shrink:0; }
 #guris-scada-demo .sc-app .sc-heat-list > .sc-heat-row { position:relative; }
 #guris-scada-demo .sc-app .sc-heat-list > .sc-heat-row + .sc-heat-row::before { content:""; position:absolute; left:0; right:0; top:-3.5px; height:1px; background:var(--sc-line); pointer-events:none; }
 #guris-scada-demo .sc-app .sc-seam-content { grid-template-rows:22px minmax(0,1fr); }

@@ -23,6 +23,7 @@ w.fetch=async (url,opt)=>{
   if(url==='/api/state'||url==='/api/report')return {ok:true,json:async()=>JSON.parse(JSON.stringify(latest))};
   if(url==='/api/operator-view')return {ok:true,json:async()=>({})};
   const body=JSON.parse(opt.body);posts.push({url,body});
+  if(url==='/api/conveyor-mode'){latest.operation={id:body.id,kind:'conveyor_mode',status:'verifying',message:''};latest.busy=true;return {ok:true,json:async()=>({})};}
   if(url==='/api/write'||url==='/api/counter-reset'){
     if(url==='/api/counter-reset')body.value=0;
     latest.operation={id:body.id,key:body.key,status:'verifying',before:latest.fields[body.key].value,requested:Number(body.value),epoch:body.epoch,actual:null,message:'',utc:''};
@@ -73,7 +74,22 @@ async function run(){
  const ast=csstree.parse(css);assert(ast.children.size>0);assert(css.includes('width:1024px; height:600px'));assert(!css.includes('@media (max-width:'));assert.equal($$('[data-page-content]').length,31);assert.equal($$('[data-lucide]').length,0);assert(!html.includes('@@EXTRA_UI@@'));
  assert.equal($$('script[src^="https:"],link[href^="https:"],img[src^="https:"]').length,0);
  w.dispatchEvent(new w.ErrorEvent('error',{message:'Тестовая ошибка\n'+'界'.repeat(100)}));await delay(5);assert.equal(uiErrors.length,1);assert.equal($('#scada-startup-notice').hidden,false);assert(Buffer.byteLength(uiErrors[0].message,'utf8')<160);assert(!uiErrors[0].message.includes('\n'));
- assert(notificationDelays.includes(3000));assert(css.includes('transition:opacity 200ms'));assert.equal($$('[data-alarm-scroll]').length,0);assert.equal($$('[data-page-content="knife"] [data-edit]').length,1);assert.equal($$('[data-heat-output]').length,6);
+ assert(notificationDelays.includes(3000));assert(css.includes('transition:opacity 200ms'));assert.equal($$('[data-alarm-scroll]').length,0);assert.equal($$('[data-page-content="knife"] [data-edit]').length,4);assert.equal($$('[data-heat-output]').length,6);
+ // Unified mode changes use one guarded request, never two browser writes.
+ latest.connected=true;latest.busy=false;Object.values(latest.fields).forEach(f=>f.quality=true);
+ const modes=(timed,continuous)=>{for(const [k,v] of [['beltTimed',timed],['conveyorContinuous',continuous]]){latest.fields[k].value=v;latest.fields[k].raw=raw(k,v);}};
+ modes(1,0);await refresh();click('[data-page="belt"]');assert.equal($('[data-conveyor-panel]').dataset.mode,'timed');assert(!$('[data-conveyor-fields="timed"]').hidden);assert($('[data-conveyor-fields="continuous"]').hidden);
+ const modePosts=posts.length,storedTime=latest.fields.beltTime1.value;
+ click('[data-conveyor-mode="continuous"]');click('[data-conveyor-mode="off"]');await refresh();
+ assert.equal(posts.length,modePosts+1);assert.equal(posts.at(-1).url,'/api/conveyor-mode');assert.equal(posts.at(-1).body.expectedTimed,'01');assert.equal($('[data-conveyor-panel]').dataset.mode,'pending');assert($('[data-conveyor-fields="timed"]').hidden);
+ modes(0,0);latest.busy=false;latest.operation.status='partial';latest.operation.message='Частично выполнено';await refresh();
+ assert.equal($('[data-conveyor-panel]').dataset.mode,'off');assert.match($('[data-conveyor-status]').textContent,/Частично/);assert.equal($('[data-conveyor-mode="continuous"]').getAttribute('aria-pressed'),'false');assert.equal(latest.fields.beltTime1.value,storedTime);
+ modes(1,1);await refresh();assert.equal($('[data-conveyor-panel]').dataset.mode,'conflict');assert($('[data-conveyor-mode="continuous"]').disabled);assert(!$('[data-conveyor-mode="off"]').disabled);
+ for(const [value,left,width,hidden] of [[-.4,'25%','25%',false],[.2,'50%','12.5%',false],[0,'50%','0%',true]]){
+  latest.fields.offsetDisplay.value=value;await refresh();const f=$('[data-offset-fill]');assert.equal(f.style.left,left);assert.equal(f.style.width,width);assert.equal(f.hidden,hidden);
+ }
+ latest.connected=false;await refresh();assert.equal($('[data-conveyor-panel]').dataset.mode,'unknown');assert.equal($('[data-conveyor-mode="off"]').getAttribute('aria-pressed'),'false');assert($('[data-offset-fill]').hidden);
+ assert.equal($('[data-edge-input]'),null);assert.equal($('[data-open-node="unwinder"]').dataset.menuCell,'5:4');
  console.log('PASS: offline data, menu and node layout, gates, numpad, pending readback, conflict, ranges, offset, uncertainty, history and CSS.');
 }
 run().then(()=>{dom.window.close();}).catch(e=>{dom.window.close();console.error(e);process.exitCode=1;});

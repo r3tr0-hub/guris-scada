@@ -1,0 +1,18 @@
+/* Shared operator layout; palettes provide colors only. */
+#guris-scada-demo .sc-app .sc-conveyor-panel {
+ display:grid;grid-template-columns:minmax(0,1fr);gap:8px;padding:12px;
+ min-height:172px;border:1px solid var(--sc-line);border-radius:6px;background:var(--sc-panel);flex-shrink:0;
+}
+#guris-scada-demo .sc-conveyor-modes {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+#guris-scada-demo .sc-app .sc-conveyor-modes .sc-action {min-height:48px;font-size:15px;transition:none}
+#guris-scada-demo .sc-app .sc-conveyor-modes .sc-action[aria-pressed="true"] {background:var(--sc-primary-bg);color:var(--sc-primary-text);border-color:var(--sc-cyan)}
+#guris-scada-demo .sc-conveyor-status {margin:0;min-height:17px;font-size:12px;color:var(--sc-muted);overflow-wrap:anywhere}
+#guris-scada-demo .sc-conveyor-status[data-tone="warning"] {color:var(--sc-amber)}
+#guris-scada-demo .sc-conveyor-panel .sc-timing-values {grid-auto-rows:minmax(68px,auto)}
+#guris-scada-demo .sc-conveyor-panel .sc-time-field {min-width:0;min-height:68px}
+#guris-scada-demo .sc-offset-track {height:6px}
+#guris-scada-demo .sc-offset-track::before {z-index:1;height:12px;top:-3px}
+#guris-scada-demo .sc-offset-fill {position:absolute;top:0;height:100%;background:var(--sc-green)}
+#guris-scada-demo .sc-offset-fill[data-sign="negative"] {background:var(--sc-red)}
+#guris-scada-demo .sc-app .sc-edge-row {grid-template-rows:auto auto;grid-auto-rows:auto;min-height:154px}
+#guris-scada-demo .sc-edge-row>* {min-width:0}

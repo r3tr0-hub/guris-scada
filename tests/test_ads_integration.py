@@ -353,17 +353,20 @@ class Backend(unittest.TestCase):
         self.assertEqual(self.request('POST','/api/write',body,{'X-SCADA-Token':'invalid'})[0],403)
         self.assertEqual(len(self.mock.writes),initial)
     def test_remaining_home_and_belt_bindings(self):
-        assignments=[('width',250),('welding',126),('productionQty',1000001),('beltTime2',1250),('beltTime3',950),('conveyorContinuous',1),('conveyorTime1',60),('conveyorTime2',80),('beltStep',4),('waitingQty',6),('beltIdleSpeed',10),('beltTimed',0)]
+        assignments=[('width',250),('welding',126),('productionQty',1000001),('beltTime2',1250),('beltTime3',950),('conveyorMode','continuous'),('conveyorTime1',60),('conveyorTime2',80),('beltStep',4),('waitingQty',6),('beltIdleSpeed',10)]
         for key,value in assignments:
             self.mock.set('machineState',13 if key=='beltIdleSpeed' else 5);self.await_state(lambda s:s['fields']['machineState']['value']==(13 if key=='beltIdleSpeed' else 5))
             if key=='beltIdleSpeed':
                 self.mock.set(key,9);self.await_state(lambda s:s['fields'][key]['value']==9)
-            status,_,body=self.write(key,value);self.assertEqual(status,202,(key,status));self.assertEqual(self.terminal(body)['status'],'confirmed',key)
-        self.assertEqual(len(self.mock.writes),len(assignments))
+            if key=='conveyorMode':
+                s=self.state();body=dict(id=str(uuid.uuid4()),mode=value,epoch=s['epoch'],expectedTimed=s['fields']['beltTimed']['raw'],expectedContinuous=s['fields']['conveyorContinuous']['raw']);status,_=self.request('POST','/api/conveyor-mode',body)
+            else:status,_,body=self.write(key,value)
+            self.assertEqual(status,202,(key,status));self.assertEqual(self.terminal(body)['status'],'confirmed',key)
+        self.assertEqual(len(self.mock.writes),len(assignments)+1)
         status,_,_=self.write('beltTime1',450);self.assertEqual(status,409)
         self.mock.set('speedLimit',float('nan'));self.await_state(lambda s:not s['fields']['speedLimit']['quality'])
         status,_,body=self.write('speedSet',195);self.assertEqual(status,409)
-        self.assertEqual(len(self.mock.writes),len(assignments))
+        self.assertEqual(len(self.mock.writes),len(assignments)+1)
     def test_changed_value_and_generation_are_not_overwritten(self):
         old=self.state();self.mock.set('speedSet',191)
         status,_,body=self.write('speedSet',195,{'expected':old['fields']['speedSet']['raw']});self.assertIn(status,(202,409))

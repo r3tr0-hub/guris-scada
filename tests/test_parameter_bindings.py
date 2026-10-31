@@ -31,6 +31,11 @@ class Bindings(unittest.TestCase):
             if entry['key'] not in core_keys:continue  # Scoped engineering fields are exercised by test_release24.
             if not entry['writable'] or entry['key']=='unwinderAutoStop':continue
             key=entry['key']
+            if key in ('beltTimed','conveyorContinuous'):
+                # These BOOLs now require the version-bounded grouped API;
+                # test_conveyor_modes covers all exact typed pair transitions.
+                self.assertEqual(self.write(key,1)[0],400)
+                continue
             self.mock.set('machineState',13 if key=='beltIdleSpeed' else 5);self.await_state(lambda s:s['fields']['machineState']['value']==(13 if key=='beltIdleSpeed' else 5))
             with self.subTest(key=key):
                 if entry.get('gate'):

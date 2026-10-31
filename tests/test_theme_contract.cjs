@@ -1,6 +1,11 @@
 'use strict';
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),css=require('css-tree');
 const ui=path.resolve(__dirname,'../ui');
+const crypto=require('node:crypto');
+const pack=JSON.parse(fs.readFileSync(path.join(ui,'themes/forest.json'),'utf8'));
+assert.equal(pack.id,'forest','saved Forest settings remain compatible');
+for(const key of ['nameRu','nameEn','nameTr'])assert.equal(pack[key],'Pack Innovation');
+assert.equal(crypto.createHash('sha256').update(fs.readFileSync(path.join(ui,'assets/pack-innovation.png'))).digest('hex'),'dca086a4d09ffc4071a02185c5cfba1e7b63e476620ade79418c22de1e284a0c','original logo must remain byte-for-byte intact');
 const sheet=fs.readFileSync(path.join(ui,'themes.css'),'utf8');
 assert(!sheet.includes('data-palette='),'palette must not select a different component layout');
 css.walk(css.parse(sheet),node=>{
