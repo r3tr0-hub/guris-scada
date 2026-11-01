@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 256 256" width="256" height="256" class="guris-icon" role="img" aria-labelledby="ttl-glue dsc-glue">
+<title id="ttl-glue">Клей</title>
+<desc id="dsc-glue">Аппликатор перемещается вдоль волнистой полоски, нанося клей в месте контакта.</desc>
+<defs>
+  <linearGradient id="blue-glue" x1=".15" y1="0" x2=".88" y2="1"><stop stop-color="#e9fbff"/><stop offset=".23" stop-color="#8ceaff"/><stop offset=".58" stop-color="#28befe"/><stop offset="1" stop-color="#0878c5"/></linearGradient>
+  <linearGradient id="deep-glue" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#185f98"/><stop offset=".55" stop-color="#065185"/><stop offset="1" stop-color="#0d2945"/></linearGradient>
+  <linearGradient id="metal-glue" x1="0" y1="0" x2=".95" y2=".95"><stop stop-color="#ffffff"/><stop offset=".24" stop-color="#d5e7ef"/><stop offset=".43" stop-color="#7693ae"/><stop offset=".66" stop-color="#edf6ff"/><stop offset=".83" stop-color="#7d97ad"/><stop offset="1" stop-color="#e2f3ff"/></linearGradient>
+  <linearGradient id="film-glue" x1="0" y1="0" x2="1" y2=".35"><stop stop-color="#d0f4ff" stop-opacity=".86"/><stop offset=".36" stop-color="#fff" stop-opacity=".96"/><stop offset=".75" stop-color="#ddf4ff" stop-opacity=".9"/><stop offset="1" stop-color="#9edfff" stop-opacity=".88"/></linearGradient>
+  <linearGradient id="green-glue" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#c9ffaf"/><stop offset=".26" stop-color="#57dc56"/><stop offset=".68" stop-color="#08a968"/><stop offset="1" stop-color="#06683d"/></linearGradient>
+  <linearGradient id="glue-glue" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#ffffff"/><stop offset=".4" stop-color="#b9f7ff"/><stop offset="1" stop-color="#4dc5ff"/></linearGradient>
+  <filter id="shadow-glue" x="-25%" y="-25%" width="150%" height="160%"><feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#124d71" flood-opacity=".22"/></filter>
+  <filter id="beam-glue" x="-90%" y="-120%" width="280%" height="340%"><feGaussianBlur stdDeviation="3"/></filter>
+ </defs>
+<style><![CDATA[
+/* Guris SCADA — SVG native CSS animations. No scripts, fonts or raster images. */
+
+.gl-head {animation:gl-head 5s linear infinite alternate}
+.gl-pulse {animation:gl-pulse 1.1s ease-in-out infinite}
+.gl-gloss {animation:gl-gloss 5s linear infinite alternate}
+.gl-flow {animation:gl-flow 1.25s linear infinite}
+@keyframes gl-head {
+ 0%{transform:translate(0px,0px)}
+ 15%{transform:translate(22px,3px)}
+ 34%{transform:translate(49px,18px)}
+ 51%{transform:translate(75px,-2px)}
+ 68%{transform:translate(98px,-5px)}
+ 83%{transform:translate(123px,17px)}
+ 100%{transform:translate(137px,15px)}
+}
+@keyframes gl-gloss {0%{stroke-dashoffset:195}100%{stroke-dashoffset:0}}
+@keyframes gl-flow {to{stroke-dashoffset:-40}}
+@keyframes gl-pulse {0%,100%{opacity:.42}50%{opacity:1}}
+
+@media (prefers-reduced-motion: reduce) { .guris-icon * { animation: none !important; transition: none !important; } }
+]]></style>
+
+<!-- Существующая полоска клея, по которой ездит аппликатор -->
+<path d="M26 180 C44 156 58 154 72 171 C85 186 100 187 114 170 C130 150 143 152 156 172 C171 191 188 182 203 168" fill="none" stroke="#164669" stroke-width="16" stroke-linecap="round" opacity=".20" transform="translate(0 4)"/>
+<path id="glue-line" d="M26 180 C44 156 58 154 72 171 C85 186 100 187 114 170 C130 150 143 152 156 172 C171 191 188 182 203 168" fill="none" stroke="url(#glue-glue)" stroke-width="12" stroke-linecap="round"/>
+<path d="M26 180 C44 156 58 154 72 171 C85 186 100 187 114 170 C130 150 143 152 156 172 C171 191 188 182 203 168" class="gl-gloss" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="195 195" opacity=".8"/>
+<path class="gl-flow" d="M26 180 C44 156 58 154 72 171 C85 186 100 187 114 170 C130 150 143 152 156 172 C171 191 188 182 203 168" fill="none" stroke="#33b6f7" stroke-width="2" stroke-dasharray="11 9" opacity=".65"/>
+<!-- Мобильная головка: локальный (0,0) = наконечник, повторяет изгибы клеевой полосы -->
+<g transform="translate(47 166)">
+ <g class="gl-head" filter="url(#shadow-glue)">
+  <!-- широкое голубое тело тюбика наклонено к точке подачи -->
+  <path d="M20 -47 L47 -79 Q53 -85 60 -79 L86 -54 Q92 -48 86 -40 L56 -9Z" fill="url(#blue-glue)" stroke="#147db9" stroke-width="2.4" stroke-linejoin="round"/>
+  <path d="M45 -71L74 -45" stroke="#fff" stroke-width="7" stroke-linecap="round" opacity=".6"/>
+  <path d="M20 -47L56 -9L46 2L10 -36Z" fill="url(#deep-glue)" stroke="#164163" stroke-width="2"/>
+  <path d="M17 -26 L38 -7 L27 6 L7 -13Z" fill="url(#metal-glue)" stroke="#60798f" stroke-width="2"/>
+  <path d="M9 -11L23 2L5 5L0 1Z" fill="#2e3e4c" stroke="#0b2a42" stroke-width="1.8"/>
+  <path d="M5 2L0 1" fill="none" stroke="#d5f9ff" stroke-width="3.5" stroke-linecap="round"/>
+  <circle class="gl-pulse" cx="1" cy="2" r="5" fill="#ddfaff" opacity=".65"/>
+ </g>
+</g>
+
+</svg>

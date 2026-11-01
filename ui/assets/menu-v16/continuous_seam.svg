@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" class="guris-icon" role="img" aria-labelledby="title-continuous_seam desc-continuous_seam">
+<title id="title-continuous_seam">Непрерывный шов</title>
+<desc id="desc-continuous_seam">Два параллельных голубых полотна с горизонтальными линиями шва и контрольным роликом; движение полотна показано справа налево.</desc>
+<defs>
+<linearGradient id="blue-continuous_seam" x1="0" x2="0.7" y1="0" y2="1"><stop stop-color="#e2faff"/><stop offset="0.35" stop-color="#5bd9ff"/><stop offset="1" stop-color="#008ce0"/></linearGradient>
+<linearGradient id="paper-continuous_seam" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffffff"/><stop offset="0.55" stop-color="#ebf9ff"/><stop offset="1" stop-color="#c2eaff"/></linearGradient>
+<linearGradient id="steel-continuous_seam" x1="0" y1="0" x2="0.86" y2="0.86"><stop stop-color="#ffffff"/><stop offset="0.29" stop-color="#b6d0e5"/><stop offset="0.54" stop-color="#effaff"/><stop offset="0.75" stop-color="#7893ae"/><stop offset="1" stop-color="#d3ebf8"/></linearGradient>
+<linearGradient id="dark-continuous_seam" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#284967"/><stop offset="1" stop-color="#10283d"/></linearGradient>
+<filter id="glow-continuous_seam" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="3"/></filter>
+
+</defs>
+<style>
+
+.cs-line{stroke-dasharray:19 11;animation:cs-run 1.3s linear infinite}
+.cs-shimmer{animation:cs-sweep 3s ease-in-out infinite}
+.cs-roller{animation:cs-pulse 2.2s ease-in-out infinite}
+@keyframes cs-run{to{stroke-dashoffset:60}}
+@keyframes cs-sweep{0%,100%{transform:translateY(0);opacity:.15} 50%{transform:translateY(80px);opacity:.42}}
+@keyframes cs-pulse{0%,100%{opacity:.85}50%{opacity:1}}
+
+@media (prefers-reduced-motion: reduce) {
+  svg.guris-icon *,svg.guris-icon *::before,svg.guris-icon *::after { animation: none !important; transition: none !important; }
+}
+</style>
+
+<defs>
+<clipPath id="cs-clip-continuous_seam"><rect x="43" y="37" width="170" height="184" rx="5"/></clipPath>
+</defs>
+<!-- Два полотна с разделителем -->
+<rect x="43" y="37" width="75" height="184" rx="3" fill="url(#blue-continuous_seam)"/>
+<rect x="138" y="37" width="75" height="184" rx="3" fill="url(#blue-continuous_seam)"/>
+<path d="M50 43V213M145 43V213" stroke="#b7faff" stroke-width="4" opacity=".55"/>
+<path d="M112 38V219M137 38V219" stroke="#073b62" stroke-width="3" opacity=".5"/>
+<g clip-path="url(#cs-clip-continuous_seam)">
+ <path class="cs-shimmer" d="M43 49H213V70H43Z" fill="#ffffff" opacity=".2"/>
+ <path d="M44 68H117M139 68H212M44 127H117M139 127H212" stroke="#d6a0f4" stroke-width="7"/>
+ <path class="cs-line" d="M44 68H117M139 68H212M44 127H117M139 127H212" stroke="#eafcff" stroke-width="3"/>
+ <path d="M44 81H117M139 81H212" stroke="#147ae5" stroke-width="3" opacity=".7"/>
+</g>
+<circle cx="43" cy="51" r="22" fill="#21415b" opacity=".25"/>
+<circle class="cs-roller" cx="43" cy="49" r="19" fill="url(#steel-continuous_seam)" stroke="#badbf1" stroke-width="2"/>
+<circle cx="43" cy="49" r="6" fill="#eaf9ff" opacity=".8"/>
+
+</svg>

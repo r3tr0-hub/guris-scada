@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" class="guris-icon" role="img" aria-labelledby="title-tn desc-tn">
+<title id="title-tn">Натяжение</title>
+<desc id="desc-tn">Плёнка плавно переходит из провисающей волны в ровную натянутую линию той же толщины, без проявления; ход плёнки справа налево.</desc>
+<defs>
+  <linearGradient id="tn-blue" x1=".15" y1="0" x2=".88" y2="1"><stop stop-color="#e9fbff" /><stop offset=".23" stop-color="#8ceaff" /><stop offset=".58" stop-color="#28befe" /><stop offset="1" stop-color="#0878c5" /></linearGradient>
+  <linearGradient id="tn-metal" x1="0" y1="0" x2=".95" y2=".95"><stop stop-color="#ffffff" /><stop offset=".24" stop-color="#d5e7ef" /><stop offset=".43" stop-color="#7693ae" /><stop offset=".66" stop-color="#edf6ff" /><stop offset=".83" stop-color="#7d97ad" /><stop offset="1" stop-color="#e2f3ff" /></linearGradient>
+</defs>
+<style>
+.tn-spin{transform-box:view-box;animation:tn-spin 5.2s linear infinite}
+.tn-flow{animation:tn-flow 1.7s linear infinite}
+.tn-indicate{animation:tn-indicate 4.3s ease-in-out infinite}
+@keyframes tn-spin{to{transform:rotate(-360deg)}}
+@keyframes tn-flow{to{stroke-dashoffset:64}}
+@keyframes tn-indicate{0%,100%{opacity:.8}50%{opacity:.25}}
+@media (prefers-reduced-motion: reduce) { .guris-icon * { animation: none !important; transition: none !important; } }
+</style>
+<g>
+ <path fill="none" stroke="#124e78" stroke-width="14" opacity=".25" stroke-linecap="round" transform="translate(0 3)" d="M17 128 L66 128 C82 128 78 107 94 107 C110 107 113 149 129 149 C145 149 149 107 165 107 C181 107 181 128 192 128 L240 128">
+   <animate attributeName="d" dur="4.8s" repeatCount="indefinite" values="M17 128 L66 128 C82 128 78 107 94 107 C110 107 113 149 129 149 C145 149 149 107 165 107 C181 107 181 128 192 128 L240 128;M17 128 L66 128 C82 128 78 128 94 128 C110 128 113 128 129 128 C145 128 149 128 165 128 C181 128 181 128 192 128 L240 128;M17 128 L66 128 C82 128 78 107 94 107 C110 107 113 149 129 149 C145 149 149 107 165 107 C181 107 181 128 192 128 L240 128" keyTimes="0;0.5;1" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1" />
+  </path>
+ <path fill="none" stroke="url(#tn-blue)" stroke-width="11" stroke-linecap="round" d="M17 128 L66 128 C82 128 78 107 94 107 C110 107 113 149 129 149 C145 149 149 107 165 107 C181 107 181 128 192 128 L240 128">
+   <animate attributeName="d" dur="4.8s" repeatCount="indefinite" values="M17 128 L66 128 C82 128 78 107 94 107 C110 107 113 149 129 149 C145 149 149 107 165 107 C181 107 181 128 192 128 L240 128;M17 128 L66 128 C82 128 78 128 94 128 C110 128 113 128 129 128 C145 128 149 128 165 128 C181 128 181 128 192 128 L240 128;M17 128 L66 128 C82 128 78 107 94 107 C110 107 113 149 129 149 C145 149 149 107 165 107 C181 107 181 128 192 128 L240 128" keyTimes="0;0.5;1" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1" />
+  </path>
+ <path fill="none" stroke="#e6faff" stroke-width="3" stroke-linecap="round" opacity=".95" d="M17 128 L66 128 C82 128 78 107 94 107 C110 107 113 149 129 149 C145 149 149 107 165 107 C181 107 181 128 192 128 L240 128">
+   <animate attributeName="d" dur="4.8s" repeatCount="indefinite" values="M17 128 L66 128 C82 128 78 107 94 107 C110 107 113 149 129 149 C145 149 149 107 165 107 C181 107 181 128 192 128 L240 128;M17 128 L66 128 C82 128 78 128 94 128 C110 128 113 128 129 128 C145 128 149 128 165 128 C181 128 181 128 192 128 L240 128;M17 128 L66 128 C82 128 78 107 94 107 C110 107 113 149 129 149 C145 149 149 107 165 107 C181 107 181 128 192 128 L240 128" keyTimes="0;0.5;1" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1" />
+  </path>
+ <path class="tn-flow" fill="none" stroke="#008dd6" stroke-width="2" stroke-dasharray="14 18" opacity=".6" d="M17 128 L66 128 C82 128 78 107 94 107 C110 107 113 149 129 149 C145 149 149 107 165 107 C181 107 181 128 192 128 L240 128">
+   <animate attributeName="d" dur="4.8s" repeatCount="indefinite" values="M17 128 L66 128 C82 128 78 107 94 107 C110 107 113 149 129 149 C145 149 149 107 165 107 C181 107 181 128 192 128 L240 128;M17 128 L66 128 C82 128 78 128 94 128 C110 128 113 128 129 128 C145 128 149 128 165 128 C181 128 181 128 192 128 L240 128;M17 128 L66 128 C82 128 78 107 94 107 C110 107 113 149 129 149 C145 149 149 107 165 107 C181 107 181 128 192 128 L240 128" keyTimes="0;0.5;1" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1" />
+  </path>
+</g>
+<g>
+ <circle cx="47" cy="85" r="25.5" fill="#173a55" opacity=".20" /><circle cx="46" cy="83" r="24.5" fill="url(#tn-metal)" stroke="#708a9f" stroke-width="2.5" /><circle cx="46" cy="83" r="18" fill="none" stroke="#ecf7ff" stroke-width="1.1" opacity=".68" /><g class="tn-spin" style="transform-origin:46px 83px"><path d="M32 71L42 65 M56 96L63 89" stroke="#f3fbff" stroke-width="4" stroke-linecap="round" opacity=".7" /></g><circle cx="46" cy="83" r="7.5" fill="#597b98" stroke="#d8efff" stroke-width="2" /><circle cx="46" cy="83" r="3.2" fill="#183d5b" />
+ <circle cx="211" cy="85" r="25.5" fill="#173a55" opacity=".20" /><circle cx="210" cy="83" r="24.5" fill="url(#tn-metal)" stroke="#708a9f" stroke-width="2.5" /><circle cx="210" cy="83" r="18" fill="none" stroke="#ecf7ff" stroke-width="1.1" opacity=".68" /><g class="tn-spin" style="transform-origin:210px 83px"><path d="M196 71L206 65 M220 96L227 89" stroke="#f3fbff" stroke-width="4" stroke-linecap="round" opacity=".7" /></g><circle cx="210" cy="83" r="7.5" fill="#597b98" stroke="#d8efff" stroke-width="2" /><circle cx="210" cy="83" r="3.2" fill="#183d5b" />
+ <circle cx="47" cy="175" r="25.5" fill="#173a55" opacity=".20" /><circle cx="46" cy="173" r="24.5" fill="url(#tn-metal)" stroke="#708a9f" stroke-width="2.5" /><circle cx="46" cy="173" r="18" fill="none" stroke="#ecf7ff" stroke-width="1.1" opacity=".68" /><g class="tn-spin" style="transform-origin:46px 173px"><path d="M32 161L42 155 M56 186L63 179" stroke="#f3fbff" stroke-width="4" stroke-linecap="round" opacity=".7" /></g><circle cx="46" cy="173" r="7.5" fill="#597b98" stroke="#d8efff" stroke-width="2" /><circle cx="46" cy="173" r="3.2" fill="#183d5b" />
+ <circle cx="211" cy="175" r="25.5" fill="#173a55" opacity=".20" /><circle cx="210" cy="173" r="24.5" fill="url(#tn-metal)" stroke="#708a9f" stroke-width="2.5" /><circle cx="210" cy="173" r="18" fill="none" stroke="#ecf7ff" stroke-width="1.1" opacity=".68" /><g class="tn-spin" style="transform-origin:210px 173px"><path d="M196 161L206 155 M220 186L227 179" stroke="#f3fbff" stroke-width="4" stroke-linecap="round" opacity=".7" /></g><circle cx="210" cy="173" r="7.5" fill="#597b98" stroke="#d8efff" stroke-width="2" /><circle cx="210" cy="173" r="3.2" fill="#183d5b" />
+</g>
+<g class="tn-indicate" opacity=".7"><path d="M120 68L128 58L136 68 M128 58V84 M120 188L128 198L136 188 M128 198V172" fill="none" stroke="#1ba8ef" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" /></g>
+</svg>

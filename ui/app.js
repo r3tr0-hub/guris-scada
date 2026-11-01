@@ -1,4 +1,4 @@
-/* Guris SCADA 0.1.28. The PLC is the only source of displayed setting values. */
+/* Guris SCADA 0.1.29. The PLC is the only source of displayed setting values. */
 (async () => {
   'use strict';
 
@@ -820,6 +820,7 @@
     if(value>=min&&value<=max)requestWrite(key,value,{raw:field(key).raw,epoch:state.epoch});
   }
   function updateMechanisms() {
+    $('.sc-node-menu').dataset.illustrationsPlaying = String(page === 'menu' && motionEnabled() && !document.hidden);
     // Menu icons are illustrations. Detailed diagrams retain the live-state gate.
     mechanisms?.update(page === 'menu' || fresh('machineState') && field('machineState').value === 4, motionEnabled(),Object.fromEntries(['takeoffPosition','ejectPosition','tensionSet','airStartAngle','airStopAngle','ejectSpeed','ejectSpeedEnabled','ejectEnabled','seamEnabled'].filter(fresh).map(key=>[key,field(key).value])));
   }
@@ -1041,8 +1042,8 @@
       e.querySelector('.sc-option-state').textContent = on ? t("ВКЛ") : t("ВЫКЛ");
       e.disabled = !engineer || optionBusy;
     });
-    $('[data-system-summary]').textContent = t("SCADA {0} · локальный режим", [state.version || '0.1.28']);
-    $('[data-about-version]').textContent=state.version||'0.1.28';
+    $('[data-system-summary]').textContent = t("SCADA {0} · локальный режим", [state.version || '0.1.29']);
+    $('[data-about-version]').textContent=state.version||'0.1.29';
     $('[data-exit]').hidden=state.options?.exitButton===false;
     $$('[data-exit]').forEach(b=>b.disabled=exitRequested);
     const font=['system','tahoma','arial','verdana'].includes(state.options?.font)?state.options.font:'system';
@@ -1493,6 +1494,7 @@
     refreshPhotoColors();resizePhotoHelpCanvas();syncPhotoHelpAnimation();
   }
   document.addEventListener('visibilitychange',syncPhotoHelpAnimation);
+  document.addEventListener('visibilitychange',updateMechanisms);
   window.addEventListener('beforeunload',()=>{photoHelp.disposed=true;stopPhotoHelpMotion();});
 
       function photoBox(ctx, x, y, width, height, radius, fill, stroke = null) {

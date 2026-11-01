@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" class="guris-icon" role="img" aria-labelledby="title-fa desc-fa">
+<title id="title-fa">Углы подачи</title>
+<desc id="desc-fa">Тянущая пара чёрных резиновых валов. Резиновые валы плавно вращаются в противоположные стороны, меняя направление. Отрезок плёнки между ними движется налево и обратно направо без стрелок.</desc>
+<defs>
+  <radialGradient id="fa-rubber" cx="38%" cy="34%" r="70%">
+    <stop offset="0" stop-color="#5e6670"/>
+    <stop offset=".35" stop-color="#2c333b"/>
+    <stop offset=".72" stop-color="#15191e"/>
+    <stop offset="1" stop-color="#0c0f13"/>
+  </radialGradient>
+  <linearGradient id="fa-hub" x1="0" y1="0" x2="1" y2="1">
+    <stop stop-color="#ffffff"/>
+    <stop offset=".28" stop-color="#c4d9e9"/>
+    <stop offset=".58" stop-color="#eff8ff"/>
+    <stop offset=".82" stop-color="#7894ad"/>
+    <stop offset="1" stop-color="#d8ebf8"/>
+  </linearGradient>
+  <linearGradient id="fa-film" x1="0" y1="0" x2="1" y2="0">
+    <stop offset="0" stop-color="#def7ff" stop-opacity=".98"/>
+    <stop offset=".55" stop-color="#78d2f9" stop-opacity=".92"/>
+    <stop offset="1" stop-color="#dff9ff" stop-opacity=".98"/>
+  </linearGradient>
+  <filter id="fa-shadow" x="-25%" y="-25%" width="150%" height="160%"><feDropShadow dx="0" dy="1.6" stdDeviation="1.8" flood-color="#0a3651" flood-opacity=".18"/></filter>
+</defs>
+<style><![CDATA[
+.fa-film-shift{animation:fa-band 2.8s ease-in-out infinite}
+.fa-top-rot{transform-origin:148px 93px; transform-box:view-box; animation:fa-rot-top 2.8s ease-in-out infinite}
+.fa-bot-rot{transform-origin:148px 139px; transform-box:view-box; animation:fa-rot-bot 2.8s ease-in-out infinite}
+@keyframes fa-band{0%{transform:translateX(6px)}50%{transform:translateX(-16px)}100%{transform:translateX(6px)}}
+@keyframes fa-rot-top{0%{transform:rotate(0deg)}50%{transform:rotate(-180deg)}100%{transform:rotate(0deg)}}
+@keyframes fa-rot-bot{0%{transform:rotate(0deg)}50%{transform:rotate(180deg)}100%{transform:rotate(0deg)}}
+@media (prefers-reduced-motion: reduce){.guris-icon *{animation:none!important;transition:none!important}}
+]]></style>
+
+<g filter="url(#fa-shadow)">
+  <circle cx="150" cy="95" r="29" fill="#122432" opacity=".16"/>
+  <circle cx="148" cy="93" r="26" fill="url(#fa-rubber)" stroke="#3e4b57" stroke-width="2.6"/>
+  <circle cx="148" cy="93" r="19" fill="none" stroke="#98a4ae" stroke-width="1.1" opacity=".34"/>
+  <g class="fa-top-rot">
+    <circle cx="148" cy="93" r="10.2" fill="url(#fa-hub)" stroke="#6f879b" stroke-width="2"/>
+    <circle cx="148" cy="93" r="3.4" fill="#193b55"/>
+    <path d="M138 83L143 79 M154 106L160 100" stroke="#ffffff" stroke-width="3" stroke-linecap="round" opacity=".72"/>
+  </g>
+
+  <circle cx="150" cy="141" r="29" fill="#122432" opacity=".16"/>
+  <circle cx="148" cy="139" r="26" fill="url(#fa-rubber)" stroke="#3e4b57" stroke-width="2.6"/>
+  <circle cx="148" cy="139" r="19" fill="none" stroke="#98a4ae" stroke-width="1.1" opacity=".34"/>
+  <g class="fa-bot-rot">
+    <circle cx="148" cy="139" r="10.2" fill="url(#fa-hub)" stroke="#6f879b" stroke-width="2"/>
+    <circle cx="148" cy="139" r="3.4" fill="#193b55"/>
+    <path d="M138 129L143 125 M154 152L160 146" stroke="#ffffff" stroke-width="3" stroke-linecap="round" opacity=".72"/>
+  </g>
+</g>
+
+<g class="fa-film-shift">
+  <path d="M40 119H214" stroke="#296b92" stroke-width="11" stroke-linecap="round" opacity=".2"/>
+  <path d="M40 117H214" stroke="url(#fa-film)" stroke-width="8" stroke-linecap="round"/>
+  <path d="M40 117H214" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity=".75"/>
+  <path d="M197 117H57" stroke="#0fa3e3" stroke-width="2.1" stroke-dasharray="16 16" stroke-linecap="round" opacity=".65"/>
+</g>
+
+</svg>

@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" class="guris-icon" role="img" aria-labelledby="uw-title uw-desc">
+  <title id="uw-title">Размотчик</title>
+  <desc id="uw-desc">Большой рулон плёнки вращается под действием маленького чёрного резинового приводного колеса над ним. Синий электродвигатель и голубая несущая рама.</desc>
+  <defs>
+    <radialGradient id="uw-spool-metal" cx="36%" cy="29%" r="78%">
+      <stop stop-color="#ffffff"/><stop offset=".24" stop-color="#e5f5ff"/>
+      <stop offset=".55" stop-color="#a8cadf"/><stop offset=".78" stop-color="#ebf8ff"/>
+      <stop offset="1" stop-color="#6a8ead"/>
+    </radialGradient>
+    <linearGradient id="uw-frame" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#bdffff"/><stop offset=".45" stop-color="#36d8fa"/>
+      <stop offset="1" stop-color="#069dd7"/>
+    </linearGradient>
+    <linearGradient id="uw-motor-blue" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#c8f4ff"/><stop offset=".27" stop-color="#54cfff"/>
+      <stop offset=".74" stop-color="#168ed8"/><stop offset="1" stop-color="#14629d"/>
+    </linearGradient>
+    <radialGradient id="uw-tire" cx="34%" cy="25%" r="78%">
+      <stop stop-color="#5a626b"/><stop offset=".34" stop-color="#262c35"/><stop offset=".77" stop-color="#13171d"/><stop offset="1" stop-color="#05080c"/>
+    </radialGradient>
+    <filter id="uw-shadow" x="-20%" y="-20%" width="140%" height="145%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#163d59" flood-opacity=".18"/>
+    </filter>
+  </defs>
+  <style><![CDATA[
+    /* Contact roller at (166, 89), R=15; spool at (166, 150), R=46.
+       Wheel and reel are tangent at y=104. No-slip motion is depicted
+       with opposing rotations and circumferential-speed-matched periods. */
+    .uw-drive-wheel {transform-box:view-box;transform-origin:166px 89px;animation:uw-drive 1.3s linear infinite}
+    .uw-film-reel {transform-box:view-box;transform-origin:166px 150px;animation:uw-reel 3.99s linear infinite}
+    @keyframes uw-drive {to{transform:rotate(360deg)}}
+    @keyframes uw-reel {to{transform:rotate(-360deg)}}
+    @media (prefers-reduced-motion:reduce){.guris-icon *{animation:none!important;transition:none!important}}
+  ]]></style>
+
+  <!-- Голубая неподвижная рама: коробчатая стойка слева и диагональные опоры.
+       Она расположена ПОЗАДИ приводного колеса и рулона. -->
+  <g stroke-linecap="round" stroke-linejoin="round">
+    <rect x="29" y="139" width="72" height="65" rx="3" fill="#e6f9ff" fill-opacity=".82" stroke="#159ed3" stroke-width="4"/>
+    <path d="M100 146 L147 92" stroke="#167da8" stroke-width="11"/>
+    <path d="M100 146 L147 92" stroke="url(#uw-frame)" stroke-width="7"/>
+    <path d="M99 179 L166 150" stroke="#167da8" stroke-width="11"/>
+    <path d="M99 179 L166 150" stroke="url(#uw-frame)" stroke-width="7"/>
+    <path d="M101 143 L118 150 L130 147" stroke="#18b6eb" stroke-width="5" fill="none"/>
+    <path d="M144 80H187" stroke="#167da8" stroke-width="8"/>
+    <path d="M144 80H187" stroke="#45dbf9" stroke-width="5"/>
+  </g>
+
+  <!-- Большой рулон: наружный диск и все маркеры вращаются вместе. -->
+  <g class="uw-film-reel" filter="url(#uw-shadow)">
+    <circle cx="166" cy="150" r="46" fill="url(#uw-spool-metal)" stroke="#426983" stroke-width="3.6"/>
+    <circle cx="166" cy="150" r="36.5" fill="none" stroke="#91b7d0" stroke-width="3"/>
+    <circle cx="166" cy="150" r="29" fill="none" stroke="#c7e6f6" stroke-width="2.4" opacity=".82"/>
+    <path d="M166 108V119 M166 181V192 M124 150H135 M197 150H208 M136.3 120.3L144 128 M188 172L196 180 M195.7 120.3L188 128 M136 180L144 172" fill="none" stroke="#608bab" stroke-width="3.5" stroke-linecap="round"/>
+    <!-- asymmetric indicator for visible rotation -->
+    <path d="M154 113A38 38 0 0 1 170 112" stroke="#148bc5" stroke-width="6" stroke-linecap="round" fill="none"/>
+    <circle cx="190" cy="121" r="3" fill="#0a659a"/>
+    <circle cx="166" cy="150" r="14.5" fill="#e2f4ff" stroke="#608ba9" stroke-width="3"/>
+    <circle cx="166" cy="150" r="4.4" fill="#2b5475"/>
+  </g>
+
+  <!-- Ось рулона проходит перед передней плоскостью рулона. -->
+  <path d="M112 177L151 156" fill="none" stroke="#37d7f3" stroke-width="5.5" stroke-linecap="round"/>
+  <circle cx="166" cy="150" r="4.4" fill="#2f5e7c" stroke="#d6f3ff" stroke-width="1.2"/>
+
+  <!-- РЕЗИНОВОЕ мотор-колесо на вершине рулона. Встречное вращение. -->
+  <g class="uw-drive-wheel" filter="url(#uw-shadow)">
+    <circle cx="166" cy="89" r="15" fill="url(#uw-tire)" stroke="#101922" stroke-width="2.8"/>
+    <circle cx="166" cy="89" r="10.5" fill="none" stroke="#77838b" stroke-width="1.3" opacity=".5"/>
+    <path d="M166 77V81 M174.5 94L171 92 M157 94L160.5 92" stroke="#97a9b5" stroke-width="2.9" stroke-linecap="round"/>
+    <circle cx="166" cy="89" r="5.2" fill="url(#uw-spool-metal)" stroke="#6d8ba1" stroke-width="1.8"/>
+    <circle cx="173" cy="83" r="2.5" fill="#56d6f8"/>
+  </g>
+
+  <!-- Синий корпус электродвигателя сверху: СТАТИЧЕН. -->
+  <g stroke-linecap="round" stroke-linejoin="round">
+    <rect x="154" y="39" width="24" height="29" rx="3" fill="url(#uw-motor-blue)" stroke="#135f9e" stroke-width="2.6"/>
+    <path d="M158 46H173 M158 51H173 M158 56H173" stroke="#c4f6ff" stroke-width="1.6" opacity=".8"/>
+    <path d="M150 66H182V74H150Z" fill="#1c9ed9" stroke="#146b9c" stroke-width="2"/>
+    <path d="M166 74V75" stroke="#a8d9f1" stroke-width="3"/>
+    <rect x="160" y="35" width="12" height="5" rx="1.5" fill="#2e9dd1" stroke="#146b9c" stroke-width="1.4"/>
+  </g>
+</svg>

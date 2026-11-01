@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" class="guris-icon" role="img" aria-labelledby="title-temperature desc-temperature">
+<title id="title-temperature">Температура</title>
+<desc id="desc-temperature">Трёхцветное пламя и небольшие искры с плавной анимацией нагрева.</desc>
+<defs>
+<linearGradient id="blue-temperature" x1="0" x2="0.7" y1="0" y2="1"><stop stop-color="#e2faff"/><stop offset="0.35" stop-color="#5bd9ff"/><stop offset="1" stop-color="#008ce0"/></linearGradient>
+<linearGradient id="paper-temperature" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffffff"/><stop offset="0.55" stop-color="#ebf9ff"/><stop offset="1" stop-color="#c2eaff"/></linearGradient>
+<linearGradient id="steel-temperature" x1="0" y1="0" x2="0.86" y2="0.86"><stop stop-color="#ffffff"/><stop offset="0.29" stop-color="#b6d0e5"/><stop offset="0.54" stop-color="#effaff"/><stop offset="0.75" stop-color="#7893ae"/><stop offset="1" stop-color="#d3ebf8"/></linearGradient>
+<linearGradient id="dark-temperature" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#284967"/><stop offset="1" stop-color="#10283d"/></linearGradient>
+<filter id="glow-temperature" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="3"/></filter>
+
+</defs>
+<style>
+
+.tm-flame { transform-box:fill-box;transform-origin:center bottom;animation:tm-flicker 2.7s ease-in-out infinite; }
+.tm-core { transform-box:fill-box;transform-origin:center bottom;animation:tm-core 1.9s ease-in-out infinite; }
+.tm-spark-1 {animation:tm-spark 2.1s ease-in-out infinite;}
+.tm-spark-2 {animation:tm-spark 2.1s ease-in-out .55s infinite;}
+.tm-spark-3 {animation:tm-spark 2.1s ease-in-out 1.1s infinite;}
+@keyframes tm-flicker {0%,100%{transform:scale(1,1) rotate(0)} 30%{transform:scale(.965,1.04) rotate(-2deg)} 67%{transform:scale(1.035,.985) rotate(1.5deg)}}
+@keyframes tm-core {0%,100%{transform:scale(1)}50%{transform:scale(.94,1.08)}}
+@keyframes tm-spark {0%{opacity:0;transform:translateY(8px) scale(.75)} 38%{opacity:1} 90%,100%{opacity:0;transform:translateY(-18px) scale(1.15)}}
+
+@media (prefers-reduced-motion: reduce) {
+  svg.guris-icon *,svg.guris-icon *::before,svg.guris-icon *::after { animation: none !important; transition: none !important; }
+}
+</style>
+
+<g class="tm-flame">
+ <path d="M129 19C151 50 160 63 157 89C174 77 182 55 181 46C219 82 233 125 217 164C203 200 173 224 126 226C74 228 38 204 36 159C34 126 53 99 77 76C74 106 84 119 92 119C93 75 107 49 129 19Z" fill="#f24768" stroke="#f95578" stroke-width="3" stroke-linejoin="round"/>
+ <path d="M103 112C119 103 129 82 131 65C149 90 152 106 143 133C160 130 171 116 173 105C193 134 195 157 185 177C174 199 154 210 126 210C91 210 69 188 71 161C73 145 82 128 103 112Z" fill="#ff9238"/>
+ <g class="tm-core"><path d="M123 122C137 137 135 148 128 163C144 165 154 155 155 149C171 176 151 197 123 195C98 193 91 172 105 156C111 148 118 136 123 122Z" fill="#ffcf55"/></g>
+</g>
+<g fill="#ff6381">
+ <ellipse class="tm-spark-1" cx="54" cy="74" rx="5" ry="9" transform="rotate(-18 54 74)"/>
+ <ellipse class="tm-spark-2" cx="73" cy="41" rx="4" ry="7" transform="rotate(20 73 41)"/>
+ <ellipse class="tm-spark-3" cx="201" cy="65" rx="5" ry="9" transform="rotate(32 201 65)"/>
+ <circle class="tm-spark-2" cx="215" cy="93" r="4"/>
+ <circle class="tm-spark-1" cx="51" cy="107" r="3"/>
+</g>
+
+</svg>

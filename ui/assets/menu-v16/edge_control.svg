@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 256 256" width="256" height="256" class="guris-icon" role="img" aria-labelledby="ttl-edge_control dsc-edge_control">
+<title id="ttl-edge_control">Краев контроль</title>
+<desc id="dsc-edge_control">Оптический датчик с открытым верхним и нижним плечом, движущаяся плёнка и плавная коррекция кромки.</desc>
+<defs>
+  <linearGradient id="blue-edge_control" x1=".15" y1="0" x2=".88" y2="1"><stop stop-color="#e9fbff"/><stop offset=".23" stop-color="#8ceaff"/><stop offset=".58" stop-color="#28befe"/><stop offset="1" stop-color="#0878c5"/></linearGradient>
+  <linearGradient id="deep-edge_control" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#185f98"/><stop offset=".55" stop-color="#065185"/><stop offset="1" stop-color="#0d2945"/></linearGradient>
+  <linearGradient id="metal-edge_control" x1="0" y1="0" x2=".95" y2=".95"><stop stop-color="#ffffff"/><stop offset=".24" stop-color="#d5e7ef"/><stop offset=".43" stop-color="#7693ae"/><stop offset=".66" stop-color="#edf6ff"/><stop offset=".83" stop-color="#7d97ad"/><stop offset="1" stop-color="#e2f3ff"/></linearGradient>
+  <linearGradient id="film-edge_control" x1="0" y1="0" x2="1" y2=".35"><stop stop-color="#d0f4ff" stop-opacity=".86"/><stop offset=".36" stop-color="#fff" stop-opacity=".96"/><stop offset=".75" stop-color="#ddf4ff" stop-opacity=".9"/><stop offset="1" stop-color="#9edfff" stop-opacity=".88"/></linearGradient>
+  <linearGradient id="green-edge_control" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#c9ffaf"/><stop offset=".26" stop-color="#57dc56"/><stop offset=".68" stop-color="#08a968"/><stop offset="1" stop-color="#06683d"/></linearGradient>
+  <linearGradient id="glue-edge_control" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#ffffff"/><stop offset=".4" stop-color="#b9f7ff"/><stop offset="1" stop-color="#4dc5ff"/></linearGradient>
+  <filter id="shadow-edge_control" x="-25%" y="-25%" width="150%" height="160%"><feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#124d71" flood-opacity=".22"/></filter>
+  <filter id="beam-edge_control" x="-90%" y="-120%" width="280%" height="340%"><feGaussianBlur stdDeviation="3"/></filter>
+ </defs>
+<style><![CDATA[
+/* Guris SCADA — SVG native CSS animations. No scripts, fonts or raster images. */
+
+.ec-web {animation:ec-web 4.8s cubic-bezier(.45,0,.55,1) infinite}
+.ec-stripes {animation:ec-stripes 1.7s linear infinite}
+.ec-arrow {animation:ec-arrow 4.8s cubic-bezier(.45,0,.55,1) infinite}
+.ec-beam {animation:ec-beam 2.5s ease-in-out infinite}
+.ec-lamp {animation:ec-lamp 2.5s ease-in-out infinite}
+@keyframes ec-web {0%,100%{transform:translateX(-3px)}50%{transform:translateX(4px)}}
+@keyframes ec-stripes {to{stroke-dashoffset:44}}
+@keyframes ec-arrow {0%,100%{transform:translateX(-4px)}50%{transform:translateX(4px)}}
+@keyframes ec-beam {0%,100%{opacity:.45}50%{opacity:1}}
+@keyframes ec-lamp {0%,100%{opacity:.5}50%{opacity:1}}
+
+@media (prefers-reduced-motion: reduce) { .guris-icon * { animation: none !important; transition: none !important; } }
+]]></style>
+
+<!-- Неподвижное крепление и ПОЛНЫЙ С-образный корпус датчика, включая заднее нижнее плечо -->
+<path d="M107 66 H73 Q50 66 50 90 V144 Q50 157 65 157 H105" fill="none" stroke="#173b5b" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M107 66 H73 Q50 66 50 90 V144 Q50 157 65 157 H105" fill="none" stroke="url(#blue-edge_control)" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M70 60 H100" stroke="#e5fbff" stroke-width="5" opacity=".8" stroke-linecap="round"/>
+<path d="M67 151 H100" stroke="#8ceaff" stroke-width="4" opacity=".8" stroke-linecap="round"/>
+<!-- Полупрозрачное движущееся полотно частично ПЕРЕКРЫВАЕТ задние плечи датчика -->
+<g class="ec-web">
+ <rect x="92" y="27" width="140" height="194" rx="9" fill="#3680aa" opacity=".12"/>
+ <rect x="92" y="25" width="132" height="190" rx="7" fill="url(#film-edge_control)" stroke="#91d6f2" stroke-width="2.5"/>
+ <rect x="92" y="25" width="12" height="190" rx="5" fill="#c2f1ff" opacity=".48"/>
+ <path d="M110 39 H208" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".72"/>
+ <path d="M213 47 V199" stroke="#5abbe8" stroke-width="2.5" opacity=".4"/>
+ <path class="ec-stripes" d="M122 61V190 M157 61V190 M191 61V190" stroke="#fff" stroke-width="2" stroke-dasharray="20 24" opacity=".20"/>
+</g>
+<!-- Передняя часть корпуса датчика перед пленкой, с отчетливой нижней опорой -->
+<path d="M73 66H93 M50 88V141 M67 157H90" fill="none" stroke="#146fa9" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M73 64H92 M47 90V136 M67 154H90" fill="none" stroke="#adf3ff" stroke-width="5" stroke-linecap="round" opacity=".78"/>
+<rect x="57" y="94" width="13" height="34" rx="5" fill="url(#deep-edge_control)"/>
+<rect x="64" y="100" width="9" height="23" rx="4" fill="#214664"/>
+<!-- Оптическая щель, направленная на кромку -->
+<path class="ec-beam" d="M72 109H102" stroke="#fb493e" stroke-width="9" filter="url(#beam-edge_control)"/>
+<path class="ec-beam" d="M73 109H101" stroke="#f94437" stroke-width="3.5" stroke-linecap="round"/>
+<circle class="ec-lamp" cx="65" cy="109" r="4" fill="#ff6c4d"/>
+<!-- Узнаваемая синяя двойная стрелка коррекции -->
+<g class="ec-arrow" filter="url(#shadow-edge_control)">
+ <path d="M30 187 L65 166 V177 H114 V166 L149 187 L114 208 V198 H65 V208 Z" fill="url(#blue-edge_control)" stroke="#127bbd" stroke-width="3" stroke-linejoin="round"/>
+ <path d="M65 184H115" stroke="#d7faff" stroke-width="4" stroke-linecap="round" opacity=".9"/>
+</g>
+
+</svg>

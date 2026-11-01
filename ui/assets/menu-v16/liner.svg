@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" class="guris-icon" role="img" aria-labelledby="title-liner desc-liner">
+<title id="title-liner">Лайнер</title>
+<desc id="desc-liner">Шестиспицевое металлическое колесо лайнера, плавно вращающееся.</desc>
+<defs>
+<linearGradient id="blue-liner" x1="0" x2="0.7" y1="0" y2="1"><stop stop-color="#e2faff"/><stop offset="0.35" stop-color="#5bd9ff"/><stop offset="1" stop-color="#008ce0"/></linearGradient>
+<linearGradient id="paper-liner" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffffff"/><stop offset="0.55" stop-color="#ebf9ff"/><stop offset="1" stop-color="#c2eaff"/></linearGradient>
+<linearGradient id="steel-liner" x1="0" y1="0" x2="0.86" y2="0.86"><stop stop-color="#ffffff"/><stop offset="0.29" stop-color="#b6d0e5"/><stop offset="0.54" stop-color="#effaff"/><stop offset="0.75" stop-color="#7893ae"/><stop offset="1" stop-color="#d3ebf8"/></linearGradient>
+<linearGradient id="dark-liner" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#284967"/><stop offset="1" stop-color="#10283d"/></linearGradient>
+<filter id="glow-liner" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="3"/></filter>
+
+</defs>
+<style>
+
+.ln-wheel {transform-box:fill-box;transform-origin:center;animation:ln-spin 9s linear infinite}
+.ln-shine {animation:ln-shine 2.8s ease-in-out infinite}
+@keyframes ln-spin{to{transform:rotate(360deg)}}
+@keyframes ln-shine{0%,100%{opacity:.48}50%{opacity:.9}}
+
+@media (prefers-reduced-motion: reduce) {
+  svg.guris-icon *,svg.guris-icon *::before,svg.guris-icon *::after { animation: none !important; transition: none !important; }
+}
+</style>
+
+<g class="ln-wheel">
+ <circle cx="128" cy="128" r="99" fill="#1c3c56" opacity=".3"/>
+ <circle cx="128" cy="128" r="91" fill="url(#steel-liner)" stroke="#daeefa" stroke-width="4"/>
+ <circle cx="128" cy="128" r="79" fill="#d7ebf6" stroke="#5c849e" stroke-width="3"/>
+ <path d="M116 55Q128 49 140 55L146 80Q128 98 110 80Z" transform="rotate(0 128 128)" fill="#213a54" stroke="#7ca4bb" stroke-width="2"/>
+<path d="M116 55Q128 49 140 55L146 80Q128 98 110 80Z" transform="rotate(60 128 128)" fill="#213a54" stroke="#7ca4bb" stroke-width="2"/>
+<path d="M116 55Q128 49 140 55L146 80Q128 98 110 80Z" transform="rotate(120 128 128)" fill="#213a54" stroke="#7ca4bb" stroke-width="2"/>
+<path d="M116 55Q128 49 140 55L146 80Q128 98 110 80Z" transform="rotate(180 128 128)" fill="#213a54" stroke="#7ca4bb" stroke-width="2"/>
+<path d="M116 55Q128 49 140 55L146 80Q128 98 110 80Z" transform="rotate(240 128 128)" fill="#213a54" stroke="#7ca4bb" stroke-width="2"/>
+<path d="M116 55Q128 49 140 55L146 80Q128 98 110 80Z" transform="rotate(300 128 128)" fill="#213a54" stroke="#7ca4bb" stroke-width="2"/>
+ <circle cx="128" cy="128" r="22" fill="url(#steel-liner)" stroke="#65859e" stroke-width="5"/>
+ <circle cx="128" cy="128" r="9" fill="#244560" stroke="#abcbe0" stroke-width="3"/>
+ <path class="ln-shine" d="M58 86A80 80 0 0 1 128 48" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".7"/>
+</g>
+
+</svg>

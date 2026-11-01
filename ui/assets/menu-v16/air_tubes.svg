@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" class="guris-icon" role="img" aria-labelledby="title-air desc-air">
+<title id="title-air">Воздушные трубки</title>
+<desc id="desc-air">Изогнутая стрелка указывает влево, а из её конца прерывисто выдувается воздух.</desc>
+<defs>
+  <linearGradient id="at-blue" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#eefcff"/><stop offset=".24" stop-color="#a6efff"/><stop offset=".70" stop-color="#21bafb"/><stop offset="1" stop-color="#1179c3"/></linearGradient>
+</defs>
+<style><![CDATA[
+.at-flow{animation:at-flow 1.15s linear infinite}
+.at-puff1{animation:at-puff 1.2s ease-out infinite}
+.at-puff2{animation:at-puff 1.2s ease-out infinite .22s}
+.at-puff3{animation:at-puff 1.2s ease-out infinite .44s}
+@keyframes at-flow{to{stroke-dashoffset:28}}
+@keyframes at-puff{0%{opacity:0;transform:translateX(6px)}25%{opacity:.95}100%{opacity:0;transform:translateX(-16px)}}
+@media (prefers-reduced-motion: reduce){.guris-icon *{animation:none!important;transition:none!important}}
+]]></style>
+  <!-- curved arrow body, close to SCADA sketch -->
+  <path d="M191 33 C206 35 214 46 214 62 V110 C214 126 209 136 197 147 L168 176 H71" fill="none" stroke="#1d5278" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M191 33 C206 35 214 46 214 62 V110 C214 126 209 136 197 147 L168 176 H71" fill="none" stroke="url(#at-blue)" stroke-width="7.4" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M191 33 C206 35 214 46 214 62 V110 C214 126 209 136 197 147 L168 176 H71" fill="none" stroke="#efffff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" opacity=".82"/>
+
+  <!-- arrow head pointing left -->
+  <path d="M25 176l31-18v12h28v12H56v12z" fill="url(#at-blue)" stroke="#106fae" stroke-width="2.1" stroke-linejoin="round"/>
+
+  <!-- soft flow line inside straight section -->
+  <path d="M154 176H78" fill="none" stroke="#d3f7ff" stroke-width="2.8" stroke-linecap="round" stroke-dasharray="12 12" class="at-flow"/>
+
+  <!-- intermittent air blowing from arrow tip -->
+  <g stroke="#7fd8ff" stroke-width="2.6" stroke-linecap="round" opacity=".95">
+    <path class="at-puff1" d="M22 160H39"/>
+    <path class="at-puff2" d="M10 171H31"/>
+    <path class="at-puff3" d="M19 182H36"/>
+  </g>
+</svg>

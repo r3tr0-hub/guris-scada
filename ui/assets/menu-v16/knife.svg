@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" class="guris-icon" role="img" aria-labelledby="kn-title kn-desc">
+<title id="kn-title">Нож</title>
+<desc id="kn-desc">Горизонтальная режущая планка опускается к движущемуся справа налево полотну и поднимается обратно.</desc>
+<defs>
+ <linearGradient id="kn-steel" x1="0" y1="0" x2=".95" y2="1"><stop stop-color="#f8feff"/><stop offset=".2" stop-color="#d6eaf5"/><stop offset=".51" stop-color="#7c9ab3"/><stop offset=".78" stop-color="#f0faff"/><stop offset="1" stop-color="#87a5be"/></linearGradient>
+ <linearGradient id="kn-edge" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#eaf8ff"/><stop offset=".6" stop-color="#71cdeb"/><stop offset="1" stop-color="#137db6"/></linearGradient>
+ <linearGradient id="kn-film" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#f2ffff" stop-opacity=".96"/><stop offset="1" stop-color="#8bd9f7" stop-opacity=".9"/></linearGradient>
+ <filter id="kn-shadow" x="-25%" y="-25%" width="150%" height="160%"><feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#123d5b" flood-opacity=".25"/></filter>
+</defs>
+<style><![CDATA[
+.kn-blade{animation:kn-cut 3.1s cubic-bezier(.55,0,.28,1) infinite}
+.kn-mat{animation:kn-film 1.25s linear infinite}
+.kn-spark{animation:kn-flash 3.1s ease-in-out infinite}
+@keyframes kn-cut{0%,22%,100%{transform:translateY(-3px)}46%,58%{transform:translateY(32px)}75%{transform:translateY(-3px)}}
+@keyframes kn-film{to{stroke-dashoffset:42}}
+@keyframes kn-flash{0%,39%,63%,100%{opacity:0}48%,56%{opacity:.95}}
+@media(prefers-reduced-motion:reduce){.guris-icon *{animation:none!important;transition:none!important}}
+]]></style>
+<!-- Опорная планка и полотно -->
+<rect x="30" y="149" width="196" height="16" rx="5" fill="url(#kn-film)" stroke="#7daecd" stroke-width="2"/>
+<path class="kn-mat" d="M29 156H227" stroke="#228fc5" stroke-dasharray="17 19" stroke-width="2.3" stroke-linecap="round"/>
+<path d="M32 173H224" stroke="#7095ae" stroke-width="3.6" stroke-linecap="round" opacity=".45"/>
+<!-- Режущий узел в виде длинного горизонтального ножа из оригинальной схемы. -->
+<g class="kn-blade" filter="url(#kn-shadow)">
+ <rect x="60" y="66" width="136" height="43" rx="5" fill="url(#kn-steel)" stroke="#315b7a" stroke-width="3"/>
+ <rect x="67" y="73" width="122" height="10" rx="2" fill="#e5faff" opacity=".8"/>
+ <path d="M63 109H193L181 120H75Z" fill="url(#kn-edge)" stroke="#2777a7" stroke-width="2.3" stroke-linejoin="round"/>
+ <path d="M74 117H182" stroke="#f5feff" stroke-width="2" opacity=".8"/>
+ <path d="M113 52V66 M142 52V66" stroke="#6e8da5" stroke-width="5" stroke-linecap="round"/>
+</g>
+<g class="kn-spark" stroke="#2bbef6" stroke-width="3" stroke-linecap="round" fill="none">
+ <path d="M87 139l-9 7 M169 139l9 7 M128 135v-9"/>
+</g>
+<!-- Символ ширины реза под планкой -->
+<path d="M63 197H194 M63 192V202 M194 192V202" stroke="#477694" stroke-width="2.8" stroke-linecap="round"/>
+</svg>

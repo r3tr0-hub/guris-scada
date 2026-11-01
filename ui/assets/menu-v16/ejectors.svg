@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 256 256" width="256" height="256" class="guris-icon" role="img" aria-labelledby="ttl-ejectors dsc-ejectors">
+<title id="ttl-ejectors">Выкидные</title>
+<desc id="dsc-ejectors">Две противоположные губки вращающихся валов смыкаются и ускоренно подталкивают пакет справа налево.</desc>
+<defs>
+  <linearGradient id="blue-ejectors" x1=".15" y1="0" x2=".88" y2="1"><stop stop-color="#e9fbff"/><stop offset=".23" stop-color="#8ceaff"/><stop offset=".58" stop-color="#28befe"/><stop offset="1" stop-color="#0878c5"/></linearGradient>
+  <linearGradient id="deep-ejectors" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#185f98"/><stop offset=".55" stop-color="#065185"/><stop offset="1" stop-color="#0d2945"/></linearGradient>
+  <linearGradient id="metal-ejectors" x1="0" y1="0" x2=".95" y2=".95"><stop stop-color="#ffffff"/><stop offset=".24" stop-color="#d5e7ef"/><stop offset=".43" stop-color="#7693ae"/><stop offset=".66" stop-color="#edf6ff"/><stop offset=".83" stop-color="#7d97ad"/><stop offset="1" stop-color="#e2f3ff"/></linearGradient>
+  <linearGradient id="film-ejectors" x1="0" y1="0" x2="1" y2=".35"><stop stop-color="#d0f4ff" stop-opacity=".86"/><stop offset=".36" stop-color="#fff" stop-opacity=".96"/><stop offset=".75" stop-color="#ddf4ff" stop-opacity=".9"/><stop offset="1" stop-color="#9edfff" stop-opacity=".88"/></linearGradient>
+  <linearGradient id="green-ejectors" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#c9ffaf"/><stop offset=".26" stop-color="#57dc56"/><stop offset=".68" stop-color="#08a968"/><stop offset="1" stop-color="#06683d"/></linearGradient>
+  <linearGradient id="glue-ejectors" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#ffffff"/><stop offset=".4" stop-color="#b9f7ff"/><stop offset="1" stop-color="#4dc5ff"/></linearGradient>
+  <filter id="shadow-ejectors" x="-25%" y="-25%" width="150%" height="160%"><feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#124d71" flood-opacity=".22"/></filter>
+  <filter id="beam-ejectors" x="-90%" y="-120%" width="280%" height="340%"><feGaussianBlur stdDeviation="3"/></filter>
+ </defs>
+<style><![CDATA[
+/* Guris SCADA — SVG native CSS animations. No scripts, fonts or raster images. */
+
+.ej-top {transform-origin:128px 66px;transform-box:view-box;animation:ej-top 3.35s linear infinite}
+.ej-bottom {transform-origin:128px 190px;transform-box:view-box;animation:ej-bottom 3.35s linear infinite}
+.ej-packet {animation:ej-packet 3.35s linear infinite}
+.ej-burst {animation:ej-burst 3.35s linear infinite}
+.ej-streak {animation:ej-streak 3.35s linear infinite}
+@keyframes ej-top {0%{transform:rotate(-170deg)}45%{transform:rotate(-25deg)}55%{transform:rotate(0deg)}65%{transform:rotate(150deg)}100%{transform:rotate(190deg)}}
+@keyframes ej-bottom {0%{transform:rotate(170deg)}45%{transform:rotate(25deg)}55%{transform:rotate(0deg)}65%{transform:rotate(-150deg)}100%{transform:rotate(-190deg)}}
+@keyframes ej-packet {0%{transform:translateX(0);opacity:0}9%{opacity:1}45%{transform:translateX(-60px)}55%{transform:translateX(-71px)}66%{transform:translateX(-164px);opacity:1}82%,100%{transform:translateX(-185px);opacity:0}}
+@keyframes ej-burst {0%,48%,74%,100%{opacity:0;transform:scale(.7)}55%,61%{opacity:1;transform:scale(1)}}
+@keyframes ej-streak {0%,53%,76%,100%{opacity:0}60%,67%{opacity:1}}
+
+@media (prefers-reduced-motion: reduce) { .guris-icon * { animation: none !important; transition: none !important; } }
+]]></style>
+
+<!-- Горизонтальная направляющая и проходящий пакет -->
+<path d="M18 118H238 M18 140H238" stroke="#9dbad1" stroke-width="4" stroke-linecap="round"/>
+<path d="M19 122H235 M19 136H235" stroke="#f0fbff" stroke-width="2" opacity=".8"/>
+<g class="ej-packet"><rect x="188" y="121" width="47" height="14" rx="4" fill="url(#film-ejectors)" stroke="#71b5d9" stroke-width="1.4"/><path d="M196 125H227" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/></g>
+<!-- Оси двух валов в разнесённых корпусах -->
+<circle cx="128" cy="66" r="23" fill="url(#metal-ejectors)" stroke="#5a819e" stroke-width="3"/>
+<circle cx="128" cy="190" r="23" fill="url(#metal-ejectors)" stroke="#5a819e" stroke-width="3"/>
+<!-- Вращаются ГУБКИ (синие лопасти), а не всё устройство вверх-вниз -->
+<g class="ej-top">
+ <path d="M112 62 C111 83 119 108 128 125 C139 110 145 82 144 62Z" fill="url(#blue-ejectors)" stroke="#0877be" stroke-width="3" stroke-linejoin="round"/>
+ <path d="M124 78Q128 95 128 114" stroke="#d9faff" stroke-width="4" opacity=".7" stroke-linecap="round"/>
+ <path d="M116 63L128 50L140 63" fill="none" stroke="#c6edff" stroke-width="3" opacity=".6"/>
+</g>
+<g class="ej-bottom">
+ <path d="M112 194 C111 174 119 147 128 131 C139 148 145 174 144 194Z" fill="url(#blue-ejectors)" stroke="#0877be" stroke-width="3" stroke-linejoin="round"/>
+ <path d="M128 144Q128 166 124 178" stroke="#d9faff" stroke-width="4" opacity=".7" stroke-linecap="round"/>
+</g>
+<circle cx="128" cy="66" r="9" fill="url(#metal-ejectors)" stroke="#33546f" stroke-width="2"/>
+<circle cx="128" cy="190" r="9" fill="url(#metal-ejectors)" stroke="#33546f" stroke-width="2"/>
+<circle cx="128" cy="66" r="3" fill="#35516c"/><circle cx="128" cy="190" r="3" fill="#35516c"/>
+<!-- Резкий короткий выброс на фазе контакта -->
+<g class="ej-burst" transform-origin="128px 128px">
+ <path d="M103 111L96 106 M97 125H87 M104 146L96 152 M154 111L162 105 M159 127H170 M154 146L161 152" stroke="#ff6b43" stroke-width="4" stroke-linecap="round"/>
+</g>
+<g class="ej-streak" stroke="#12baff" stroke-width="3" stroke-linecap="round"><path d="M102 109H65 M91 119H41 M101 145H54"/></g>
+
+</svg>

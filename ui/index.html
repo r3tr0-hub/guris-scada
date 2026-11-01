@@ -288,7 +288,7 @@
             </div><div class="sc-calendar"><div class="sc-calendar-head"><h3 data-calendar-month=""></h3><span data-calendar-year=""></span></div><div class="sc-calendar-weekdays"><span>ПН</span><span>ВТ</span><span>СР</span><span>ЧТ</span><span>ПТ</span><span>СБ</span><span>ВС</span></div><div class="sc-calendar-days" data-calendar-days=""></div><p class="sc-calendar-caption">Текущий месяц · сегодня выделено</p></div></div>
           <footer class="sc-clock-footer" data-clock-footer="">          <button class="sc-action sc-clock-manuals" type="button" data-page="manuals" data-nav-response="" title="Мануалы"><svg class="sc-nav-icon sc-manuals-icon" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5C9 3 5 3 2 4v15c3-1 7-1 10 1 3-2 7-2 10-1V4c-3-1-7-1-10 1v15"/><path d="M5 7h4M5 10h4M15 7h4M15 10h4"/><path class="sc-book-page sc-book-page-one" d="M12 5c3-2 6-2 8-1v13c-3 0-6 1-8 3Z"/><path class="sc-book-page sc-book-page-two" d="M12 5c3-2 5-2 7-1v13c-3 0-5 1-7 3Z"/></svg><span>Мануалы</span></button><button type="button" class="sc-exit sc-clock-exit" data-exit=""><i data-lucide="power" aria-hidden="true"></i><span>Выйти из SCADA</span></button></footer></section><section class="sc-about-page" data-page-content="about" hidden="">
  <div class="sc-section-head"><h3>О ПРОГРАММЕ SCADA</h3><button class="sc-text-button" type="button" data-page="home">← Главная</button></div>
- <div class="sc-about-heading"><div><h3>Guris SCADA <span data-about-version="">0.1.28</span></h3><p>Локальный интерфейс оператора для пакетоделательной линии Guris.</p></div><span class="sc-about-badge">ADS · Windows x64</span></div>
+ <div class="sc-about-heading"><div><h3>Guris SCADA <span data-about-version="">0.1.29</span></h3><p>Локальный интерфейс оператора для пакетоделательной линии Guris.</p></div><span class="sc-about-badge">ADS · Windows x64</span></div>
  <div class="sc-about-stack"><span><strong>Интерфейс</strong>HTML5 · CSS · JavaScript · SVG / Canvas</span><span><strong>Приложение</strong>C11 · локальный HTTP · ADS / TCP · SQLite</span><span><strong>Окно</strong>Microsoft Edge · режим киоска</span></div>
  <svg class="sc-about-diagram" viewBox="0 0 820 170" role="img" aria-label="Интерфейс общается с локальным процессом SCADA по HTTP. SCADA обменивается данными с ПЛК по ADS и сохраняет локальные настройки и журналы.">
  <defs><marker id="about-arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0L7 3.5L0 7" fill="currentColor"></path></marker></defs>
@@ -320,29 +320,355 @@
           
         <section class="sc-node-menu" data-page-content="menu" aria-labelledby="guris-scada-menu-title" hidden="" data-mockup-page="true">
             <div class="sc-section-head"><h3 id="guris-scada-menu-title">УЗЛЫ ЛИНИИ</h3><span>Выберите узел для настройки</span></div>
-            <div class="sc-node-grid"><button class="sc-node-tile cursor-interaction" type="button" data-open-node="knife"><span class="sc-node-tile-head"><svg class="sc-knife-icon" viewBox="0 0 72 40" width="72" height="40" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><g class="sc-knife-blade"><path d="M12 5h48v15H12zM17 10h38"/></g><path d="M9 32h54M14 28v8M58 28v8"/></svg></span><span class="sc-node-title">Нож</span></button>
+            <div class="sc-node-grid"><button class="sc-node-tile cursor-interaction" type="button" data-open-node="knife"><span class="sc-node-tile-head"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" class="guris-icon sc-menu-svg" data-menu-svg="knife" aria-hidden="true" focusable="false">
+<title id="kn-title">Нож</title>
+<desc id="kn-desc">Горизонтальная режущая планка опускается к движущемуся справа налево полотну и поднимается обратно.</desc>
+<defs>
+ <linearGradient id="kn-steel" x1="0" y1="0" x2=".95" y2="1"><stop stop-color="#f8feff"/><stop offset=".2" stop-color="#d6eaf5"/><stop offset=".51" stop-color="#7c9ab3"/><stop offset=".78" stop-color="#f0faff"/><stop offset="1" stop-color="#87a5be"/></linearGradient>
+ <linearGradient id="kn-edge" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#eaf8ff"/><stop offset=".6" stop-color="#71cdeb"/><stop offset="1" stop-color="#137db6"/></linearGradient>
+ <linearGradient id="kn-film" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#f2ffff" stop-opacity=".96"/><stop offset="1" stop-color="#8bd9f7" stop-opacity=".9"/></linearGradient>
+ <filter id="kn-shadow" x="-25%" y="-25%" width="150%" height="160%"><feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#123d5b" flood-opacity=".25"/></filter>
+</defs>
+<style>
+.kn-blade{animation:kn-cut 3.1s cubic-bezier(.55,0,.28,1) infinite}
+.kn-mat{animation:kn-film 1.25s linear infinite}
+.kn-spark{animation:kn-flash 3.1s ease-in-out infinite}
+@keyframes kn-cut{0%,22%,100%{transform:translateY(-3px)}46%,58%{transform:translateY(32px)}75%{transform:translateY(-3px)}}
+@keyframes kn-film{to{stroke-dashoffset:42}}
+@keyframes kn-flash{0%,39%,63%,100%{opacity:0}48%,56%{opacity:.95}}
+@media(prefers-reduced-motion:reduce){.guris-icon *{animation:none!important;transition:none!important}}
+</style>
+<!-- Опорная планка и полотно -->
+<rect x="30" y="149" width="196" height="16" rx="5" fill="url(#kn-film)" stroke="#7daecd" stroke-width="2"/>
+<path class="kn-mat" d="M29 156H227" stroke="#228fc5" stroke-dasharray="17 19" stroke-width="2.3" stroke-linecap="round"/>
+<path d="M32 173H224" stroke="#7095ae" stroke-width="3.6" stroke-linecap="round" opacity=".45"/>
+<!-- Режущий узел в виде длинного горизонтального ножа из оригинальной схемы. -->
+<g class="kn-blade" filter="url(#kn-shadow)">
+ <rect x="60" y="66" width="136" height="43" rx="5" fill="url(#kn-steel)" stroke="#315b7a" stroke-width="3"/>
+ <rect x="67" y="73" width="122" height="10" rx="2" fill="#e5faff" opacity=".8"/>
+ <path d="M63 109H193L181 120H75Z" fill="url(#kn-edge)" stroke="#2777a7" stroke-width="2.3" stroke-linejoin="round"/>
+ <path d="M74 117H182" stroke="#f5feff" stroke-width="2" opacity=".8"/>
+ <path d="M113 52V66 M142 52V66" stroke="#6e8da5" stroke-width="5" stroke-linecap="round"/>
+</g>
+<g class="kn-spark" stroke="#2bbef6" stroke-width="3" stroke-linecap="round" fill="none">
+ <path d="M87 139l-9 7 M169 139l9 7 M128 135v-9"/>
+</g>
+<!-- Символ ширины реза под планкой -->
+<path d="M63 197H194 M63 192V202 M194 192V202" stroke="#477694" stroke-width="2.8" stroke-linecap="round"/>
+</svg></span><span class="sc-node-title">Нож</span></button>
               <button class="sc-node-tile cursor-interaction" type="button" data-open-node="edge" data-tooltip="Состояние датчиков линии">
-                <span class="sc-node-tile-head"><canvas data-mechanism-canvas="" data-mechanism="edge" data-roller-width="72" data-roller-height="28" width="72" height="28" aria-hidden="true"></canvas><span class="sc-node-chevron"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="lucide lucide-chevron-right"><path d="m9 18 6-6-6-6"></path></svg></span></span>
+                <span class="sc-node-tile-head"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 256 256" width="256" height="256" class="guris-icon sc-menu-svg" data-menu-svg="edge_control" aria-hidden="true" focusable="false">
+<title id="ttl-edge_control">Краев контроль</title>
+<desc id="dsc-edge_control">Оптический датчик с открытым верхним и нижним плечом, движущаяся плёнка и плавная коррекция кромки.</desc>
+<defs>
+  <linearGradient id="blue-edge_control" x1=".15" y1="0" x2=".88" y2="1"><stop stop-color="#e9fbff"/><stop offset=".23" stop-color="#8ceaff"/><stop offset=".58" stop-color="#28befe"/><stop offset="1" stop-color="#0878c5"/></linearGradient>
+  <linearGradient id="deep-edge_control" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#185f98"/><stop offset=".55" stop-color="#065185"/><stop offset="1" stop-color="#0d2945"/></linearGradient>
+  <linearGradient id="metal-edge_control" x1="0" y1="0" x2=".95" y2=".95"><stop stop-color="#ffffff"/><stop offset=".24" stop-color="#d5e7ef"/><stop offset=".43" stop-color="#7693ae"/><stop offset=".66" stop-color="#edf6ff"/><stop offset=".83" stop-color="#7d97ad"/><stop offset="1" stop-color="#e2f3ff"/></linearGradient>
+  <linearGradient id="film-edge_control" x1="0" y1="0" x2="1" y2=".35"><stop stop-color="#d0f4ff" stop-opacity=".86"/><stop offset=".36" stop-color="#fff" stop-opacity=".96"/><stop offset=".75" stop-color="#ddf4ff" stop-opacity=".9"/><stop offset="1" stop-color="#9edfff" stop-opacity=".88"/></linearGradient>
+  <linearGradient id="green-edge_control" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#c9ffaf"/><stop offset=".26" stop-color="#57dc56"/><stop offset=".68" stop-color="#08a968"/><stop offset="1" stop-color="#06683d"/></linearGradient>
+  <linearGradient id="glue-edge_control" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#ffffff"/><stop offset=".4" stop-color="#b9f7ff"/><stop offset="1" stop-color="#4dc5ff"/></linearGradient>
+  <filter id="shadow-edge_control" x="-25%" y="-25%" width="150%" height="160%"><feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#124d71" flood-opacity=".22"/></filter>
+  <filter id="beam-edge_control" x="-90%" y="-120%" width="280%" height="340%"><feGaussianBlur stdDeviation="3"/></filter>
+ </defs>
+<style>
+/* Guris SCADA — SVG native CSS animations. No scripts, fonts or raster images. */
+
+.ec-web {animation:ec-web 4.8s cubic-bezier(.45,0,.55,1) infinite}
+.ec-stripes {animation:ec-stripes 1.7s linear infinite}
+.ec-arrow {animation:ec-arrow 4.8s cubic-bezier(.45,0,.55,1) infinite}
+.ec-beam {animation:ec-beam 2.5s ease-in-out infinite}
+.ec-lamp {animation:ec-lamp 2.5s ease-in-out infinite}
+@keyframes ec-web {0%,100%{transform:translateX(-3px)}50%{transform:translateX(4px)}}
+@keyframes ec-stripes {to{stroke-dashoffset:44}}
+@keyframes ec-arrow {0%,100%{transform:translateX(-4px)}50%{transform:translateX(4px)}}
+@keyframes ec-beam {0%,100%{opacity:.45}50%{opacity:1}}
+@keyframes ec-lamp {0%,100%{opacity:.5}50%{opacity:1}}
+
+@media (prefers-reduced-motion: reduce) { .guris-icon * { animation: none !important; transition: none !important; } }
+</style>
+
+<!-- Неподвижное крепление и ПОЛНЫЙ С-образный корпус датчика, включая заднее нижнее плечо -->
+<path d="M107 66 H73 Q50 66 50 90 V144 Q50 157 65 157 H105" fill="none" stroke="#173b5b" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M107 66 H73 Q50 66 50 90 V144 Q50 157 65 157 H105" fill="none" stroke="url(#blue-edge_control)" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M70 60 H100" stroke="#e5fbff" stroke-width="5" opacity=".8" stroke-linecap="round"/>
+<path d="M67 151 H100" stroke="#8ceaff" stroke-width="4" opacity=".8" stroke-linecap="round"/>
+<!-- Полупрозрачное движущееся полотно частично ПЕРЕКРЫВАЕТ задние плечи датчика -->
+<g class="ec-web">
+ <rect x="92" y="27" width="140" height="194" rx="9" fill="#3680aa" opacity=".12"/>
+ <rect x="92" y="25" width="132" height="190" rx="7" fill="url(#film-edge_control)" stroke="#91d6f2" stroke-width="2.5"/>
+ <rect x="92" y="25" width="12" height="190" rx="5" fill="#c2f1ff" opacity=".48"/>
+ <path d="M110 39 H208" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".72"/>
+ <path d="M213 47 V199" stroke="#5abbe8" stroke-width="2.5" opacity=".4"/>
+ <path class="ec-stripes" d="M122 61V190 M157 61V190 M191 61V190" stroke="#fff" stroke-width="2" stroke-dasharray="20 24" opacity=".20"/>
+</g>
+<!-- Передняя часть корпуса датчика перед пленкой, с отчетливой нижней опорой -->
+<path d="M73 66H93 M50 88V141 M67 157H90" fill="none" stroke="#146fa9" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M73 64H92 M47 90V136 M67 154H90" fill="none" stroke="#adf3ff" stroke-width="5" stroke-linecap="round" opacity=".78"/>
+<rect x="57" y="94" width="13" height="34" rx="5" fill="url(#deep-edge_control)"/>
+<rect x="64" y="100" width="9" height="23" rx="4" fill="#214664"/>
+<!-- Оптическая щель, направленная на кромку -->
+<path class="ec-beam" d="M72 109H102" stroke="#fb493e" stroke-width="9" filter="url(#beam-edge_control)"/>
+<path class="ec-beam" d="M73 109H101" stroke="#f94437" stroke-width="3.5" stroke-linecap="round"/>
+<circle class="ec-lamp" cx="65" cy="109" r="4" fill="#ff6c4d"/>
+<!-- Узнаваемая синяя двойная стрелка коррекции -->
+<g class="ec-arrow" filter="url(#shadow-edge_control)">
+ <path d="M30 187 L65 166 V177 H114 V166 L149 187 L114 208 V198 H65 V208 Z" fill="url(#blue-edge_control)" stroke="#127bbd" stroke-width="3" stroke-linejoin="round"/>
+ <path d="M65 184H115" stroke="#d7faff" stroke-width="4" stroke-linecap="round" opacity=".9"/>
+</g>
+
+</svg><span class="sc-node-chevron"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="lucide lucide-chevron-right"><path d="m9 18 6-6-6-6"></path></svg></span></span>
                 <span class="sc-node-title">Краевой контроль</span><span class="sc-node-description">Состояние датчиков линии</span>
               </button>
               <button class="sc-node-tile cursor-interaction" type="button" data-open-node="temperature" data-tooltip="Ножи и нагревательные зоны">
-                <span class="sc-node-tile-head"><span class="sc-temperature-symbol"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="lucide lucide-thermometer"><path d="M14 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0Z"></path></svg><canvas data-mechanism-canvas="" data-mechanism="temperature" data-roller-width="48" data-roller-height="40" width="48" height="40" aria-hidden="true"></canvas></span><span class="sc-node-chevron"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="lucide lucide-chevron-right"><path d="m9 18 6-6-6-6"></path></svg></span></span>
+                <span class="sc-node-tile-head"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" class="guris-icon sc-menu-svg" data-menu-svg="temperature" aria-hidden="true" focusable="false">
+<title id="title-temperature">Температура</title>
+<desc id="desc-temperature">Трёхцветное пламя и небольшие искры с плавной анимацией нагрева.</desc>
+<defs>
+<linearGradient id="blue-temperature" x1="0" x2="0.7" y1="0" y2="1"><stop stop-color="#e2faff"/><stop offset="0.35" stop-color="#5bd9ff"/><stop offset="1" stop-color="#008ce0"/></linearGradient>
+<linearGradient id="paper-temperature" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffffff"/><stop offset="0.55" stop-color="#ebf9ff"/><stop offset="1" stop-color="#c2eaff"/></linearGradient>
+<linearGradient id="steel-temperature" x1="0" y1="0" x2="0.86" y2="0.86"><stop stop-color="#ffffff"/><stop offset="0.29" stop-color="#b6d0e5"/><stop offset="0.54" stop-color="#effaff"/><stop offset="0.75" stop-color="#7893ae"/><stop offset="1" stop-color="#d3ebf8"/></linearGradient>
+<linearGradient id="dark-temperature" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#284967"/><stop offset="1" stop-color="#10283d"/></linearGradient>
+<filter id="glow-temperature" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="3"/></filter>
+
+</defs>
+<style>
+
+.tm-flame { transform-box:fill-box;transform-origin:center bottom;animation:tm-flicker 2.7s ease-in-out infinite; }
+.tm-core { transform-box:fill-box;transform-origin:center bottom;animation:tm-core 1.9s ease-in-out infinite; }
+.tm-spark-1 {animation:tm-spark 2.1s ease-in-out infinite;}
+.tm-spark-2 {animation:tm-spark 2.1s ease-in-out .55s infinite;}
+.tm-spark-3 {animation:tm-spark 2.1s ease-in-out 1.1s infinite;}
+@keyframes tm-flicker {0%,100%{transform:scale(1,1) rotate(0)} 30%{transform:scale(.965,1.04) rotate(-2deg)} 67%{transform:scale(1.035,.985) rotate(1.5deg)}}
+@keyframes tm-core {0%,100%{transform:scale(1)}50%{transform:scale(.94,1.08)}}
+@keyframes tm-spark {0%{opacity:0;transform:translateY(8px) scale(.75)} 38%{opacity:1} 90%,100%{opacity:0;transform:translateY(-18px) scale(1.15)}}
+
+@media (prefers-reduced-motion: reduce) {
+  svg.guris-icon *,svg.guris-icon *::before,svg.guris-icon *::after { animation: none !important; transition: none !important; }
+}
+</style>
+
+<g class="tm-flame">
+ <path d="M129 19C151 50 160 63 157 89C174 77 182 55 181 46C219 82 233 125 217 164C203 200 173 224 126 226C74 228 38 204 36 159C34 126 53 99 77 76C74 106 84 119 92 119C93 75 107 49 129 19Z" fill="#f24768" stroke="#f95578" stroke-width="3" stroke-linejoin="round"/>
+ <path d="M103 112C119 103 129 82 131 65C149 90 152 106 143 133C160 130 171 116 173 105C193 134 195 157 185 177C174 199 154 210 126 210C91 210 69 188 71 161C73 145 82 128 103 112Z" fill="#ff9238"/>
+ <g class="tm-core"><path d="M123 122C137 137 135 148 128 163C144 165 154 155 155 149C171 176 151 197 123 195C98 193 91 172 105 156C111 148 118 136 123 122Z" fill="#ffcf55"/></g>
+</g>
+<g fill="#ff6381">
+ <ellipse class="tm-spark-1" cx="54" cy="74" rx="5" ry="9" transform="rotate(-18 54 74)"/>
+ <ellipse class="tm-spark-2" cx="73" cy="41" rx="4" ry="7" transform="rotate(20 73 41)"/>
+ <ellipse class="tm-spark-3" cx="201" cy="65" rx="5" ry="9" transform="rotate(32 201 65)"/>
+ <circle class="tm-spark-2" cx="215" cy="93" r="4"/>
+ <circle class="tm-spark-1" cx="51" cy="107" r="3"/>
+</g>
+
+</svg><span class="sc-node-chevron"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="lucide lucide-chevron-right"><path d="m9 18 6-6-6-6"></path></svg></span></span>
                 <span class="sc-node-title">Температура</span><span class="sc-node-description">Ножи и нагревательные зоны</span>
               </button>
               <button class="sc-node-tile cursor-interaction" type="button" data-open-node="glue" data-tooltip="Настройка нанесения клея">
-                <span class="sc-node-tile-head"><span class="sc-glue-symbol"><canvas data-mechanism-canvas="" data-mechanism="glue" data-roller-width="72" data-roller-height="40" width="72" height="40" aria-hidden="true"></canvas><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="lucide lucide-pipette"><path d="m2 22 1-1h3l9-9"></path><path d="M3 21v-3l9-9"></path><path d="m15 6 3.4-3.4a2.1 2.1 0 1 1 3 3L18 9l.4.4a2.1 2.1 0 1 1-3 3l-3.8-3.8a2.1 2.1 0 1 1 3-3l.4.4Z"></path></svg></span><span class="sc-node-chevron"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="lucide lucide-chevron-right"><path d="m9 18 6-6-6-6"></path></svg></span></span>
+                <span class="sc-node-tile-head"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 256 256" width="256" height="256" class="guris-icon sc-menu-svg" data-menu-svg="glue" aria-hidden="true" focusable="false">
+<title id="ttl-glue">Клей</title>
+<desc id="dsc-glue">Аппликатор перемещается вдоль волнистой полоски, нанося клей в месте контакта.</desc>
+<defs>
+  <linearGradient id="blue-glue" x1=".15" y1="0" x2=".88" y2="1"><stop stop-color="#e9fbff"/><stop offset=".23" stop-color="#8ceaff"/><stop offset=".58" stop-color="#28befe"/><stop offset="1" stop-color="#0878c5"/></linearGradient>
+  <linearGradient id="deep-glue" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#185f98"/><stop offset=".55" stop-color="#065185"/><stop offset="1" stop-color="#0d2945"/></linearGradient>
+  <linearGradient id="metal-glue" x1="0" y1="0" x2=".95" y2=".95"><stop stop-color="#ffffff"/><stop offset=".24" stop-color="#d5e7ef"/><stop offset=".43" stop-color="#7693ae"/><stop offset=".66" stop-color="#edf6ff"/><stop offset=".83" stop-color="#7d97ad"/><stop offset="1" stop-color="#e2f3ff"/></linearGradient>
+  <linearGradient id="film-glue" x1="0" y1="0" x2="1" y2=".35"><stop stop-color="#d0f4ff" stop-opacity=".86"/><stop offset=".36" stop-color="#fff" stop-opacity=".96"/><stop offset=".75" stop-color="#ddf4ff" stop-opacity=".9"/><stop offset="1" stop-color="#9edfff" stop-opacity=".88"/></linearGradient>
+  <linearGradient id="green-glue" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#c9ffaf"/><stop offset=".26" stop-color="#57dc56"/><stop offset=".68" stop-color="#08a968"/><stop offset="1" stop-color="#06683d"/></linearGradient>
+  <linearGradient id="glue-glue" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#ffffff"/><stop offset=".4" stop-color="#b9f7ff"/><stop offset="1" stop-color="#4dc5ff"/></linearGradient>
+  <filter id="shadow-glue" x="-25%" y="-25%" width="150%" height="160%"><feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#124d71" flood-opacity=".22"/></filter>
+  <filter id="beam-glue" x="-90%" y="-120%" width="280%" height="340%"><feGaussianBlur stdDeviation="3"/></filter>
+ </defs>
+<style>
+/* Guris SCADA — SVG native CSS animations. No scripts, fonts or raster images. */
+
+.gl-head {animation:gl-head 5s linear infinite alternate}
+.gl-pulse {animation:gl-pulse 1.1s ease-in-out infinite}
+.gl-gloss {animation:gl-gloss 5s linear infinite alternate}
+.gl-flow {animation:gl-flow 1.25s linear infinite}
+@keyframes gl-head {
+ 0%{transform:translate(0px,0px)}
+ 15%{transform:translate(22px,3px)}
+ 34%{transform:translate(49px,18px)}
+ 51%{transform:translate(75px,-2px)}
+ 68%{transform:translate(98px,-5px)}
+ 83%{transform:translate(123px,17px)}
+ 100%{transform:translate(137px,15px)}
+}
+@keyframes gl-gloss {0%{stroke-dashoffset:195}100%{stroke-dashoffset:0}}
+@keyframes gl-flow {to{stroke-dashoffset:-40}}
+@keyframes gl-pulse {0%,100%{opacity:.42}50%{opacity:1}}
+
+@media (prefers-reduced-motion: reduce) { .guris-icon * { animation: none !important; transition: none !important; } }
+</style>
+
+<!-- Существующая полоска клея, по которой ездит аппликатор -->
+<path d="M26 180 C44 156 58 154 72 171 C85 186 100 187 114 170 C130 150 143 152 156 172 C171 191 188 182 203 168" fill="none" stroke="#164669" stroke-width="16" stroke-linecap="round" opacity=".20" transform="translate(0 4)"/>
+<path id="glue-line" d="M26 180 C44 156 58 154 72 171 C85 186 100 187 114 170 C130 150 143 152 156 172 C171 191 188 182 203 168" fill="none" stroke="url(#glue-glue)" stroke-width="12" stroke-linecap="round"/>
+<path d="M26 180 C44 156 58 154 72 171 C85 186 100 187 114 170 C130 150 143 152 156 172 C171 191 188 182 203 168" class="gl-gloss" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="195 195" opacity=".8"/>
+<path class="gl-flow" d="M26 180 C44 156 58 154 72 171 C85 186 100 187 114 170 C130 150 143 152 156 172 C171 191 188 182 203 168" fill="none" stroke="#33b6f7" stroke-width="2" stroke-dasharray="11 9" opacity=".65"/>
+<!-- Мобильная головка: локальный (0,0) = наконечник, повторяет изгибы клеевой полосы -->
+<g transform="translate(47 166)">
+ <g class="gl-head" filter="url(#shadow-glue)">
+  <!-- широкое голубое тело тюбика наклонено к точке подачи -->
+  <path d="M20 -47 L47 -79 Q53 -85 60 -79 L86 -54 Q92 -48 86 -40 L56 -9Z" fill="url(#blue-glue)" stroke="#147db9" stroke-width="2.4" stroke-linejoin="round"/>
+  <path d="M45 -71L74 -45" stroke="#fff" stroke-width="7" stroke-linecap="round" opacity=".6"/>
+  <path d="M20 -47L56 -9L46 2L10 -36Z" fill="url(#deep-glue)" stroke="#164163" stroke-width="2"/>
+  <path d="M17 -26 L38 -7 L27 6 L7 -13Z" fill="url(#metal-glue)" stroke="#60798f" stroke-width="2"/>
+  <path d="M9 -11L23 2L5 5L0 1Z" fill="#2e3e4c" stroke="#0b2a42" stroke-width="1.8"/>
+  <path d="M5 2L0 1" fill="none" stroke="#d5f9ff" stroke-width="3.5" stroke-linecap="round"/>
+  <circle class="gl-pulse" cx="1" cy="2" r="5" fill="#ddfaff" opacity=".65"/>
+ </g>
+</g>
+
+</svg><span class="sc-node-chevron"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="lucide lucide-chevron-right"><path d="m9 18 6-6-6-6"></path></svg></span></span>
                 <span class="sc-node-title">Клей</span><span class="sc-node-description">Настройка нанесения клея</span>
               </button>
               <button class="sc-node-tile cursor-interaction" type="button" data-open-node="longitudinal" data-tooltip="Настройки продольной сварки">
-                <span class="sc-node-tile-head"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="lucide lucide-columns-2"><rect width="18" height="18" x="3" y="3" rx="2"></rect><path d="M12 3v18"></path></svg><span class="sc-node-chevron"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="lucide lucide-chevron-right"><path d="m9 18 6-6-6-6"></path></svg></span></span>
+                <span class="sc-node-tile-head"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" class="guris-icon sc-menu-svg" data-menu-svg="longitudinal_seam" aria-hidden="true" focusable="false">
+<title id="title-longitudinal_seam">Продольный шов</title>
+<desc id="desc-longitudinal_seam">Два параллельных голубых полотна с горизонтальными линиями шва и контрольным роликом; движение полотна показано справа налево.</desc>
+<defs>
+<linearGradient id="blue-longitudinal_seam" x1="0" x2="0.7" y1="0" y2="1"><stop stop-color="#e2faff"/><stop offset="0.35" stop-color="#5bd9ff"/><stop offset="1" stop-color="#008ce0"/></linearGradient>
+<linearGradient id="paper-longitudinal_seam" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffffff"/><stop offset="0.55" stop-color="#ebf9ff"/><stop offset="1" stop-color="#c2eaff"/></linearGradient>
+<linearGradient id="steel-longitudinal_seam" x1="0" y1="0" x2="0.86" y2="0.86"><stop stop-color="#ffffff"/><stop offset="0.29" stop-color="#b6d0e5"/><stop offset="0.54" stop-color="#effaff"/><stop offset="0.75" stop-color="#7893ae"/><stop offset="1" stop-color="#d3ebf8"/></linearGradient>
+<linearGradient id="dark-longitudinal_seam" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#284967"/><stop offset="1" stop-color="#10283d"/></linearGradient>
+<filter id="glow-longitudinal_seam" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="3"/></filter>
+
+</defs>
+<style>
+
+.cs-line{stroke-dasharray:19 11;animation:cs-run 1.3s linear infinite}
+.cs-shimmer{animation:cs-sweep 3s ease-in-out infinite}
+.cs-roller{animation:cs-pulse 2.2s ease-in-out infinite}
+@keyframes cs-run{to{stroke-dashoffset:60}}
+@keyframes cs-sweep{0%,100%{transform:translateY(0);opacity:.15} 50%{transform:translateY(80px);opacity:.42}}
+@keyframes cs-pulse{0%,100%{opacity:.85}50%{opacity:1}}
+
+@media (prefers-reduced-motion: reduce) {
+  svg.guris-icon *,svg.guris-icon *::before,svg.guris-icon *::after { animation: none !important; transition: none !important; }
+}
+</style>
+
+<defs>
+<clipPath id="cs-clip-longitudinal_seam"><rect x="43" y="37" width="170" height="184" rx="5"/></clipPath>
+</defs>
+<!-- Два полотна с разделителем -->
+<rect x="43" y="37" width="75" height="184" rx="3" fill="url(#blue-longitudinal_seam)"/>
+<rect x="138" y="37" width="75" height="184" rx="3" fill="url(#blue-longitudinal_seam)"/>
+<path d="M50 43V213M145 43V213" stroke="#b7faff" stroke-width="4" opacity=".55"/>
+<path d="M112 38V219M137 38V219" stroke="#073b62" stroke-width="3" opacity=".5"/>
+<g clip-path="url(#cs-clip-longitudinal_seam)">
+ <path class="cs-shimmer" d="M43 49H213V70H43Z" fill="#ffffff" opacity=".2"/>
+ <path d="M44 68H117M139 68H212M44 127H117M139 127H212" stroke="#d6a0f4" stroke-width="7"/>
+ <path class="cs-line" d="M44 68H117M139 68H212M44 127H117M139 127H212" stroke="#eafcff" stroke-width="3"/>
+ <path d="M44 81H117M139 81H212" stroke="#147ae5" stroke-width="3" opacity=".7"/>
+</g>
+<circle cx="43" cy="51" r="22" fill="#21415b" opacity=".25"/>
+<circle class="cs-roller" cx="43" cy="49" r="19" fill="url(#steel-longitudinal_seam)" stroke="#badbf1" stroke-width="2"/>
+<circle cx="43" cy="49" r="6" fill="#eaf9ff" opacity=".8"/>
+
+</svg><span class="sc-node-chevron"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="lucide lucide-chevron-right"><path d="m9 18 6-6-6-6"></path></svg></span></span>
                 <span class="sc-node-title">Продольный шов</span><span class="sc-node-description">Настройки продольной сварки</span>
               </button>
               <button class="sc-node-tile cursor-interaction" type="button" data-open-node="eject" data-tooltip="Параметры выкидных валов">
-                <span class="sc-node-tile-head"><canvas data-mechanism-canvas="" data-mechanism="eject" data-roller-width="72" data-roller-height="40" width="72" height="40" aria-hidden="true"></canvas><span class="sc-node-chevron"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="lucide lucide-chevron-right"><path d="m9 18 6-6-6-6"></path></svg></span></span>
+                <span class="sc-node-tile-head"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 256 256" width="256" height="256" class="guris-icon sc-menu-svg" data-menu-svg="ejectors" aria-hidden="true" focusable="false">
+<title id="ttl-ejectors">Выкидные</title>
+<desc id="dsc-ejectors">Две противоположные губки вращающихся валов смыкаются и ускоренно подталкивают пакет справа налево.</desc>
+<defs>
+  <linearGradient id="blue-ejectors" x1=".15" y1="0" x2=".88" y2="1"><stop stop-color="#e9fbff"/><stop offset=".23" stop-color="#8ceaff"/><stop offset=".58" stop-color="#28befe"/><stop offset="1" stop-color="#0878c5"/></linearGradient>
+  <linearGradient id="deep-ejectors" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#185f98"/><stop offset=".55" stop-color="#065185"/><stop offset="1" stop-color="#0d2945"/></linearGradient>
+  <linearGradient id="metal-ejectors" x1="0" y1="0" x2=".95" y2=".95"><stop stop-color="#ffffff"/><stop offset=".24" stop-color="#d5e7ef"/><stop offset=".43" stop-color="#7693ae"/><stop offset=".66" stop-color="#edf6ff"/><stop offset=".83" stop-color="#7d97ad"/><stop offset="1" stop-color="#e2f3ff"/></linearGradient>
+  <linearGradient id="film-ejectors" x1="0" y1="0" x2="1" y2=".35"><stop stop-color="#d0f4ff" stop-opacity=".86"/><stop offset=".36" stop-color="#fff" stop-opacity=".96"/><stop offset=".75" stop-color="#ddf4ff" stop-opacity=".9"/><stop offset="1" stop-color="#9edfff" stop-opacity=".88"/></linearGradient>
+  <linearGradient id="green-ejectors" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#c9ffaf"/><stop offset=".26" stop-color="#57dc56"/><stop offset=".68" stop-color="#08a968"/><stop offset="1" stop-color="#06683d"/></linearGradient>
+  <linearGradient id="glue-ejectors" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#ffffff"/><stop offset=".4" stop-color="#b9f7ff"/><stop offset="1" stop-color="#4dc5ff"/></linearGradient>
+  <filter id="shadow-ejectors" x="-25%" y="-25%" width="150%" height="160%"><feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#124d71" flood-opacity=".22"/></filter>
+  <filter id="beam-ejectors" x="-90%" y="-120%" width="280%" height="340%"><feGaussianBlur stdDeviation="3"/></filter>
+ </defs>
+<style>
+/* Guris SCADA — SVG native CSS animations. No scripts, fonts or raster images. */
+
+.ej-top {transform-origin:128px 66px;transform-box:view-box;animation:ej-top 3.35s linear infinite}
+.ej-bottom {transform-origin:128px 190px;transform-box:view-box;animation:ej-bottom 3.35s linear infinite}
+.ej-packet {animation:ej-packet 3.35s linear infinite}
+.ej-burst {animation:ej-burst 3.35s linear infinite}
+.ej-streak {animation:ej-streak 3.35s linear infinite}
+@keyframes ej-top {0%{transform:rotate(-170deg)}45%{transform:rotate(-25deg)}55%{transform:rotate(0deg)}65%{transform:rotate(150deg)}100%{transform:rotate(190deg)}}
+@keyframes ej-bottom {0%{transform:rotate(170deg)}45%{transform:rotate(25deg)}55%{transform:rotate(0deg)}65%{transform:rotate(-150deg)}100%{transform:rotate(-190deg)}}
+@keyframes ej-packet {0%{transform:translateX(0);opacity:0}9%{opacity:1}45%{transform:translateX(-60px)}55%{transform:translateX(-71px)}66%{transform:translateX(-164px);opacity:1}82%,100%{transform:translateX(-185px);opacity:0}}
+@keyframes ej-burst {0%,48%,74%,100%{opacity:0;transform:scale(.7)}55%,61%{opacity:1;transform:scale(1)}}
+@keyframes ej-streak {0%,53%,76%,100%{opacity:0}60%,67%{opacity:1}}
+
+@media (prefers-reduced-motion: reduce) { .guris-icon * { animation: none !important; transition: none !important; } }
+</style>
+
+<!-- Горизонтальная направляющая и проходящий пакет -->
+<path d="M18 118H238 M18 140H238" stroke="#9dbad1" stroke-width="4" stroke-linecap="round"/>
+<path d="M19 122H235 M19 136H235" stroke="#f0fbff" stroke-width="2" opacity=".8"/>
+<g class="ej-packet"><rect x="188" y="121" width="47" height="14" rx="4" fill="url(#film-ejectors)" stroke="#71b5d9" stroke-width="1.4"/><path d="M196 125H227" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/></g>
+<!-- Оси двух валов в разнесённых корпусах -->
+<circle cx="128" cy="66" r="23" fill="url(#metal-ejectors)" stroke="#5a819e" stroke-width="3"/>
+<circle cx="128" cy="190" r="23" fill="url(#metal-ejectors)" stroke="#5a819e" stroke-width="3"/>
+<!-- Вращаются ГУБКИ (синие лопасти), а не всё устройство вверх-вниз -->
+<g class="ej-top">
+ <path d="M112 62 C111 83 119 108 128 125 C139 110 145 82 144 62Z" fill="url(#blue-ejectors)" stroke="#0877be" stroke-width="3" stroke-linejoin="round"/>
+ <path d="M124 78Q128 95 128 114" stroke="#d9faff" stroke-width="4" opacity=".7" stroke-linecap="round"/>
+ <path d="M116 63L128 50L140 63" fill="none" stroke="#c6edff" stroke-width="3" opacity=".6"/>
+</g>
+<g class="ej-bottom">
+ <path d="M112 194 C111 174 119 147 128 131 C139 148 145 174 144 194Z" fill="url(#blue-ejectors)" stroke="#0877be" stroke-width="3" stroke-linejoin="round"/>
+ <path d="M128 144Q128 166 124 178" stroke="#d9faff" stroke-width="4" opacity=".7" stroke-linecap="round"/>
+</g>
+<circle cx="128" cy="66" r="9" fill="url(#metal-ejectors)" stroke="#33546f" stroke-width="2"/>
+<circle cx="128" cy="190" r="9" fill="url(#metal-ejectors)" stroke="#33546f" stroke-width="2"/>
+<circle cx="128" cy="66" r="3" fill="#35516c"/><circle cx="128" cy="190" r="3" fill="#35516c"/>
+<!-- Резкий короткий выброс на фазе контакта -->
+<g class="ej-burst" transform-origin="128px 128px">
+ <path d="M103 111L96 106 M97 125H87 M104 146L96 152 M154 111L162 105 M159 127H170 M154 146L161 152" stroke="#ff6b43" stroke-width="4" stroke-linecap="round"/>
+</g>
+<g class="ej-streak" stroke="#12baff" stroke-width="3" stroke-linecap="round"><path d="M102 109H65 M91 119H41 M101 145H54"/></g>
+
+</svg><span class="sc-node-chevron"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="lucide lucide-chevron-right"><path d="m9 18 6-6-6-6"></path></svg></span></span>
                 <span class="sc-node-title">Выкидные валы</span><span class="sc-node-description">Параметры выкидных валов</span>
               </button>
               <button class="sc-node-tile cursor-interaction" type="button" data-open-node="liner" data-tooltip="Настройка работы с лайнером">
-                <span class="sc-node-tile-head"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="lucide lucide-disc-3"><circle cx="12" cy="12" r="10"></circle><path d="M6 12c0-1.7.7-3.2 1.8-4.2"></path><circle cx="12" cy="12" r="2"></circle><path d="M18 12c0 1.7-.7 3.2-1.8 4.2"></path></svg><span class="sc-node-chevron"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="lucide lucide-chevron-right"><path d="m9 18 6-6-6-6"></path></svg></span></span>
+                <span class="sc-node-tile-head"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" class="guris-icon sc-menu-svg" data-menu-svg="liner" aria-hidden="true" focusable="false">
+<title id="title-liner">Лайнер</title>
+<desc id="desc-liner">Шестиспицевое металлическое колесо лайнера, плавно вращающееся.</desc>
+<defs>
+<linearGradient id="blue-liner" x1="0" x2="0.7" y1="0" y2="1"><stop stop-color="#e2faff"/><stop offset="0.35" stop-color="#5bd9ff"/><stop offset="1" stop-color="#008ce0"/></linearGradient>
+<linearGradient id="paper-liner" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffffff"/><stop offset="0.55" stop-color="#ebf9ff"/><stop offset="1" stop-color="#c2eaff"/></linearGradient>
+<linearGradient id="steel-liner" x1="0" y1="0" x2="0.86" y2="0.86"><stop stop-color="#ffffff"/><stop offset="0.29" stop-color="#b6d0e5"/><stop offset="0.54" stop-color="#effaff"/><stop offset="0.75" stop-color="#7893ae"/><stop offset="1" stop-color="#d3ebf8"/></linearGradient>
+<linearGradient id="dark-liner" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#284967"/><stop offset="1" stop-color="#10283d"/></linearGradient>
+<filter id="glow-liner" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="3"/></filter>
+
+</defs>
+<style>
+
+.ln-wheel {transform-box:fill-box;transform-origin:center;animation:ln-spin 9s linear infinite}
+.ln-shine {animation:ln-shine 2.8s ease-in-out infinite}
+@keyframes ln-spin{to{transform:rotate(360deg)}}
+@keyframes ln-shine{0%,100%{opacity:.48}50%{opacity:.9}}
+
+@media (prefers-reduced-motion: reduce) {
+  svg.guris-icon *,svg.guris-icon *::before,svg.guris-icon *::after { animation: none !important; transition: none !important; }
+}
+</style>
+
+<g class="ln-wheel">
+ <circle cx="128" cy="128" r="99" fill="#1c3c56" opacity=".3"/>
+ <circle cx="128" cy="128" r="91" fill="url(#steel-liner)" stroke="#daeefa" stroke-width="4"/>
+ <circle cx="128" cy="128" r="79" fill="#d7ebf6" stroke="#5c849e" stroke-width="3"/>
+ <path d="M116 55Q128 49 140 55L146 80Q128 98 110 80Z" transform="rotate(0 128 128)" fill="#213a54" stroke="#7ca4bb" stroke-width="2"/>
+<path d="M116 55Q128 49 140 55L146 80Q128 98 110 80Z" transform="rotate(60 128 128)" fill="#213a54" stroke="#7ca4bb" stroke-width="2"/>
+<path d="M116 55Q128 49 140 55L146 80Q128 98 110 80Z" transform="rotate(120 128 128)" fill="#213a54" stroke="#7ca4bb" stroke-width="2"/>
+<path d="M116 55Q128 49 140 55L146 80Q128 98 110 80Z" transform="rotate(180 128 128)" fill="#213a54" stroke="#7ca4bb" stroke-width="2"/>
+<path d="M116 55Q128 49 140 55L146 80Q128 98 110 80Z" transform="rotate(240 128 128)" fill="#213a54" stroke="#7ca4bb" stroke-width="2"/>
+<path d="M116 55Q128 49 140 55L146 80Q128 98 110 80Z" transform="rotate(300 128 128)" fill="#213a54" stroke="#7ca4bb" stroke-width="2"/>
+ <circle cx="128" cy="128" r="22" fill="url(#steel-liner)" stroke="#65859e" stroke-width="5"/>
+ <circle cx="128" cy="128" r="9" fill="#244560" stroke="#abcbe0" stroke-width="3"/>
+ <path class="ln-shine" d="M58 86A80 80 0 0 1 128 48" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".7"/>
+</g>
+
+</svg><span class="sc-node-chevron"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="lucide lucide-chevron-right"><path d="m9 18 6-6-6-6"></path></svg></span></span>
                 <span class="sc-node-title">Лайнер</span><span class="sc-node-description">Настройка работы с лайнером</span>
               </button>
               <button class="sc-node-tile cursor-interaction" type="button" data-open-node="takeoff" data-tooltip="Вал забора пакета из-под ножа">
@@ -350,20 +676,235 @@
                 <span class="sc-node-title">Приёмный вал</span><span class="sc-node-description">Вал забора пакета из-под ножа</span>
               </button>
               <button class="sc-node-tile cursor-interaction" type="button" data-open-node="tension" data-tooltip="Между ножом и синхронизационной парой">
-                <span class="sc-node-tile-head"><canvas data-mechanism-canvas="" data-mechanism="tension" data-roller-width="72" data-roller-height="40" width="72" height="40" aria-hidden="true"></canvas><span class="sc-node-chevron"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="lucide lucide-chevron-right"><path d="m9 18 6-6-6-6"></path></svg></span></span>
+                <span class="sc-node-tile-head"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" class="guris-icon sc-menu-svg" data-menu-svg="tension" aria-hidden="true" focusable="false">
+<title id="title-tn">Натяжение</title>
+<desc id="desc-tn">Плёнка плавно переходит из провисающей волны в ровную натянутую линию той же толщины, без проявления; ход плёнки справа налево.</desc>
+<defs>
+  <linearGradient id="tn-blue" x1=".15" y1="0" x2=".88" y2="1"><stop stop-color="#e9fbff" /><stop offset=".23" stop-color="#8ceaff" /><stop offset=".58" stop-color="#28befe" /><stop offset="1" stop-color="#0878c5" /></linearGradient>
+  <linearGradient id="tn-metal" x1="0" y1="0" x2=".95" y2=".95"><stop stop-color="#ffffff" /><stop offset=".24" stop-color="#d5e7ef" /><stop offset=".43" stop-color="#7693ae" /><stop offset=".66" stop-color="#edf6ff" /><stop offset=".83" stop-color="#7d97ad" /><stop offset="1" stop-color="#e2f3ff" /></linearGradient>
+</defs>
+<style>
+.tn-spin{transform-box:view-box;animation:tn-spin 5.2s linear infinite}
+.tn-flow{animation:tn-flow 1.7s linear infinite}
+.tn-indicate{animation:tn-indicate 4.3s ease-in-out infinite}
+@keyframes tn-spin{to{transform:rotate(-360deg)}}
+@keyframes tn-flow{to{stroke-dashoffset:64}}
+@keyframes tn-indicate{0%,100%{opacity:.8}50%{opacity:.25}}
+@media (prefers-reduced-motion: reduce) { .guris-icon * { animation: none !important; transition: none !important; } }
+</style>
+<g>
+ <path fill="none" stroke="#124e78" stroke-width="14" opacity=".25" stroke-linecap="round" transform="translate(0 3)" d="M17 128 L66 128 C82 128 78 107 94 107 C110 107 113 149 129 149 C145 149 149 107 165 107 C181 107 181 128 192 128 L240 128">
+   <animate attributeName="d" dur="4.8s" repeatCount="indefinite" values="M17 128 L66 128 C82 128 78 107 94 107 C110 107 113 149 129 149 C145 149 149 107 165 107 C181 107 181 128 192 128 L240 128;M17 128 L66 128 C82 128 78 128 94 128 C110 128 113 128 129 128 C145 128 149 128 165 128 C181 128 181 128 192 128 L240 128;M17 128 L66 128 C82 128 78 107 94 107 C110 107 113 149 129 149 C145 149 149 107 165 107 C181 107 181 128 192 128 L240 128" keyTimes="0;0.5;1" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1" />
+  </path>
+ <path fill="none" stroke="url(#tn-blue)" stroke-width="11" stroke-linecap="round" d="M17 128 L66 128 C82 128 78 107 94 107 C110 107 113 149 129 149 C145 149 149 107 165 107 C181 107 181 128 192 128 L240 128">
+   <animate attributeName="d" dur="4.8s" repeatCount="indefinite" values="M17 128 L66 128 C82 128 78 107 94 107 C110 107 113 149 129 149 C145 149 149 107 165 107 C181 107 181 128 192 128 L240 128;M17 128 L66 128 C82 128 78 128 94 128 C110 128 113 128 129 128 C145 128 149 128 165 128 C181 128 181 128 192 128 L240 128;M17 128 L66 128 C82 128 78 107 94 107 C110 107 113 149 129 149 C145 149 149 107 165 107 C181 107 181 128 192 128 L240 128" keyTimes="0;0.5;1" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1" />
+  </path>
+ <path fill="none" stroke="#e6faff" stroke-width="3" stroke-linecap="round" opacity=".95" d="M17 128 L66 128 C82 128 78 107 94 107 C110 107 113 149 129 149 C145 149 149 107 165 107 C181 107 181 128 192 128 L240 128">
+   <animate attributeName="d" dur="4.8s" repeatCount="indefinite" values="M17 128 L66 128 C82 128 78 107 94 107 C110 107 113 149 129 149 C145 149 149 107 165 107 C181 107 181 128 192 128 L240 128;M17 128 L66 128 C82 128 78 128 94 128 C110 128 113 128 129 128 C145 128 149 128 165 128 C181 128 181 128 192 128 L240 128;M17 128 L66 128 C82 128 78 107 94 107 C110 107 113 149 129 149 C145 149 149 107 165 107 C181 107 181 128 192 128 L240 128" keyTimes="0;0.5;1" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1" />
+  </path>
+ <path class="tn-flow" fill="none" stroke="#008dd6" stroke-width="2" stroke-dasharray="14 18" opacity=".6" d="M17 128 L66 128 C82 128 78 107 94 107 C110 107 113 149 129 149 C145 149 149 107 165 107 C181 107 181 128 192 128 L240 128">
+   <animate attributeName="d" dur="4.8s" repeatCount="indefinite" values="M17 128 L66 128 C82 128 78 107 94 107 C110 107 113 149 129 149 C145 149 149 107 165 107 C181 107 181 128 192 128 L240 128;M17 128 L66 128 C82 128 78 128 94 128 C110 128 113 128 129 128 C145 128 149 128 165 128 C181 128 181 128 192 128 L240 128;M17 128 L66 128 C82 128 78 107 94 107 C110 107 113 149 129 149 C145 149 149 107 165 107 C181 107 181 128 192 128 L240 128" keyTimes="0;0.5;1" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1" />
+  </path>
+</g>
+<g>
+ <circle cx="47" cy="85" r="25.5" fill="#173a55" opacity=".20" /><circle cx="46" cy="83" r="24.5" fill="url(#tn-metal)" stroke="#708a9f" stroke-width="2.5" /><circle cx="46" cy="83" r="18" fill="none" stroke="#ecf7ff" stroke-width="1.1" opacity=".68" /><g class="tn-spin" style="transform-origin:46px 83px"><path d="M32 71L42 65 M56 96L63 89" stroke="#f3fbff" stroke-width="4" stroke-linecap="round" opacity=".7" /></g><circle cx="46" cy="83" r="7.5" fill="#597b98" stroke="#d8efff" stroke-width="2" /><circle cx="46" cy="83" r="3.2" fill="#183d5b" />
+ <circle cx="211" cy="85" r="25.5" fill="#173a55" opacity=".20" /><circle cx="210" cy="83" r="24.5" fill="url(#tn-metal)" stroke="#708a9f" stroke-width="2.5" /><circle cx="210" cy="83" r="18" fill="none" stroke="#ecf7ff" stroke-width="1.1" opacity=".68" /><g class="tn-spin" style="transform-origin:210px 83px"><path d="M196 71L206 65 M220 96L227 89" stroke="#f3fbff" stroke-width="4" stroke-linecap="round" opacity=".7" /></g><circle cx="210" cy="83" r="7.5" fill="#597b98" stroke="#d8efff" stroke-width="2" /><circle cx="210" cy="83" r="3.2" fill="#183d5b" />
+ <circle cx="47" cy="175" r="25.5" fill="#173a55" opacity=".20" /><circle cx="46" cy="173" r="24.5" fill="url(#tn-metal)" stroke="#708a9f" stroke-width="2.5" /><circle cx="46" cy="173" r="18" fill="none" stroke="#ecf7ff" stroke-width="1.1" opacity=".68" /><g class="tn-spin" style="transform-origin:46px 173px"><path d="M32 161L42 155 M56 186L63 179" stroke="#f3fbff" stroke-width="4" stroke-linecap="round" opacity=".7" /></g><circle cx="46" cy="173" r="7.5" fill="#597b98" stroke="#d8efff" stroke-width="2" /><circle cx="46" cy="173" r="3.2" fill="#183d5b" />
+ <circle cx="211" cy="175" r="25.5" fill="#173a55" opacity=".20" /><circle cx="210" cy="173" r="24.5" fill="url(#tn-metal)" stroke="#708a9f" stroke-width="2.5" /><circle cx="210" cy="173" r="18" fill="none" stroke="#ecf7ff" stroke-width="1.1" opacity=".68" /><g class="tn-spin" style="transform-origin:210px 173px"><path d="M196 161L206 155 M220 186L227 179" stroke="#f3fbff" stroke-width="4" stroke-linecap="round" opacity=".7" /></g><circle cx="210" cy="173" r="7.5" fill="#597b98" stroke="#d8efff" stroke-width="2" /><circle cx="210" cy="173" r="3.2" fill="#183d5b" />
+</g>
+<g class="tn-indicate" opacity=".7"><path d="M120 68L128 58L136 68 M128 58V84 M120 188L128 198L136 188 M128 198V172" fill="none" stroke="#1ba8ef" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" /></g>
+</svg>
+<span class="sc-node-chevron"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="lucide lucide-chevron-right"><path d="m9 18 6-6-6-6"></path></svg></span></span>
                 <span class="sc-node-title">Натяжение</span><span class="sc-node-description">Между ножом и синхронизационной парой</span>
               </button>
               <button class="sc-node-tile cursor-interaction" type="button" data-open-node="air" data-tooltip="Настройки воздушных трубок">
-                <span class="sc-node-tile-head"><canvas data-mechanism-canvas="" data-mechanism="air" data-roller-width="72" data-roller-height="28" width="72" height="28" aria-hidden="true"></canvas><span class="sc-node-chevron"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="lucide lucide-chevron-right"><path d="m9 18 6-6-6-6"></path></svg></span></span>
+                <span class="sc-node-tile-head"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" class="guris-icon sc-menu-svg" data-menu-svg="air_tubes" aria-hidden="true" focusable="false">
+<title id="title-air">Воздушные трубки</title>
+<desc id="desc-air">Изогнутая стрелка указывает влево, а из её конца прерывисто выдувается воздух.</desc>
+<defs>
+  <linearGradient id="at-blue" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#eefcff"/><stop offset=".24" stop-color="#a6efff"/><stop offset=".70" stop-color="#21bafb"/><stop offset="1" stop-color="#1179c3"/></linearGradient>
+</defs>
+<style>
+.at-flow{animation:at-flow 1.15s linear infinite}
+.at-puff1{animation:at-puff 1.2s ease-out infinite}
+.at-puff2{animation:at-puff 1.2s ease-out infinite .22s}
+.at-puff3{animation:at-puff 1.2s ease-out infinite .44s}
+@keyframes at-flow{to{stroke-dashoffset:28}}
+@keyframes at-puff{0%{opacity:0;transform:translateX(6px)}25%{opacity:.95}100%{opacity:0;transform:translateX(-16px)}}
+@media (prefers-reduced-motion: reduce){.guris-icon *{animation:none!important;transition:none!important}}
+</style>
+  <!-- curved arrow body, close to SCADA sketch -->
+  <path d="M191 33 C206 35 214 46 214 62 V110 C214 126 209 136 197 147 L168 176 H71" fill="none" stroke="#1d5278" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M191 33 C206 35 214 46 214 62 V110 C214 126 209 136 197 147 L168 176 H71" fill="none" stroke="url(#at-blue)" stroke-width="7.4" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M191 33 C206 35 214 46 214 62 V110 C214 126 209 136 197 147 L168 176 H71" fill="none" stroke="#efffff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" opacity=".82"/>
+
+  <!-- arrow head pointing left -->
+  <path d="M25 176l31-18v12h28v12H56v12z" fill="url(#at-blue)" stroke="#106fae" stroke-width="2.1" stroke-linejoin="round"/>
+
+  <!-- soft flow line inside straight section -->
+  <path d="M154 176H78" fill="none" stroke="#d3f7ff" stroke-width="2.8" stroke-linecap="round" stroke-dasharray="12 12" class="at-flow"/>
+
+  <!-- intermittent air blowing from arrow tip -->
+  <g stroke="#7fd8ff" stroke-width="2.6" stroke-linecap="round" opacity=".95">
+    <path class="at-puff1" d="M22 160H39"/>
+    <path class="at-puff2" d="M10 171H31"/>
+    <path class="at-puff3" d="M19 182H36"/>
+  </g>
+</svg>
+<span class="sc-node-chevron"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="lucide lucide-chevron-right"><path d="m9 18 6-6-6-6"></path></svg></span></span>
                 <span class="sc-node-title">Воздушные трубки</span>
               </button>
               <button class="sc-node-tile cursor-interaction" type="button" data-open-node="feedangles" data-tooltip="Углы подачи материала в цикле машины">
-                <span class="sc-node-tile-head"><canvas data-mechanism-canvas="" data-mechanism="feedangles" data-roller-width="72" data-roller-height="40" width="72" height="40" aria-hidden="true"></canvas><span class="sc-node-chevron"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="lucide lucide-chevron-right"><path d="m9 18 6-6-6-6"></path></svg></span></span>
+                <span class="sc-node-tile-head"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" class="guris-icon sc-menu-svg" data-menu-svg="feed_angles" aria-hidden="true" focusable="false">
+<title id="title-fa">Углы подачи</title>
+<desc id="desc-fa">Тянущая пара чёрных резиновых валов. Резиновые валы плавно вращаются в противоположные стороны, меняя направление. Отрезок плёнки между ними движется налево и обратно направо без стрелок.</desc>
+<defs>
+  <radialGradient id="fa-rubber" cx="38%" cy="34%" r="70%">
+    <stop offset="0" stop-color="#5e6670"/>
+    <stop offset=".35" stop-color="#2c333b"/>
+    <stop offset=".72" stop-color="#15191e"/>
+    <stop offset="1" stop-color="#0c0f13"/>
+  </radialGradient>
+  <linearGradient id="fa-hub" x1="0" y1="0" x2="1" y2="1">
+    <stop stop-color="#ffffff"/>
+    <stop offset=".28" stop-color="#c4d9e9"/>
+    <stop offset=".58" stop-color="#eff8ff"/>
+    <stop offset=".82" stop-color="#7894ad"/>
+    <stop offset="1" stop-color="#d8ebf8"/>
+  </linearGradient>
+  <linearGradient id="fa-film" x1="0" y1="0" x2="1" y2="0">
+    <stop offset="0" stop-color="#def7ff" stop-opacity=".98"/>
+    <stop offset=".55" stop-color="#78d2f9" stop-opacity=".92"/>
+    <stop offset="1" stop-color="#dff9ff" stop-opacity=".98"/>
+  </linearGradient>
+  <filter id="fa-shadow" x="-25%" y="-25%" width="150%" height="160%"><feDropShadow dx="0" dy="1.6" stdDeviation="1.8" flood-color="#0a3651" flood-opacity=".18"/></filter>
+</defs>
+<style>
+.fa-film-shift{animation:fa-band 2.8s ease-in-out infinite}
+.fa-top-rot{transform-origin:148px 93px; transform-box:view-box; animation:fa-rot-top 2.8s ease-in-out infinite}
+.fa-bot-rot{transform-origin:148px 139px; transform-box:view-box; animation:fa-rot-bot 2.8s ease-in-out infinite}
+@keyframes fa-band{0%{transform:translateX(6px)}50%{transform:translateX(-16px)}100%{transform:translateX(6px)}}
+@keyframes fa-rot-top{0%{transform:rotate(0deg)}50%{transform:rotate(-180deg)}100%{transform:rotate(0deg)}}
+@keyframes fa-rot-bot{0%{transform:rotate(0deg)}50%{transform:rotate(180deg)}100%{transform:rotate(0deg)}}
+@media (prefers-reduced-motion: reduce){.guris-icon *{animation:none!important;transition:none!important}}
+</style>
+
+<g filter="url(#fa-shadow)">
+  <circle cx="150" cy="95" r="29" fill="#122432" opacity=".16"/>
+  <circle cx="148" cy="93" r="26" fill="url(#fa-rubber)" stroke="#3e4b57" stroke-width="2.6"/>
+  <circle cx="148" cy="93" r="19" fill="none" stroke="#98a4ae" stroke-width="1.1" opacity=".34"/>
+  <g class="fa-top-rot">
+    <circle cx="148" cy="93" r="10.2" fill="url(#fa-hub)" stroke="#6f879b" stroke-width="2"/>
+    <circle cx="148" cy="93" r="3.4" fill="#193b55"/>
+    <path d="M138 83L143 79 M154 106L160 100" stroke="#ffffff" stroke-width="3" stroke-linecap="round" opacity=".72"/>
+  </g>
+
+  <circle cx="150" cy="141" r="29" fill="#122432" opacity=".16"/>
+  <circle cx="148" cy="139" r="26" fill="url(#fa-rubber)" stroke="#3e4b57" stroke-width="2.6"/>
+  <circle cx="148" cy="139" r="19" fill="none" stroke="#98a4ae" stroke-width="1.1" opacity=".34"/>
+  <g class="fa-bot-rot">
+    <circle cx="148" cy="139" r="10.2" fill="url(#fa-hub)" stroke="#6f879b" stroke-width="2"/>
+    <circle cx="148" cy="139" r="3.4" fill="#193b55"/>
+    <path d="M138 129L143 125 M154 152L160 146" stroke="#ffffff" stroke-width="3" stroke-linecap="round" opacity=".72"/>
+  </g>
+</g>
+
+<g class="fa-film-shift">
+  <path d="M40 119H214" stroke="#296b92" stroke-width="11" stroke-linecap="round" opacity=".2"/>
+  <path d="M40 117H214" stroke="url(#fa-film)" stroke-width="8" stroke-linecap="round"/>
+  <path d="M40 117H214" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity=".75"/>
+  <path d="M197 117H57" stroke="#0fa3e3" stroke-width="2.1" stroke-dasharray="16 16" stroke-linecap="round" opacity=".65"/>
+</g>
+
+</svg>
+<span class="sc-node-chevron"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="lucide lucide-chevron-right"><path d="m9 18 6-6-6-6"></path></svg></span></span>
                 <span class="sc-node-title">Углы подачи</span>
               </button>
               
               <button class="sc-node-tile cursor-interaction" type="button" data-open-node="unwinder" data-tooltip="Инженерные настройки размотчика">
-                <span class="sc-node-tile-head"><canvas data-mechanism-canvas="" data-mechanism="unwinder" data-roller-width="72" data-roller-height="40" width="72" height="40" aria-hidden="true"></canvas><span class="sc-node-chevron"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="lucide lucide-chevron-right"><path d="m9 18 6-6-6-6"></path></svg></span></span>
+                <span class="sc-node-tile-head"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" class="guris-icon sc-menu-svg" data-menu-svg="unwinder" aria-hidden="true" focusable="false">
+  <title id="uw-title">Размотчик</title>
+  <desc id="uw-desc">Большой рулон плёнки вращается под действием маленького чёрного резинового приводного колеса над ним. Синий электродвигатель и голубая несущая рама.</desc>
+  <defs>
+    <radialGradient id="uw-spool-metal" cx="36%" cy="29%" r="78%">
+      <stop stop-color="#ffffff"/><stop offset=".24" stop-color="#e5f5ff"/>
+      <stop offset=".55" stop-color="#a8cadf"/><stop offset=".78" stop-color="#ebf8ff"/>
+      <stop offset="1" stop-color="#6a8ead"/>
+    </radialGradient>
+    <linearGradient id="uw-frame" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#bdffff"/><stop offset=".45" stop-color="#36d8fa"/>
+      <stop offset="1" stop-color="#069dd7"/>
+    </linearGradient>
+    <linearGradient id="uw-motor-blue" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#c8f4ff"/><stop offset=".27" stop-color="#54cfff"/>
+      <stop offset=".74" stop-color="#168ed8"/><stop offset="1" stop-color="#14629d"/>
+    </linearGradient>
+    <radialGradient id="uw-tire" cx="34%" cy="25%" r="78%">
+      <stop stop-color="#5a626b"/><stop offset=".34" stop-color="#262c35"/><stop offset=".77" stop-color="#13171d"/><stop offset="1" stop-color="#05080c"/>
+    </radialGradient>
+    <filter id="uw-shadow" x="-20%" y="-20%" width="140%" height="145%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#163d59" flood-opacity=".18"/>
+    </filter>
+  </defs>
+  <style>
+    /* Contact roller at (166, 89), R=15; spool at (166, 150), R=46.
+       Wheel and reel are tangent at y=104. No-slip motion is depicted
+       with opposing rotations and circumferential-speed-matched periods. */
+    .uw-drive-wheel {transform-box:view-box;transform-origin:166px 89px;animation:uw-drive 1.3s linear infinite}
+    .uw-film-reel {transform-box:view-box;transform-origin:166px 150px;animation:uw-reel 3.99s linear infinite}
+    @keyframes uw-drive {to{transform:rotate(360deg)}}
+    @keyframes uw-reel {to{transform:rotate(-360deg)}}
+    @media (prefers-reduced-motion:reduce){.guris-icon *{animation:none!important;transition:none!important}}
+  </style>
+
+  <!-- Голубая неподвижная рама: коробчатая стойка слева и диагональные опоры.
+       Она расположена ПОЗАДИ приводного колеса и рулона. -->
+  <g stroke-linecap="round" stroke-linejoin="round">
+    <rect x="29" y="139" width="72" height="65" rx="3" fill="#e6f9ff" fill-opacity=".82" stroke="#159ed3" stroke-width="4"/>
+    <path d="M100 146 L147 92" stroke="#167da8" stroke-width="11"/>
+    <path d="M100 146 L147 92" stroke="url(#uw-frame)" stroke-width="7"/>
+    <path d="M99 179 L166 150" stroke="#167da8" stroke-width="11"/>
+    <path d="M99 179 L166 150" stroke="url(#uw-frame)" stroke-width="7"/>
+    <path d="M101 143 L118 150 L130 147" stroke="#18b6eb" stroke-width="5" fill="none"/>
+    <path d="M144 80H187" stroke="#167da8" stroke-width="8"/>
+    <path d="M144 80H187" stroke="#45dbf9" stroke-width="5"/>
+  </g>
+
+  <!-- Большой рулон: наружный диск и все маркеры вращаются вместе. -->
+  <g class="uw-film-reel" filter="url(#uw-shadow)">
+    <circle cx="166" cy="150" r="46" fill="url(#uw-spool-metal)" stroke="#426983" stroke-width="3.6"/>
+    <circle cx="166" cy="150" r="36.5" fill="none" stroke="#91b7d0" stroke-width="3"/>
+    <circle cx="166" cy="150" r="29" fill="none" stroke="#c7e6f6" stroke-width="2.4" opacity=".82"/>
+    <path d="M166 108V119 M166 181V192 M124 150H135 M197 150H208 M136.3 120.3L144 128 M188 172L196 180 M195.7 120.3L188 128 M136 180L144 172" fill="none" stroke="#608bab" stroke-width="3.5" stroke-linecap="round"/>
+    <!-- asymmetric indicator for visible rotation -->
+    <path d="M154 113A38 38 0 0 1 170 112" stroke="#148bc5" stroke-width="6" stroke-linecap="round" fill="none"/>
+    <circle cx="190" cy="121" r="3" fill="#0a659a"/>
+    <circle cx="166" cy="150" r="14.5" fill="#e2f4ff" stroke="#608ba9" stroke-width="3"/>
+    <circle cx="166" cy="150" r="4.4" fill="#2b5475"/>
+  </g>
+
+  <!-- Ось рулона проходит перед передней плоскостью рулона. -->
+  <path d="M112 177L151 156" fill="none" stroke="#37d7f3" stroke-width="5.5" stroke-linecap="round"/>
+  <circle cx="166" cy="150" r="4.4" fill="#2f5e7c" stroke="#d6f3ff" stroke-width="1.2"/>
+
+  <!-- РЕЗИНОВОЕ мотор-колесо на вершине рулона. Встречное вращение. -->
+  <g class="uw-drive-wheel" filter="url(#uw-shadow)">
+    <circle cx="166" cy="89" r="15" fill="url(#uw-tire)" stroke="#101922" stroke-width="2.8"/>
+    <circle cx="166" cy="89" r="10.5" fill="none" stroke="#77838b" stroke-width="1.3" opacity=".5"/>
+    <path d="M166 77V81 M174.5 94L171 92 M157 94L160.5 92" stroke="#97a9b5" stroke-width="2.9" stroke-linecap="round"/>
+    <circle cx="166" cy="89" r="5.2" fill="url(#uw-spool-metal)" stroke="#6d8ba1" stroke-width="1.8"/>
+    <circle cx="173" cy="83" r="2.5" fill="#56d6f8"/>
+  </g>
+
+  <!-- Синий корпус электродвигателя сверху: СТАТИЧЕН. -->
+  <g stroke-linecap="round" stroke-linejoin="round">
+    <rect x="154" y="39" width="24" height="29" rx="3" fill="url(#uw-motor-blue)" stroke="#135f9e" stroke-width="2.6"/>
+    <path d="M158 46H173 M158 51H173 M158 56H173" stroke="#c4f6ff" stroke-width="1.6" opacity=".8"/>
+    <path d="M150 66H182V74H150Z" fill="#1c9ed9" stroke="#146b9c" stroke-width="2"/>
+    <path d="M166 74V75" stroke="#a8d9f1" stroke-width="3"/>
+    <rect x="160" y="35" width="12" height="5" rx="1.5" fill="#2e9dd1" stroke="#146b9c" stroke-width="1.4"/>
+  </g>
+</svg><span class="sc-node-chevron"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="lucide lucide-chevron-right"><path d="m9 18 6-6-6-6"></path></svg></span></span>
                 <span class="sc-node-title">Размотчик</span>
               </button>
               

@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" class="guris-icon" role="img" aria-labelledby="fd-title fd-desc">
+<title id="fd-title">Подача</title>
+<desc id="fd-desc">Вид сбоку. Два зеленых ремня: верхний наклоняется вслед за единственным подвижным правым верхним валом, нижний остаётся горизонтальным. Плёнка и пакеты движутся справа налево.</desc>
+<defs>
+  <linearGradient id="fd-green" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#b8ff91"/><stop offset=".28" stop-color="#56ed75"/><stop offset=".55" stop-color="#20c76b"/><stop offset="1" stop-color="#098f52"/></linearGradient>
+  <linearGradient id="fd-steel" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f7feff"/><stop offset=".25" stop-color="#a7c1d4"/><stop offset=".48" stop-color="#e8f6ff"/><stop offset=".72" stop-color="#7895af"/><stop offset="1" stop-color="#f1fbff"/></linearGradient>
+  <filter id="fd-shadow" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="1.7" stdDeviation="1.65" flood-color="#0a3651" flood-opacity=".23"/></filter>
+</defs>
+<style><![CDATA[
+/* Поворот вокруг неподвижного верхнего ЛЕВОГО вала.
+   Именно ПРАВЫЙ вал перемещается по почти вертикальной дуге вместе с ремнём. */
+.fd-upper-swing {
+  transform-origin: 56px 119px;
+  transform-box: view-box;
+  animation: fd-swing 3.8s cubic-bezier(.45,0,.55,1) infinite;
+}
+.fd-top-spin,.fd-bottom-spin { transform-box:view-box; }
+.fd-top-spin { animation: fd-spin-cw 1.7s linear infinite; }
+.fd-bottom-spin { animation: fd-spin-ccw 1.7s linear infinite; }
+.fd-travel { animation: fd-left .88s linear infinite; }
+.fd-height-indicator { animation: fd-indicator 3.8s ease-in-out infinite; }
+@keyframes fd-swing {
+  0%,14%,100% { transform: rotate(0deg); }
+  48%,65% { transform: rotate(19deg); }
+}
+@keyframes fd-spin-cw {to{transform:rotate(360deg)}}
+@keyframes fd-spin-ccw {to{transform:rotate(-360deg)}}
+@keyframes fd-left {to{stroke-dashoffset:28}}
+@keyframes fd-indicator {0%,100%{opacity:.72}55%{opacity:1}}
+@media (prefers-reduced-motion:reduce) {.guris-icon *{animation:none!important;transition:none!important}}
+]]></style>
+
+<!-- Нижняя отдельная ременная петля; оба вала фиксированы. -->
+
+<!-- Нижний ремень всегда горизонтален: огибает нижнюю левую и правую оси. -->
+<g>
+  <path d="M56 143H196 A22 22 0 0 1 196 187 H56 A22 22 0 0 1 56 143Z"
+        fill="none" stroke="#064e36" stroke-width="11" stroke-linejoin="round"/>
+  <path d="M56 143H196 A22 22 0 0 1 196 187 H56 A22 22 0 0 1 56 143Z"
+        fill="none" stroke="url(#fd-green)" stroke-width="7.3" stroke-linejoin="round"/>
+  <path d="M56 142.7H196" stroke="#dcffd2" stroke-width="1.8" stroke-linecap="round" opacity=".75"/>
+  <path d="M82 143H173" class="fd-travel" stroke="#e7ffe4" stroke-width="2.3" stroke-linecap="round" stroke-dasharray="13 15"/>
+</g>
+<g filter="url(#fd-shadow)">
+<circle cx="56" cy="165" r="19.1" fill="url(#fd-steel)" stroke="#496c86" stroke-width="2.6"/>
+<circle cx="56" cy="165" r="15.0" fill="none" stroke="#edfaff" stroke-width="1.2" opacity=".8"/>
+<g class="fd-bottom-spin" style="transform-origin:56px 165px"><path d="M46 155l6 -4 M64 176l6 -5" fill="none" stroke="#ffffff" stroke-width="3.4" opacity=".8" stroke-linecap="round"/><path d="M44 172l-2 5" fill="none" stroke="#8aa5bb" opacity=".65" stroke-width="2.4" stroke-linecap="round"/></g>
+<circle cx="56" cy="165" r="7.8" fill="#45667f" stroke="#d8f1ff" stroke-width="2"/>
+<circle cx="56" cy="165" r="3.1" fill="#153951"/>
+</g>
+<g filter="url(#fd-shadow)">
+<circle cx="196" cy="165" r="19.1" fill="url(#fd-steel)" stroke="#496c86" stroke-width="2.6"/>
+<circle cx="196" cy="165" r="15.0" fill="none" stroke="#edfaff" stroke-width="1.2" opacity=".8"/>
+<g class="fd-bottom-spin" style="transform-origin:196px 165px"><path d="M186 155l6 -4 M204 176l6 -5" fill="none" stroke="#ffffff" stroke-width="3.4" opacity=".8" stroke-linecap="round"/><path d="M184 172l-2 5" fill="none" stroke="#8aa5bb" opacity=".65" stroke-width="2.4" stroke-linecap="round"/></g>
+<circle cx="196" cy="165" r="7.8" fill="#45667f" stroke="#d8f1ff" stroke-width="2"/>
+<circle cx="196" cy="165" r="3.1" fill="#153951"/>
+</g>
+
+<!-- Верхний ременный контур. Его левый центр (56,119) неподвижен.
+     Правый вал находится на конце этого контура, который отклоняется вверх/вниз. -->
+<g transform="rotate(-19 56 119)">
+ <g class="fd-upper-swing">
+  <path d="M56 97H196 A22 22 0 0 1 196 141 H56 A22 22 0 0 1 56 97Z"
+        fill="none" stroke="#064e36" stroke-width="11" stroke-linejoin="round"/>
+  <path d="M56 97H196 A22 22 0 0 1 196 141 H56 A22 22 0 0 1 56 97Z"
+        fill="none" stroke="url(#fd-green)" stroke-width="7.3" stroke-linejoin="round"/>
+  <path d="M56 96.7H196" stroke="#d6ffd1" stroke-width="1.8" stroke-linecap="round" opacity=".78"/>
+  <path d="M82 141H173" class="fd-travel" stroke="#e7ffe4" stroke-width="2.3" stroke-linecap="round" stroke-dasharray="13 15"/>
+  <!-- Концевой (правый верхний) вал движется ВМЕСТЕ с огибающим его ремнём. -->
+  <g filter="url(#fd-shadow)">
+<circle cx="196" cy="119" r="19.1" fill="url(#fd-steel)" stroke="#496c86" stroke-width="2.6"/>
+<circle cx="196" cy="119" r="15.0" fill="none" stroke="#edfaff" stroke-width="1.2" opacity=".8"/>
+<g class="fd-top-spin" style="transform-origin:196px 119px"><path d="M186 109l6 -4 M204 130l6 -5" fill="none" stroke="#ffffff" stroke-width="3.4" opacity=".8" stroke-linecap="round"/><path d="M184 126l-2 5" fill="none" stroke="#8aa5bb" opacity=".65" stroke-width="2.4" stroke-linecap="round"/></g>
+<circle cx="196" cy="119" r="7.8" fill="#45667f" stroke="#d8f1ff" stroke-width="2"/>
+<circle cx="196" cy="119" r="3.1" fill="#153951"/>
+</g>
+ </g>
+</g>
+
+<!-- Левая верхняя ось НИКОГДА НЕ СМЕЩАЕТСЯ: только вращается. -->
+<g filter="url(#fd-shadow)">
+<circle cx="56" cy="119" r="19.1" fill="url(#fd-steel)" stroke="#496c86" stroke-width="2.6"/>
+<circle cx="56" cy="119" r="15.0" fill="none" stroke="#edfaff" stroke-width="1.2" opacity=".8"/>
+<g class="fd-top-spin" style="transform-origin:56px 119px"><path d="M46 109l6 -4 M64 130l6 -5" fill="none" stroke="#ffffff" stroke-width="3.4" opacity=".8" stroke-linecap="round"/><path d="M44 126l-2 5" fill="none" stroke="#8aa5bb" opacity=".65" stroke-width="2.4" stroke-linecap="round"/></g>
+<circle cx="56" cy="119" r="7.8" fill="#45667f" stroke="#d8f1ff" stroke-width="2"/>
+<circle cx="56" cy="119" r="3.1" fill="#153951"/>
+</g>
+
+<!-- Условная стрелка хода подвижного верхнего правого вала. -->
+<g class="fd-height-indicator" stroke="#efb626" stroke-width="3.8" fill="none" stroke-linecap="round" stroke-linejoin="round">
+ <path d="M233 55V112 M226 65L233 55L240 65 M226 102L233 112L240 102"/>
+</g>
+</svg>
