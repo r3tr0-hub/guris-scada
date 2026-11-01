@@ -1151,7 +1151,7 @@ html, body { margin:0; width:100%; height:100%; overflow:hidden; background:var(
 #guris-scada-demo .sc-app .sc-node-menu .sc-node-tile {width:100%;min-width:0;}
 #guris-scada-demo .sc-app .sc-node-menu .sc-node-tile:disabled {opacity:1;cursor:default;}
 #guris-scada-demo .sc-app .sc-node-menu .sc-node-tile:disabled:hover {border-color:var(--sc-line);background:var(--sc-panel);}
-#guris-scada-demo .sc-app .sc-node-menu .sc-node-tile[data-equipment="unknown"] * {animation-play-state:paused!important;}
+/* Menu illustrations are independent of equipment telemetry quality. */
 #guris-scada-demo .sc-clock-wallpaper[hidden] {display:none!important;}
 #guris-scada-demo .sc-app .sc-clock-page[data-wallpaper="off"] {background:var(--sc-bg)!important;}
 #guris-scada-demo .sc-font-card {display:grid;grid-template-columns:minmax(0,1fr) minmax(240px,1fr) auto;gap:16px;align-items:center;padding:14px;border:1px solid var(--sc-line);border-radius:8px;background:var(--sc-panel);flex-shrink:0;}
@@ -1478,7 +1478,7 @@ html, body { margin:0; width:100%; height:100%; overflow:hidden; background:var(
 
 /* Supplied menu illustrations: common geometry, independent of legacy icon rules. */
 #guris-scada-demo .sc-app .sc-node-menu .sc-node-tile .sc-node-tile-head > .sc-menu-svg {
-  width:72px; height:46px; flex:none; object-fit:contain; transform:none; animation:none;
+  position:absolute; right:4px; top:0; width:min(130px,100%); height:calc(100% - 2px); max-height:90px; flex:none; object-fit:contain; transform:none; animation:none;
 }
 #guris-scada-demo .sc-node-menu .sc-menu-svg * { animation-play-state:paused; }
 #guris-scada-demo .sc-node-menu[data-illustrations-playing="true"] .sc-menu-svg * { animation-play-state:running; }
@@ -1486,3 +1486,8 @@ html, body { margin:0; width:100%; height:100%; overflow:hidden; background:var(
 @media (prefers-reduced-motion:reduce) {
   #guris-scada-demo .sc-node-menu .sc-menu-svg * { animation:none; transition:none; }
 }
+
+#guris-scada-demo .sc-node-menu .sc-node-tile:has(.sc-menu-svg) {position:relative; overflow:hidden;}
+#guris-scada-demo .sc-node-menu .sc-node-tile:has(.sc-menu-svg) .sc-node-tile-head {position:static;}
+#guris-scada-demo .sc-node-menu .sc-node-tile:has(.sc-menu-svg) .sc-node-title {position:relative; z-index:1; margin-top:auto; text-shadow:0 1px 3px var(--sc-panel),0 0 5px var(--sc-panel);}
+#guris-scada-demo .sc-node-menu .sc-node-tile:has(.sc-menu-svg) .sc-node-chevron {position:relative; z-index:1;}

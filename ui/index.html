@@ -288,7 +288,7 @@
             </div><div class="sc-calendar"><div class="sc-calendar-head"><h3 data-calendar-month=""></h3><span data-calendar-year=""></span></div><div class="sc-calendar-weekdays"><span>ПН</span><span>ВТ</span><span>СР</span><span>ЧТ</span><span>ПТ</span><span>СБ</span><span>ВС</span></div><div class="sc-calendar-days" data-calendar-days=""></div><p class="sc-calendar-caption">Текущий месяц · сегодня выделено</p></div></div>
           <footer class="sc-clock-footer" data-clock-footer="">          <button class="sc-action sc-clock-manuals" type="button" data-page="manuals" data-nav-response="" title="Мануалы"><svg class="sc-nav-icon sc-manuals-icon" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5C9 3 5 3 2 4v15c3-1 7-1 10 1 3-2 7-2 10-1V4c-3-1-7-1-10 1v15"/><path d="M5 7h4M5 10h4M15 7h4M15 10h4"/><path class="sc-book-page sc-book-page-one" d="M12 5c3-2 6-2 8-1v13c-3 0-6 1-8 3Z"/><path class="sc-book-page sc-book-page-two" d="M12 5c3-2 5-2 7-1v13c-3 0-5 1-7 3Z"/></svg><span>Мануалы</span></button><button type="button" class="sc-exit sc-clock-exit" data-exit=""><i data-lucide="power" aria-hidden="true"></i><span>Выйти из SCADA</span></button></footer></section><section class="sc-about-page" data-page-content="about" hidden="">
  <div class="sc-section-head"><h3>О ПРОГРАММЕ SCADA</h3><button class="sc-text-button" type="button" data-page="home">← Главная</button></div>
- <div class="sc-about-heading"><div><h3>Guris SCADA <span data-about-version="">0.1.29</span></h3><p>Локальный интерфейс оператора для пакетоделательной линии Guris.</p></div><span class="sc-about-badge">ADS · Windows x64</span></div>
+ <div class="sc-about-heading"><div><h3>Guris SCADA <span data-about-version="">0.1.30</span></h3><p>Локальный интерфейс оператора для пакетоделательной линии Guris.</p></div><span class="sc-about-badge">ADS · Windows x64</span></div>
  <div class="sc-about-stack"><span><strong>Интерфейс</strong>HTML5 · CSS · JavaScript · SVG / Canvas</span><span><strong>Приложение</strong>C11 · локальный HTTP · ADS / TCP · SQLite</span><span><strong>Окно</strong>Microsoft Edge · режим киоска</span></div>
  <svg class="sc-about-diagram" viewBox="0 0 820 170" role="img" aria-label="Интерфейс общается с локальным процессом SCADA по HTTP. SCADA обменивается данными с ПЛК по ADS и сохраняет локальные настройки и журналы.">
  <defs><marker id="about-arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0L7 3.5L0 7" fill="currentColor"></path></marker></defs>
@@ -672,7 +672,99 @@
                 <span class="sc-node-title">Лайнер</span><span class="sc-node-description">Настройка работы с лайнером</span>
               </button>
               <button class="sc-node-tile cursor-interaction" type="button" data-open-node="takeoff" data-tooltip="Вал забора пакета из-под ножа">
-                <span class="sc-node-tile-head"><canvas data-roller-canvas="" data-roller-width="72" data-roller-height="40" width="72" height="40" aria-hidden="true"></canvas><span class="sc-node-chevron"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="lucide lucide-chevron-right"><path d="m9 18 6-6-6-6"></path></svg></span></span>
+                <span class="sc-node-tile-head"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" class="guris-icon sc-menu-svg" data-menu-svg="feeding" aria-hidden="true" focusable="false">
+<title id="fd-title">Подача</title>
+<desc id="fd-desc">Вид сбоку. Два зеленых ремня: верхний наклоняется вслед за единственным подвижным правым верхним валом, нижний остаётся горизонтальным. Плёнка и пакеты движутся справа налево.</desc>
+<defs>
+  <linearGradient id="fd-green" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#b8ff91"/><stop offset=".28" stop-color="#56ed75"/><stop offset=".55" stop-color="#20c76b"/><stop offset="1" stop-color="#098f52"/></linearGradient>
+  <linearGradient id="fd-steel" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f7feff"/><stop offset=".25" stop-color="#a7c1d4"/><stop offset=".48" stop-color="#e8f6ff"/><stop offset=".72" stop-color="#7895af"/><stop offset="1" stop-color="#f1fbff"/></linearGradient>
+  <filter id="fd-shadow" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="1.7" stdDeviation="1.65" flood-color="#0a3651" flood-opacity=".23"/></filter>
+</defs>
+<style>
+/* Поворот вокруг неподвижного верхнего ЛЕВОГО вала.
+   Именно ПРАВЫЙ вал перемещается по почти вертикальной дуге вместе с ремнём. */
+.fd-upper-swing {
+  transform-origin: 56px 119px;
+  transform-box: view-box;
+  animation: fd-swing 3.8s cubic-bezier(.45,0,.55,1) infinite;
+}
+.fd-top-spin,.fd-bottom-spin { transform-box:view-box; }
+.fd-top-spin { animation: fd-spin-cw 1.7s linear infinite; }
+.fd-bottom-spin { animation: fd-spin-ccw 1.7s linear infinite; }
+.fd-travel { animation: fd-left .88s linear infinite; }
+.fd-height-indicator { animation: fd-indicator 3.8s ease-in-out infinite; }
+@keyframes fd-swing {
+  0%,14%,100% { transform: rotate(0deg); }
+  48%,65% { transform: rotate(19deg); }
+}
+@keyframes fd-spin-cw {to{transform:rotate(360deg)}}
+@keyframes fd-spin-ccw {to{transform:rotate(-360deg)}}
+@keyframes fd-left {to{stroke-dashoffset:28}}
+@keyframes fd-indicator {0%,100%{opacity:.72}55%{opacity:1}}
+@media (prefers-reduced-motion:reduce) {.guris-icon *{animation:none!important;transition:none!important}}
+</style>
+
+<!-- Нижняя отдельная ременная петля; оба вала фиксированы. -->
+
+<!-- Нижний ремень всегда горизонтален: огибает нижнюю левую и правую оси. -->
+<g>
+  <path d="M56 143H196 A22 22 0 0 1 196 187 H56 A22 22 0 0 1 56 143Z"
+        fill="none" stroke="#064e36" stroke-width="11" stroke-linejoin="round"/>
+  <path d="M56 143H196 A22 22 0 0 1 196 187 H56 A22 22 0 0 1 56 143Z"
+        fill="none" stroke="url(#fd-green)" stroke-width="7.3" stroke-linejoin="round"/>
+  <path d="M56 142.7H196" stroke="#dcffd2" stroke-width="1.8" stroke-linecap="round" opacity=".75"/>
+  <path d="M82 143H173" class="fd-travel" stroke="#e7ffe4" stroke-width="2.3" stroke-linecap="round" stroke-dasharray="13 15"/>
+</g>
+<g filter="url(#fd-shadow)">
+<circle cx="56" cy="165" r="19.1" fill="url(#fd-steel)" stroke="#496c86" stroke-width="2.6"/>
+<circle cx="56" cy="165" r="15.0" fill="none" stroke="#edfaff" stroke-width="1.2" opacity=".8"/>
+<g class="fd-bottom-spin" style="transform-origin:56px 165px"><path d="M46 155l6 -4 M64 176l6 -5" fill="none" stroke="#ffffff" stroke-width="3.4" opacity=".8" stroke-linecap="round"/><path d="M44 172l-2 5" fill="none" stroke="#8aa5bb" opacity=".65" stroke-width="2.4" stroke-linecap="round"/></g>
+<circle cx="56" cy="165" r="7.8" fill="#45667f" stroke="#d8f1ff" stroke-width="2"/>
+<circle cx="56" cy="165" r="3.1" fill="#153951"/>
+</g>
+<g filter="url(#fd-shadow)">
+<circle cx="196" cy="165" r="19.1" fill="url(#fd-steel)" stroke="#496c86" stroke-width="2.6"/>
+<circle cx="196" cy="165" r="15.0" fill="none" stroke="#edfaff" stroke-width="1.2" opacity=".8"/>
+<g class="fd-bottom-spin" style="transform-origin:196px 165px"><path d="M186 155l6 -4 M204 176l6 -5" fill="none" stroke="#ffffff" stroke-width="3.4" opacity=".8" stroke-linecap="round"/><path d="M184 172l-2 5" fill="none" stroke="#8aa5bb" opacity=".65" stroke-width="2.4" stroke-linecap="round"/></g>
+<circle cx="196" cy="165" r="7.8" fill="#45667f" stroke="#d8f1ff" stroke-width="2"/>
+<circle cx="196" cy="165" r="3.1" fill="#153951"/>
+</g>
+
+<!-- Верхний ременный контур. Его левый центр (56,119) неподвижен.
+     Правый вал находится на конце этого контура, который отклоняется вверх/вниз. -->
+<g transform="rotate(-19 56 119)">
+ <g class="fd-upper-swing">
+  <path d="M56 97H196 A22 22 0 0 1 196 141 H56 A22 22 0 0 1 56 97Z"
+        fill="none" stroke="#064e36" stroke-width="11" stroke-linejoin="round"/>
+  <path d="M56 97H196 A22 22 0 0 1 196 141 H56 A22 22 0 0 1 56 97Z"
+        fill="none" stroke="url(#fd-green)" stroke-width="7.3" stroke-linejoin="round"/>
+  <path d="M56 96.7H196" stroke="#d6ffd1" stroke-width="1.8" stroke-linecap="round" opacity=".78"/>
+  <path d="M82 141H173" class="fd-travel" stroke="#e7ffe4" stroke-width="2.3" stroke-linecap="round" stroke-dasharray="13 15"/>
+  <!-- Концевой (правый верхний) вал движется ВМЕСТЕ с огибающим его ремнём. -->
+  <g filter="url(#fd-shadow)">
+<circle cx="196" cy="119" r="19.1" fill="url(#fd-steel)" stroke="#496c86" stroke-width="2.6"/>
+<circle cx="196" cy="119" r="15.0" fill="none" stroke="#edfaff" stroke-width="1.2" opacity=".8"/>
+<g class="fd-top-spin" style="transform-origin:196px 119px"><path d="M186 109l6 -4 M204 130l6 -5" fill="none" stroke="#ffffff" stroke-width="3.4" opacity=".8" stroke-linecap="round"/><path d="M184 126l-2 5" fill="none" stroke="#8aa5bb" opacity=".65" stroke-width="2.4" stroke-linecap="round"/></g>
+<circle cx="196" cy="119" r="7.8" fill="#45667f" stroke="#d8f1ff" stroke-width="2"/>
+<circle cx="196" cy="119" r="3.1" fill="#153951"/>
+</g>
+ </g>
+</g>
+
+<!-- Левая верхняя ось НИКОГДА НЕ СМЕЩАЕТСЯ: только вращается. -->
+<g filter="url(#fd-shadow)">
+<circle cx="56" cy="119" r="19.1" fill="url(#fd-steel)" stroke="#496c86" stroke-width="2.6"/>
+<circle cx="56" cy="119" r="15.0" fill="none" stroke="#edfaff" stroke-width="1.2" opacity=".8"/>
+<g class="fd-top-spin" style="transform-origin:56px 119px"><path d="M46 109l6 -4 M64 130l6 -5" fill="none" stroke="#ffffff" stroke-width="3.4" opacity=".8" stroke-linecap="round"/><path d="M44 126l-2 5" fill="none" stroke="#8aa5bb" opacity=".65" stroke-width="2.4" stroke-linecap="round"/></g>
+<circle cx="56" cy="119" r="7.8" fill="#45667f" stroke="#d8f1ff" stroke-width="2"/>
+<circle cx="56" cy="119" r="3.1" fill="#153951"/>
+</g>
+
+<!-- Условная стрелка хода подвижного верхнего правого вала. -->
+<g class="fd-height-indicator" stroke="#efb626" stroke-width="3.8" fill="none" stroke-linecap="round" stroke-linejoin="round">
+ <path d="M233 55V112 M226 65L233 55L240 65 M226 102L233 112L240 102"/>
+</g>
+</svg><span class="sc-node-chevron"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="lucide lucide-chevron-right"><path d="m9 18 6-6-6-6"></path></svg></span></span>
                 <span class="sc-node-title">Приёмный вал</span><span class="sc-node-description">Вал забора пакета из-под ножа</span>
               </button>
               <button class="sc-node-tile cursor-interaction" type="button" data-open-node="tension" data-tooltip="Между ножом и синхронизационной парой">
