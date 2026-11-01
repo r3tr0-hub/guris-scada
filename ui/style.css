@@ -1477,7 +1477,7 @@ html, body { margin:0; width:100%; height:100%; overflow:hidden; background:var(
 #guris-scada-demo .sc-app .sc-eject-setting-row .sc-node-switch { width:64px; min-width:0; padding:5px; }
 
 /* Supplied menu illustrations: common geometry, independent of legacy icon rules. */
-#guris-scada-demo .sc-app .sc-node-menu .sc-node-tile .sc-node-tile-head > .sc-menu-svg {
+#guris-scada-demo .sc-app .sc-node-menu .sc-node-tile .sc-node-tile-head > .sc-menu-svg[data-menu-svg] {
   position:absolute; right:4px; top:0; width:min(130px,100%); height:calc(100% - 2px); max-height:90px; flex:none; object-fit:contain; transform:none; animation:none;
 }
 #guris-scada-demo .sc-node-menu .sc-menu-svg * { animation-play-state:paused; }

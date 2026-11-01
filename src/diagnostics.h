@@ -54,9 +54,9 @@ static void diagnostic_init(void){
  if(!diagnostic_sql("PRAGMA user_version=2"))return;
  const char *insert="INSERT INTO samples(session,at,mono,epoch,serial,state,automatic,total,total_observed,good,total_good,alarms_good,alarms,cause_mask,quality_mask,control,sensor_configured,guard,deadline,cleaning_active,cleaning_pending,cleaning_deadline,speed_set,working_length,state_age,automatic_age,total_age,control_age,sensor_age,speed_age,length_age,current_age,groups_age,current_count,groups_count,symbol_version,poll_ms,poll_cycle,ui_errors,plc,idle_speed,idle_speed_age,idle_speed_good) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
  if(sqlite3_prepare_v2(diagnostic_db,insert,-1,&diagnostic_insert,NULL)!=SQLITE_OK){diagnostic_failed(sqlite3_errmsg(diagnostic_db));return;}
- diagnostic_sqlf("INSERT INTO sessions(id,started,version,machine,source_build,utc_offset_minutes) VALUES(%Q,%lld,'0.1.31',%Q,%Q,%d)",diagnostics.session,(sqlite3_int64)wall_ms(),production.machine,SCADA_BUILD_ID,local_utc_offset_minutes());
+ diagnostic_sqlf("INSERT INTO sessions(id,started,version,machine,source_build,utc_offset_minutes) VALUES(%Q,%lld,'0.1.32',%Q,%Q,%d)",diagnostics.session,(sqlite3_int64)wall_ms(),production.machine,SCADA_BUILD_ID,local_utc_offset_minutes());
  diagnostic_history_window();
- diagnostic_event("process.started","{\"version\":\"0.1.31\",\"reasonPolicy\":2}");
+ diagnostic_event("process.started","{\"version\":\"0.1.32\",\"reasonPolicy\":2}");
 }
 static void diagnostic_history_window(void){
  sqlite3_int64 first=diagnostic_scalar(diagnostic_db,"SELECT coalesce(min(at),0) FROM samples"),last=diagnostic_scalar(diagnostic_db,"SELECT coalesce(max(at),0) FROM samples");lock(&diagnostics.mutex);diagnostics.history_first=(uint64_t)first;diagnostics.history_last=(uint64_t)last;unlock(&diagnostics.mutex);
