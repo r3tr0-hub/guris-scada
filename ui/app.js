@@ -1,4 +1,4 @@
-/* Guris SCADA 0.1.30. The PLC is the only source of displayed setting values. */
+/* Guris SCADA 0.1.31. The PLC is the only source of displayed setting values. */
 (async () => {
   'use strict';
 
@@ -1042,8 +1042,8 @@
       e.querySelector('.sc-option-state').textContent = on ? t("ВКЛ") : t("ВЫКЛ");
       e.disabled = !engineer || optionBusy;
     });
-    $('[data-system-summary]').textContent = t("SCADA {0} · локальный режим", [state.version || '0.1.30']);
-    $('[data-about-version]').textContent=state.version||'0.1.30';
+    $('[data-system-summary]').textContent = t("SCADA {0} · локальный режим", [state.version || '0.1.31']);
+    $('[data-about-version]').textContent=state.version||'0.1.31';
     $('[data-exit]').hidden=state.options?.exitButton===false;
     $$('[data-exit]').forEach(b=>b.disabled=exitRequested);
     const font=['system','tahoma','arial','verdana'].includes(state.options?.font)?state.options.font:'system';

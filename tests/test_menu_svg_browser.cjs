@@ -23,6 +23,10 @@ const movement=await page.locator('.sc-menu-svg').evaluateAll(async svgs=>{
 });for(const item of movement)assert(item.frames>1,JSON.stringify(item));
 await options({animations:0});await page.waitForFunction(()=>document.querySelector('.sc-app').dataset.motion==='off');await page.waitForTimeout(80);assert.equal(await animated.evaluate(e=>getComputedStyle(e).animationPlayState),'paused');
 const paused=await animated.evaluate(e=>getComputedStyle(e).transform);await page.waitForTimeout(200);assert.equal(await animated.evaluate(e=>getComputedStyle(e).transform),paused);
-await page.emulateMedia({reducedMotion:'reduce'});assert.equal(await animated.evaluate(e=>getComputedStyle(e).animationName),'none');
+await page.emulateMedia({reducedMotion:'reduce'});
+assert.equal(await animated.evaluate(e=>getComputedStyle(e).animationPlayState),'paused');
+await options({animations:1});await page.waitForFunction(()=>document.querySelector('.sc-app').dataset.motion==='on');
+const reducedFrames=new Set();for(let i=0;i<22;i++){reducedFrames.add(await animated.evaluate(e=>getComputedStyle(e).transform));await page.waitForTimeout(160)}assert(reducedFrames.size>1,'explicit application animation setting must work with OS reduced-motion too');
+await options({animations:0});await page.waitForFunction(()=>document.querySelector('.sc-app').dataset.motion==='off');await page.waitForTimeout(80);assert.equal(await animated.evaluate(e=>getComputedStyle(e).animationPlayState),'paused');
 assert.equal(writes,0);assert.deepEqual(errors,[]);console.log('PASS: 12 menu SVGs, bounds at 2 resolutions, animation/pause/reduced-motion, no PLC writes or JS errors');
 }finally{await browser.close()}})().catch(e=>{console.error(e);process.exit(1)});

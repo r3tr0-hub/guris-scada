@@ -1483,9 +1483,7 @@ html, body { margin:0; width:100%; height:100%; overflow:hidden; background:var(
 #guris-scada-demo .sc-node-menu .sc-menu-svg * { animation-play-state:paused; }
 #guris-scada-demo .sc-node-menu[data-illustrations-playing="true"] .sc-menu-svg * { animation-play-state:running; }
 #guris-scada-demo .sc-app[data-motion="off"] .sc-node-menu .sc-menu-svg * { animation-play-state:paused; }
-@media (prefers-reduced-motion:reduce) {
-  #guris-scada-demo .sc-node-menu .sc-menu-svg * { animation:none; transition:none; }
-}
+/* Menu SVG motion follows the same application switch as the other mechanisms. */
 
 #guris-scada-demo .sc-node-menu .sc-node-tile:has(.sc-menu-svg) {position:relative; overflow:hidden;}
 #guris-scada-demo .sc-node-menu .sc-node-tile:has(.sc-menu-svg) .sc-node-tile-head {position:static;}

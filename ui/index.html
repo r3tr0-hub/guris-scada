@@ -288,7 +288,7 @@
             </div><div class="sc-calendar"><div class="sc-calendar-head"><h3 data-calendar-month=""></h3><span data-calendar-year=""></span></div><div class="sc-calendar-weekdays"><span>ПН</span><span>ВТ</span><span>СР</span><span>ЧТ</span><span>ПТ</span><span>СБ</span><span>ВС</span></div><div class="sc-calendar-days" data-calendar-days=""></div><p class="sc-calendar-caption">Текущий месяц · сегодня выделено</p></div></div>
           <footer class="sc-clock-footer" data-clock-footer="">          <button class="sc-action sc-clock-manuals" type="button" data-page="manuals" data-nav-response="" title="Мануалы"><svg class="sc-nav-icon sc-manuals-icon" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5C9 3 5 3 2 4v15c3-1 7-1 10 1 3-2 7-2 10-1V4c-3-1-7-1-10 1v15"/><path d="M5 7h4M5 10h4M15 7h4M15 10h4"/><path class="sc-book-page sc-book-page-one" d="M12 5c3-2 6-2 8-1v13c-3 0-6 1-8 3Z"/><path class="sc-book-page sc-book-page-two" d="M12 5c3-2 5-2 7-1v13c-3 0-5 1-7 3Z"/></svg><span>Мануалы</span></button><button type="button" class="sc-exit sc-clock-exit" data-exit=""><i data-lucide="power" aria-hidden="true"></i><span>Выйти из SCADA</span></button></footer></section><section class="sc-about-page" data-page-content="about" hidden="">
  <div class="sc-section-head"><h3>О ПРОГРАММЕ SCADA</h3><button class="sc-text-button" type="button" data-page="home">← Главная</button></div>
- <div class="sc-about-heading"><div><h3>Guris SCADA <span data-about-version="">0.1.30</span></h3><p>Локальный интерфейс оператора для пакетоделательной линии Guris.</p></div><span class="sc-about-badge">ADS · Windows x64</span></div>
+ <div class="sc-about-heading"><div><h3>Guris SCADA <span data-about-version="">0.1.31</span></h3><p>Локальный интерфейс оператора для пакетоделательной линии Guris.</p></div><span class="sc-about-badge">ADS · Windows x64</span></div>
  <div class="sc-about-stack"><span><strong>Интерфейс</strong>HTML5 · CSS · JavaScript · SVG / Canvas</span><span><strong>Приложение</strong>C11 · локальный HTTP · ADS / TCP · SQLite</span><span><strong>Окно</strong>Microsoft Edge · режим киоска</span></div>
  <svg class="sc-about-diagram" viewBox="0 0 820 170" role="img" aria-label="Интерфейс общается с локальным процессом SCADA по HTTP. SCADA обменивается данными с ПЛК по ADS и сохраняет локальные настройки и журналы.">
  <defs><marker id="about-arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0L7 3.5L0 7" fill="currentColor"></path></marker></defs>
@@ -336,7 +336,7 @@
 @keyframes kn-cut{0%,22%,100%{transform:translateY(-3px)}46%,58%{transform:translateY(32px)}75%{transform:translateY(-3px)}}
 @keyframes kn-film{to{stroke-dashoffset:42}}
 @keyframes kn-flash{0%,39%,63%,100%{opacity:0}48%,56%{opacity:.95}}
-@media(prefers-reduced-motion:reduce){.guris-icon *{animation:none!important;transition:none!important}}
+
 </style>
 <!-- Опорная планка и полотно -->
 <rect x="30" y="149" width="196" height="16" rx="5" fill="url(#kn-film)" stroke="#7daecd" stroke-width="2"/>
@@ -384,7 +384,7 @@
 @keyframes ec-beam {0%,100%{opacity:.45}50%{opacity:1}}
 @keyframes ec-lamp {0%,100%{opacity:.5}50%{opacity:1}}
 
-@media (prefers-reduced-motion: reduce) { .guris-icon * { animation: none !important; transition: none !important; } }
+
 </style>
 
 <!-- Неподвижное крепление и ПОЛНЫЙ С-образный корпус датчика, включая заднее нижнее плечо -->
@@ -442,9 +442,7 @@
 @keyframes tm-core {0%,100%{transform:scale(1)}50%{transform:scale(.94,1.08)}}
 @keyframes tm-spark {0%{opacity:0;transform:translateY(8px) scale(.75)} 38%{opacity:1} 90%,100%{opacity:0;transform:translateY(-18px) scale(1.15)}}
 
-@media (prefers-reduced-motion: reduce) {
-  svg.guris-icon *,svg.guris-icon *::before,svg.guris-icon *::after { animation: none !important; transition: none !important; }
-}
+
 </style>
 
 <g class="tm-flame">
@@ -497,7 +495,7 @@
 @keyframes gl-flow {to{stroke-dashoffset:-40}}
 @keyframes gl-pulse {0%,100%{opacity:.42}50%{opacity:1}}
 
-@media (prefers-reduced-motion: reduce) { .guris-icon * { animation: none !important; transition: none !important; } }
+
 </style>
 
 <!-- Существующая полоска клея, по которой ездит аппликатор -->
@@ -543,9 +541,7 @@
 @keyframes cs-sweep{0%,100%{transform:translateY(0);opacity:.15} 50%{transform:translateY(80px);opacity:.42}}
 @keyframes cs-pulse{0%,100%{opacity:.85}50%{opacity:1}}
 
-@media (prefers-reduced-motion: reduce) {
-  svg.guris-icon *,svg.guris-icon *::before,svg.guris-icon *::after { animation: none !important; transition: none !important; }
-}
+
 </style>
 
 <defs>
@@ -597,7 +593,7 @@
 @keyframes ej-burst {0%,48%,74%,100%{opacity:0;transform:scale(.7)}55%,61%{opacity:1;transform:scale(1)}}
 @keyframes ej-streak {0%,53%,76%,100%{opacity:0}60%,67%{opacity:1}}
 
-@media (prefers-reduced-motion: reduce) { .guris-icon * { animation: none !important; transition: none !important; } }
+
 </style>
 
 <!-- Горизонтальная направляющая и проходящий пакет -->
@@ -648,9 +644,7 @@
 @keyframes ln-spin{to{transform:rotate(360deg)}}
 @keyframes ln-shine{0%,100%{opacity:.48}50%{opacity:.9}}
 
-@media (prefers-reduced-motion: reduce) {
-  svg.guris-icon *,svg.guris-icon *::before,svg.guris-icon *::after { animation: none !important; transition: none !important; }
-}
+
 </style>
 
 <g class="ln-wheel">
@@ -701,7 +695,7 @@
 @keyframes fd-spin-ccw {to{transform:rotate(-360deg)}}
 @keyframes fd-left {to{stroke-dashoffset:28}}
 @keyframes fd-indicator {0%,100%{opacity:.72}55%{opacity:1}}
-@media (prefers-reduced-motion:reduce) {.guris-icon *{animation:none!important;transition:none!important}}
+
 </style>
 
 <!-- Нижняя отдельная ременная петля; оба вала фиксированы. -->
@@ -782,7 +776,7 @@
 @keyframes tn-spin{to{transform:rotate(-360deg)}}
 @keyframes tn-flow{to{stroke-dashoffset:64}}
 @keyframes tn-indicate{0%,100%{opacity:.8}50%{opacity:.25}}
-@media (prefers-reduced-motion: reduce) { .guris-icon * { animation: none !important; transition: none !important; } }
+
 </style>
 <g>
  <path fill="none" stroke="#124e78" stroke-width="14" opacity=".25" stroke-linecap="round" transform="translate(0 3)" d="M17 128 L66 128 C82 128 78 107 94 107 C110 107 113 149 129 149 C145 149 149 107 165 107 C181 107 181 128 192 128 L240 128">
@@ -823,7 +817,7 @@
 .at-puff3{animation:at-puff 1.2s ease-out infinite .44s}
 @keyframes at-flow{to{stroke-dashoffset:28}}
 @keyframes at-puff{0%{opacity:0;transform:translateX(6px)}25%{opacity:.95}100%{opacity:0;transform:translateX(-16px)}}
-@media (prefers-reduced-motion: reduce){.guris-icon *{animation:none!important;transition:none!important}}
+
 </style>
   <!-- curved arrow body, close to SCADA sketch -->
   <path d="M191 33 C206 35 214 46 214 62 V110 C214 126 209 136 197 147 L168 176 H71" fill="none" stroke="#1d5278" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
@@ -878,7 +872,7 @@
 @keyframes fa-band{0%{transform:translateX(6px)}50%{transform:translateX(-16px)}100%{transform:translateX(6px)}}
 @keyframes fa-rot-top{0%{transform:rotate(0deg)}50%{transform:rotate(-180deg)}100%{transform:rotate(0deg)}}
 @keyframes fa-rot-bot{0%{transform:rotate(0deg)}50%{transform:rotate(180deg)}100%{transform:rotate(0deg)}}
-@media (prefers-reduced-motion: reduce){.guris-icon *{animation:none!important;transition:none!important}}
+
 </style>
 
 <g filter="url(#fa-shadow)">
@@ -946,7 +940,7 @@
     .uw-film-reel {transform-box:view-box;transform-origin:166px 150px;animation:uw-reel 3.99s linear infinite}
     @keyframes uw-drive {to{transform:rotate(360deg)}}
     @keyframes uw-reel {to{transform:rotate(-360deg)}}
-    @media (prefers-reduced-motion:reduce){.guris-icon *{animation:none!important;transition:none!important}}
+
   </style>
 
   <!-- Голубая неподвижная рама: коробчатая стойка слева и диагональные опоры.
