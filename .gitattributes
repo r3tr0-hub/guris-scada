@@ -20,3 +20,4 @@
 *.gif binary
 *.ico binary
 *.zip binary
+ui/assets/menu-v16/*.svg -text
