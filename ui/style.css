@@ -1418,7 +1418,7 @@ html, body { margin:0; width:100%; height:100%; overflow:hidden; background:var(
 
 #guris-scada-demo .sc-app .sc-navigation { grid-template-rows:repeat(7,minmax(0,1fr)); }
 #guris-scada-demo .sc-app .sc-navigation > [data-page="alarms"] { grid-row:7; }
-#guris-scada-demo .sc-app .sc-nav-button[data-alarm-active="true"] > svg { color:var(--sc-red); animation:sc-alarm-warning 1.2s steps(2,end) infinite; }
+/* The supplied beacon animates its lamp; never fade the complete navigation icon. */
 @keyframes sc-alarm-warning { 0%,100% { opacity:1; } 50% { opacity:.25; } }
 #guris-scada-demo .sc-app .sc-takeoff-content { grid-template-rows:22px 112px 88px 76px minmax(100px,1fr); align-content:stretch; }
 #guris-scada-demo .sc-app .sc-takeoff-content > .sc-position-box { padding:10px 12px; min-height:0; }
@@ -1489,3 +1489,11 @@ html, body { margin:0; width:100%; height:100%; overflow:hidden; background:var(
 #guris-scada-demo .sc-node-menu .sc-node-tile:has(.sc-menu-svg) .sc-node-tile-head {position:static;}
 #guris-scada-demo .sc-node-menu .sc-node-tile:has(.sc-menu-svg) .sc-node-title {position:relative; z-index:1; margin-top:auto; text-shadow:0 1px 3px var(--sc-panel),0 0 5px var(--sc-panel);}
 #guris-scada-demo .sc-node-menu .sc-node-tile:has(.sc-menu-svg) .sc-node-chevron {position:relative; z-index:1;}
+
+/* Navigation v2: preserve the seven existing cells, fit artwork above the label. */
+#guris-scada-demo .sc-app .sc-nav-button {position:relative;}
+#guris-scada-demo .sc-app .sc-nav-button > .sc-nav-art {width:100%;height:auto;min-height:0;max-height:calc(100% - 25px);flex:1 1 0;aspect-ratio:240/174;animation:none;transform:none;pointer-events:none;user-select:none;}
+#guris-scada-demo .sc-app .sc-nav-button > .sc-nav-art[hidden] {display:none;}
+#guris-scada-demo .sc-app .sc-nav-button > span {flex-shrink:0;}
+#guris-scada-demo .sc-app .sc-nav-button[data-alarm-state="unack"] {border-color:var(--sc-red);box-shadow:inset 3px 0 var(--sc-red);}
+#guris-scada-demo .sc-app .sc-nav-button > .sc-nav-alarm-badge {position:absolute;right:3px;top:2px;min-width:15px;border-radius:3px;background:var(--sc-red);color:var(--sc-primary-text);font-size:12px;line-height:15px;text-align:center;}

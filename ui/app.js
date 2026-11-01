@@ -1,4 +1,4 @@
-/* Guris SCADA 0.1.32. The PLC is the only source of displayed setting values. */
+/* Guris SCADA 0.1.33. The PLC is the only source of displayed setting values. */
 (async () => {
   'use strict';
 
@@ -292,25 +292,48 @@
       clearTimeout(timer);
     }
   }
+  const navigationReducedMotion=window.matchMedia?.('(prefers-reduced-motion: reduce)');
+  let navigationAlarmKnown={unack:0,active:0}, navigationAlarmQuality=false;
+  function resetNavSvg(svg){svg?.pauseAnimations?.();svg?.setCurrentTime?.(0);}
+  function syncNavigationAlarm(){
+    const button=$('.sc-nav-button[data-page="alarms"]');
+    const unack=navigationAlarmKnown.unack>0;
+    button.dataset.alarmState=unack?'unack':navigationAlarmKnown.active>0?'active':navigationAlarmQuality?'clear':'unknown';
+    button.dataset.alarmQuality=navigationAlarmQuality?'good':'unknown';
+    const badge=$('[data-nav-alarm-badge]');badge.hidden=!unack;badge.textContent='!';
+    for(const svg of button.querySelectorAll('.sc-nav-art')){
+      const show=(svg.dataset.navVariant==='unack')===unack;svg.toggleAttribute('hidden',!show);
+      if(!show){resetNavSvg(svg);continue;}
+      if(unack){
+        if(!document.hidden&&!navigationReducedMotion?.matches)svg.unpauseAnimations?.();
+        else resetNavSvg(svg);
+      }else if(!navigationTimers.has(button))resetNavSvg(svg);
+    }
+  }
   function stopNavigationAnimations() {
     for (const [button,timer] of navigationTimers) {
-      clearTimeout(timer);
-      delete button.dataset.navAnimating;delete button.dataset.pressMotion;
+      clearTimeout(timer);delete button.dataset.navAnimating;delete button.dataset.pressMotion;
+      button.querySelectorAll('.sc-nav-art').forEach(resetNavSvg);
     }
-    navigationTimers.clear();
+    navigationTimers.clear();syncNavigationAlarm();
   }
   function animateNavigation(button) {
     stopNavigationAnimations();
-    if (!motionEnabled() || document.hidden) return;
-    // Restart a short CSS response on repeated clicks; navigation itself is immediate.
-    void button.offsetWidth;
-    button.dataset.navAnimating = 'true';
-    button.dataset.pressMotion='true';
-    navigationTimers.set(button,setTimeout(() => {
-      delete button.dataset.navAnimating;delete button.dataset.pressMotion;
-      navigationTimers.delete(button);
-    },2200));
+    if (!motionEnabled() || document.hidden || navigationReducedMotion?.matches) return;
+    if(button.dataset.page==='alarms'&&navigationAlarmKnown.unack>0)return;
+    const svg=button.querySelector('.sc-nav-art:not([hidden])');
+    if(!svg){
+      // Existing response for the separate Manuals button stays unchanged.
+      void button.offsetWidth;button.dataset.navAnimating='true';button.dataset.pressMotion='true';
+      navigationTimers.set(button,setTimeout(()=>{delete button.dataset.navAnimating;delete button.dataset.pressMotion;navigationTimers.delete(button);},2200));return;
+    }
+    resetNavSvg(svg);svg.unpauseAnimations?.();
+    navigationTimers.set(button,setTimeout(()=>{resetNavSvg(svg);navigationTimers.delete(button);syncNavigationAlarm();},3000));
   }
+  navigationReducedMotion?.addEventListener?.('change',stopNavigationAnimations);
+  document.addEventListener('visibilitychange',syncNavigationAlarm);
+  window.addEventListener('pagehide',stopNavigationAnimations);
+  window.addEventListener('beforeunload',stopNavigationAnimations);
   function setPage(next) {
     stopHeld();
     if(Object.hasOwn(menuSlots,next)&&!['scada','options'].includes(next)&&menuPresence(next)===0)return;
@@ -1042,8 +1065,8 @@
       e.querySelector('.sc-option-state').textContent = on ? t("ВКЛ") : t("ВЫКЛ");
       e.disabled = !engineer || optionBusy;
     });
-    $('[data-system-summary]').textContent = t("SCADA {0} · локальный режим", [state.version || '0.1.32']);
-    $('[data-about-version]').textContent=state.version||'0.1.32';
+    $('[data-system-summary]').textContent = t("SCADA {0} · локальный режим", [state.version || '0.1.33']);
+    $('[data-about-version]').textContent=state.version||'0.1.33';
     $('[data-exit]').hidden=state.options?.exitButton===false;
     $$('[data-exit]').forEach(b=>b.disabled=exitRequested);
     const font=['system','tahoma','arial','verdana'].includes(state.options?.font)?state.options.font:'system';
@@ -1658,6 +1681,9 @@
   function renderAlarms() {
     const a=state.alarms, good=online&&state.connected&&a?.quality;
     $('[data-alarms-text]').textContent=good&&display('machineState')===2&&!a.activeCount?t("Станок сообщает об аварийной остановке. Записи аварий ещё не получены."):good?t("Активных аварий: {0}. Ожидают подтверждения: {1}.",[a.activeCount,a.waitingAcknowledgement]):t("Подробный список аварий недоступен. Проверьте связь с ПЛК.");
+    navigationAlarmQuality=Boolean(good);
+    if(good)navigationAlarmKnown={unack:(a.records||[]).filter(row=>row.state===10).length,active:(a.records||[]).filter(row=>row.condition).length};
+    syncNavigationAlarm();
     const alertButton=$('.sc-nav-button[data-page="alarms"]');
     alertButton.dataset.alarmActive=String(Boolean(online&&state.connected&&(display('machineState')===2||good&&a.activeCount>0)));
     if(page!=='alarms')return;
@@ -1806,6 +1832,7 @@
   root.addEventListener('click',e=>{if(e.target.closest('[data-snow-test]'))testSnow();});
   window.addEventListener('beforeunload',stopSnowTest);
   layoutMenu();
+  $$('.sc-nav-art').forEach(resetNavSvg);
   renderIcons();
   I18n.bind(document.body);
   $('[data-fullscreen]').hidden = window.SCADA_BOOT.kiosk === true;

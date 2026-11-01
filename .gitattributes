@@ -21,3 +21,5 @@
 *.ico binary
 *.zip binary
 ui/assets/menu-v16/*.svg -text
+
+ui/assets/navigation-v2/*.svg -text
